@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>外冲高频词闯关</title>
+    <style>
+        :root {
+            --main-bg: #f3f6fc;
+            --card-bg: #fff;
+            --accent: #2947fa;
+            --border: #e0e6ed;
+            --correct: #27ae60;
+            --wrong: #e74c3c;
+            --light-text: #506080;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: var(--main-bg);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .main-flex {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 32px;
+            margin: 0;
+            width: 100vw;
+            min-height: 100vh;
+        }
+        .quiz-area, .wrongbook-area {
+            background: var(--card-bg);
+            padding: 24px 20px 18px 20px;
+            margin-top: 38px;
+            border-radius: 15px;
+            box-shadow: 0 3px 26px 0 #2946fa11;
+        }
+        .quiz-area {
+            flex: 1.25;
+            min-width: 270px;
+            max-width: 420px;
+        }
+        .wrongbook-area {
+            flex: 1;
+            min-width: 235px;
+            max-width: 370px;
+        }
+        @media (max-width: 900px) {
+            .main-flex {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 18px;
+            }
+            .quiz-area, .wrongbook-area {
+                max-width: 97vw;
+                margin: 18px auto 0 auto;
+            }
+        }
+
+        .score-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        #score-box {
+            font-size: 1.12rem;
+            color: var(--accent);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .quiz-q {
+            font-size: 1.26rem;
+            font-weight: 600;
+            margin-bottom: 19px;
+            color: #1c2230;
+            min-height: 35px;
+        }
+        .options-row {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 16px;
+        }
+        .option-btn {
+            background: #f7faff;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+            padding: 0.74em 0;
+            font-size: 1.09rem;
+            color: #1c2230;
+            cursor: pointer;
+            transition: background 0.15s, border 0.15s, color 0.12s;
+            outline: none;
+        }
+        .option-btn:focus {
+            border-color: var(--accent);
+        }
+        .option-btn.correct {
+            background: #ebfaf2;
+            border-color: var(--correct);
+            color: var(--correct);
+            font-weight: bold;
+        }
+        .option-btn.wrong {
+            background: #fcf2f1;
+            border-color: var(--wrong);
+            color: var(--wrong);
+        }
+        .op-btn-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .primary-btn, .secondary-btn {
+            border: none;
+            border-radius: 7px;
+            font-size: 1rem;
+            padding: 0.6em 1.15em;
+            cursor: pointer;
+            background: var(--accent);
+            color: #fff;
+            transition: background 0.13s;
+        }
+        .primary-btn:disabled {
+            background: #c6cef6 !important;
+            cursor: default;
+            color: #e6eaf5;
+        }
+        .secondary-btn {
+            background: #ededf9;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        .secondary-btn:active {
+            background: #d7defe;
+        }
+        .wrongbook-head-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 13px;
+            gap: 12px;
+        }
+        .wrongbook-title {
+            font-size: 1.07rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 1px;
+        }
+        /* ---- 错题本紧凑&一行样式 ---- */
+        #wrong-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            font-size: 0.85rem;
+        }
+        #wrong-list li {
+            background: #f7faff;
+            border: 1.5px solid var(--border);
+            border-radius: 7px;
+            margin-bottom: 4px;
+            padding: 6px 8px 6px 11px;   /* 更紧凑 */
+            font-size: 0.85rem;           /* 比主区小 */
+            color: #404860;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 9px;
+            min-height: unset;
+        }
+        .wrong-list-left {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .wrong-list-main {
+            font-weight: bold;
+            color: var(--accent);
+        }
+        .wrong-list-meaning {
+            color: #555d;
+            margin-left: 8px;
+            font-weight: normal;
+        }
+        .wrong-list-your {
+            font-size: 0.95em;
+            color: var(--wrong);
+            margin-left: 10px;
+        }
+        .redo-btn, .remove-btn {
+            border: none;
+            background: #eeecf7;
+            color: #5057e8;
+            border-radius: 6px;
+            font-size: 0.85em;
+            padding: 2.5px 11px;
+            cursor: pointer;
+            margin-right: 1px;
+            transition: background 0.14s, color 0.15s;
+        }
+        .redo-btn { margin-right: 0;}
+        .remove-btn {
+            display: none!important; /* 不显示删除按钮 */
+        }
+
+        .no-wrongtips {
+            color: #888;
+            padding: 20px 0 10px 0;
+            text-align: center;
+            letter-spacing: 0.5px;
+            font-size: 0.89em;
+        }
+        .practice-mode-indicator {
+            background: #f1f5fa;
+            color: var(--accent);
+            border: 1.5px solid var(--accent);
+            padding: 3px 15px 2px 15px;
+            border-radius: 22px;
+            font-weight: bold;
+            font-size: 0.98em;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        .practice-bar {
+            margin: 0 0 10px 0;
+        }
+        @media (max-width: 650px) {
+            #wrong-list li { font-size: 0.77rem; padding: 4px 5px 5px 8px; margin-bottom: 2.2px;}
+            .wrong-list-meaning { margin-left: 5px;}
+            .redo-btn { font-size:0.77em; padding: 2px 7px;}
+        }
+        @media (max-width: 550px) {
+            .main-flex { gap: 4vw; }
+            .quiz-area, .wrongbook-area { padding: 13px 4px 11px 4px; }
+            .quiz-q { font-size: 1.1rem; }
+            #wrong-list li { font-size: 0.69rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="main-flex">
+    <div class="quiz-area" id="quiz-area">
+        <div class="score-row">
+            <div id="score-box">得分: <b>0</b></div>
+            <button id="restart-btn" class="secondary-btn">重新开始</button>
+        </div>
+        <div id="practice-indicator" style="display: none"></div>
+        <div class="quiz-q" id="word-question"></div>
+        <div class="options-row" id="options"></div>
+        <div class="op-btn-row">
+            <button id="next-btn" class="primary-btn" disabled>下一题</button>
+        </div>
+    </div>
+    <div class="wrongbook-area">
+        <div class="wrongbook-head-row">
+            <span class="wrongbook-title">错题本</span>
+            <div>
+                <button id="practice-all-btn" class="secondary-btn" style="margin-right:7px;">练习所有错题</button>
+                <button id="clear-wrong-btn" class="secondary-btn" >清空错题</button>
+            </div>
+        </div>
+        <ul id="wrong-list"></ul>
+    </div>
+</div>
+<script>
+// 1. 词库
+const WORDS = [
+    {word:'spacesuit', meaning:'宇航服'},
+    {word:'asteroid', meaning:'小行星'},
+    {word:'multitasker', meaning:'善于多任务处理的人'},
+    {word:'cosmonaut', meaning:'俄罗斯宇航员，宇航员'},
+    {word:'gravity', meaning:'重力'},
+    {word:'launch', meaning:'发射，启动'},
+    {word:'oxygen', meaning:'氧气'},
+    {word:'solar', meaning:'太阳的，利用太阳能的'},
+    {word:'telescope', meaning:'望远镜'},
+    {word:'orbit', meaning:'轨道'},
+    {word:'detector', meaning:'探测器，检测器'},
+    {word:'scientist', meaning:'科学家'},
+    {word:'satellite', meaning:'卫星'},
+    {word:'exploration', meaning:'探索，探测'},
+    {word:'microscope', meaning:'显微镜'},
+    {word:'experiment', meaning:'实验'},
+    {word:'simulate', meaning:'模拟'},
+    {word:'execute', meaning:'执行，实施'},
+    {word:'neurodiverse', meaning:'神经多样性的'},
+    {word:'procedure', meaning:'程序，步骤'},
+    {word:'coding', meaning:'编程'},
+    {word:'navigate', meaning:'导航，驾驶'},
+    {word:'tug', meaning:'拖船，拖拉'},
+    {word:'abandon', meaning:'放弃，遗弃'},
+    {word:'friction', meaning:'摩擦'},
+    {word:'hover', meaning:'悬停，盘旋'},
+    {word:'accuracy', meaning:'准确，精确'},
+    {word:'mission', meaning:'任务，使命'},
+    {word:'anonymous', meaning:'匿名的'},
+    {word:'mysterious', meaning:'神秘的'},
+    {word:'artificial', meaning:'人造的，仿造的'}
+];
+
+// 2. 状态和数据
+let wordOrder = [];
+let curIndex = 0;
+let score = 0;
+let wrongBook = []; // 元素: {word, meaning, your}
+let practiceMode = false; // 连续练习错题本模式
+let practiceOrder = [];
+let practiceIdx = 0;
+let userHasAnswered = false;
+let singlePracticeIdx = null;
+
+// 本地存储
+function loadWrongBook() {
+    let arr = [];
+    try{
+        const stash = localStorage.getItem('wc-wrongbook');
+        if (stash) arr = JSON.parse(stash);
+    }catch(e){}
+    wrongBook = Array.isArray(arr) ? arr : [];
+}
+function saveWrongBook() {
+    try{
+        localStorage.setItem('wc-wrongbook', JSON.stringify(wrongBook));
+    }catch(e){}
+}
+function clearWrongBook() {
+    wrongBook = [];
+    saveWrongBook();
+    updateWrongBook();
+}
+
+// 3. 题目顺序与洗牌
+function randomWordsOrder() {
+    let idxs = [];
+    for (let i = 0; i < WORDS.length; i++) idxs.push(i);
+    return shuffle(idxs);
+}
+function shuffle(array) {
+    let arr = array.slice();
+    for (let i = arr.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+// 4. 初始化/开始/渲染
+function startCustomQuiz(order) {
+    if (order.length === 0) return;
+    wordOrder = shuffle(order);
+    curIndex = 0;
+    score = 0;
+    exitPracticeMode();
+    loadQuestion();
+    updateScore();
+}
+function initQuiz() {
+    wordOrder = randomWordsOrder();
+    curIndex = 0;
+    score = 0;
+    exitPracticeMode();
+    loadQuestion();
+    updateScore();
+}
+function loadQuestion() {
+    document.getElementById('next-btn').style.display = '';
+    if (curIndex >= wordOrder.length) {
+        document.getElementById('word-question').innerHTML = "<b>全部题目已完成！</b>";
+        document.getElementById('options').innerHTML = "";
+        document.getElementById('next-btn').disabled = true;
+        updateScore();
+        return;
+    }
+    document.getElementById('next-btn').disabled = true;
+    const item = WORDS[wordOrder[curIndex]];
+    let arr = [item];
+    let distract = [];
+    while (distract.length < 3) {
+        let idx = Math.floor(Math.random() * WORDS.length);
+        let w = WORDS[idx];
+        if (w.word !== item.word && !distract.some(i=>i.word === w.word)) {
+            distract.push(w);
+        }
+    }
+    arr = arr.concat(distract);
+    arr = shuffle(arr);
+    let correctIdx = arr.findIndex(i=>i.word === item.word);
+
+    document.getElementById('word-question').innerHTML = `“${item.meaning}”的英文是？`;
+    const optionsDiv = document.getElementById('options');
+    optionsDiv.innerHTML = '';
+    arr.forEach((opt, i)=>{
+        let btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = opt.word;
+        btn.onclick = () => handleOption(i === correctIdx, item, opt);
+        btn.setAttribute('tabindex', "0");
+        optionsDiv.appendChild(btn);
+    });
+}
+
+// 5. 答题处理
+function handleOption(isCorrect, curItem, selItem) {
+    if (practiceMode) {
+        if (userHasAnswered) return;
+        userHasAnswered = true;
+        // 错题本练习模式
+        handlePracticeOption(isCorrect, curItem, selItem);
+        return;
+    }
+    const buttons = document.querySelectorAll('.option-btn');
+    buttons.forEach(btn=>btn.disabled = true);
+    if (isCorrect) {
+        event.target.classList.add('correct');
+        score++;
+    } else {
+        event.target.classList.add('wrong');
+        // 显示正确项
+        buttons.forEach(btn=> {
+            if (btn.innerText === curItem.word) btn.classList.add('correct');
+        });
+        addToWrongBook({
+            word: curItem.word,
+            meaning: curItem.meaning,
+            your: selItem.word
+        });
+    }
+    updateScore();
+    updateWrongBook();
+    document.getElementById('next-btn').disabled = false;
+}
+
+function addToWrongBook(item) {
+    // 已存在同义错题不重复添加，但更新your字段为最新
+    let idx = wrongBook.findIndex(w=>w.word===item.word && w.meaning===item.meaning);
+    if(idx === -1) {
+        wrongBook.push(item);
+        saveWrongBook();
+    }else{
+        wrongBook[idx].your = item.your;
+        saveWrongBook();
+    }
+    updateWrongBook();
+}
+
+function updateScore() {
+    if (practiceMode) {
+        document.getElementById('score-box').innerHTML = `错题练习：剩余 <b>${practiceOrder.length - practiceIdx}</b> 道`;
+    } else {
+        document.getElementById('score-box').innerHTML = `得分: <b>${score}</b> | 第 ${Math.min(curIndex + 1, wordOrder.length)} / <b>${wordOrder.length}</b> 题`;
+    }
+}
+
+// --- 错题本连续练习模式 ---
+function startPracticeMode() {
+    loadWrongBook();
+    if (wrongBook.length === 0) {
+        alert("暂无可练习的错题！");
+        return;
+    }
+    practiceMode = true;
+    singlePracticeIdx = null;
+    // practiceOrder存储“错题本”数组索引
+    practiceOrder = [];
+    for(let i=0;i<wrongBook.length;i++) practiceOrder.push(i);
+    practiceOrder = shuffle(practiceOrder);
+    practiceIdx = 0;
+    showPracticeIndicator('错题本连续练习');
+    loadPracticeQuestion();
+    updateWrongBook();
+}
+function exitPracticeMode(){
+    practiceMode = false;
+    singlePracticeIdx = null;
+    practiceOrder = [];
+    practiceIdx = 0;
+    hidePracticeIndicator();
+}
+
+// 错题本连续练习的渲染
+function loadPracticeQuestion() {
+    userHasAnswered = false;
+    document.getElementById('next-btn').style.display = 'none';
+    updateScore();
+    if (practiceIdx >= practiceOrder.length) {
+        // 错题练习完成
+        exitPracticeMode();
+        document.getElementById('word-question').innerHTML = "<b>错题本已清空，练习结束！</b>";
+        document.getElementById('options').innerHTML = "";
+        updateScore();
+        updateWrongBook();
+        return;
+    }
+    // 错题本索引
+    let idx = practiceOrder[practiceIdx];
+    loadWrongBook();
+    if (idx >= wrongBook.length) {
+        // 可能异常,跳下一个
+        practiceIdx++;
+        loadPracticeQuestion();
+        return;
+    }
+    let item = wrongBook[idx];
+    let wordObj = WORDS.find(w=>w.word === item.word && w.meaning === item.meaning);
+    if (!wordObj) {
+        // 无效，直接删
+        removeWrongBook(idx);
+        practiceOrder.splice(practiceIdx,1);
+        loadPracticeQuestion();
+        return;
+    }
+    let arr = [wordObj];
+    let distract = [];
+    while (distract.length < 3) {
+        let randIdx = Math.floor(Math.random() * WORDS.length);
+        let w = WORDS[randIdx];
+        if (w.word !== wordObj.word && !distract.some(i=>i.word === w.word)) {
+            distract.push(w);
+        }
+    }
+    arr = arr.concat(distract);
+    arr = shuffle(arr);
+    let correctIdx = arr.findIndex(i=>i.word === wordObj.word);
+
+    document.getElementById('word-question').innerHTML = `“${wordObj.meaning}”的英文是？`;
+    const optionsDiv = document.getElementById('options');
+    optionsDiv.innerHTML = '';
+    arr.forEach((opt, i)=>{
+        let btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = opt.word;
+        btn.onclick = () => handlePracticeOption(i===correctIdx, wordObj, opt);
+        btn.setAttribute('tabindex', "0");
+        optionsDiv.appendChild(btn);
+    });
+}
+
+function handlePracticeOption(isCorrect, curItem, selItem) {
+    const buttons = document.querySelectorAll('.option-btn');
+    buttons.forEach(btn=>btn.disabled = true);
+    if (isCorrect) {
+        event.target.classList.add('correct');
+        // 移除本题
+        let i2 = wrongBook.findIndex(w=>w.word === curItem.word && w.meaning === curItem.meaning);
+        if (i2 !== -1) {
+            removeWrongBook(i2);
+            // practiceOrder/practiceIdx需要调整
+            if (practiceMode) {
+                let rmOrderIdx = practiceOrder.indexOf(i2);
+                if (rmOrderIdx !== -1) {
+                    practiceOrder.splice(rmOrderIdx,1);
+                    // 如果当前做题是刚删掉的题，practiceIdx不变，否则推进
+                    if (rmOrderIdx < practiceIdx) practiceIdx--;
+                }
+            }
+        }
+        updateScore();
+        setTimeout(()=>{
+            userHasAnswered = false;
+            loadWrongBook();
+            if (wrongBook.length === 0 || practiceOrder.length === 0) {
+                loadPracticeQuestion();
+            } else {
+                practiceIdx++;
+                loadPracticeQuestion();
+            }
+        }, 600);
+    } else {
+        event.target.classList.add('wrong');
+        // 显示正确项
+        buttons.forEach(btn=> {
+            if (btn.innerText === curItem.word) btn.classList.add('correct');
+        });
+        // 继续当前题，错题保留
+        setTimeout(()=>{
+            userHasAnswered = false;
+            loadPracticeQuestion();
+        }, 1000);
+    }
+}
+
+// --- 单题重做 ---
+function redoWrong(idx) {
+    loadWrongBook();
+    if (idx<0 || idx>=wrongBook.length) {alert("错题不存在！");return;}
+    practiceMode = true;
+    singlePracticeIdx = idx;
+    practiceOrder = [idx];
+    practiceIdx = 0;
+    showPracticeIndicator('重做该题');
+    loadPracticeQuestion();
+    updateWrongBook();
+}
+
+// --- 错题本操作 ---
+function removeWrongBook(idx) {
+    loadWrongBook();
+    if(idx>=0 && idx<wrongBook.length){
+        wrongBook.splice(idx,1);
+        saveWrongBook();
+        updateWrongBook();
+        // 如果当前正在单题重做被删除的题，也应退出练习
+        if (practiceMode && singlePracticeIdx !== null && idx === singlePracticeIdx) {
+            exitPracticeMode();
+            loadQuestion();
+        }
+    }
+}
+
+// 错题本渲染（紧凑行内显示）
+function updateWrongBook() {
+    const list = document.getElementById('wrong-list');
+    list.innerHTML = '';
+    if (!wrongBook || wrongBook.length === 0) {
+        list.innerHTML = `<div class="no-wrongtips">暂无错题，真棒！</div>`;
+        return;
+    }
+    // 行内（主色单词 + meaning，重做按钮在右侧一行）
+    wrongBook.forEach((item, idx)=>{
+        let li = document.createElement('li');
+        li.innerHTML = `
+            <span>
+                <span class="wrong-list-main">${item.word}</span>
+                <span class="wrong-list-meaning">${item.meaning}</span>
+                ${item.your ? `<span class="wrong-list-your">(你的答案: ${item.your})</span>` : ""}
+            </span>
+            <button class="redo-btn" onclick="redoWrong(${idx})">重做</button>
+        `;
+        list.appendChild(li);
+    });
+}
+
+// --- UI辅助 ---
+function showPracticeIndicator(modeLabel) {
+    let el = document.getElementById('practice-indicator');
+    el.innerHTML = `<div class="practice-mode-indicator">${modeLabel}</div>`;
+    el.style.display = '';
+}
+function hidePracticeIndicator() {
+    document.getElementById('practice-indicator').style.display = 'none';
+}
+
+// --- 按钮绑定 ---
+document.getElementById('next-btn').onclick = function() {
+    if (practiceMode) return;
+    curIndex++;
+    loadQuestion();
+};
+
+document.getElementById('restart-btn').onclick = function() {
+    if (confirm("确定重新开始闯关？这会清空分数和错题本。")) {
+        score = 0;
+        curIndex = 0;
+        clearWrongBook();
+        initQuiz();
+    }
+};
+
+document.getElementById('practice-all-btn').onclick = function() {
+    startPracticeMode();
+};
+
+document.getElementById('clear-wrong-btn').onclick = function() {
+    if (wrongBook.length===0) return;
+    if (confirm("确定要清空全部错题记录吗？")) {
+        clearWrongBook();
+        if (practiceMode) { exitPracticeMode(); loadQuestion(); }
+    }
+};
+
+// --- 键盘回车导航 ---
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+        const options = document.querySelectorAll('.option-btn');
+        if (options.length>0 && !userHasAnswered) {
+            // focus谁就答谁
+            let focusedIndex = Array.prototype.findIndex.call(options, btn => btn===document.activeElement);
+            if (focusedIndex >= 0) {
+                options[focusedIndex].click();
+            }
+        } else {
+            // 如果已答，焦点在下一题/无焦点
+            if (!practiceMode && document.getElementById('next-btn') && !document.getElementById('next-btn').disabled) {
+                document.getElementById('next-btn').click();
+            }
+        }
+    } else if (e.key==='ArrowDown' || e.key==='ArrowUp') {
+        const options = document.querySelectorAll('.option-btn');
+        if(options.length){
+            let idx = Array.prototype.findIndex.call(options, btn => btn===document.activeElement);
+            let nextIdx;
+            if (e.key==='ArrowDown') {
+                nextIdx = typeof idx==='number'&&idx>=0 ? (idx+1)%options.length : 0;
+            } else {
+                nextIdx = typeof idx==='number'&&idx>=0 ? (idx-1+options.length)%options.length : options.length-1;
+            }
+            options[nextIdx].focus();
+            e.preventDefault();
+        }
+    }
+});
+// --- 初始 ---
+(function initAll(){
+    loadWrongBook();
+    initQuiz();
+    updateWrongBook();
+})();
+</script>
+</body>
+</html>
