@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>中学词汇闯关 · 白名单授权版</title>
+    <title>中学词汇闯关 · 授权版</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -189,7 +189,6 @@
     </style>
 </head>
 <body>
-    <!-- 登录界面 -->
     <div id="loginContainer" class="login-container">
         <h2>📱 手机号登录</h2>
         <p>输入手机号，获取验证码</p>
@@ -201,7 +200,6 @@
         <div class="info">测试模式：验证码会显示在浏览器控制台（F12 → Console）</div>
     </div>
 
-    <!-- 游戏主界面（初始隐藏） -->
     <div id="gameContent" class="hidden">
         <div class="game-wrapper">
             <div class="quiz-area">
@@ -240,18 +238,17 @@
     </div>
 
     <script>
-        // ========== Supabase 配置 ==========
+        // Supabase 配置
         const SUPABASE_URL = 'https://nhximqwmmpknrunawgfu.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5oeGltcXdtbXBrbnJ1bmF3Z2Z1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyNzg2MDIsImV4cCI6MjA5MDg1NDYwMn0.JAgqhd63s10Wp4OQqYG3TQRvIEhH8XmJfdENl-CNqb0';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // ========== 白名单配置（只有这些手机号可以登录） ==========
+        // 白名单：只有这些手机号可以登录
         const ALLOWED_PHONES = [
-            '+8613971005659',   // 你的测试手机号
-            // 在这里添加更多允许登录的手机号，格式如 '+8612345678901'
+            '+8613971005659',   // 授权手机号
         ];
 
-        // ========== 词库定义 ==========
+        // 词库
         const WAICHONG_WORDS = [
             { word: "spacesuit", meaning: "宇航服" }, { word: "asteroid", meaning: "小行星" },
             { word: "multitasker", meaning: "多任务处理者" }, { word: "comet", meaning: "彗星" },
@@ -262,46 +259,12 @@
             { word: "samples", meaning: "样本" }, { word: "drone", meaning: "无人机" },
             { word: "laser", meaning: "激光" }, { word: "sensors", meaning: "传感器" },
             { word: "protect", meaning: "保护" }, { word: "forest", meaning: "森林" },
-            { word: "temperature", meaning: "温度" }, { word: "oxygen", meaning: "氧气" },
-            { word: "people", meaning: "人们" }, { word: "time", meaning: "时间" },
-            { word: "water", meaning: "水" }, { word: "trees", meaning: "树" },
-            { word: "china", meaning: "中国" }, { word: "scientists", meaning: "科学家" },
-            { word: "first", meaning: "第一" }, { word: "many", meaning: "许多" },
-            { word: "space", meaning: "太空" }, { word: "earth", meaning: "地球" },
-            { word: "help", meaning: "帮助" }, { word: "air", meaning: "空气" },
-            { word: "animals", meaning: "动物" }, { word: "special", meaning: "特殊的" },
-            { word: "information", meaning: "信息" }, { word: "AI", meaning: "人工智能" },
-            { word: "study", meaning: "学习" }, { word: "number", meaning: "数量" },
-            { word: "important", meaning: "重要的" }, { word: "control", meaning: "控制" },
-            { word: "clean", meaning: "清洁" }, { word: "home", meaning: "家" },
-            { word: "where", meaning: "哪里" }, { word: "better", meaning: "更好" },
-            { word: "journey", meaning: "旅程" }, { word: "visit", meaning: "访问" },
-            { word: "move", meaning: "移动" }, { word: "near", meaning: "附近" },
-            { word: "far", meaning: "遥远的" }, { word: "unusual", meaning: "不寻常的" },
-            { word: "finish", meaning: "完成" }, { word: "findings", meaning: "发现" },
-            { word: "easily", meaning: "容易地" }, { word: "path", meaning: "路径" },
-            { word: "fast", meaning: "快速地" }, { word: "perform", meaning: "执行" },
-            { word: "task", meaning: "任务" }, { word: "activity", meaning: "活动" },
-            { word: "productive", meaning: "高效的" }, { word: "efficient", meaning: "有效率的" },
-            { word: "overall", meaning: "整体的" }, { word: "performance", meaning: "表现" },
-            { word: "ability", meaning: "能力" }, { word: "essential", meaning: "必要的" },
-            { word: "lead", meaning: "导致" }, { word: "mistake", meaning: "错误" },
-            { word: "manage", meaning: "管理" }, { word: "properly", meaning: "恰当地" },
-            { word: "astronaut", meaning: "宇航员" }, { word: "provide", meaning: "提供" },
-            { word: "protection", meaning: "保护" }, { word: "mobility", meaning: "机动性" },
-            { word: "helmet", meaning: "头盔" }, { word: "camera", meaning: "相机" },
-            { word: "photograph", meaning: "照片" }, { word: "image", meaning: "图像" },
-            { word: "regulate", meaning: "调节" }, { word: "breathe", meaning: "呼吸" },
-            { word: "shield", meaning: "防护" }, { word: "harmful", meaning: "有害的" }
+            { word: "temperature", meaning: "温度" }, { word: "oxygen", meaning: "氧气" }
         ];
         const JUNIOR_WORDS = [
             { word: "apple", meaning: "苹果" }, { word: "car", meaning: "汽车" }, { word: "happy", meaning: "快乐的" },
             { word: "big", meaning: "大的" }, { word: "run", meaning: "跑" }, { word: "blue", meaning: "蓝色" },
-            { word: "cat", meaning: "猫" }, { word: "dog", meaning: "狗" }, { word: "teacher", meaning: "老师" },
-            { word: "student", meaning: "学生" }, { word: "book", meaning: "书" }, { word: "school", meaning: "学校" },
-            { word: "friend", meaning: "朋友" }, { word: "mother", meaning: "母亲" }, { word: "father", meaning: "父亲" },
-            { word: "brother", meaning: "兄弟" }, { word: "sister", meaning: "姐妹" }, { word: "family", meaning: "家庭" },
-            { word: "house", meaning: "房子" }, { word: "water", meaning: "水" }, { word: "food", meaning: "食物" }
+            { word: "cat", meaning: "猫" }, { word: "dog", meaning: "狗" }, { word: "teacher", meaning: "老师" }
         ];
 
         let currentBank = "waichong";
@@ -315,7 +278,6 @@
         let answeredCount = 0;
         let currentUserPhone = null;
 
-        // DOM 元素
         const chineseWordDiv = document.getElementById("chineseWord");
         const optionsContainer = document.getElementById("optionsContainer");
         const feedbackMsg = document.getElementById("feedbackMsg");
@@ -331,13 +293,11 @@
 
         function saveWrong() {
             if (!currentUserPhone) return;
-            const key = `wrongList_${currentUserPhone}_${currentBank}`;
-            localStorage.setItem(key, JSON.stringify(wrongList));
+            localStorage.setItem(`wrongList_${currentUserPhone}_${currentBank}`, JSON.stringify(wrongList));
         }
         function loadWrong() {
             if (!currentUserPhone) return;
-            const key = `wrongList_${currentUserPhone}_${currentBank}`;
-            const stored = localStorage.getItem(key);
+            const stored = localStorage.getItem(`wrongList_${currentUserPhone}_${currentBank}`);
             wrongList = stored ? JSON.parse(stored) : [];
             renderWrongList();
         }
@@ -417,14 +377,12 @@
                     }
                 }
                 updateScoreUI();
-                if (currentMode === "wrongPractice") {
-                    if (wrongList.length > 0) generateNewQuestion();
-                    else {
-                        chineseWordDiv.innerText = "🎉 恭喜！所有错题已掌握！";
-                        optionsContainer.innerHTML = "";
-                        feedbackMsg.innerText = "点击「重新开始」继续随机练习";
-                        currentQuestion = null;
-                    }
+                if (currentMode === "wrongPractice" && wrongList.length > 0) generateNewQuestion();
+                else if (currentMode === "wrongPractice" && wrongList.length === 0) {
+                    chineseWordDiv.innerText = "🎉 恭喜！所有错题已掌握！";
+                    optionsContainer.innerHTML = "";
+                    feedbackMsg.innerText = "点击「重新开始」继续随机练习";
+                    currentQuestion = null;
                 }
             } else {
                 feedbackMsg.innerText = `❌ 错误！正确答案是 ${currentQuestion.word}`;
@@ -472,7 +430,6 @@
                 if (!answered && currentQuestion) { feedbackMsg.innerText = "请先答对当前错题！"; return; }
                 generateNewQuestion();
             } else {
-                if (!answered && currentQuestion) { generateNewQuestion(); return; }
                 generateNewQuestion();
             }
         }
@@ -502,7 +459,7 @@
             bankBtns.forEach(btn => { btn.onclick = () => switchBank(btn.getAttribute("data-bank")); });
         }
 
-        // ========== 白名单登录逻辑 ==========
+        // 登录逻辑
         const loginContainer = document.getElementById("loginContainer");
         const gameContent = document.getElementById("gameContent");
         const sendCodeBtn = document.getElementById("sendCodeBtn");
@@ -511,33 +468,25 @@
         const codeInput = document.getElementById("verificationCode");
         const loginError = document.getElementById("loginError");
 
-        // 发送验证码前检查白名单
         sendCodeBtn.addEventListener("click", async () => {
             let phone = phoneInput.value.trim();
             if (!phone.startsWith("+86")) phone = "+86" + phone;
-            
-            // 检查是否在白名单中
             if (!ALLOWED_PHONES.includes(phone)) {
                 loginError.innerText = "该手机号未获得授权，请联系客服购买权限。";
                 return;
             }
-            
             const { error } = await supabase.auth.signInWithOtp({ phone });
             if (error) loginError.innerText = error.message;
             else loginError.innerText = "验证码已发送，请查看控制台（F12）获取测试验证码";
         });
 
-        // 登录时再次检查白名单
         loginBtn.addEventListener("click", async () => {
             let phone = phoneInput.value.trim();
             if (!phone.startsWith("+86")) phone = "+86" + phone;
-            
-            // 双重检查白名单
             if (!ALLOWED_PHONES.includes(phone)) {
                 loginError.innerText = "该手机号未获得授权，请联系客服购买权限。";
                 return;
             }
-            
             const code = codeInput.value.trim();
             const { data, error } = await supabase.auth.verifyOtp({ phone, token: code, type: "sms" });
             if (error) loginError.innerText = error.message;
