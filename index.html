@@ -2,501 +2,70 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>中学词汇闯关 · 授权版</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中学词汇闯关</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .login-container {
-            max-width: 400px;
-            margin: 80px auto;
-            background: white;
-            border-radius: 32px;
-            padding: 30px 24px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .login-container h2 { margin-bottom: 8px; color: #1e3c72; }
-        .login-container p { color: #4a6f8f; margin-bottom: 20px; }
-        input, button {
-            width: 100%;
-            padding: 12px 16px;
-            margin: 8px 0;
-            border-radius: 60px;
-            border: 1px solid #cbdde9;
-            font-size: 1rem;
-        }
-        button {
-            background: #2c7da0;
-            color: white;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        button:active { transform: scale(0.97); }
-        .error { color: #d9534f; margin-top: 12px; font-size: 0.9rem; }
-        .info { color: #2c7da0; font-size: 0.8rem; margin-top: 8px; }
-        .game-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            max-width: 1300px;
-            margin: 0 auto;
-            align-items: flex-start;
-        }
-        .quiz-area {
-            flex: 2;
-            min-width: 260px;
-            background: white;
-            border-radius: 32px;
-            padding: 24px 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-        }
-        .wrong-area {
-            flex: 1;
-            min-width: 260px;
-            background: #fff9ef;
-            border-radius: 32px;
-            padding: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 20px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        h1 { font-size: 1.8rem; margin: 0 0 5px; color: #1e3c72; }
-        .sub { color: #4a6f8f; margin-bottom: 20px; }
-        .wordbank-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            justify-content: center;
-        }
-        .bank-btn {
-            background: #e2edf7;
-            border: none;
-            border-radius: 30px;
-            padding: 6px 16px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            font-weight: 500;
-            color: #1e3c72;
-        }
-        .bank-active { background: #2c7da0; color: white; }
-        .score-bar {
-            display: flex;
-            justify-content: space-between;
-            background: #eef3fc;
-            padding: 12px 20px;
-            border-radius: 60px;
-            margin-bottom: 25px;
-            font-weight: bold;
-        }
-        .question-card { background: #ffffff; border-radius: 28px; text-align: center; margin-bottom: 20px; }
-        .chinese-word { font-size: 2.2rem; font-weight: 600; color: #0b2b44; margin: 10px 0; }
-        .options { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
-        .option-btn {
-            background: #f8fafd;
-            border: 1px solid #cbdde9;
-            border-radius: 60px;
-            padding: 12px 18px;
-            font-size: 1rem;
-            text-align: left;
-            cursor: pointer;
-            transition: 0.2s;
-            font-weight: 500;
-        }
-        .option-btn:hover { background: #e9f0f8; transform: scale(0.98); }
-        .feedback { font-weight: bold; font-size: 1.2rem; margin: 15px 0; color: #2c7da0; }
-        .action-buttons { display: flex; gap: 12px; margin-top: 15px; }
-        .next-btn, .restart-btn {
-            flex: 1;
-            background: #2c7da0;
-            color: white;
-            border: none;
-            border-radius: 60px;
-            padding: 12px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .restart-btn { background: #5f7f9e; }
-        .wrong-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            flex-wrap: wrap;
-            margin-bottom: 15px;
-        }
-        .wrong-title { font-weight: bold; font-size: 1.2rem; color: #b23c1c; }
-        .wrong-actions { display: flex; gap: 8px; }
-        .clear-wrong, .practice-all {
-            background: none;
-            border: none;
-            color: #2c7da0;
-            text-decoration: underline;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        .wrong-list {
-            background: #fff2e0;
-            border-radius: 20px;
-            padding: 8px;
-            max-height: 50vh;
-            overflow-y: auto;
-        }
-        .wrong-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 6px 8px;
-            border-bottom: 1px solid #ffd9a5;
-            gap: 8px;
-            font-size: 0.85rem;
-        }
-        .wrong-word-info { flex: 2; }
-        .wrong-word-info strong { display: block; }
-        .retry-single {
-            background: #ffb347;
-            border: none;
-            border-radius: 30px;
-            padding: 4px 10px;
-            cursor: pointer;
-            color: white;
-            font-weight: bold;
-            font-size: 0.7rem;
-        }
-        .mode-badge {
-            font-size: 0.8rem;
-            background: #e2edf7;
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 30px;
-            margin-bottom: 15px;
-        }
+        body { font-family: system-ui; background: #f0f7ff; padding: 20px; }
+        .login-box, .game-box { max-width: 500px; margin: 80px auto; background: white; border-radius: 32px; padding: 30px; text-align: center; }
+        input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 60px; border: 1px solid #ccc; }
+        button { background: #2c7da0; color: white; font-weight: bold; cursor: pointer; }
+        .error { color: red; margin-top: 12px; }
         .hidden { display: none; }
-        @media (max-width: 800px) {
-            .game-wrapper { flex-direction: column; }
-            .wrong-area { position: static; max-height: none; }
-        }
     </style>
 </head>
 <body>
-    <div id="loginContainer" class="login-container">
+    <div id="loginBox" class="login-box">
         <h2>📱 手机号登录</h2>
-        <p>输入手机号，获取验证码</p>
-        <input type="tel" id="phoneNumber" placeholder="手机号" value="+86">
-        <button id="sendCodeBtn">获取验证码</button>
-        <input type="text" id="verificationCode" placeholder="验证码" style="margin-top: 12px;">
+        <input type="tel" id="phone" placeholder="手机号">
         <button id="loginBtn">登录</button>
-        <div id="loginError" class="error"></div>
-        <div class="info">测试模式：验证码会显示在浏览器控制台（F12 → Console）</div>
+        <div id="errorMsg" class="error"></div>
     </div>
-
-    <div id="gameContent" class="hidden">
-        <div class="game-wrapper">
-            <div class="quiz-area">
-                <h1>📖 中学词汇闯关</h1>
-                <div class="sub">外冲高频词 · 初中基础词</div>
-                <div class="wordbank-selector">
-                    <button class="bank-btn bank-active" data-bank="waichong">外冲高频词</button>
-                    <button class="bank-btn" data-bank="junior">初中2500词</button>
-                </div>
-                <div class="score-bar">
-                    <span>✅ 得分: <span id="score">0</span></span>
-                    <span>📊 正确率: <span id="accuracy">0</span>%</span>
-                </div>
-                <div id="modeInfo" class="mode-badge">🎲 随机模式</div>
-                <div class="question-card">
-                    <div class="chinese-word" id="chineseWord">加载中...</div>
-                    <div class="options" id="optionsContainer"></div>
-                    <div class="feedback" id="feedbackMsg"></div>
-                </div>
-                <div class="action-buttons">
-                    <button class="next-btn" id="nextBtn">下一题</button>
-                    <button class="restart-btn" id="restartBtn">重新开始</button>
-                </div>
-            </div>
-            <div class="wrong-area">
-                <div class="wrong-header">
-                    <span class="wrong-title">📘 错题本</span>
-                    <div class="wrong-actions">
-                        <button class="practice-all" id="practiceAllBtn">练习所有错题</button>
-                        <button class="clear-wrong" id="clearWrongBtn">清空错题</button>
-                    </div>
-                </div>
-                <div id="wrongList" class="wrong-list"><div style="color:gray;">暂无错题，答错后自动出现</div></div>
-            </div>
-        </div>
+    <div id="gameBox" class="game-box hidden">
+        <h2>🎉 登录成功！</h2>
+        <p>欢迎使用中学词汇闯关</p>
+        <button id="logoutBtn">退出登录</button>
     </div>
 
     <script>
-        // Supabase 配置
-        const SUPABASE_URL = 'https://nhximqwmmpknrunawgfu.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5oeGltcXdtbXBrbnJ1bmF3Z2Z1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyNzg2MDIsImV4cCI6MjA5MDg1NDYwMn0.JAgqhd63s10Wp4OQqYG3TQRvIEhH8XmJfdENl-CNqb0';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // 授权手机号列表（添加你允许的手机号）
+        const ALLOWED_PHONES = ['13971005659'];
 
-        // 白名单：只有这些手机号可以登录
-        const ALLOWED_PHONES = [
-            '+8613971005659',   // 授权手机号
-        ];
+        const loginBox = document.getElementById('loginBox');
+        const gameBox = document.getElementById('gameBox');
+        const phoneInput = document.getElementById('phone');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+        const logoutBtn = document.getElementById('logoutBtn');
 
-        // 词库
-        const WAICHONG_WORDS = [
-            { word: "spacesuit", meaning: "宇航服" }, { word: "asteroid", meaning: "小行星" },
-            { word: "multitasker", meaning: "多任务处理者" }, { word: "comet", meaning: "彗星" },
-            { word: "tianwen", meaning: "天问" }, { word: "probe", meaning: "探测器" },
-            { word: "mission", meaning: "任务" }, { word: "solar", meaning: "太阳的" },
-            { word: "system", meaning: "系统" }, { word: "planet", meaning: "星球" },
-            { word: "energy", meaning: "能量" }, { word: "collect", meaning: "收集" },
-            { word: "samples", meaning: "样本" }, { word: "drone", meaning: "无人机" },
-            { word: "laser", meaning: "激光" }, { word: "sensors", meaning: "传感器" },
-            { word: "protect", meaning: "保护" }, { word: "forest", meaning: "森林" },
-            { word: "temperature", meaning: "温度" }, { word: "oxygen", meaning: "氧气" }
-        ];
-        const JUNIOR_WORDS = [
-            { word: "apple", meaning: "苹果" }, { word: "car", meaning: "汽车" }, { word: "happy", meaning: "快乐的" },
-            { word: "big", meaning: "大的" }, { word: "run", meaning: "跑" }, { word: "blue", meaning: "蓝色" },
-            { word: "cat", meaning: "猫" }, { word: "dog", meaning: "狗" }, { word: "teacher", meaning: "老师" }
-        ];
+        // 检查是否已登录
+        if (localStorage.getItem('loggedPhone')) {
+            loginBox.classList.add('hidden');
+            gameBox.classList.remove('hidden');
+        }
 
-        let currentBank = "waichong";
-        let originalWords = [...WAICHONG_WORDS];
-        let currentMode = "normal";
-        let wrongList = [];
-        let currentQuestion = null;
-        let currentOptions = [];
-        let answered = false;
-        let currentScore = 0;
-        let answeredCount = 0;
-        let currentUserPhone = null;
-
-        const chineseWordDiv = document.getElementById("chineseWord");
-        const optionsContainer = document.getElementById("optionsContainer");
-        const feedbackMsg = document.getElementById("feedbackMsg");
-        const nextBtn = document.getElementById("nextBtn");
-        const restartBtn = document.getElementById("restartBtn");
-        const scoreSpan = document.getElementById("score");
-        const accuracySpan = document.getElementById("accuracy");
-        const wrongListDiv = document.getElementById("wrongList");
-        const clearWrongBtn = document.getElementById("clearWrongBtn");
-        const practiceAllBtn = document.getElementById("practiceAllBtn");
-        const modeInfoSpan = document.getElementById("modeInfo");
-        const bankBtns = document.querySelectorAll(".bank-btn");
-
-        function saveWrong() {
-            if (!currentUserPhone) return;
-            localStorage.setItem(`wrongList_${currentUserPhone}_${currentBank}`, JSON.stringify(wrongList));
-        }
-        function loadWrong() {
-            if (!currentUserPhone) return;
-            const stored = localStorage.getItem(`wrongList_${currentUserPhone}_${currentBank}`);
-            wrongList = stored ? JSON.parse(stored) : [];
-            renderWrongList();
-        }
-        function updateScoreUI() {
-            scoreSpan.innerText = currentScore;
-            if (answeredCount === 0) accuracySpan.innerText = "0";
-            else accuracySpan.innerText = Math.round((currentScore / answeredCount) * 100);
-        }
-        function generateOptions(correctWord, correctMeaning) {
-            let candidates = originalWords.filter(w => w.word !== correctWord);
-            let shuffled = [...candidates];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            let wrongOptions = shuffled.slice(0, 3).map(w => ({ word: w.word, meaning: w.meaning }));
-            let options = [{ word: correctWord, meaning: correctMeaning }, ...wrongOptions];
-            for (let i = options.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [options[i], options[j]] = [options[j], options[i]];
-            }
-            return options;
-        }
-        function getCurrentWordPool() {
-            if (currentMode === "wrongPractice" && wrongList.length > 0) {
-                return wrongList.map(w => ({ word: w.word, meaning: w.meaning }));
-            }
-            return originalWords;
-        }
-        function generateNewQuestion() {
-            const pool = getCurrentWordPool();
-            if (pool.length === 0) {
-                chineseWordDiv.innerText = "🎉 恭喜！没有可练习的单词了！";
-                optionsContainer.innerHTML = "";
-                feedbackMsg.innerText = "点击「重新开始」继续随机练习";
-                currentQuestion = null;
+        loginBtn.onclick = () => {
+            const phone = phoneInput.value.trim();
+            if (!phone) {
+                errorMsg.innerText = '请输入手机号';
                 return;
             }
-            const randomIndex = Math.floor(Math.random() * pool.length);
-            const selected = pool[randomIndex];
-            currentQuestion = { word: selected.word, meaning: selected.meaning };
-            chineseWordDiv.innerText = selected.meaning;
-            currentOptions = generateOptions(selected.word, selected.meaning);
-            renderOptions();
-            feedbackMsg.innerText = "";
-            answered = false;
-        }
-        function renderOptions() {
-            optionsContainer.innerHTML = "";
-            currentOptions.forEach(opt => {
-                const btn = document.createElement("button");
-                btn.className = "option-btn";
-                btn.innerText = opt.word;
-                btn.onclick = () => handleAnswer(opt.word);
-                optionsContainer.appendChild(btn);
-            });
-        }
-        function handleAnswer(selectedWord) {
-            if (answered) return;
-            if (!currentQuestion) return;
-            const isCorrect = (selectedWord === currentQuestion.word);
-            answered = true;
-            answeredCount++;
-            if (isCorrect) {
-                currentScore++;
-                feedbackMsg.innerText = "✅ 正确！";
-                if (currentMode === "wrongPractice") {
-                    const idx = wrongList.findIndex(w => w.word === currentQuestion.word);
-                    if (idx !== -1) {
-                        wrongList.splice(idx, 1);
-                        saveWrong();
-                        renderWrongList();
-                        if (wrongList.length === 0) {
-                            currentMode = "normal";
-                            modeInfoSpan.innerText = "🎲 随机模式";
-                        }
-                    }
-                }
-                updateScoreUI();
-                if (currentMode === "wrongPractice" && wrongList.length > 0) generateNewQuestion();
-                else if (currentMode === "wrongPractice" && wrongList.length === 0) {
-                    chineseWordDiv.innerText = "🎉 恭喜！所有错题已掌握！";
-                    optionsContainer.innerHTML = "";
-                    feedbackMsg.innerText = "点击「重新开始」继续随机练习";
-                    currentQuestion = null;
-                }
+            if (ALLOWED_PHONES.includes(phone)) {
+                localStorage.setItem('loggedPhone', phone);
+                loginBox.classList.add('hidden');
+                gameBox.classList.remove('hidden');
             } else {
-                feedbackMsg.innerText = `❌ 错误！正确答案是 ${currentQuestion.word}`;
-                if (!wrongList.some(w => w.word === currentQuestion.word)) {
-                    wrongList.push({ word: currentQuestion.word, meaning: currentQuestion.meaning });
-                    saveWrong();
-                    renderWrongList();
-                }
-                updateScoreUI();
-                if (currentMode === "wrongPractice") answered = false;
+                errorMsg.innerText = '该手机号未授权，请联系客服购买';
             }
-        }
-        function renderWrongList() {
-            if (wrongList.length === 0) {
-                wrongListDiv.innerHTML = "<div style='color:gray;'>暂无错题，答错后自动出现</div>";
-                return;
-            }
-            wrongListDiv.innerHTML = "";
-            wrongList.forEach(item => {
-                const div = document.createElement("div");
-                div.className = "wrong-item";
-                div.innerHTML = `<div class="wrong-word-info"><strong>${item.word}</strong> <span style="font-size:0.7rem;">${item.meaning}</span></div><button class="retry-single" data-word="${item.word}">重做</button>`;
-                wrongListDiv.appendChild(div);
-            });
-            document.querySelectorAll(".retry-single").forEach(btn => {
-                btn.addEventListener("click", (e) => {
-                    e.stopPropagation();
-                    const word = btn.getAttribute("data-word");
-                    const wrongItem = wrongList.find(w => w.word === word);
-                    if (wrongItem) {
-                        currentMode = "wrongPractice";
-                        modeInfoSpan.innerText = "⚠️ 错题练习模式（单个重做）";
-                        currentQuestion = { word: wrongItem.word, meaning: wrongItem.meaning };
-                        chineseWordDiv.innerText = wrongItem.meaning;
-                        currentOptions = generateOptions(wrongItem.word, wrongItem.meaning);
-                        renderOptions();
-                        feedbackMsg.innerText = "";
-                        answered = false;
-                    }
-                });
-            });
-        }
-        function nextQuestion() {
-            if (currentMode === "wrongPractice") {
-                if (!answered && currentQuestion) { feedbackMsg.innerText = "请先答对当前错题！"; return; }
-                generateNewQuestion();
-            } else {
-                generateNewQuestion();
-            }
-        }
-        function restartGame() {
-            currentScore = 0; answeredCount = 0; currentMode = "normal";
-            modeInfoSpan.innerText = "🎲 随机模式"; wrongList = []; saveWrong(); renderWrongList();
-            updateScoreUI(); generateNewQuestion();
-        }
-        function clearWrong() { wrongList = []; saveWrong(); renderWrongList(); if (currentMode === "wrongPractice") { currentMode = "normal"; modeInfoSpan.innerText = "🎲 随机模式"; generateNewQuestion(); } }
-        function practiceAllWrong() {
-            if (wrongList.length === 0) { alert("错题本为空，请先答错一些题目"); return; }
-            currentMode = "wrongPractice"; modeInfoSpan.innerText = "⚠️ 错题练习模式（全部错题）"; generateNewQuestion();
-        }
-        function switchBank(bank) {
-            if (bank === currentBank) return;
-            currentBank = bank;
-            originalWords = bank === "waichong" ? [...WAICHONG_WORDS] : [...JUNIOR_WORDS];
-            currentScore = 0; answeredCount = 0; currentMode = "normal"; modeInfoSpan.innerText = "🎲 随机模式";
-            loadWrong(); updateScoreUI(); generateNewQuestion();
-            bankBtns.forEach(btn => { if (btn.getAttribute("data-bank") === bank) btn.classList.add("bank-active"); else btn.classList.remove("bank-active"); });
-        }
-        function initGame() {
-            originalWords = [...WAICHONG_WORDS];
-            loadWrong(); generateNewQuestion(); updateScoreUI();
-            nextBtn.onclick = nextQuestion; restartBtn.onclick = restartGame;
-            clearWrongBtn.onclick = clearWrong; practiceAllBtn.onclick = practiceAllWrong;
-            bankBtns.forEach(btn => { btn.onclick = () => switchBank(btn.getAttribute("data-bank")); });
-        }
+        };
 
-        // 登录逻辑
-        const loginContainer = document.getElementById("loginContainer");
-        const gameContent = document.getElementById("gameContent");
-        const sendCodeBtn = document.getElementById("sendCodeBtn");
-        const loginBtn = document.getElementById("loginBtn");
-        const phoneInput = document.getElementById("phoneNumber");
-        const codeInput = document.getElementById("verificationCode");
-        const loginError = document.getElementById("loginError");
-
-        sendCodeBtn.addEventListener("click", async () => {
-            let phone = phoneInput.value.trim();
-            if (!phone.startsWith("+86")) phone = "+86" + phone;
-            if (!ALLOWED_PHONES.includes(phone)) {
-                loginError.innerText = "该手机号未获得授权，请联系客服购买权限。";
-                return;
-            }
-            const { error } = await supabase.auth.signInWithOtp({ phone });
-            if (error) loginError.innerText = error.message;
-            else loginError.innerText = "验证码已发送，请查看控制台（F12）获取测试验证码";
-        });
-
-        loginBtn.addEventListener("click", async () => {
-            let phone = phoneInput.value.trim();
-            if (!phone.startsWith("+86")) phone = "+86" + phone;
-            if (!ALLOWED_PHONES.includes(phone)) {
-                loginError.innerText = "该手机号未获得授权，请联系客服购买权限。";
-                return;
-            }
-            const code = codeInput.value.trim();
-            const { data, error } = await supabase.auth.verifyOtp({ phone, token: code, type: "sms" });
-            if (error) loginError.innerText = error.message;
-            else {
-                currentUserPhone = phone;
-                loginContainer.classList.add("hidden");
-                gameContent.classList.remove("hidden");
-                initGame();
-            }
-        });
+        logoutBtn.onclick = () => {
+            localStorage.removeItem('loggedPhone');
+            loginBox.classList.remove('hidden');
+            gameBox.classList.add('hidden');
+            phoneInput.value = '';
+            errorMsg.innerText = '';
+        };
     </script>
 </body>
 </html>
