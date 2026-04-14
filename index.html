@@ -245,7 +245,7 @@
             { word: "house", meaning: "房子" }, { word: "water", meaning: "水" }
         ];
 
-        // ==================== 游戏逻辑 ====================
+        // ==================== 游戏逻辑（已修复：答对立即跳转） ====================
         const ALLOWED_PHONES = ['13971005659'];
         let currentPhone = null;
         let timerInterval = null;
@@ -320,9 +320,6 @@
                             updateLevelDisplay();
                             disableOptions();
                             if (currentMode !== "wrongPractice") {
-                                // 非错题模式，超时后允许重选？实际上超时已经判错，强制纠错模式下不能自动下一题，但这里保持原逻辑
-                                // 为了强制纠错，超时后不清空题目，允许用户继续选，但已经记录错题，避免重复记录
-                                // 简单处理：超时后重置answered，允许用户继续选，但不会重复记录（已存在错题本）
                                 answered = false;
                                 enableOptions();
                             }
@@ -446,56 +443,54 @@
             });
         }
 
-        // 修复后的 handleAnswer：答完立即停止计时，立即生成新题（答对时）
+        // 修复关键：答对时立即停止计时并生成新题
         function handleAnswer(selectedWord) {
-    if (answered || !currentQuestion) return;
-    stopTimer();  // 立即停止计时
-    // 手动重置显示，避免残留
-    document.getElementById('timerDisplay').innerText = TIME_LIMIT;
-    const isCorrect = (selectedWord === currentQuestion.word);
-    answered = true;
-    answeredCount++;
-    levelQuestionsCount++;
-    
-    if (isCorrect) {
-        currentScore++;
-        levelCorrectCount++;
-        document.getElementById('feedbackMsg').innerText = "✅ 正确！";
-        if (currentMode === "wrongPractice") {
-            const idx = wrongList.findIndex(w => w.word === currentQuestion.word);
-            if (idx !== -1) { wrongList.splice(idx, 1); saveWrong(); renderWrongList(); }
-            if (wrongList.length === 0) { currentMode = "normal"; document.getElementById('modeInfo').innerText = "🎲 随机模式"; }
-        }
-        updateScoreUI();
-        updateLevelDisplay();
-        checkLevelCompletion();
-        if (currentMode !== "wrongPractice") {
-            // 立即生成新题，注意这里会调用 startTimer，所以旧计时器已停
-            generateNewQuestion();
-        } else {
+            if (answered || !currentQuestion) return;
+            stopTimer();  // 立即停止倒计时
+            
+            const isCorrect = (selectedWord === currentQuestion.word);
+            answered = true;
+            answeredCount++;
+            levelQuestionsCount++;
+            
+            if (isCorrect) {
+                currentScore++;
+                levelCorrectCount++;
+                document.getElementById('feedbackMsg').innerText = "✅ 正确！";
+                if (currentMode === "wrongPractice") {
+                    const idx = wrongList.findIndex(w => w.word === currentQuestion.word);
+                    if (idx !== -1) { wrongList.splice(idx, 1); saveWrong(); renderWrongList(); }
+                    if (wrongList.length === 0) { currentMode = "normal"; document.getElementById('modeInfo').innerText = "🎲 随机模式"; }
+                }
+                updateScoreUI();
+                updateLevelDisplay();
+                checkLevelCompletion();
+                // 答对后立即生成下一题（非错题练习模式）
+                if (currentMode !== "wrongPractice") {
+                    generateNewQuestion();  // 关键：立即刷新题目
+                } else {
+                    disableOptions();
+                }
+            } else {
+                document.getElementById('feedbackMsg').innerHTML = `❌ 错误！正确答案是 ${currentQuestion.word}`;
+                if (!wrongList.some(w => w.word === currentQuestion.word)) {
+                    wrongList.push({ word: currentQuestion.word, meaning: currentQuestion.meaning });
+                    saveWrong();
+                    renderWrongList();
+                }
+                updateScoreUI();
+                updateLevelDisplay();
+                // 强制纠错：答错后重置状态，重新计时，不清除题目
+                answered = false;
+                enableOptions();
+                startTimer();  // 重新计时
+                // 回滚计数（因为答错已经计入，重做时不重复计数）
+                answeredCount--;
+                levelQuestionsCount--;
+                updateScoreUI();
+                updateLevelDisplay();
+            }
             disableOptions();
-        }
-    } else {
-        document.getElementById('feedbackMsg').innerHTML = `❌ 错误！正确答案是 ${currentQuestion.word}`;
-        if (!wrongList.some(w => w.word === currentQuestion.word)) {
-            wrongList.push({ word: currentQuestion.word, meaning: currentQuestion.meaning });
-            saveWrong();
-            renderWrongList();
-        }
-        updateScoreUI();
-        updateLevelDisplay();
-        // 强制纠错：答错后重置状态，重新计时
-        answered = false;
-        enableOptions();
-        startTimer();  // 重新计时
-        // 回滚计数
-        answeredCount--;
-        levelQuestionsCount--;
-        updateScoreUI();
-        updateLevelDisplay();
-    }
-    disableOptions();
-}  // 答对后禁用选项，等待新题；答错后不禁用（因为要重选）
         }
 
         function renderWrongList() {
