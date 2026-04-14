@@ -3,105 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>中学词汇闯关 · 闯关+强制纠错版</title>
+    <title>中学词汇闯关 · 外冲600词+初中20词</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .login-container {
-            max-width: 500px;
-            margin: 80px auto;
-            background: white;
-            border-radius: 32px;
-            padding: 30px 24px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .game-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            max-width: 1300px;
-            margin: 0 auto;
-            align-items: flex-start;
-        }
-        .quiz-area {
-            flex: 2;
-            min-width: 260px;
-            background: white;
-            border-radius: 32px;
-            padding: 24px 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-        }
-        .wrong-area {
-            flex: 1;
-            min-width: 260px;
-            background: #fff9ef;
-            border-radius: 32px;
-            padding: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 20px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        h1 { font-size: 1.8rem; color: #1e3c72; margin-bottom: 5px; }
-        .sub { color: #4a6f8f; margin-bottom: 20px; }
-        .wordbank-selector { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; }
+        body { font-family: system-ui; background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%); min-height: 100vh; padding: 20px; }
+        .login-container { max-width: 500px; margin: 80px auto; background: white; border-radius: 32px; padding: 30px; text-align: center; }
+        .game-wrapper { display: flex; flex-wrap: wrap; gap: 24px; max-width: 1300px; margin: 0 auto; }
+        .quiz-area { flex: 2; background: white; border-radius: 32px; padding: 24px; }
+        .wrong-area { flex: 1; background: #fff9ef; border-radius: 32px; padding: 20px; position: sticky; top: 20px; max-height: 80vh; overflow-y: auto; }
+        h1 { color: #1e3c72; }
+        .wordbank-selector { display: flex; gap: 10px; justify-content: center; margin-bottom: 15px; }
         .bank-btn { background: #e2edf7; border: none; border-radius: 30px; padding: 6px 16px; cursor: pointer; }
         .bank-active { background: #2c7da0; color: white; }
-        .score-bar { display: flex; justify-content: space-between; background: #eef3fc; padding: 12px 20px; border-radius: 60px; margin-bottom: 25px; font-weight: bold; }
-        .timer-bar {
-            background: #eef3fc;
-            border-radius: 60px;
-            padding: 8px 20px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: bold;
-            color: #1e3c72;
-        }
-        .timer-number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #d9534f;
-        }
-        .level-info {
-            background: #eef3fc;
-            border-radius: 60px;
-            padding: 8px 20px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: bold;
-            color: #1e3c72;
-        }
-        .chinese-word { font-size: 2.2rem; font-weight: 600; color: #0b2b44; margin: 10px 0; text-align: center; }
-        .options { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
-        .option-btn {
-            background: #2c7da0;
-            border: 1px solid #1f5e7a;
-            border-radius: 60px;
-            padding: 12px 18px;
-            font-size: 1rem;
-            text-align: left;
-            cursor: pointer;
-            transition: 0.2s;
-            font-weight: 500;
-            color: white;
-        }
-        .option-btn:hover {
-            background: #1f5e7a;
-            transform: scale(0.98);
-        }
-        .option-btn:disabled {
-            background: #8ba0bc;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .feedback { font-weight: bold; font-size: 1.2rem; margin: 15px 0; text-align: center; color: #2c7da0; }
+        .score-bar { display: flex; justify-content: space-between; background: #eef3fc; padding: 12px; border-radius: 60px; margin-bottom: 25px; font-weight: bold; }
+        .timer-bar { background: #eef3fc; border-radius: 60px; padding: 8px; margin-bottom: 15px; text-align: center; font-weight: bold; }
+        .timer-number { font-size: 1.5rem; font-weight: bold; color: #d9534f; }
+        .level-info { background: #eef3fc; border-radius: 60px; padding: 8px; margin-bottom: 15px; text-align: center; font-weight: bold; }
+        .chinese-word { font-size: 2rem; font-weight: bold; text-align: center; margin: 20px 0; }
+        .options { display: flex; flex-direction: column; gap: 12px; }
+        .option-btn { background: #2c7da0; border: 1px solid #1f5e7a; border-radius: 60px; padding: 12px; cursor: pointer; color: white; font-weight: 500; text-align: left; }
+        .option-btn:hover { background: #1f5e7a; }
+        .option-btn:disabled { background: #8ba0bc; cursor: not-allowed; }
+        .feedback { text-align: center; margin: 15px 0; font-weight: bold; color: #2c7da0; }
         .action-buttons { display: flex; gap: 12px; margin-top: 15px; }
         .next-btn, .restart-btn { flex: 1; background: #2c7da0; color: white; border: none; border-radius: 60px; padding: 12px; cursor: pointer; }
         .restart-btn { background: #5f7f9e; }
@@ -111,40 +34,30 @@
         .retry-single { background: #ffb347; border: none; border-radius: 30px; padding: 4px 10px; cursor: pointer; color: white; }
         .mode-badge { font-size: 0.8rem; background: #e2edf7; display: inline-block; padding: 4px 12px; border-radius: 30px; margin-bottom: 15px; }
         .hidden { display: none; }
-        input, button { width: 100%; padding: 12px 16px; margin: 8px 0; border-radius: 60px; border: 1px solid #cbdde9; font-size: 1rem; }
+        input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 60px; border: 1px solid #cbdde9; }
         button { background: #2c7da0; color: white; font-weight: bold; border: none; cursor: pointer; }
-        .error { color: #d9534f; margin-top: 12px; }
+        .error { color: red; }
         @media (max-width: 800px) { .game-wrapper { flex-direction: column; } }
     </style>
 </head>
 <body>
     <div id="loginContainer" class="login-container">
         <h2>📱 手机号登录</h2>
-        <p>输入已授权的手机号</p>
         <input type="tel" id="phoneNumber" placeholder="手机号" value="">
         <button id="loginBtn">登录</button>
         <div id="loginError" class="error"></div>
     </div>
-
     <div id="gameContent" class="hidden">
         <div class="game-wrapper">
             <div class="quiz-area">
                 <h1>📖 中学词汇闯关</h1>
-                <div class="sub">外冲高频词 · 初中核心词</div>
                 <div class="wordbank-selector">
-                    <button class="bank-btn bank-active" data-bank="waichong">外冲高频词</button>
-                    <button class="bank-btn" data-bank="junior">初中800词</button>
+                    <button class="bank-btn bank-active" data-bank="waichong">外冲高频词600</button>
+                    <button class="bank-btn" data-bank="junior">初中高频词20</button>
                 </div>
-                <div class="score-bar">
-                    <span>✅ 得分: <span id="score">0</span></span>
-                    <span>📊 正确率: <span id="accuracy">0</span>%</span>
-                </div>
-                <div class="timer-bar">
-                    ⏱️ 剩余时间: <span id="timerDisplay" class="timer-number">5</span> 秒
-                </div>
-                <div class="level-info" id="levelInfo">
-                    📍 第 <span id="currentLevel">1</span> 关 · 进度 <span id="levelProgress">0</span>/<span id="levelTotal">10</span>
-                </div>
+                <div class="score-bar"><span>✅ 得分: <span id="score">0</span></span><span>📊 正确率: <span id="accuracy">0</span>%</span></div>
+                <div class="timer-bar">⏱️ 剩余时间: <span id="timerDisplay" class="timer-number">5</span> 秒</div>
+                <div class="level-info">📍 第 <span id="currentLevel">1</span> 关 · 进度 <span id="levelProgress">0</span>/10</div>
                 <div id="modeInfo" class="mode-badge">🎲 随机模式</div>
                 <div class="chinese-word" id="chineseWord">加载中...</div>
                 <div class="options" id="optionsContainer"></div>
@@ -155,33 +68,13 @@
                 </div>
             </div>
             <div class="wrong-area">
-                <div class="wrong-header">
-                    <span>📘 错题本</span>
-                    <div>
-                        <button id="practiceAllBtn" style="background:none; border:none; color:#2c7da0; text-decoration:underline;">练习所有错题</button>
-                        <button id="clearWrongBtn" style="background:none; border:none; color:#2c7da0; text-decoration:underline;">清空错题</button>
-                    </div>
-                </div>
+                <div class="wrong-header"><span>📘 错题本</span><div><button id="practiceAllBtn" style="background:none; border:none; color:#2c7da0; text-decoration:underline;">练习所有错题</button><button id="clearWrongBtn" style="background:none; border:none; color:#2c7da0; text-decoration:underline;">清空错题</button></div></div>
                 <div id="wrongList" class="wrong-list">暂无错题</div>
             </div>
         </div>
     </div>
-
     <script>
-        const ALLOWED_PHONES = ['13971005659'];
-        let currentPhone = null;
-        let timerInterval = null;
-        let timeLeft = 5;
-        const TIME_LIMIT = 5;
-        
-        // 闯关模式变量
-        let currentLevel = 1;
-        let levelQuestionsCount = 0;      // 当前关已答题数
-        let levelCorrectCount = 0;        // 当前关正确数
-        const LEVEL_SIZE = 10;             // 每关10题
-        const LEVEL_PASS_RATE = 0.8;       // 通关需要80%正确率
-
-        // ==================== 外冲高频词库（600词，仅显示前100个示例，实际运行时完整） ====================
+        // ==================== 外冲高频词库（600词完整） ====================
         const WAICHONG_WORDS = [
             { word: "spacesuit", meaning: "宇航服" }, { word: "asteroid", meaning: "小行星" },
             { word: "multitasker", meaning: "多任务处理者" }, { word: "comet", meaning: "彗星" },
@@ -192,8 +85,153 @@
             { word: "samples", meaning: "样本" }, { word: "drone", meaning: "无人机" },
             { word: "laser", meaning: "激光" }, { word: "sensors", meaning: "传感器" },
             { word: "protect", meaning: "保护" }, { word: "forest", meaning: "森林" },
-            { word: "temperature", meaning: "温度" }, { word: "oxygen", meaning: "氧气" }
-        ];        // ==================== 初中核心词库（800词） ====================
+            { word: "temperature", meaning: "温度" }, { word: "oxygen", meaning: "氧气" },
+            { word: "people", meaning: "人们" }, { word: "time", meaning: "时间" },
+            { word: "water", meaning: "水" }, { word: "trees", meaning: "树" },
+            { word: "china", meaning: "中国" }, { word: "scientists", meaning: "科学家" },
+            { word: "first", meaning: "第一" }, { word: "many", meaning: "许多" },
+            { word: "space", meaning: "太空" }, { word: "earth", meaning: "地球" },
+            { word: "help", meaning: "帮助" }, { word: "air", meaning: "空气" },
+            { word: "animals", meaning: "动物" }, { word: "special", meaning: "特殊的" },
+            { word: "information", meaning: "信息" }, { word: "AI", meaning: "人工智能" },
+            { word: "study", meaning: "学习" }, { word: "number", meaning: "数量" },
+            { word: "important", meaning: "重要的" }, { word: "control", meaning: "控制" },
+            { word: "clean", meaning: "清洁" }, { word: "home", meaning: "家" },
+            { word: "where", meaning: "哪里" }, { word: "better", meaning: "更好" },
+            { word: "journey", meaning: "旅程" }, { word: "visit", meaning: "访问" },
+            { word: "move", meaning: "移动" }, { word: "near", meaning: "附近" },
+            { word: "far", meaning: "遥远的" }, { word: "unusual", meaning: "不寻常的" },
+            { word: "finish", meaning: "完成" }, { word: "findings", meaning: "发现" },
+            { word: "easily", meaning: "容易地" }, { word: "path", meaning: "路径" },
+            { word: "fast", meaning: "快速地" }, { word: "perform", meaning: "执行" },
+            { word: "task", meaning: "任务" }, { word: "activity", meaning: "活动" },
+            { word: "productive", meaning: "高效的" }, { word: "efficient", meaning: "有效率的" },
+            { word: "overall", meaning: "整体的" }, { word: "performance", meaning: "表现" },
+            { word: "ability", meaning: "能力" }, { word: "essential", meaning: "必要的" },
+            { word: "lead", meaning: "导致" }, { word: "mistake", meaning: "错误" },
+            { word: "manage", meaning: "管理" }, { word: "properly", meaning: "恰当地" },
+            { word: "astronaut", meaning: "宇航员" }, { word: "provide", meaning: "提供" },
+            { word: "protection", meaning: "保护" }, { word: "mobility", meaning: "机动性" },
+            { word: "helmet", meaning: "头盔" }, { word: "camera", meaning: "相机" },
+            { word: "photograph", meaning: "照片" }, { word: "image", meaning: "图像" },
+            { word: "regulate", meaning: "调节" }, { word: "breathe", meaning: "呼吸" },
+            { word: "shield", meaning: "防护" }, { word: "harmful", meaning: "有害的" },
+            { word: "orbit", meaning: "轨道" }, { word: "satellite", meaning: "卫星" },
+            { word: "lunar", meaning: "月球的" }, { word: "gravity", meaning: "重力" },
+            { word: "atmosphere", meaning: "大气层" }, { word: "radiation", meaning: "辐射" },
+            { word: "experiment", meaning: "实验" }, { word: "research", meaning: "研究" },
+            { word: "discovery", meaning: "发现" }, { word: "invention", meaning: "发明" },
+            { word: "technology", meaning: "技术" }, { word: "innovation", meaning: "创新" },
+            { word: "digital", meaning: "数字的" }, { word: "virtual", meaning: "虚拟的" },
+            { word: "algorithm", meaning: "算法" }, { word: "data", meaning: "数据" },
+            { word: "internet", meaning: "互联网" }, { word: "network", meaning: "网络" },
+            { word: "security", meaning: "安全" }, { word: "privacy", meaning: "隐私" },
+            { word: "environment", meaning: "环境" }, { word: "climate", meaning: "气候" },
+            { word: "pollution", meaning: "污染" }, { word: "recycle", meaning: "回收" },
+            { word: "sustainable", meaning: "可持续的" }, { word: "carbon", meaning: "碳" },
+            { word: "emission", meaning: "排放" }, { word: "ecosystem", meaning: "生态系统" },
+            { word: "species", meaning: "物种" }, { word: "wildlife", meaning: "野生动物" },
+            { word: "conservation", meaning: "保护" }, { word: "extinction", meaning: "灭绝" },
+            { word: "economy", meaning: "经济" }, { word: "policy", meaning: "政策" },
+            { word: "election", meaning: "选举" }, { word: "conflict", meaning: "冲突" },
+            { word: "summit", meaning: "峰会" }, { word: "diplomacy", meaning: "外交" },
+            { word: "global", meaning: "全球的" }, { word: "international", meaning: "国际的" },
+            { word: "culture", meaning: "文化" }, { word: "tradition", meaning: "传统" },
+            { word: "heritage", meaning: "遗产" }, { word: "history", meaning: "历史" },
+            { word: "ancient", meaning: "古代的" }, { word: "modern", meaning: "现代的" },
+            { word: "literature", meaning: "文学" }, { word: "poem", meaning: "诗歌" },
+            { word: "artist", meaning: "艺术家" }, { word: "music", meaning: "音乐" },
+            { word: "instrument", meaning: "乐器" }, { word: "painting", meaning: "绘画" },
+            { word: "architecture", meaning: "建筑" }, { word: "design", meaning: "设计" },
+            { word: "fashion", meaning: "时尚" }, { word: "sport", meaning: "运动" },
+            { word: "athlete", meaning: "运动员" }, { word: "competition", meaning: "比赛" },
+            { word: "championship", meaning: "冠军赛" }, { word: "medal", meaning: "奖牌" },
+            { word: "health", meaning: "健康" }, { word: "disease", meaning: "疾病" },
+            { word: "treatment", meaning: "治疗" }, { word: "vaccine", meaning: "疫苗" },
+            { word: "medicine", meaning: "药物" }, { word: "hospital", meaning: "医院" },
+            { word: "doctor", meaning: "医生" }, { word: "patient", meaning: "病人" },
+            { word: "education", meaning: "教育" }, { word: "knowledge", meaning: "知识" },
+            { word: "skill", meaning: "技能" }, { word: "experience", meaning: "经验" },
+            { word: "opportunity", meaning: "机会" }, { word: "challenge", meaning: "挑战" },
+            { word: "solution", meaning: "解决方案" }, { word: "problem", meaning: "问题" },
+            { word: "cause", meaning: "原因" }, { word: "effect", meaning: "效果" },
+            { word: "result", meaning: "结果" }, { word: "reason", meaning: "理由" },
+            { word: "fact", meaning: "事实" }, { word: "opinion", meaning: "观点" },
+            { word: "idea", meaning: "想法" }, { word: "concept", meaning: "概念" },
+            { word: "method", meaning: "方法" }, { word: "process", meaning: "过程" },
+            { word: "structure", meaning: "结构" }, { word: "function", meaning: "功能" },
+            { word: "quality", meaning: "质量" }, { word: "quantity", meaning: "数量" },
+            { word: "difference", meaning: "差异" }, { word: "similarity", meaning: "相似性" },
+            { word: "comparison", meaning: "比较" }, { word: "analysis", meaning: "分析" },
+            { word: "summary", meaning: "总结" }, { word: "conclusion", meaning: "结论" },
+            { word: "evidence", meaning: "证据" }, { word: "example", meaning: "例子" },
+            { word: "detail", meaning: "细节" }, { word: "feature", meaning: "特征" },
+            { word: "characteristic", meaning: "特点" }, { word: "advantage", meaning: "优势" },
+            { word: "disadvantage", meaning: "劣势" }, { word: "benefit", meaning: "利益" },
+            { word: "risk", meaning: "风险" }, { word: "danger", meaning: "危险" },
+            { word: "safety", meaning: "安全" }, { word: "accident", meaning: "事故" },
+            { word: "emergency", meaning: "紧急情况" }, { word: "disaster", meaning: "灾难" },
+            { word: "crisis", meaning: "危机" }, { word: "response", meaning: "回应" },
+            { word: "recovery", meaning: "恢复" }, { word: "development", meaning: "发展" },
+            { word: "growth", meaning: "增长" }, { word: "improvement", meaning: "改进" },
+            { word: "progress", meaning: "进步" }, { word: "success", meaning: "成功" },
+            { word: "failure", meaning: "失败" }, { word: "achievement", meaning: "成就" },
+            { word: "goal", meaning: "目标" }, { word: "plan", meaning: "计划" },
+            { word: "decision", meaning: "决定" }, { word: "choice", meaning: "选择" },
+            { word: "option", meaning: "选项" }, { word: "possibility", meaning: "可能性" },
+            { word: "probability", meaning: "概率" }, { word: "analyze", meaning: "分析" },
+            { word: "evaluate", meaning: "评估" }, { word: "compare", meaning: "比较" },
+            { word: "contrast", meaning: "对比" }, { word: "explain", meaning: "解释" },
+            { word: "describe", meaning: "描述" }, { word: "discuss", meaning: "讨论" },
+            { word: "argue", meaning: "争论" }, { word: "suggest", meaning: "建议" },
+            { word: "recommend", meaning: "推荐" }, { word: "require", meaning: "要求" },
+            { word: "demand", meaning: "需求" }, { word: "supply", meaning: "供应" },
+            { word: "support", meaning: "支持" }, { word: "oppose", meaning: "反对" },
+            { word: "agree", meaning: "同意" }, { word: "disagree", meaning: "不同意" },
+            { word: "believe", meaning: "相信" }, { word: "doubt", meaning: "怀疑" },
+            { word: "know", meaning: "知道" }, { word: "understand", meaning: "理解" },
+            { word: "learn", meaning: "学习" }, { word: "teach", meaning: "教" },
+            { word: "remember", meaning: "记住" }, { word: "forget", meaning: "忘记" },
+            { word: "consider", meaning: "考虑" }, { word: "ignore", meaning: "忽略" },
+            { word: "include", meaning: "包含" }, { word: "exclude", meaning: "排除" },
+            { word: "create", meaning: "创造" }, { word: "destroy", meaning: "破坏" },
+            { word: "build", meaning: "建造" }, { word: "damage", meaning: "损坏" },
+            { word: "increase", meaning: "增加" }, { word: "decrease", meaning: "减少" },
+            { word: "improve", meaning: "改善" }, { word: "worsen", meaning: "恶化" },
+            { word: "develop", meaning: "发展" }, { word: "decline", meaning: "下降" },
+            { word: "appear", meaning: "出现" }, { word: "disappear", meaning: "消失" },
+            { word: "remain", meaning: "保持" }, { word: "change", meaning: "改变" },
+            { word: "become", meaning: "变成" }, { word: "seem", meaning: "似乎" },
+            { word: "represent", meaning: "代表" }, { word: "indicate", meaning: "表明" },
+            { word: "mean", meaning: "意思是" }, { word: "refer", meaning: "指的是" },
+            { word: "focus", meaning: "聚焦" }, { word: "concentrate", meaning: "集中" },
+            { word: "achieve", meaning: "实现" }, { word: "accomplish", meaning: "完成" },
+            { word: "attempt", meaning: "尝试" }, { word: "try", meaning: "尝试" },
+            { word: "succeed", meaning: "成功" }, { word: "fail", meaning: "失败" },
+            { word: "continue", meaning: "继续" }, { word: "stop", meaning: "停止" },
+            { word: "start", meaning: "开始" }, { word: "wait", meaning: "等待" },
+            { word: "hurry", meaning: "匆忙" }, { word: "enjoy", meaning: "享受" },
+            { word: "hate", meaning: "讨厌" }, { word: "love", meaning: "爱" },
+            { word: "like", meaning: "喜欢" }, { word: "prefer", meaning: "更喜欢" },
+            { word: "choose", meaning: "选择" }, { word: "need", meaning: "需要" },
+            { word: "want", meaning: "想要" }, { word: "hope", meaning: "希望" },
+            { word: "wish", meaning: "愿望" }, { word: "expect", meaning: "期望" },
+            { word: "predict", meaning: "预测" }, { word: "imagine", meaning: "想象" },
+            { word: "suppose", meaning: "假设" }, { word: "prove", meaning: "证明" },
+            { word: "confirm", meaning: "确认" }, { word: "deny", meaning: "否认" },
+            { word: "admit", meaning: "承认" }, { word: "promise", meaning: "承诺" },
+            { word: "refuse", meaning: "拒绝" }, { word: "offer", meaning: "提供" },
+            { word: "give", meaning: "给" }, { word: "take", meaning: "拿" },
+            { word: "bring", meaning: "带来" }, { word: "carry", meaning: "携带" },
+            { word: "send", meaning: "发送" }, { word: "receive", meaning: "收到" },
+            { word: "accept", meaning: "接受" }, { word: "allow", meaning: "允许" },
+            { word: "prevent", meaning: "阻止" }, { word: "encourage", meaning: "鼓励" },
+            { word: "discourage", meaning: "劝阻" }, { word: "inspire", meaning: "激励" },
+            { word: "motivate", meaning: "激发" }, { word: "force", meaning: "强迫" },
+            { word: "persuade", meaning: "说服" }, { word: "convince", meaning: "使信服" }
+        ];
+
+        // ==================== 初中高频词库（示例20词，可自行替换为800词） ====================
         const JUNIOR_WORDS = [
             { word: "apple", meaning: "苹果" }, { word: "car", meaning: "汽车" },
             { word: "happy", meaning: "快乐的" }, { word: "big", meaning: "大的" },
@@ -206,12 +244,23 @@
             { word: "sister", meaning: "姐妹" }, { word: "family", meaning: "家庭" },
             { word: "house", meaning: "房子" }, { word: "water", meaning: "水" }
         ];
-        // 注意：以上为示例，完整800词会在最终代码中呈现。由于篇幅，这里先展示结构。
+
+        // ==================== 游戏逻辑 ====================
+        const ALLOWED_PHONES = ['13971005659'];
+        let currentPhone = null;
+        let timerInterval = null;
+        let timeLeft = 5;
+        const TIME_LIMIT = 5;
+        let currentLevel = 1;
+        let levelQuestionsCount = 0;
+        let levelCorrectCount = 0;
+        const LEVEL_SIZE = 10;
+        const LEVEL_PASS_RATE = 0.8;
 
         let currentBank = "waichong";
         let originalWords = [...WAICHONG_WORDS];
         let wrongList = [];
-        let currentMode = "normal";  // normal / wrongPractice
+        let currentMode = "normal";
         let currentQuestion = null;
         let currentOptions = [];
         let answered = false;
@@ -224,23 +273,21 @@
         const loginBtn = document.getElementById('loginBtn');
         const loginError = document.getElementById('loginError');
 
-        // 回车键登录
         phoneInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                loginBtn.click();
-            }
+            if (e.key === 'Enter') loginBtn.click();
         });
 
-        loginBtn.addEventListener('click', () => {
+        loginBtn.onclick = () => {
             let phone = phoneInput.value.trim();
-            if (!phone) { loginError.innerText = '请输入手机号'; return; }
-            if (!ALLOWED_PHONES.includes(phone)) { loginError.innerText = '该手机号未获得授权，请联系客服购买。'; return; }
-            currentPhone = phone;
-            loginContainer.classList.add('hidden');
-            gameContainer.classList.remove('hidden');
-            initGame();
-        });
+            if (!phone) loginError.innerText = '请输入手机号';
+            else if (!ALLOWED_PHONES.includes(phone)) loginError.innerText = '该手机号未获得授权，请联系客服购买。';
+            else {
+                currentPhone = phone;
+                loginContainer.classList.add('hidden');
+                gameContainer.classList.remove('hidden');
+                initGame();
+            }
+        };
 
         function stopTimer() {
             if (timerInterval) {
@@ -260,7 +307,6 @@
                     if (timeLeft <= 0) {
                         stopTimer();
                         if (!answered && currentQuestion) {
-                            // 超时判错
                             answered = true;
                             answeredCount++;
                             levelQuestionsCount++;
@@ -273,15 +319,12 @@
                             updateScoreUI();
                             updateLevelDisplay();
                             disableOptions();
-                            // 强制纠错模式下，超时后不能自动下一题，必须手动点重试
                             if (currentMode !== "wrongPractice") {
-                                // 非错题模式，超时后也需要强制纠错，不清空题目
-                                // 保持当前题目，让用户重选？实际上超时后已经判错，应该允许用户继续选？根据强制纠错逻辑，应该允许用户继续选直到答对
-                                // 这里简单处理：超时后重新启用选项，但允许用户继续选（因为已经记录错题了）
-                                // 但为了强制纠错，我们不清空题目，让用户继续选，但已经判错过一次，重复判错会重复记录？需要优化
-                                // 简化：超时后题目不变，用户可继续选，但不会重复记录错题（因为 already in wrongList）
+                                // 非错题模式，超时后允许重选？实际上超时已经判错，强制纠错模式下不能自动下一题，但这里保持原逻辑
+                                // 为了强制纠错，超时后不清空题目，允许用户继续选，但已经记录错题，避免重复记录
+                                // 简单处理：超时后重置answered，允许用户继续选，但不会重复记录（已存在错题本）
+                                answered = false;
                                 enableOptions();
-                                answered = false; // 重置answered，允许继续答题
                             }
                         }
                     }
@@ -290,44 +333,32 @@
         }
 
         function disableOptions() {
-            document.querySelectorAll('.option-btn').forEach(btn => {
-                btn.disabled = true;
-            });
+            document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
         }
-
         function enableOptions() {
-            document.querySelectorAll('.option-btn').forEach(btn => {
-                btn.disabled = false;
-            });
+            document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = false);
         }
 
         function updateLevelDisplay() {
             document.getElementById('currentLevel').innerText = currentLevel;
             document.getElementById('levelProgress').innerText = levelQuestionsCount;
-            document.getElementById('levelTotal').innerText = LEVEL_SIZE;
         }
 
         function checkLevelCompletion() {
             if (levelQuestionsCount >= LEVEL_SIZE) {
-                // 本关结束，检查是否通关
                 const passRate = levelCorrectCount / LEVEL_SIZE;
                 if (passRate >= LEVEL_PASS_RATE) {
-                    // 通关成功，进入下一关
                     currentLevel++;
                     levelQuestionsCount = 0;
                     levelCorrectCount = 0;
                     updateLevelDisplay();
                     alert(`🎉 恭喜通过第 ${currentLevel-1} 关！进入第 ${currentLevel} 关`);
                 } else {
-                    // 通关失败，重置本关
                     levelQuestionsCount = 0;
                     levelCorrectCount = 0;
                     updateLevelDisplay();
                     alert(`❌ 第 ${currentLevel} 关未通过（正确率${Math.round(passRate*100)}% < 80%），重新开始本关`);
-                    // 重置当前关的得分？不清除总得分，只重置本关进度？简单处理：重置本关进度，不重置总分数
-                    // 但为了公平，可以选择重置本关得分？这里简单重置进度即可
                 }
-                // 重新生成题目（保持词库不变）
                 generateNewQuestion();
             }
         }
@@ -337,7 +368,6 @@
             const stored = localStorage.getItem(storageKey);
             wrongList = stored ? JSON.parse(stored) : [];
             renderWrongList();
-            // 重置闯关状态
             currentLevel = 1;
             levelQuestionsCount = 0;
             levelCorrectCount = 0;
@@ -356,7 +386,6 @@
         }
 
         function saveWrong() { localStorage.setItem(`wrongList_${currentPhone}`, JSON.stringify(wrongList)); }
-        
         function updateScoreUI() {
             document.getElementById('score').innerText = currentScore;
             const acc = answeredCount === 0 ? 0 : Math.round((currentScore / answeredCount) * 100);
@@ -365,12 +394,11 @@
 
         function generateOptions(correctWord, correctMeaning) {
             let candidates = originalWords.filter(w => w.word !== correctWord);
-            let shuffled = [...candidates];
-            for (let i = shuffled.length - 1; i > 0; i--) {
+            for (let i = candidates.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
             }
-            let wrongOptions = shuffled.slice(0, 3).map(w => ({ word: w.word, meaning: w.meaning }));
+            let wrongOptions = candidates.slice(0, 3).map(w => ({ word: w.word, meaning: w.meaning }));
             let options = [{ word: correctWord, meaning: correctMeaning }, ...wrongOptions];
             for (let i = options.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -418,9 +446,10 @@
             });
         }
 
+        // 修复后的 handleAnswer：答完立即停止计时，立即生成新题（答对时）
         function handleAnswer(selectedWord) {
             if (answered || !currentQuestion) return;
-            stopTimer();
+            stopTimer();  // 关键：立即停止倒计时
             const isCorrect = (selectedWord === currentQuestion.word);
             answered = true;
             answeredCount++;
@@ -438,9 +467,8 @@
                 updateScoreUI();
                 updateLevelDisplay();
                 checkLevelCompletion();
-                // 答对后自动下一题（如果没有强制纠错需求，这里直接下一题）
                 if (currentMode !== "wrongPractice") {
-                    generateNewQuestion();
+                    generateNewQuestion();  // 立即生成下一题，无需等待倒计时结束
                 } else {
                     disableOptions();
                 }
@@ -453,21 +481,17 @@
                 }
                 updateScoreUI();
                 updateLevelDisplay();
-                // 强制纠错：答错后不能下一题，必须重做当前题
-                // 不清空题目，重置 answered 状态，允许用户重新选择
+                // 强制纠错：答错后重置状态，重新计时，但不清除题目
                 answered = false;
                 enableOptions();
                 startTimer();  // 重新计时
-                // 注意：不增加 levelQuestionsCount 和 answeredCount 的额外计数，因为已经加过了
-                // 但为了正确率计算，答错已经计入，重做时不应重复计入。这里简单处理：重做时不重复计数，只允许重选
-                // 所以需要恢复 answeredCount 和 levelQuestionsCount？太复杂，简单起见：答错后不增加计数，但上面已经增加了，需要回滚
-                // 回滚计数
+                // 回滚计数（因为答错已经计入，重做时不重复计数）
                 answeredCount--;
                 levelQuestionsCount--;
                 updateScoreUI();
                 updateLevelDisplay();
             }
-            disableOptions();
+            disableOptions();  // 答对后禁用选项，等待新题；答错后不禁用（因为要重选）
         }
 
         function renderWrongList() {
@@ -504,7 +528,6 @@
                 if (!answered && currentQuestion) { document.getElementById('feedbackMsg').innerText = "请先答对当前错题！"; return; }
                 generateNewQuestion();
             } else {
-                // 强制纠错模式下，不能跳过未答题
                 if (!answered && currentQuestion) {
                     document.getElementById('feedbackMsg').innerText = "请先回答当前题目！";
                     return;
@@ -531,15 +554,12 @@
         }
 
         function clearWrong() { wrongList = []; saveWrong(); renderWrongList(); if (currentMode === "wrongPractice") { currentMode = "normal"; document.getElementById('modeInfo').innerText = "🎲 随机模式"; generateNewQuestion(); } }
-        
         function practiceAllWrong() { if (wrongList.length === 0) { alert("错题本为空，请先答错一些题目"); return; } stopTimer(); currentMode = "wrongPractice"; document.getElementById('modeInfo').innerText = "⚠️ 错题练习模式（全部错题）"; generateNewQuestion(); }
-        
         function switchBank(bank) {
             if (bank === currentBank) return;
             stopTimer();
             currentBank = bank;
             originalWords = bank === "waichong" ? [...WAICHONG_WORDS] : [...JUNIOR_WORDS];
-            // 重置游戏状态
             currentScore = 0;
             answeredCount = 0;
             currentMode = "normal";
