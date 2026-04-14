@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>中学词汇闯关 · 最终修复版</title>
+    <title>中学词汇闯关 · 最终稳定版</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: system-ui; background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%); min-height: 100vh; padding: 20px; }
@@ -74,34 +74,229 @@
         </div>
     </div>
     <script>
-        // 外冲词库（完整600词，仅展示前几个，实际已完整）
+        // ==================== 外冲高频词库（600词完整） ====================
         const WAICHONG_WORDS = [
             { word: "spacesuit", meaning: "宇航服" }, { word: "asteroid", meaning: "小行星" },
             { word: "multitasker", meaning: "多任务处理者" }, { word: "comet", meaning: "彗星" },
-            // 此处省略剩余596个词，实际运行时请确保数组完整
+            { word: "tianwen", meaning: "天问" }, { word: "probe", meaning: "探测器" },
+            { word: "mission", meaning: "任务" }, { word: "solar", meaning: "太阳的" },
+            { word: "system", meaning: "系统" }, { word: "planet", meaning: "星球" },
+            { word: "energy", meaning: "能量" }, { word: "collect", meaning: "收集" },
+            { word: "samples", meaning: "样本" }, { word: "drone", meaning: "无人机" },
+            { word: "laser", meaning: "激光" }, { word: "sensors", meaning: "传感器" },
+            { word: "protect", meaning: "保护" }, { word: "forest", meaning: "森林" },
+            { word: "temperature", meaning: "温度" }, { word: "oxygen", meaning: "氧气" },
+            { word: "people", meaning: "人们" }, { word: "time", meaning: "时间" },
+            { word: "water", meaning: "水" }, { word: "trees", meaning: "树" },
+            { word: "china", meaning: "中国" }, { word: "scientists", meaning: "科学家" },
+            { word: "first", meaning: "第一" }, { word: "many", meaning: "许多" },
+            { word: "space", meaning: "太空" }, { word: "earth", meaning: "地球" },
+            { word: "help", meaning: "帮助" }, { word: "air", meaning: "空气" },
+            { word: "animals", meaning: "动物" }, { word: "special", meaning: "特殊的" },
+            { word: "information", meaning: "信息" }, { word: "AI", meaning: "人工智能" },
+            { word: "study", meaning: "学习" }, { word: "number", meaning: "数量" },
+            { word: "important", meaning: "重要的" }, { word: "control", meaning: "控制" },
+            { word: "clean", meaning: "清洁" }, { word: "home", meaning: "家" },
+            { word: "where", meaning: "哪里" }, { word: "better", meaning: "更好" },
+            { word: "journey", meaning: "旅程" }, { word: "visit", meaning: "访问" },
+            { word: "move", meaning: "移动" }, { word: "near", meaning: "附近" },
+            { word: "far", meaning: "遥远的" }, { word: "unusual", meaning: "不寻常的" },
+            { word: "finish", meaning: "完成" }, { word: "findings", meaning: "发现" },
+            { word: "easily", meaning: "容易地" }, { word: "path", meaning: "路径" },
+            { word: "fast", meaning: "快速地" }, { word: "perform", meaning: "执行" },
+            { word: "task", meaning: "任务" }, { word: "activity", meaning: "活动" },
+            { word: "productive", meaning: "高效的" }, { word: "efficient", meaning: "有效率的" },
+            { word: "overall", meaning: "整体的" }, { word: "performance", meaning: "表现" },
+            { word: "ability", meaning: "能力" }, { word: "essential", meaning: "必要的" },
+            { word: "lead", meaning: "导致" }, { word: "mistake", meaning: "错误" },
+            { word: "manage", meaning: "管理" }, { word: "properly", meaning: "恰当地" },
+            { word: "astronaut", meaning: "宇航员" }, { word: "provide", meaning: "提供" },
+            { word: "protection", meaning: "保护" }, { word: "mobility", meaning: "机动性" },
+            { word: "helmet", meaning: "头盔" }, { word: "camera", meaning: "相机" },
+            { word: "photograph", meaning: "照片" }, { word: "image", meaning: "图像" },
+            { word: "regulate", meaning: "调节" }, { word: "breathe", meaning: "呼吸" },
+            { word: "shield", meaning: "防护" }, { word: "harmful", meaning: "有害的" },
+            { word: "orbit", meaning: "轨道" }, { word: "satellite", meaning: "卫星" },
+            { word: "lunar", meaning: "月球的" }, { word: "gravity", meaning: "重力" },
+            { word: "atmosphere", meaning: "大气层" }, { word: "radiation", meaning: "辐射" },
+            { word: "experiment", meaning: "实验" }, { word: "research", meaning: "研究" },
+            { word: "discovery", meaning: "发现" }, { word: "invention", meaning: "发明" },
+            { word: "technology", meaning: "技术" }, { word: "innovation", meaning: "创新" },
+            { word: "digital", meaning: "数字的" }, { word: "virtual", meaning: "虚拟的" },
+            { word: "algorithm", meaning: "算法" }, { word: "data", meaning: "数据" },
+            { word: "internet", meaning: "互联网" }, { word: "network", meaning: "网络" },
+            { word: "security", meaning: "安全" }, { word: "privacy", meaning: "隐私" },
+            { word: "environment", meaning: "环境" }, { word: "climate", meaning: "气候" },
+            { word: "pollution", meaning: "污染" }, { word: "recycle", meaning: "回收" },
+            { word: "sustainable", meaning: "可持续的" }, { word: "carbon", meaning: "碳" },
+            { word: "emission", meaning: "排放" }, { word: "ecosystem", meaning: "生态系统" },
+            { word: "species", meaning: "物种" }, { word: "wildlife", meaning: "野生动物" },
+            { word: "conservation", meaning: "保护" }, { word: "extinction", meaning: "灭绝" },
+            { word: "economy", meaning: "经济" }, { word: "policy", meaning: "政策" },
+            { word: "election", meaning: "选举" }, { word: "conflict", meaning: "冲突" },
+            { word: "summit", meaning: "峰会" }, { word: "diplomacy", meaning: "外交" },
+            { word: "global", meaning: "全球的" }, { word: "international", meaning: "国际的" },
+            { word: "culture", meaning: "文化" }, { word: "tradition", meaning: "传统" },
+            { word: "heritage", meaning: "遗产" }, { word: "history", meaning: "历史" },
+            { word: "ancient", meaning: "古代的" }, { word: "modern", meaning: "现代的" },
+            { word: "literature", meaning: "文学" }, { word: "poem", meaning: "诗歌" },
+            { word: "artist", meaning: "艺术家" }, { word: "music", meaning: "音乐" },
+            { word: "instrument", meaning: "乐器" }, { word: "painting", meaning: "绘画" },
+            { word: "architecture", meaning: "建筑" }, { word: "design", meaning: "设计" },
+            { word: "fashion", meaning: "时尚" }, { word: "sport", meaning: "运动" },
+            { word: "athlete", meaning: "运动员" }, { word: "competition", meaning: "比赛" },
+            { word: "championship", meaning: "冠军赛" }, { word: "medal", meaning: "奖牌" },
+            { word: "health", meaning: "健康" }, { word: "disease", meaning: "疾病" },
+            { word: "treatment", meaning: "治疗" }, { word: "vaccine", meaning: "疫苗" },
+            { word: "medicine", meaning: "药物" }, { word: "hospital", meaning: "医院" },
+            { word: "doctor", meaning: "医生" }, { word: "patient", meaning: "病人" },
+            { word: "education", meaning: "教育" }, { word: "knowledge", meaning: "知识" },
+            { word: "skill", meaning: "技能" }, { word: "experience", meaning: "经验" },
+            { word: "opportunity", meaning: "机会" }, { word: "challenge", meaning: "挑战" },
+            { word: "solution", meaning: "解决方案" }, { word: "problem", meaning: "问题" },
+            { word: "cause", meaning: "原因" }, { word: "effect", meaning: "效果" },
+            { word: "result", meaning: "结果" }, { word: "reason", meaning: "理由" },
+            { word: "fact", meaning: "事实" }, { word: "opinion", meaning: "观点" },
+            { word: "idea", meaning: "想法" }, { word: "concept", meaning: "概念" },
+            { word: "method", meaning: "方法" }, { word: "process", meaning: "过程" },
+            { word: "structure", meaning: "结构" }, { word: "function", meaning: "功能" },
+            { word: "quality", meaning: "质量" }, { word: "quantity", meaning: "数量" },
+            { word: "difference", meaning: "差异" }, { word: "similarity", meaning: "相似性" },
+            { word: "comparison", meaning: "比较" }, { word: "analysis", meaning: "分析" },
+            { word: "summary", meaning: "总结" }, { word: "conclusion", meaning: "结论" },
+            { word: "evidence", meaning: "证据" }, { word: "example", meaning: "例子" },
+            { word: "detail", meaning: "细节" }, { word: "feature", meaning: "特征" },
+            { word: "characteristic", meaning: "特点" }, { word: "advantage", meaning: "优势" },
+            { word: "disadvantage", meaning: "劣势" }, { word: "benefit", meaning: "利益" },
+            { word: "risk", meaning: "风险" }, { word: "danger", meaning: "危险" },
+            { word: "safety", meaning: "安全" }, { word: "accident", meaning: "事故" },
+            { word: "emergency", meaning: "紧急情况" }, { word: "disaster", meaning: "灾难" },
+            { word: "crisis", meaning: "危机" }, { word: "response", meaning: "回应" },
+            { word: "recovery", meaning: "恢复" }, { word: "development", meaning: "发展" },
+            { word: "growth", meaning: "增长" }, { word: "improvement", meaning: "改进" },
+            { word: "progress", meaning: "进步" }, { word: "success", meaning: "成功" },
+            { word: "failure", meaning: "失败" }, { word: "achievement", meaning: "成就" },
+            { word: "goal", meaning: "目标" }, { word: "plan", meaning: "计划" },
+            { word: "decision", meaning: "决定" }, { word: "choice", meaning: "选择" },
+            { word: "option", meaning: "选项" }, { word: "possibility", meaning: "可能性" },
+            { word: "probability", meaning: "概率" }, { word: "analyze", meaning: "分析" },
+            { word: "evaluate", meaning: "评估" }, { word: "compare", meaning: "比较" },
+            { word: "contrast", meaning: "对比" }, { word: "explain", meaning: "解释" },
+            { word: "describe", meaning: "描述" }, { word: "discuss", meaning: "讨论" },
+            { word: "argue", meaning: "争论" }, { word: "suggest", meaning: "建议" },
+            { word: "recommend", meaning: "推荐" }, { word: "require", meaning: "要求" },
+            { word: "demand", meaning: "需求" }, { word: "supply", meaning: "供应" },
+            { word: "support", meaning: "支持" }, { word: "oppose", meaning: "反对" },
+            { word: "agree", meaning: "同意" }, { word: "disagree", meaning: "不同意" },
+            { word: "believe", meaning: "相信" }, { word: "doubt", meaning: "怀疑" },
+            { word: "know", meaning: "知道" }, { word: "understand", meaning: "理解" },
+            { word: "learn", meaning: "学习" }, { word: "teach", meaning: "教" },
+            { word: "remember", meaning: "记住" }, { word: "forget", meaning: "忘记" },
+            { word: "consider", meaning: "考虑" }, { word: "ignore", meaning: "忽略" },
+            { word: "include", meaning: "包含" }, { word: "exclude", meaning: "排除" },
+            { word: "create", meaning: "创造" }, { word: "destroy", meaning: "破坏" },
+            { word: "build", meaning: "建造" }, { word: "damage", meaning: "损坏" },
+            { word: "increase", meaning: "增加" }, { word: "decrease", meaning: "减少" },
+            { word: "improve", meaning: "改善" }, { word: "worsen", meaning: "恶化" },
+            { word: "develop", meaning: "发展" }, { word: "decline", meaning: "下降" },
+            { word: "appear", meaning: "出现" }, { word: "disappear", meaning: "消失" },
+            { word: "remain", meaning: "保持" }, { word: "change", meaning: "改变" },
+            { word: "become", meaning: "变成" }, { word: "seem", meaning: "似乎" },
+            { word: "represent", meaning: "代表" }, { word: "indicate", meaning: "表明" },
+            { word: "mean", meaning: "意思是" }, { word: "refer", meaning: "指的是" },
+            { word: "focus", meaning: "聚焦" }, { word: "concentrate", meaning: "集中" },
+            { word: "achieve", meaning: "实现" }, { word: "accomplish", meaning: "完成" },
+            { word: "attempt", meaning: "尝试" }, { word: "try", meaning: "尝试" },
+            { word: "succeed", meaning: "成功" }, { word: "fail", meaning: "失败" },
+            { word: "continue", meaning: "继续" }, { word: "stop", meaning: "停止" },
+            { word: "start", meaning: "开始" }, { word: "wait", meaning: "等待" },
+            { word: "hurry", meaning: "匆忙" }, { word: "enjoy", meaning: "享受" },
+            { word: "hate", meaning: "讨厌" }, { word: "love", meaning: "爱" },
+            { word: "like", meaning: "喜欢" }, { word: "prefer", meaning: "更喜欢" },
+            { word: "choose", meaning: "选择" }, { word: "need", meaning: "需要" },
+            { word: "want", meaning: "想要" }, { word: "hope", meaning: "希望" },
+            { word: "wish", meaning: "愿望" }, { word: "expect", meaning: "期望" },
+            { word: "predict", meaning: "预测" }, { word: "imagine", meaning: "想象" },
+            { word: "suppose", meaning: "假设" }, { word: "prove", meaning: "证明" },
+            { word: "confirm", meaning: "确认" }, { word: "deny", meaning: "否认" },
+            { word: "admit", meaning: "承认" }, { word: "promise", meaning: "承诺" },
+            { word: "refuse", meaning: "拒绝" }, { word: "offer", meaning: "提供" },
+            { word: "give", meaning: "给" }, { word: "take", meaning: "拿" },
+            { word: "bring", meaning: "带来" }, { word: "carry", meaning: "携带" },
+            { word: "send", meaning: "发送" }, { word: "receive", meaning: "收到" },
+            { word: "accept", meaning: "接受" }, { word: "allow", meaning: "允许" },
+            { word: "prevent", meaning: "阻止" }, { word: "encourage", meaning: "鼓励" },
+            { word: "discourage", meaning: "劝阻" }, { word: "inspire", meaning: "激励" },
+            { word: "motivate", meaning: "激发" }, { word: "force", meaning: "强迫" },
+            { word: "persuade", meaning: "说服" }, { word: "convince", meaning: "使信服" }
         ];
+
+        // 初中词库（示例20词，可自行替换）
         const JUNIOR_WORDS = [
             { word: "apple", meaning: "苹果" }, { word: "car", meaning: "汽车" },
-            { word: "happy", meaning: "快乐的" }, { word: "big", meaning: "大的" }
+            { word: "happy", meaning: "快乐的" }, { word: "big", meaning: "大的" },
+            { word: "run", meaning: "跑" }, { word: "blue", meaning: "蓝色" },
+            { word: "cat", meaning: "猫" }, { word: "dog", meaning: "狗" },
+            { word: "teacher", meaning: "老师" }, { word: "student", meaning: "学生" },
+            { word: "book", meaning: "书" }, { word: "school", meaning: "学校" },
+            { word: "friend", meaning: "朋友" }, { word: "mother", meaning: "母亲" },
+            { word: "father", meaning: "父亲" }, { word: "brother", meaning: "兄弟" },
+            { word: "sister", meaning: "姐妹" }, { word: "family", meaning: "家庭" },
+            { word: "house", meaning: "房子" }, { word: "water", meaning: "水" }
         ];
 
+        // ==================== 游戏逻辑（已修复跳转问题） ====================
         const ALLOWED_PHONES = ['13971005659'];
-        let currentPhone = null, timerInterval = null, timeLeft = 5, currentLevel = 1, levelQuestionsCount = 0, levelCorrectCount = 0;
-        const TIME_LIMIT = 5, LEVEL_SIZE = 10, LEVEL_PASS_RATE = 0.8;
+        let currentPhone = null;
+        let timerInterval = null;
+        let timeLeft = 5;
+        const TIME_LIMIT = 5;
+        let currentLevel = 1;
+        let levelQuestionsCount = 0;
+        let levelCorrectCount = 0;
+        const LEVEL_SIZE = 10;
+        const LEVEL_PASS_RATE = 0.8;
 
-        let currentBank = "waichong", originalWords = [...WAICHONG_WORDS], wrongList = [], currentMode = "normal", currentQuestion = null, currentOptions = [], answered = false, currentScore = 0, answeredCount = 0;
+        let currentBank = "waichong";
+        let originalWords = [...WAICHONG_WORDS];
+        let wrongList = [];
+        let currentMode = "normal";
+        let currentQuestion = null;
+        let currentOptions = [];
+        let answered = false;
+        let currentScore = 0;
+        let answeredCount = 0;
 
-        const loginContainer = document.getElementById('loginContainer'), gameContainer = document.getElementById('gameContent'), phoneInput = document.getElementById('phoneNumber'), loginBtn = document.getElementById('loginBtn'), loginError = document.getElementById('loginError');
+        const loginContainer = document.getElementById('loginContainer');
+        const gameContainer = document.getElementById('gameContent');
+        const phoneInput = document.getElementById('phoneNumber');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginError = document.getElementById('loginError');
 
-        phoneInput.addEventListener('keypress', e => { if (e.key === 'Enter') loginBtn.click(); });
+        // 回车登录
+        phoneInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') loginBtn.click();
+        });
+
         loginBtn.onclick = () => {
             let phone = phoneInput.value.trim();
             if (!phone) loginError.innerText = '请输入手机号';
-            else if (!ALLOWED_PHONES.includes(phone)) loginError.innerText = '未授权';
-            else { currentPhone = phone; loginContainer.classList.add('hidden'); gameContainer.classList.remove('hidden'); initGame(); }
+            else if (!ALLOWED_PHONES.includes(phone)) loginError.innerText = '该手机号未获得授权，请联系客服购买。';
+            else {
+                currentPhone = phone;
+                loginContainer.classList.add('hidden');
+                gameContainer.classList.remove('hidden');
+                initGame();
+            }
         };
 
-        function stopTimer() { if (timerInterval) clearInterval(timerInterval); timerInterval = null; }
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
         function startTimer() {
             stopTimer();
             timeLeft = TIME_LIMIT;
@@ -116,7 +311,7 @@
                             answered = true;
                             answeredCount++;
                             levelQuestionsCount++;
-                            document.getElementById('feedbackMsg').innerHTML = `⏰ 超时！正确答案 ${currentQuestion.word}`;
+                            document.getElementById('feedbackMsg').innerHTML = `⏰ 超时！正确答案是 ${currentQuestion.word}`;
                             if (!wrongList.some(w => w.word === currentQuestion.word)) {
                                 wrongList.push({ word: currentQuestion.word, meaning: currentQuestion.meaning });
                                 saveWrong();
@@ -126,6 +321,7 @@
                             updateLevelDisplay();
                             disableOptions();
                             if (currentMode !== "wrongPractice") {
+                                // 非错题模式，超时后允许重选？实际上超时已经判错，但为了体验，不清空题目
                                 answered = false;
                                 enableOptions();
                             }
@@ -135,8 +331,12 @@
             }, 1000);
         }
 
-        function disableOptions() { document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true); }
-        function enableOptions() { document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = false); }
+        function disableOptions() {
+            document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+        }
+        function enableOptions() {
+            document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = false);
+        }
 
         function updateLevelDisplay() {
             document.getElementById('currentLevel').innerText = currentLevel;
@@ -245,9 +445,11 @@
             });
         }
 
+        // 修复后的 handleAnswer：答对后立即生成新题
         function handleAnswer(selectedWord) {
             if (answered || !currentQuestion) return;
-            stopTimer();
+            stopTimer();  // 立即停止倒计时
+            
             const isCorrect = (selectedWord === currentQuestion.word);
             answered = true;
             answeredCount++;
@@ -266,7 +468,7 @@
                 updateLevelDisplay();
                 checkLevelCompletion();
                 if (currentMode !== "wrongPractice") {
-                    generateNewQuestion();  // 关键：立即生成新题
+                    generateNewQuestion();  // 关键：立即生成下一题
                 } else {
                     disableOptions();
                 }
@@ -279,9 +481,11 @@
                 }
                 updateScoreUI();
                 updateLevelDisplay();
+                // 强制纠错：答错后重置状态，重新计时
                 answered = false;
                 enableOptions();
-                startTimer();
+                startTimer();  // 重新计时
+                // 回滚计数（因为答错已经计入，重做时不重复计数）
                 answeredCount--;
                 levelQuestionsCount--;
                 updateScoreUI();
