@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>中学词汇闯关 · 外冲600词+初中400词</title>
+    <title>中学词汇闯关 · 中英双向 · 外冲600词+初中400词</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -158,8 +158,9 @@
                     <span>📊 正确率: <span id="accuracy">0</span>%</span>
                 </div>
                 <div class="timer-bar">
-                    ⏱️ 剩余时间: <span id="timerDisplay" class="timer-number">5</span> 秒
+                    ⏱️ 剩余时间: <span id="timerDisplay" class="timer-number">8</span> 秒
                     <button id="pauseBtn" style="background: #5f7f9e; padding: 4px 12px; font-size: 0.8rem; border-radius: 30px; width: auto;">⏸️ 暂停</button>
+                    <button id="directionBtn" style="background: #2c7da0; padding: 4px 12px; font-size: 0.8rem; border-radius: 30px; width: auto;">🔄 中→英</button>
                 </div>
                 <div class="level-info">
                     📍 第 <span id="currentLevel">1</span> 关 · 进度 <span id="levelProgress">0</span>/30
@@ -193,14 +194,15 @@
         const ALLOWED_PHONES = ['13971005659'];
         let currentPhone = null;
         let timerInterval = null;
-        let timeLeft = 5;
-        const TIME_LIMIT = 5;
+        let timeLeft = 8;
+        const TIME_LIMIT = 8;
         let currentLevel = 1;
         let levelQuestionsCount = 0;
         let levelCorrectCount = 0;
         const LEVEL_SIZE = 30;
         const LEVEL_PASS_RATE = 0.8;
-        let isPaused = false;        // ==================== 外冲高频词库（600词完整） ====================
+        let isPaused = false;
+        let quizDirection = 'ch2en';  // 'ch2en' 或 'en2ch'        // ==================== 外冲高频词库（600词完整） ====================
         const WAICHONG_WORDS = [
             { word: "spacesuit", meaning: "宇航服" }, { word: "asteroid", meaning: "小行星" },
             { word: "multitasker", meaning: "多任务处理者" }, { word: "comet", meaning: "彗星" },
@@ -325,9 +327,7 @@
             { word: "discourage", meaning: "劝阻" }, { word: "inspire", meaning: "激励" },
             { word: "motivate", meaning: "激发" }, { word: "force", meaning: "强迫" },
             { word: "persuade", meaning: "说服" }, { word: "convince", meaning: "使信服" }
-        ];
-
-        // ==================== 初中高频词库（400+词，可自行扩充至800） ====================
+        ];        // ==================== 初中高频词库（400+词） ====================
         const JUNIOR_WORDS = [
             { word: "a", meaning: "一（个）" }, { word: "able", meaning: "能够的" }, { word: "about", meaning: "关于" }, { word: "above", meaning: "在...上面" }, { word: "accept", meaning: "接受" },
             { word: "accident", meaning: "事故" }, { word: "achieve", meaning: "实现" }, { word: "across", meaning: "穿过" }, { word: "act", meaning: "行动" }, { word: "active", meaning: "活跃的" },
@@ -402,6 +402,7 @@
         const loginError = document.getElementById('loginError');
         const pauseBtn = document.getElementById('pauseBtn');
         const speakBtn = document.getElementById('speakBtn');
+        const directionBtn = document.getElementById('directionBtn');
 
         phoneInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') loginBtn.click(); });
         loginBtn.onclick = () => {
@@ -412,12 +413,8 @@
         };
 
         function stopTimer() {
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
+            if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
         }
-
         function startTimer() {
             stopTimer();
             if (isPaused) return;
@@ -436,15 +433,10 @@
                             document.getElementById('feedbackMsg').innerHTML = `⏰ 超时！正确答案是 ${currentQuestion.word}`;
                             if (!wrongList.some(w => w.word === currentQuestion.word)) {
                                 wrongList.push({ word: currentQuestion.word, meaning: currentQuestion.meaning });
-                                saveWrong();
-                                renderWrongList();
+                                saveWrong(); renderWrongList();
                             }
-                            updateScoreUI();
-                            updateLevelDisplay();
-                            disableOptions();
-                            if (currentMode !== "wrongPractice") {
-                                generateNewQuestion();
-                            }
+                            updateScoreUI(); updateLevelDisplay(); disableOptions();
+                            if (currentMode !== "wrongPractice") generateNewQuestion();
                         }
                     }
                 }
@@ -454,21 +446,22 @@
         function togglePause() {
             if (!currentQuestion) return;
             if (isPaused) {
-                isPaused = false;
-                startTimer();
-                pauseBtn.innerHTML = '⏸️ 暂停';
-                pauseBtn.style.background = '#5f7f9e';
+                isPaused = false; startTimer();
+                pauseBtn.innerHTML = '⏸️ 暂停'; pauseBtn.style.background = '#5f7f9e';
             } else {
-                isPaused = true;
-                stopTimer();
-                pauseBtn.innerHTML = '▶️ 继续';
-                pauseBtn.style.background = '#2c7da0';
+                isPaused = true; stopTimer();
+                pauseBtn.innerHTML = '▶️ 继续'; pauseBtn.style.background = '#2c7da0';
             }
+        }
+
+        function toggleDirection() {
+            quizDirection = quizDirection === 'ch2en' ? 'en2ch' : 'ch2en';
+            directionBtn.innerText = quizDirection === 'ch2en' ? '🔄 中→英' : '🔄 英→中';
+            generateNewQuestion();
         }
 
         function disableOptions() { document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true); }
         function enableOptions() { document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = false); }
-
         function updateLevelDisplay() {
             document.getElementById('currentLevel').innerText = currentLevel;
             document.getElementById('levelProgress').innerText = levelQuestionsCount;
@@ -477,12 +470,9 @@
         function speakWord(word) {
             if ('speechSynthesis' in window) {
                 let utterance = new SpeechSynthesisUtterance(word);
-                utterance.lang = 'en-US';
-                utterance.rate = 0.9;
+                utterance.lang = 'en-US'; utterance.rate = 0.9;
                 window.speechSynthesis.speak(utterance);
-            } else {
-                alert("您的浏览器不支持语音朗读功能。");
-            }
+            } else alert("您的浏览器不支持语音朗读功能。");
         }
 
         async function fetchPhonetic(word) {
@@ -490,23 +480,13 @@
                 const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
                 if (response.ok) {
                     const data = await response.json();
-                    if (data && data[0] && data[0].phonetic) {
-                        return data[0].phonetic;
-                    }
-                }
-                return '';
-            } catch (error) {
-                return '';
-            }
+                    if (data && data[0] && data[0].phonetic) return data[0].phonetic;
+                } return '';
+            } catch (error) { return ''; }
         }
-
         function updatePhoneticDisplay(phonetic) {
-            const phoneticDiv = document.getElementById('phoneticDisplay');
-            if (phonetic) {
-                phoneticDiv.innerText = `/${phonetic}/`;
-            } else {
-                phoneticDiv.innerText = '';
-            }
+            const div = document.getElementById('phoneticDisplay');
+            div.innerText = phonetic ? `/${phonetic}/` : '';
         }
 
         function initGame() {
@@ -514,13 +494,9 @@
             const stored = localStorage.getItem(storageKey);
             wrongList = stored ? JSON.parse(stored) : [];
             renderWrongList();
-            currentLevel = 1;
-            levelQuestionsCount = 0;
-            levelCorrectCount = 0;
-            currentScore = 0;
-            answeredCount = 0;
-            updateScoreUI();
-            updateLevelDisplay();
+            currentLevel = 1; levelQuestionsCount = 0; levelCorrectCount = 0;
+            currentScore = 0; answeredCount = 0;
+            updateScoreUI(); updateLevelDisplay();
             generateNewQuestion();
             document.getElementById('nextBtn').onclick = () => nextQuestion();
             document.getElementById('restartBtn').onclick = () => restartGame();
@@ -531,8 +507,8 @@
             });
             if (pauseBtn) pauseBtn.onclick = togglePause;
             if (speakBtn) speakBtn.onclick = () => { if (currentQuestion) speakWord(currentQuestion.word); };
+            if (directionBtn) directionBtn.onclick = toggleDirection;
         }
-
         function saveWrong() { localStorage.setItem(`wrongList_${currentPhone}`, JSON.stringify(wrongList)); }
         function updateScoreUI() {
             document.getElementById('score').innerText = currentScore;
@@ -546,13 +522,23 @@
                 const j = Math.floor(Math.random() * (i + 1));
                 [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
             }
-            let wrongOptions = candidates.slice(0, 3).map(w => ({ word: w.word, meaning: w.meaning }));
-            let options = [{ word: correctWord, meaning: correctMeaning }, ...wrongOptions];
-            for (let i = options.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [options[i], options[j]] = [options[j], options[i]];
+            let wrongWords = candidates.slice(0, 3).map(w => w.word);
+            if (quizDirection === 'ch2en') {
+                let options = [correctWord, ...wrongWords];
+                for (let i = options.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [options[i], options[j]] = [options[j], options[i]];
+                }
+                return options.map(opt => ({ display: opt, value: opt }));
+            } else {
+                let wrongMeanings = wrongWords.map(w => originalWords.find(item => item.word === w).meaning);
+                let options = [correctMeaning, ...wrongMeanings];
+                for (let i = options.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [options[i], options[j]] = [options[j], options[i]];
+                }
+                return options.map(opt => ({ display: opt, value: opt }));
             }
-            return options;
         }
 
         function getCurrentWordPool() {
@@ -562,25 +548,25 @@
 
         function generateNewQuestion() {
             if (isPaused) {
-                isPaused = false;
-                pauseBtn.innerHTML = '⏸️ 暂停';
-                pauseBtn.style.background = '#5f7f9e';
+                isPaused = false; pauseBtn.innerHTML = '⏸️ 暂停'; pauseBtn.style.background = '#5f7f9e';
             }
-            stopTimer();
-            enableOptions();
+            stopTimer(); enableOptions();
             const pool = getCurrentWordPool();
             if (pool.length === 0) {
                 document.getElementById('chineseWord').innerText = "🎉 恭喜！没有可练习的单词了！";
                 document.getElementById('optionsContainer').innerHTML = "";
                 document.getElementById('feedbackMsg').innerText = "点击「重新开始」继续随机练习";
-                currentQuestion = null;
-                return;
+                currentQuestion = null; return;
             }
             const randomIndex = Math.floor(Math.random() * pool.length);
             const selected = pool[randomIndex];
             currentQuestion = { word: selected.word, meaning: selected.meaning };
-            document.getElementById('chineseWord').innerText = selected.meaning;
-            currentOptions = generateOptions(selected.word, selected.meaning);
+            if (quizDirection === 'ch2en') {
+                document.getElementById('chineseWord').innerText = currentQuestion.meaning;
+            } else {
+                document.getElementById('chineseWord').innerText = currentQuestion.word;
+            }
+            currentOptions = generateOptions(currentQuestion.word, currentQuestion.meaning);
             renderOptions();
             document.getElementById('feedbackMsg').innerText = "";
             answered = false;
@@ -594,58 +580,53 @@
             currentOptions.forEach(opt => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
-                btn.innerText = opt.word;
-                btn.onclick = () => handleAnswer(opt.word);
+                btn.innerText = opt.display;
+                btn.onclick = () => handleAnswer(opt.value);
                 container.appendChild(btn);
             });
         }
 
-        function handleAnswer(selectedWord) {
+        function handleAnswer(selectedValue) {
             if (answered || !currentQuestion) return;
             stopTimer();
-            const isCorrect = (selectedWord === currentQuestion.word);
+            let isCorrect;
+            if (quizDirection === 'ch2en') {
+                isCorrect = (selectedValue === currentQuestion.word);
+            } else {
+                isCorrect = (selectedValue === currentQuestion.meaning);
+            }
             answered = true;
             answeredCount++;
             levelQuestionsCount++;
-
             if (isCorrect) {
-                currentScore++;
-                levelCorrectCount++;
+                currentScore++; levelCorrectCount++;
                 document.getElementById('feedbackMsg').innerText = "✅ 正确！";
                 if (currentMode === "wrongPractice") {
                     const idx = wrongList.findIndex(w => w.word === currentQuestion.word);
                     if (idx !== -1) { wrongList.splice(idx, 1); saveWrong(); renderWrongList(); }
                     if (wrongList.length === 0) { currentMode = "normal"; document.getElementById('modeInfo').innerText = "🎲 随机模式"; }
                 }
-                updateScoreUI();
-                updateLevelDisplay();
+                updateScoreUI(); updateLevelDisplay();
             } else {
                 document.getElementById('feedbackMsg').innerHTML = `❌ 错误！正确答案是 ${currentQuestion.word}`;
                 if (!wrongList.some(w => w.word === currentQuestion.word)) {
                     wrongList.push({ word: currentQuestion.word, meaning: currentQuestion.meaning });
-                    saveWrong();
-                    renderWrongList();
+                    saveWrong(); renderWrongList();
                 }
-                updateScoreUI();
-                updateLevelDisplay();
+                updateScoreUI(); updateLevelDisplay();
             }
-
             if (levelQuestionsCount >= LEVEL_SIZE) {
                 const passRate = levelCorrectCount / LEVEL_SIZE;
                 if (passRate >= LEVEL_PASS_RATE) {
-                    currentLevel++;
-                    levelQuestionsCount = 0;
-                    levelCorrectCount = 0;
+                    currentLevel++; levelQuestionsCount = 0; levelCorrectCount = 0;
                     updateLevelDisplay();
                     alert(`🎉 恭喜通过第 ${currentLevel-1} 关！进入第 ${currentLevel} 关`);
                 } else {
-                    levelQuestionsCount = 0;
-                    levelCorrectCount = 0;
+                    levelQuestionsCount = 0; levelCorrectCount = 0;
                     updateLevelDisplay();
                     alert(`❌ 第 ${currentLevel} 关未通过（正确率${Math.round(passRate*100)}% < 80%），请去错题本练习后重新挑战本关`);
                 }
             }
-
             if (currentMode !== "wrongPractice") {
                 generateNewQuestion();
             } else {
@@ -671,7 +652,11 @@
                         currentMode = "wrongPractice";
                         document.getElementById('modeInfo').innerText = "⚠️ 错题练习模式（单个重做）";
                         currentQuestion = { word: wrongItem.word, meaning: wrongItem.meaning };
-                        document.getElementById('chineseWord').innerText = wrongItem.meaning;
+                        if (quizDirection === 'ch2en') {
+                            document.getElementById('chineseWord').innerText = currentQuestion.meaning;
+                        } else {
+                            document.getElementById('chineseWord').innerText = currentQuestion.word;
+                        }
                         currentOptions = generateOptions(wrongItem.word, wrongItem.meaning);
                         renderOptions();
                         document.getElementById('feedbackMsg').innerText = "";
@@ -688,28 +673,18 @@
                 if (!answered && currentQuestion) { document.getElementById('feedbackMsg').innerText = "请先答对当前错题！"; return; }
                 generateNewQuestion();
             } else {
-                if (!answered && currentQuestion) {
-                    document.getElementById('feedbackMsg').innerText = "请先回答当前题目！";
-                    return;
-                }
+                if (!answered && currentQuestion) { document.getElementById('feedbackMsg').innerText = "请先回答当前题目！"; return; }
                 generateNewQuestion();
             }
         }
 
         function restartGame() {
             stopTimer();
-            currentScore = 0;
-            answeredCount = 0;
-            currentMode = "normal";
-            currentLevel = 1;
-            levelQuestionsCount = 0;
-            levelCorrectCount = 0;
+            currentScore = 0; answeredCount = 0; currentMode = "normal";
+            currentLevel = 1; levelQuestionsCount = 0; levelCorrectCount = 0;
             document.getElementById('modeInfo').innerText = "🎲 随机模式";
-            wrongList = [];
-            saveWrong();
-            renderWrongList();
-            updateScoreUI();
-            updateLevelDisplay();
+            wrongList = []; saveWrong(); renderWrongList();
+            updateScoreUI(); updateLevelDisplay();
             generateNewQuestion();
         }
 
@@ -720,15 +695,10 @@
             stopTimer();
             currentBank = bank;
             originalWords = bank === "waichong" ? [...WAICHONG_WORDS] : [...JUNIOR_WORDS];
-            currentScore = 0;
-            answeredCount = 0;
-            currentMode = "normal";
-            currentLevel = 1;
-            levelQuestionsCount = 0;
-            levelCorrectCount = 0;
+            currentScore = 0; answeredCount = 0; currentMode = "normal";
+            currentLevel = 1; levelQuestionsCount = 0; levelCorrectCount = 0;
             document.getElementById('modeInfo').innerText = "🎲 随机模式";
-            updateScoreUI();
-            updateLevelDisplay();
+            updateScoreUI(); updateLevelDisplay();
             generateNewQuestion();
             document.querySelectorAll('.bank-btn').forEach(btn => {
                 if (btn.getAttribute('data-bank') === bank) btn.classList.add('bank-active');
