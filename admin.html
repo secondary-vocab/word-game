@@ -102,7 +102,6 @@
 </div>
 
 <script>
-    // 仓库信息
     const REPO_OWNER = 'secondary-vocab';
     const REPO_NAME = 'word-game';
     const FILE_PATH = 'index.html';
@@ -110,7 +109,6 @@
 
     let githubToken = localStorage.getItem('github_token');
 
-    // 初始化
     if (githubToken) {
         document.getElementById('mainPanel').style.display = 'block';
         document.getElementById('tokenMsg').innerHTML = '✅ 令牌已保存';
@@ -118,7 +116,6 @@
         refreshList();
     }
 
-    // 保存令牌
     document.getElementById('saveTokenBtn').onclick = () => {
         const token = document.getElementById('tokenInput').value.trim();
         if (token && token.startsWith('ghp_')) {
@@ -133,39 +130,26 @@
         }
     };
 
-    // 获取当前文件内容和 SHA
     async function fetchFileContent() {
         const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
-        const res = await fetch(url, {
-            headers: { 'Authorization': `token ${githubToken}` }
-        });
+        const res = await fetch(url, { headers: { 'Authorization': `token ${githubToken}` } });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         const content = atob(data.content.replace(/\n/g, ''));
         return { content, sha: data.sha };
     }
 
-    // 更新文件
     async function updateFile(newContent, sha, commitMsg) {
         const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
         const res = await fetch(url, {
             method: 'PUT',
-            headers: {
-                'Authorization': `token ${githubToken}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                message: commitMsg,
-                content: btoa(unescape(encodeURIComponent(newContent))),
-                sha: sha,
-                branch: BRANCH
-            })
+            headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: commitMsg, content: btoa(unescape(encodeURIComponent(newContent))), sha, branch: BRANCH })
         });
         if (!res.ok) throw new Error(`更新失败: ${res.status}`);
         return await res.json();
     }
 
-    // 获取当前白名单手机号数组
     async function getPhoneList() {
         const { content } = await fetchFileContent();
         const regex = /const ALLOWED_PHONES = \[([\s\S]*?)\];/;
@@ -174,13 +158,10 @@
         const phonesStr = match[1];
         const phoneRegex = /'(\d+)'/g;
         let phones = [], m;
-        while ((m = phoneRegex.exec(phonesStr)) !== null) {
-            phones.push(m[1]);
-        }
+        while ((m = phoneRegex.exec(phonesStr)) !== null) phones.push(m[1]);
         return { phones, content };
     }
 
-    // 更新白名单数组并提交
     async function updatePhoneList(newPhones) {
         const { content, sha } = await fetchFileContent();
         const newLine = `const ALLOWED_PHONES = [${newPhones.map(p => `'${p}'`).join(', ')}];`;
@@ -188,7 +169,6 @@
         await updateFile(newContent, sha, `更新白名单: ${newPhones.length}个号码`);
     }
 
-    // 刷新界面列表
     async function refreshList() {
         const listDiv = document.getElementById('phoneList');
         listDiv.innerHTML = '加载中...';
@@ -208,17 +188,16 @@
                 `;
             });
             listDiv.innerHTML = html;
-            // 绑定删除事件
             document.querySelectorAll('.del-btn').forEach(btn => {
                 btn.onclick = async (e) => {
                     e.stopPropagation();
                     const phoneToDel = btn.getAttribute('data-phone');
-                    if (confirm(`确定要删除手机号 ${phoneToDel} 吗？\n删除后该号码将无法登录。`)) {
+                    if (confirm(`确定要删除手机号 ${phoneToDel} 吗？`)) {
                         try {
                             const { phones: currentPhones } = await getPhoneList();
                             const newPhones = currentPhones.filter(p => p !== phoneToDel);
                             await updatePhoneList(newPhones);
-                            document.getElementById('addMsg').innerHTML = `✅ 已删除 ${phoneToDel}，稍后生效`;
+                            document.getElementById('addMsg').innerHTML = `✅ 已删除 ${phoneToDel}`;
                             refreshList();
                         } catch (err) {
                             document.getElementById('addMsg').innerHTML = `❌ 删除失败: ${err.message}`;
@@ -231,26 +210,16 @@
         }
     }
 
-    // 添加手机号
     document.getElementById('addBtn').onclick = async () => {
         const phone = document.getElementById('newPhone').value.trim();
-        if (!phone) {
-            document.getElementById('addMsg').innerHTML = '❌ 请输入手机号';
-            return;
-        }
-        if (!/^1[3-9]\d{9}$/.test(phone)) {
-            document.getElementById('addMsg').innerHTML = '❌ 手机号格式错误（11位数字）';
-            return;
-        }
+        if (!phone) { document.getElementById('addMsg').innerHTML = '❌ 请输入手机号'; return; }
+        if (!/^1[3-9]\d{9}$/.test(phone)) { document.getElementById('addMsg').innerHTML = '❌ 手机号格式错误'; return; }
         try {
             const { phones } = await getPhoneList();
-            if (phones.includes(phone)) {
-                document.getElementById('addMsg').innerHTML = '⚠️ 手机号已存在';
-                return;
-            }
+            if (phones.includes(phone)) { document.getElementById('addMsg').innerHTML = '⚠️ 手机号已存在'; return; }
             phones.push(phone);
             await updatePhoneList(phones);
-            document.getElementById('addMsg').innerHTML = `✅ 成功添加 ${phone}，稍等1-2分钟生效`;
+            document.getElementById('addMsg').innerHTML = `✅ 成功添加 ${phone}`;
             document.getElementById('newPhone').value = '';
             refreshList();
         } catch (err) {
@@ -258,10 +227,7 @@
         }
     };
 
-    // 手动刷新按钮
-    document.getElementById('refreshBtn').onclick = () => {
-        refreshList();
-    };
+    document.getElementById('refreshBtn').onclick = () => refreshList();
 </script>
 </body>
 </html>
