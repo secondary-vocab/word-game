@@ -130,13 +130,11 @@
         }
     };
 
-    // 使用 TextEncoder/TextDecoder 确保 UTF-8 编码
     async function fetchFileContent() {
         const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
         const res = await fetch(url, { headers: { 'Authorization': `token ${githubToken}` } });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        // 使用 atob 解码 base64，然后转为 UTF-8 字符串
         const binaryStr = atob(data.content.replace(/\n/g, ''));
         const bytes = new Uint8Array(binaryStr.length);
         for (let i = 0; i < binaryStr.length; i++) bytes[i] = binaryStr.charCodeAt(i);
@@ -146,7 +144,6 @@
 
     async function updateFile(newContent, sha, commitMsg) {
         const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
-        // 确保新内容也是 UTF-8 编码后 Base64
         const encoder = new TextEncoder();
         const data = encoder.encode(newContent);
         let binaryStr = '';
@@ -177,7 +174,6 @@
     async function updatePhoneList(newPhones) {
         const { content, sha } = await fetchFileContent();
         const newLine = `const ALLOWED_PHONES = [${newPhones.map(p => `'${p}'`).join(', ')}];`;
-        // 使用精确替换，确保只修改白名单行
         const newContent = content.replace(/const ALLOWED_PHONES = \[[\s\S]*?\];/, newLine);
         await updateFile(newContent, sha, `更新白名单: ${newPhones.length}个号码`);
     }
