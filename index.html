@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ÃÂ¤ÃÂ¸ÃÂ­ÃÂ¥ÃÂ­ÃÂ¦ÃÂ¨ÃÂ¯ÃÂÃÂ¦ÃÂ±ÃÂÃÂ©ÃÂÃÂ¯ÃÂ¥ÃÂÃÂ³ ÃÂÃÂ· ÃÂ¤ÃÂ¸ÃÂ­ÃÂ¨ÃÂÃÂ±ÃÂ¥ÃÂÃÂÃÂ¥ÃÂÃÂ ÃÂÃÂ· ÃÂ¥ÃÂ¤ÃÂÃÂ¥ÃÂÃÂ²600ÃÂ¨ÃÂ¯ÃÂ+ÃÂ¥ÃÂÃÂÃÂ¤ÃÂ¸ÃÂ­400ÃÂ¨ÃÂ¯ÃÂ</title>
+    <title>中学词汇闯关 · 中英双向 · 外冲600词+初中400词</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -139,59 +139,59 @@
 </head>
 <body>
     <div id="loginContainer" class="login-container">
-        <h2>ÃÂ°ÃÂÃÂÃÂ± ÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂºÃÂ¥ÃÂÃÂ·ÃÂ§ÃÂÃÂ»ÃÂ¥ÃÂ½ÃÂ</h2>
-        <input type="tel" id="phoneNumber" placeholder="ÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂºÃÂ¥ÃÂÃÂ·" value="">
-        <button id="loginBtn">ÃÂ§ÃÂÃÂ»ÃÂ¥ÃÂ½ÃÂ</button>
+        <h2>📱 手机号登录</h2>
+        <input type="tel" id="phoneNumber" placeholder="手机号" value="">
+        <button id="loginBtn">登录</button>
         <div id="loginError" class="error"></div>
     </div>
     <div id="gameContent" class="hidden">
         <div class="game-wrapper">
             <div class="quiz-area">
-                <h1>ÃÂ°ÃÂÃÂÃÂ ÃÂ¤ÃÂ¸ÃÂ­ÃÂ¥ÃÂ­ÃÂ¦ÃÂ¨ÃÂ¯ÃÂÃÂ¦ÃÂ±ÃÂÃÂ©ÃÂÃÂ¯ÃÂ¥ÃÂÃÂ³</h1>
-                <div class="sub">ÃÂ¥ÃÂ¤ÃÂÃÂ¥ÃÂÃÂ²ÃÂ©ÃÂ«ÃÂÃÂ©ÃÂ¢ÃÂÃÂ¨ÃÂ¯ÃÂ ÃÂÃÂ· ÃÂ¥ÃÂÃÂÃÂ¤ÃÂ¸ÃÂ­ÃÂ©ÃÂ«ÃÂÃÂ©ÃÂ¢ÃÂÃÂ¨ÃÂ¯ÃÂ</div>
+                <h1>📖 中学词汇闯关</h1>
+                <div class="sub">外冲高频词 · 初中高频词</div>
                 <div class="wordbank-selector">
-                    <button class="bank-btn bank-active" data-bank="waichong">ÃÂ¥ÃÂ¤ÃÂÃÂ¥ÃÂÃÂ²ÃÂ©ÃÂ«ÃÂÃÂ©ÃÂ¢ÃÂÃÂ¨ÃÂ¯ÃÂ600</button>
-                    <button class="bank-btn" data-bank="junior">ÃÂ¥ÃÂÃÂÃÂ¤ÃÂ¸ÃÂ­ÃÂ©ÃÂ«ÃÂÃÂ©ÃÂ¢ÃÂÃÂ¨ÃÂ¯ÃÂ400+</button>
+                    <button class="bank-btn bank-active" data-bank="waichong">外冲高频词600</button>
+                    <button class="bank-btn" data-bank="junior">初中高频词400+</button>
                 </div>
                 <div class="score-bar">
-                    <span>ÃÂ¢ÃÂÃÂ ÃÂ¥ÃÂ¾ÃÂÃÂ¥ÃÂÃÂ: <span id="score">0</span></span>
-                    <span>ÃÂ°ÃÂÃÂÃÂ ÃÂ¦ÃÂ­ÃÂ£ÃÂ§ÃÂ¡ÃÂ®ÃÂ§ÃÂÃÂ: <span id="accuracy">0</span>%</span>
+                    <span>✅ 得分: <span id="score">0</span></span>
+                    <span>📊 正确率: <span id="accuracy">0</span>%</span>
                 </div>
                 <div class="timer-bar">
-                    ÃÂ¢ÃÂÃÂ±ÃÂ¯ÃÂ¸ÃÂ ÃÂ¥ÃÂÃÂ©ÃÂ¤ÃÂ½ÃÂÃÂ¦ÃÂÃÂ¶ÃÂ©ÃÂÃÂ´: <span id="timerDisplay" class="timer-number">8</span> ÃÂ§ÃÂ§ÃÂ
-                    <button id="pauseBtn" style="background: #5f7f9e; padding: 4px 12px; font-size: 0.8rem; border-radius: 30px; width: auto;">ÃÂ¢ÃÂÃÂ¸ÃÂ¯ÃÂ¸ÃÂ ÃÂ¦ÃÂÃÂÃÂ¥ÃÂÃÂ</button>
-                    <button id="directionBtn" style="background: #2c7da0; padding: 4px 12px; font-size: 0.8rem; border-radius: 30px; width: auto;">ÃÂ°ÃÂÃÂÃÂ ÃÂ¤ÃÂ¸ÃÂ­ÃÂ¢ÃÂÃÂÃÂ¨ÃÂÃÂ±</button>
+                    ⏱️ 剩余时间: <span id="timerDisplay" class="timer-number">8</span> 秒
+                    <button id="pauseBtn" style="background: #5f7f9e; padding: 4px 12px; font-size: 0.8rem; border-radius: 30px; width: auto;">⏸️ 暂停</button>
+                    <button id="directionBtn" style="background: #2c7da0; padding: 4px 12px; font-size: 0.8rem; border-radius: 30px; width: auto;">🔄 中→英</button>
                 </div>
                 <div class="level-info">
-                    ÃÂ°ÃÂÃÂÃÂ ÃÂ§ÃÂ¬ÃÂ¬ <span id="currentLevel">1</span> ÃÂ¥ÃÂÃÂ³ ÃÂÃÂ· ÃÂ¨ÃÂ¿ÃÂÃÂ¥ÃÂºÃÂ¦ <span id="levelProgress">0</span>/30
+                    📍 第 <span id="currentLevel">1</span> 关 · 进度 <span id="levelProgress">0</span>/30
                 </div>
-                <div id="modeInfo" class="mode-badge">ÃÂ°ÃÂÃÂÃÂ² ÃÂ©ÃÂÃÂÃÂ¦ÃÂÃÂºÃÂ¦ÃÂ¨ÃÂ¡ÃÂ¥ÃÂ¼ÃÂ</div>
+                <div id="modeInfo" class="mode-badge">🎲 随机模式</div>
                 <div class="word-header">
-                    <div class="chinese-word" id="chineseWord">ÃÂ¥ÃÂÃÂ ÃÂ¨ÃÂ½ÃÂ½ÃÂ¤ÃÂ¸ÃÂ­...</div>
-                    <button class="speak-btn" id="speakBtn">ÃÂ°ÃÂÃÂÃÂ</button>
+                    <div class="chinese-word" id="chineseWord">加载中...</div>
+                    <button class="speak-btn" id="speakBtn">🔊</button>
                 </div>
                 <div id="phoneticDisplay" class="phonetic"></div>
                 <div class="options" id="optionsContainer"></div>
                 <div class="feedback" id="feedbackMsg"></div>
                 <div class="action-buttons">
-                    <button class="next-btn" id="nextBtn">ÃÂ¤ÃÂ¸ÃÂÃÂ¤ÃÂ¸ÃÂÃÂ©ÃÂ¢ÃÂ</button>
-                    <button class="restart-btn" id="restartBtn">ÃÂ©ÃÂÃÂÃÂ¦ÃÂÃÂ°ÃÂ¥ÃÂ¼ÃÂÃÂ¥ÃÂ§ÃÂ</button>
+                    <button class="next-btn" id="nextBtn">下一题</button>
+                    <button class="restart-btn" id="restartBtn">重新开始</button>
                 </div>
             </div>
             <div class="wrong-area">
                 <div class="wrong-header">
-                    <span>ÃÂ°ÃÂÃÂÃÂ ÃÂ©ÃÂÃÂÃÂ©ÃÂ¢ÃÂÃÂ¦ÃÂÃÂ¬</span>
+                    <span>📘 错题本</span>
                     <div>
-                        <button id="practiceAllBtn" style="background:none; border:none; color:#2c7da0; text-decoration:underline;">ÃÂ§ÃÂ»ÃÂÃÂ¤ÃÂ¹ÃÂ ÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂÃÂ©ÃÂÃÂÃÂ©ÃÂ¢ÃÂ</button>
-                        <button id="clearWrongBtn" style="background:none; border:none; color:#2c7da0; text-decoration:underline;">ÃÂ¦ÃÂ¸ÃÂÃÂ§ÃÂ©ÃÂºÃÂ©ÃÂÃÂÃÂ©ÃÂ¢ÃÂ</button>
+                        <button id="practiceAllBtn" style="background:none; border:none; color:#2c7da0; text-decoration:underline;">练习所有错题</button>
+                        <button id="clearWrongBtn" style="background:none; border:none; color:#2c7da0; text-decoration:underline;">清空错题</button>
                     </div>
                 </div>
-                <div id="wrongList" class="wrong-list">ÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂ ÃÂ©ÃÂÃÂÃÂ©ÃÂ¢ÃÂ</div>
+                <div id="wrongList" class="wrong-list">暂无错题</div>
             </div>
         </div>
     </div>
     <script>
-        const ALLOWED_PHONES = ['13971005659', '13900000000', '18627749826'];
+        const ALLOWED_PHONES = ['13971005659','13912345678'];
         let currentPhone = null;
         let timerInterval = null;
         let timeLeft = 8;
@@ -202,189 +202,189 @@
         const LEVEL_SIZE = 30;
         const LEVEL_PASS_RATE = 0.8;
         let isPaused = false;
-        let quizDirection = 'ch2en';  // 'ch2en' ÃÂ¦ÃÂÃÂ 'en2ch'        // ==================== ÃÂ¥ÃÂ¤ÃÂÃÂ¥ÃÂÃÂ²ÃÂ©ÃÂ«ÃÂÃÂ©ÃÂ¢ÃÂÃÂ¨ÃÂ¯ÃÂÃÂ¥ÃÂºÃÂÃÂ¯ÃÂ¼ÃÂ600ÃÂ¨ÃÂ¯ÃÂÃÂ¥ÃÂ®ÃÂÃÂ¦ÃÂÃÂ´ÃÂ¯ÃÂ¼ÃÂ ====================
+        let quizDirection = 'ch2en';  // 'ch2en' 或 'en2ch'        // ==================== 外冲高频词库（600词完整） ====================
         const WAICHONG_WORDS = [
-            { word: "spacesuit", meaning: "ÃÂ¥ÃÂ®ÃÂÃÂ¨ÃÂÃÂªÃÂ¦ÃÂÃÂ" }, { word: "asteroid", meaning: "ÃÂ¥ÃÂ°ÃÂÃÂ¨ÃÂ¡ÃÂÃÂ¦ÃÂÃÂ" },
-            { word: "multitasker", meaning: "ÃÂ¥ÃÂ¤ÃÂÃÂ¤ÃÂ»ÃÂ»ÃÂ¥ÃÂÃÂ¡ÃÂ¥ÃÂ¤ÃÂÃÂ§ÃÂÃÂÃÂ¨ÃÂÃÂ" }, { word: "comet", meaning: "ÃÂ¥ÃÂ½ÃÂÃÂ¦ÃÂÃÂ" },
-            { word: "tianwen", meaning: "ÃÂ¥ÃÂ¤ÃÂ©ÃÂ©ÃÂÃÂ®" }, { word: "probe", meaning: "ÃÂ¦ÃÂÃÂ¢ÃÂ¦ÃÂµÃÂÃÂ¥ÃÂÃÂ¨" },
-            { word: "mission", meaning: "ÃÂ¤ÃÂ»ÃÂ»ÃÂ¥ÃÂÃÂ¡" }, { word: "solar", meaning: "ÃÂ¥ÃÂ¤ÃÂªÃÂ©ÃÂÃÂ³ÃÂ§ÃÂÃÂ" },
-            { word: "system", meaning: "ÃÂ§ÃÂ³ÃÂ»ÃÂ§ÃÂ»ÃÂ" }, { word: "planet", meaning: "ÃÂ¦ÃÂÃÂÃÂ§ÃÂÃÂ" },
-            { word: "energy", meaning: "ÃÂ¨ÃÂÃÂ½ÃÂ©ÃÂÃÂ" }, { word: "collect", meaning: "ÃÂ¦ÃÂÃÂ¶ÃÂ©ÃÂÃÂ" },
-            { word: "samples", meaning: "ÃÂ¦ÃÂ ÃÂ·ÃÂ¦ÃÂÃÂ¬" }, { word: "drone", meaning: "ÃÂ¦ÃÂÃÂ ÃÂ¤ÃÂºÃÂºÃÂ¦ÃÂÃÂº" },
-            { word: "laser", meaning: "ÃÂ¦ÃÂ¿ÃÂÃÂ¥ÃÂÃÂ" }, { word: "sensors", meaning: "ÃÂ¤ÃÂ¼ÃÂ ÃÂ¦ÃÂÃÂÃÂ¥ÃÂÃÂ¨" },
-            { word: "protect", meaning: "ÃÂ¤ÃÂ¿ÃÂÃÂ¦ÃÂÃÂ¤" }, { word: "forest", meaning: "ÃÂ¦ÃÂ£ÃÂ®ÃÂ¦ÃÂÃÂ" },
-            { word: "temperature", meaning: "ÃÂ¦ÃÂ¸ÃÂ©ÃÂ¥ÃÂºÃÂ¦" }, { word: "oxygen", meaning: "ÃÂ¦ÃÂ°ÃÂ§ÃÂ¦ÃÂ°ÃÂ" },
-            { word: "orbit", meaning: "ÃÂ¨ÃÂ½ÃÂ¨ÃÂ©ÃÂÃÂ" }, { word: "satellite", meaning: "ÃÂ¥ÃÂÃÂ«ÃÂ¦ÃÂÃÂ" },
-            { word: "lunar", meaning: "ÃÂ¦ÃÂÃÂÃÂ§ÃÂÃÂÃÂ§ÃÂÃÂ" }, { word: "gravity", meaning: "ÃÂ©ÃÂÃÂÃÂ¥ÃÂÃÂ" },
-            { word: "atmosphere", meaning: "ÃÂ¥ÃÂ¤ÃÂ§ÃÂ¦ÃÂ°ÃÂÃÂ¥ÃÂ±ÃÂ" }, { word: "radiation", meaning: "ÃÂ¨ÃÂ¾ÃÂÃÂ¥ÃÂ°ÃÂ" },
-            { word: "experiment", meaning: "ÃÂ¥ÃÂ®ÃÂÃÂ©ÃÂªÃÂ" }, { word: "research", meaning: "ÃÂ§ÃÂ ÃÂÃÂ§ÃÂ©ÃÂ¶" },
-            { word: "discovery", meaning: "ÃÂ¥ÃÂÃÂÃÂ§ÃÂÃÂ°" }, { word: "invention", meaning: "ÃÂ¥ÃÂÃÂÃÂ¦ÃÂÃÂ" },
-            { word: "technology", meaning: "ÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂ¯" }, { word: "innovation", meaning: "ÃÂ¥ÃÂÃÂÃÂ¦ÃÂÃÂ°" },
-            { word: "digital", meaning: "ÃÂ¦ÃÂÃÂ°ÃÂ¥ÃÂ­ÃÂÃÂ§ÃÂÃÂ" }, { word: "virtual", meaning: "ÃÂ¨ÃÂÃÂÃÂ¦ÃÂÃÂÃÂ§ÃÂÃÂ" },
-            { word: "algorithm", meaning: "ÃÂ§ÃÂ®ÃÂÃÂ¦ÃÂ³ÃÂ" }, { word: "data", meaning: "ÃÂ¦ÃÂÃÂ°ÃÂ¦ÃÂÃÂ®" },
-            { word: "internet", meaning: "ÃÂ¤ÃÂºÃÂÃÂ¨ÃÂÃÂÃÂ§ÃÂ½ÃÂ" }, { word: "network", meaning: "ÃÂ§ÃÂ½ÃÂÃÂ§ÃÂ»ÃÂ" },
-            { word: "security", meaning: "ÃÂ¥ÃÂ®ÃÂÃÂ¥ÃÂÃÂ¨" }, { word: "privacy", meaning: "ÃÂ©ÃÂÃÂÃÂ§ÃÂ§ÃÂ" },
-            { word: "environment", meaning: "ÃÂ§ÃÂÃÂ¯ÃÂ¥ÃÂ¢ÃÂ" }, { word: "climate", meaning: "ÃÂ¦ÃÂ°ÃÂÃÂ¥ÃÂÃÂ" },
-            { word: "pollution", meaning: "ÃÂ¦ÃÂ±ÃÂ¡ÃÂ¦ÃÂÃÂ" }, { word: "recycle", meaning: "ÃÂ¥ÃÂÃÂÃÂ¦ÃÂÃÂ¶" },
-            { word: "sustainable", meaning: "ÃÂ¥ÃÂÃÂ¯ÃÂ¦ÃÂÃÂÃÂ§ÃÂ»ÃÂ­ÃÂ§ÃÂÃÂ" }, { word: "carbon", meaning: "ÃÂ§ÃÂ¢ÃÂ³" },
-            { word: "emission", meaning: "ÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂ¾" }, { word: "ecosystem", meaning: "ÃÂ§ÃÂÃÂÃÂ¦ÃÂÃÂÃÂ§ÃÂ³ÃÂ»ÃÂ§ÃÂ»ÃÂ" },
-            { word: "species", meaning: "ÃÂ§ÃÂÃÂ©ÃÂ§ÃÂ§ÃÂ" }, { word: "wildlife", meaning: "ÃÂ©ÃÂÃÂÃÂ§ÃÂÃÂÃÂ¥ÃÂÃÂ¨ÃÂ§ÃÂÃÂ©" },
-            { word: "conservation", meaning: "ÃÂ¤ÃÂ¿ÃÂÃÂ¦ÃÂÃÂ¤" }, { word: "extinction", meaning: "ÃÂ§ÃÂÃÂ­ÃÂ§ÃÂ»ÃÂ" },
-            { word: "economy", meaning: "ÃÂ§ÃÂ»ÃÂÃÂ¦ÃÂµÃÂ" }, { word: "policy", meaning: "ÃÂ¦ÃÂÃÂ¿ÃÂ§ÃÂ­ÃÂ" },
-            { word: "election", meaning: "ÃÂ©ÃÂÃÂÃÂ¤ÃÂ¸ÃÂ¾" }, { word: "conflict", meaning: "ÃÂ¥ÃÂÃÂ²ÃÂ§ÃÂªÃÂ" },
-            { word: "summit", meaning: "ÃÂ¥ÃÂ³ÃÂ°ÃÂ¤ÃÂ¼ÃÂ" }, { word: "diplomacy", meaning: "ÃÂ¥ÃÂ¤ÃÂÃÂ¤ÃÂºÃÂ¤" },
-            { word: "global", meaning: "ÃÂ¥ÃÂÃÂ¨ÃÂ§ÃÂÃÂÃÂ§ÃÂÃÂ" }, { word: "international", meaning: "ÃÂ¥ÃÂÃÂ½ÃÂ©ÃÂÃÂÃÂ§ÃÂÃÂ" },
-            { word: "culture", meaning: "ÃÂ¦ÃÂÃÂÃÂ¥ÃÂÃÂ" }, { word: "tradition", meaning: "ÃÂ¤ÃÂ¼ÃÂ ÃÂ§ÃÂ»ÃÂ" },
-            { word: "heritage", meaning: "ÃÂ©ÃÂÃÂÃÂ¤ÃÂºÃÂ§" }, { word: "history", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂÃÂ²" },
-            { word: "ancient", meaning: "ÃÂ¥ÃÂÃÂ¤ÃÂ¤ÃÂ»ÃÂ£ÃÂ§ÃÂÃÂ" }, { word: "modern", meaning: "ÃÂ§ÃÂÃÂ°ÃÂ¤ÃÂ»ÃÂ£ÃÂ§ÃÂÃÂ" },
-            { word: "literature", meaning: "ÃÂ¦ÃÂÃÂÃÂ¥ÃÂ­ÃÂ¦" }, { word: "poem", meaning: "ÃÂ¨ÃÂ¯ÃÂÃÂ¦ÃÂ­ÃÂ" },
-            { word: "artist", meaning: "ÃÂ¨ÃÂÃÂºÃÂ¦ÃÂÃÂ¯ÃÂ¥ÃÂ®ÃÂ¶" }, { word: "music", meaning: "ÃÂ©ÃÂÃÂ³ÃÂ¤ÃÂ¹ÃÂ" },
-            { word: "instrument", meaning: "ÃÂ¤ÃÂ¹ÃÂÃÂ¥ÃÂÃÂ¨" }, { word: "painting", meaning: "ÃÂ§ÃÂ»ÃÂÃÂ§ÃÂÃÂ»" },
-            { word: "architecture", meaning: "ÃÂ¥ÃÂ»ÃÂºÃÂ§ÃÂ­ÃÂ" }, { word: "design", meaning: "ÃÂ¨ÃÂ®ÃÂ¾ÃÂ¨ÃÂ®ÃÂ¡" },
-            { word: "fashion", meaning: "ÃÂ¦ÃÂÃÂ¶ÃÂ¥ÃÂ°ÃÂ" }, { word: "sport", meaning: "ÃÂ¨ÃÂ¿ÃÂÃÂ¥ÃÂÃÂ¨" },
-            { word: "athlete", meaning: "ÃÂ¨ÃÂ¿ÃÂÃÂ¥ÃÂÃÂ¨ÃÂ¥ÃÂÃÂ" }, { word: "competition", meaning: "ÃÂ¦ÃÂ¯ÃÂÃÂ¨ÃÂµÃÂ" },
-            { word: "championship", meaning: "ÃÂ¥ÃÂÃÂ ÃÂ¥ÃÂÃÂÃÂ¨ÃÂµÃÂ" }, { word: "medal", meaning: "ÃÂ¥ÃÂ¥ÃÂÃÂ§ÃÂÃÂ" },
-            { word: "health", meaning: "ÃÂ¥ÃÂÃÂ¥ÃÂ¥ÃÂºÃÂ·" }, { word: "disease", meaning: "ÃÂ§ÃÂÃÂ¾ÃÂ§ÃÂÃÂ" },
-            { word: "treatment", meaning: "ÃÂ¦ÃÂ²ÃÂ»ÃÂ§ÃÂÃÂ" }, { word: "vaccine", meaning: "ÃÂ§ÃÂÃÂ«ÃÂ¨ÃÂÃÂ" },
-            { word: "medicine", meaning: "ÃÂ¨ÃÂÃÂ¯ÃÂ§ÃÂÃÂ©" }, { word: "hospital", meaning: "ÃÂ¥ÃÂÃÂ»ÃÂ©ÃÂÃÂ¢" },
-            { word: "doctor", meaning: "ÃÂ¥ÃÂÃÂ»ÃÂ§ÃÂÃÂ" }, { word: "patient", meaning: "ÃÂ§ÃÂÃÂÃÂ¤ÃÂºÃÂº" },
-            { word: "education", meaning: "ÃÂ¦ÃÂÃÂÃÂ¨ÃÂÃÂ²" }, { word: "knowledge", meaning: "ÃÂ§ÃÂÃÂ¥ÃÂ¨ÃÂ¯ÃÂ" },
-            { word: "skill", meaning: "ÃÂ¦ÃÂÃÂÃÂ¨ÃÂÃÂ½" }, { word: "experience", meaning: "ÃÂ§ÃÂ»ÃÂÃÂ©ÃÂªÃÂ" },
-            { word: "opportunity", meaning: "ÃÂ¦ÃÂÃÂºÃÂ¤ÃÂ¼ÃÂ" }, { word: "challenge", meaning: "ÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂ" },
-            { word: "solution", meaning: "ÃÂ¨ÃÂ§ÃÂ£ÃÂ¥ÃÂÃÂ³ÃÂ¦ÃÂÃÂ¹ÃÂ¦ÃÂ¡ÃÂ" }, { word: "problem", meaning: "ÃÂ©ÃÂÃÂ®ÃÂ©ÃÂ¢ÃÂ" },
-            { word: "cause", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂÃÂ " }, { word: "effect", meaning: "ÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂ" },
-            { word: "result", meaning: "ÃÂ§ÃÂ»ÃÂÃÂ¦ÃÂÃÂ" }, { word: "reason", meaning: "ÃÂ§ÃÂÃÂÃÂ§ÃÂÃÂ±" },
-            { word: "fact", meaning: "ÃÂ¤ÃÂºÃÂÃÂ¥ÃÂ®ÃÂ" }, { word: "opinion", meaning: "ÃÂ¨ÃÂ§ÃÂÃÂ§ÃÂÃÂ¹" },
-            { word: "idea", meaning: "ÃÂ¦ÃÂÃÂ³ÃÂ¦ÃÂ³ÃÂ" }, { word: "concept", meaning: "ÃÂ¦ÃÂ¦ÃÂÃÂ¥ÃÂ¿ÃÂµ" },
-            { word: "method", meaning: "ÃÂ¦ÃÂÃÂ¹ÃÂ¦ÃÂ³ÃÂ" }, { word: "process", meaning: "ÃÂ¨ÃÂ¿ÃÂÃÂ§ÃÂ¨ÃÂ" },
-            { word: "structure", meaning: "ÃÂ§ÃÂ»ÃÂÃÂ¦ÃÂÃÂ" }, { word: "function", meaning: "ÃÂ¥ÃÂÃÂÃÂ¨ÃÂÃÂ½" },
-            { word: "quality", meaning: "ÃÂ¨ÃÂ´ÃÂ¨ÃÂ©ÃÂÃÂ" }, { word: "quantity", meaning: "ÃÂ¦ÃÂÃÂ°ÃÂ©ÃÂÃÂ" },
-            { word: "difference", meaning: "ÃÂ¥ÃÂ·ÃÂ®ÃÂ¥ÃÂ¼ÃÂ" }, { word: "similarity", meaning: "ÃÂ§ÃÂÃÂ¸ÃÂ¤ÃÂ¼ÃÂ¼ÃÂ¦ÃÂÃÂ§" },
-            { word: "comparison", meaning: "ÃÂ¦ÃÂ¯ÃÂÃÂ¨ÃÂ¾ÃÂ" }, { word: "analysis", meaning: "ÃÂ¥ÃÂÃÂÃÂ¦ÃÂÃÂ" },
-            { word: "summary", meaning: "ÃÂ¦ÃÂÃÂ»ÃÂ§ÃÂ»ÃÂ" }, { word: "conclusion", meaning: "ÃÂ§ÃÂ»ÃÂÃÂ¨ÃÂ®ÃÂº" },
-            { word: "evidence", meaning: "ÃÂ¨ÃÂ¯ÃÂÃÂ¦ÃÂÃÂ®" }, { word: "example", meaning: "ÃÂ¤ÃÂ¾ÃÂÃÂ¥ÃÂ­ÃÂ" },
-            { word: "detail", meaning: "ÃÂ§ÃÂ»ÃÂÃÂ¨ÃÂÃÂ" }, { word: "feature", meaning: "ÃÂ§ÃÂÃÂ¹ÃÂ¥ÃÂ¾ÃÂ" },
-            { word: "characteristic", meaning: "ÃÂ§ÃÂÃÂ¹ÃÂ§ÃÂÃÂ¹" }, { word: "advantage", meaning: "ÃÂ¤ÃÂ¼ÃÂÃÂ¥ÃÂÃÂ¿" },
-            { word: "disadvantage", meaning: "ÃÂ¥ÃÂÃÂ£ÃÂ¥ÃÂÃÂ¿" }, { word: "benefit", meaning: "ÃÂ¥ÃÂÃÂ©ÃÂ§ÃÂÃÂ" },
-            { word: "risk", meaning: "ÃÂ©ÃÂ£ÃÂÃÂ©ÃÂÃÂ©" }, { word: "danger", meaning: "ÃÂ¥ÃÂÃÂ±ÃÂ©ÃÂÃÂ©" },
-            { word: "safety", meaning: "ÃÂ¥ÃÂ®ÃÂÃÂ¥ÃÂÃÂ¨" }, { word: "accident", meaning: "ÃÂ¤ÃÂºÃÂÃÂ¦ÃÂÃÂ" },
-            { word: "emergency", meaning: "ÃÂ§ÃÂ´ÃÂ§ÃÂ¦ÃÂÃÂ¥ÃÂ¦ÃÂÃÂÃÂ¥ÃÂÃÂµ" }, { word: "disaster", meaning: "ÃÂ§ÃÂÃÂ¾ÃÂ©ÃÂÃÂ¾" },
-            { word: "crisis", meaning: "ÃÂ¥ÃÂÃÂ±ÃÂ¦ÃÂÃÂº" }, { word: "response", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂºÃÂ" },
-            { word: "recovery", meaning: "ÃÂ¦ÃÂÃÂ¢ÃÂ¥ÃÂ¤ÃÂ" }, { word: "development", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂ±ÃÂ" },
-            { word: "growth", meaning: "ÃÂ¥ÃÂ¢ÃÂÃÂ©ÃÂÃÂ¿" }, { word: "improvement", meaning: "ÃÂ¦ÃÂÃÂ¹ÃÂ¨ÃÂ¿ÃÂ" },
-            { word: "progress", meaning: "ÃÂ¨ÃÂ¿ÃÂÃÂ¦ÃÂ­ÃÂ¥" }, { word: "success", meaning: "ÃÂ¦ÃÂÃÂÃÂ¥ÃÂÃÂ" },
-            { word: "failure", meaning: "ÃÂ¥ÃÂ¤ÃÂ±ÃÂ¨ÃÂ´ÃÂ¥" }, { word: "achievement", meaning: "ÃÂ¦ÃÂÃÂÃÂ¥ÃÂ°ÃÂ±" },
-            { word: "goal", meaning: "ÃÂ§ÃÂÃÂ®ÃÂ¦ÃÂ ÃÂ" }, { word: "plan", meaning: "ÃÂ¨ÃÂ®ÃÂ¡ÃÂ¥ÃÂÃÂ" },
-            { word: "decision", meaning: "ÃÂ¥ÃÂÃÂ³ÃÂ¥ÃÂ®ÃÂ" }, { word: "choice", meaning: "ÃÂ©ÃÂÃÂÃÂ¦ÃÂÃÂ©" },
-            { word: "option", meaning: "ÃÂ©ÃÂÃÂÃÂ©ÃÂ¡ÃÂ¹" }, { word: "possibility", meaning: "ÃÂ¥ÃÂÃÂ¯ÃÂ¨ÃÂÃÂ½ÃÂ¦ÃÂÃÂ§" },
-            { word: "probability", meaning: "ÃÂ¦ÃÂ¦ÃÂÃÂ§ÃÂÃÂ" }, { word: "analyze", meaning: "ÃÂ¥ÃÂÃÂÃÂ¦ÃÂÃÂ" },
-            { word: "evaluate", meaning: "ÃÂ¨ÃÂ¯ÃÂÃÂ¤ÃÂ¼ÃÂ°" }, { word: "compare", meaning: "ÃÂ¦ÃÂ¯ÃÂÃÂ¨ÃÂ¾ÃÂ" },
-            { word: "contrast", meaning: "ÃÂ¥ÃÂ¯ÃÂ¹ÃÂ¦ÃÂ¯ÃÂ" }, { word: "explain", meaning: "ÃÂ¨ÃÂ§ÃÂ£ÃÂ©ÃÂÃÂ" },
-            { word: "describe", meaning: "ÃÂ¦ÃÂÃÂÃÂ¨ÃÂ¿ÃÂ°" }, { word: "discuss", meaning: "ÃÂ¨ÃÂ®ÃÂ¨ÃÂ¨ÃÂ®ÃÂº" },
-            { word: "argue", meaning: "ÃÂ¤ÃÂºÃÂÃÂ¨ÃÂ®ÃÂº" }, { word: "suggest", meaning: "ÃÂ¥ÃÂ»ÃÂºÃÂ¨ÃÂ®ÃÂ®" },
-            { word: "recommend", meaning: "ÃÂ¦ÃÂÃÂ¨ÃÂ¨ÃÂÃÂ" }, { word: "require", meaning: "ÃÂ¨ÃÂ¦ÃÂÃÂ¦ÃÂ±ÃÂ" },
-            { word: "demand", meaning: "ÃÂ©ÃÂÃÂÃÂ¦ÃÂ±ÃÂ" }, { word: "supply", meaning: "ÃÂ¤ÃÂ¾ÃÂÃÂ¥ÃÂºÃÂ" },
-            { word: "support", meaning: "ÃÂ¦ÃÂÃÂ¯ÃÂ¦ÃÂÃÂ" }, { word: "oppose", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂ¯ÃÂ¹" },
-            { word: "agree", meaning: "ÃÂ¥ÃÂÃÂÃÂ¦ÃÂÃÂ" }, { word: "disagree", meaning: "ÃÂ¤ÃÂ¸ÃÂÃÂ¥ÃÂÃÂÃÂ¦ÃÂÃÂ" },
-            { word: "believe", meaning: "ÃÂ§ÃÂÃÂ¸ÃÂ¤ÃÂ¿ÃÂ¡" }, { word: "doubt", meaning: "ÃÂ¦ÃÂÃÂÃÂ§ÃÂÃÂ" },
-            { word: "know", meaning: "ÃÂ§ÃÂÃÂ¥ÃÂ©ÃÂÃÂ" }, { word: "understand", meaning: "ÃÂ§ÃÂÃÂÃÂ¨ÃÂ§ÃÂ£" },
-            { word: "learn", meaning: "ÃÂ¥ÃÂ­ÃÂ¦ÃÂ¤ÃÂ¹ÃÂ " }, { word: "teach", meaning: "ÃÂ¦ÃÂÃÂ" },
-            { word: "remember", meaning: "ÃÂ¨ÃÂ®ÃÂ°ÃÂ¤ÃÂ½ÃÂ" }, { word: "forget", meaning: "ÃÂ¥ÃÂ¿ÃÂÃÂ¨ÃÂ®ÃÂ°" },
-            { word: "consider", meaning: "ÃÂ¨ÃÂÃÂÃÂ¨ÃÂÃÂ" }, { word: "ignore", meaning: "ÃÂ¥ÃÂ¿ÃÂ½ÃÂ§ÃÂÃÂ¥" },
-            { word: "include", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂÃÂ«" }, { word: "exclude", meaning: "ÃÂ¦ÃÂÃÂÃÂ©ÃÂÃÂ¤" },
-            { word: "create", meaning: "ÃÂ¥ÃÂÃÂÃÂ©ÃÂÃÂ " }, { word: "destroy", meaning: "ÃÂ§ÃÂ ÃÂ´ÃÂ¥ÃÂÃÂ" },
-            { word: "build", meaning: "ÃÂ¥ÃÂ»ÃÂºÃÂ©ÃÂÃÂ " }, { word: "damage", meaning: "ÃÂ¦ÃÂÃÂÃÂ¥ÃÂÃÂ" },
-            { word: "increase", meaning: "ÃÂ¥ÃÂ¢ÃÂÃÂ¥ÃÂÃÂ " }, { word: "decrease", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂ°ÃÂ" },
-            { word: "improve", meaning: "ÃÂ¦ÃÂÃÂ¹ÃÂ¥ÃÂÃÂ" }, { word: "worsen", meaning: "ÃÂ¦ÃÂÃÂ¶ÃÂ¥ÃÂÃÂ" },
-            { word: "develop", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂ±ÃÂ" }, { word: "decline", meaning: "ÃÂ¤ÃÂ¸ÃÂÃÂ©ÃÂÃÂ" },
-            { word: "appear", meaning: "ÃÂ¥ÃÂÃÂºÃÂ§ÃÂÃÂ°" }, { word: "disappear", meaning: "ÃÂ¦ÃÂ¶ÃÂÃÂ¥ÃÂ¤ÃÂ±" },
-            { word: "remain", meaning: "ÃÂ¤ÃÂ¿ÃÂÃÂ¦ÃÂÃÂ" }, { word: "change", meaning: "ÃÂ¦ÃÂÃÂ¹ÃÂ¥ÃÂÃÂ" },
-            { word: "become", meaning: "ÃÂ¥ÃÂÃÂÃÂ¦ÃÂÃÂ" }, { word: "seem", meaning: "ÃÂ¤ÃÂ¼ÃÂ¼ÃÂ¤ÃÂ¹ÃÂ" },
-            { word: "represent", meaning: "ÃÂ¤ÃÂ»ÃÂ£ÃÂ¨ÃÂ¡ÃÂ¨" }, { word: "indicate", meaning: "ÃÂ¨ÃÂ¡ÃÂ¨ÃÂ¦ÃÂÃÂ" },
-            { word: "mean", meaning: "ÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂ¯" }, { word: "refer", meaning: "ÃÂ¦ÃÂÃÂÃÂ§ÃÂÃÂÃÂ¦ÃÂÃÂ¯" },
-            { word: "focus", meaning: "ÃÂ¨ÃÂÃÂÃÂ§ÃÂÃÂ¦" }, { word: "concentrate", meaning: "ÃÂ©ÃÂÃÂÃÂ¤ÃÂ¸ÃÂ­" },
-            { word: "achieve", meaning: "ÃÂ¥ÃÂ®ÃÂÃÂ§ÃÂÃÂ°" }, { word: "accomplish", meaning: "ÃÂ¥ÃÂ®ÃÂÃÂ¦ÃÂÃÂ" },
-            { word: "attempt", meaning: "ÃÂ¥ÃÂ°ÃÂÃÂ¨ÃÂ¯ÃÂ" }, { word: "try", meaning: "ÃÂ¥ÃÂ°ÃÂÃÂ¨ÃÂ¯ÃÂ" },
-            { word: "succeed", meaning: "ÃÂ¦ÃÂÃÂÃÂ¥ÃÂÃÂ" }, { word: "fail", meaning: "ÃÂ¥ÃÂ¤ÃÂ±ÃÂ¨ÃÂ´ÃÂ¥" },
-            { word: "continue", meaning: "ÃÂ§ÃÂ»ÃÂ§ÃÂ§ÃÂ»ÃÂ­" }, { word: "stop", meaning: "ÃÂ¥ÃÂÃÂÃÂ¦ÃÂ­ÃÂ¢" },
-            { word: "start", meaning: "ÃÂ¥ÃÂ¼ÃÂÃÂ¥ÃÂ§ÃÂ" }, { word: "wait", meaning: "ÃÂ§ÃÂ­ÃÂÃÂ¥ÃÂ¾ÃÂ" },
-            { word: "hurry", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂ¿ÃÂ" }, { word: "enjoy", meaning: "ÃÂ¤ÃÂºÃÂ«ÃÂ¥ÃÂÃÂ" },
-            { word: "hate", meaning: "ÃÂ¨ÃÂ®ÃÂ¨ÃÂ¥ÃÂÃÂ" }, { word: "love", meaning: "ÃÂ§ÃÂÃÂ±" },
-            { word: "like", meaning: "ÃÂ¥ÃÂÃÂÃÂ¦ÃÂ¬ÃÂ¢" }, { word: "prefer", meaning: "ÃÂ¦ÃÂÃÂ´ÃÂ¥ÃÂÃÂÃÂ¦ÃÂ¬ÃÂ¢" },
-            { word: "choose", meaning: "ÃÂ©ÃÂÃÂÃÂ¦ÃÂÃÂ©" }, { word: "need", meaning: "ÃÂ©ÃÂÃÂÃÂ¨ÃÂ¦ÃÂ" },
-            { word: "want", meaning: "ÃÂ¦ÃÂÃÂ³ÃÂ¨ÃÂ¦ÃÂ" }, { word: "hope", meaning: "ÃÂ¥ÃÂ¸ÃÂÃÂ¦ÃÂÃÂ" },
-            { word: "wish", meaning: "ÃÂ¦ÃÂÃÂ¿ÃÂ¦ÃÂÃÂ" }, { word: "expect", meaning: "ÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂ" },
-            { word: "predict", meaning: "ÃÂ©ÃÂ¢ÃÂÃÂ¦ÃÂµÃÂ" }, { word: "imagine", meaning: "ÃÂ¦ÃÂÃÂ³ÃÂ¨ÃÂ±ÃÂ¡" },
-            { word: "suppose", meaning: "ÃÂ¥ÃÂÃÂÃÂ¨ÃÂ®ÃÂ¾" }, { word: "prove", meaning: "ÃÂ¨ÃÂ¯ÃÂÃÂ¦ÃÂÃÂ" },
-            { word: "confirm", meaning: "ÃÂ§ÃÂ¡ÃÂ®ÃÂ¨ÃÂ®ÃÂ¤" }, { word: "deny", meaning: "ÃÂ¥ÃÂÃÂ¦ÃÂ¨ÃÂ®ÃÂ¤" },
-            { word: "admit", meaning: "ÃÂ¦ÃÂÃÂ¿ÃÂ¨ÃÂ®ÃÂ¤" }, { word: "promise", meaning: "ÃÂ¦ÃÂÃÂ¿ÃÂ¨ÃÂ¯ÃÂº" },
-            { word: "refuse", meaning: "ÃÂ¦ÃÂÃÂÃÂ§ÃÂ»ÃÂ" }, { word: "offer", meaning: "ÃÂ¦ÃÂÃÂÃÂ¤ÃÂ¾ÃÂ" },
-            { word: "give", meaning: "ÃÂ§ÃÂ»ÃÂ" }, { word: "take", meaning: "ÃÂ¦ÃÂÃÂ¿" },
-            { word: "bring", meaning: "ÃÂ¥ÃÂ¸ÃÂ¦ÃÂ¦ÃÂÃÂ¥" }, { word: "carry", meaning: "ÃÂ¦ÃÂÃÂºÃÂ¥ÃÂ¸ÃÂ¦" },
-            { word: "send", meaning: "ÃÂ¥ÃÂÃÂÃÂ©ÃÂÃÂ" }, { word: "receive", meaning: "ÃÂ¦ÃÂÃÂ¶ÃÂ¥ÃÂÃÂ°" },
-            { word: "accept", meaning: "ÃÂ¦ÃÂÃÂ¥ÃÂ¥ÃÂÃÂ" }, { word: "allow", meaning: "ÃÂ¥ÃÂÃÂÃÂ¨ÃÂ®ÃÂ¸" },
-            { word: "prevent", meaning: "ÃÂ©ÃÂÃÂ»ÃÂ¦ÃÂ­ÃÂ¢" }, { word: "encourage", meaning: "ÃÂ©ÃÂ¼ÃÂÃÂ¥ÃÂÃÂ±" },
-            { word: "discourage", meaning: "ÃÂ¥ÃÂÃÂÃÂ©ÃÂÃÂ»" }, { word: "inspire", meaning: "ÃÂ¦ÃÂ¿ÃÂÃÂ¥ÃÂÃÂ±" },
-            { word: "motivate", meaning: "ÃÂ¦ÃÂ¿ÃÂÃÂ¥ÃÂÃÂ" }, { word: "force", meaning: "ÃÂ¥ÃÂ¼ÃÂºÃÂ¨ÃÂ¿ÃÂ«" },
-            { word: "persuade", meaning: "ÃÂ¨ÃÂ¯ÃÂ´ÃÂ¦ÃÂÃÂ" }, { word: "convince", meaning: "ÃÂ¤ÃÂ½ÃÂ¿ÃÂ¤ÃÂ¿ÃÂ¡ÃÂ¦ÃÂÃÂ" }
-        ];        // ==================== ÃÂ¥ÃÂÃÂÃÂ¤ÃÂ¸ÃÂ­ÃÂ©ÃÂ«ÃÂÃÂ©ÃÂ¢ÃÂÃÂ¨ÃÂ¯ÃÂÃÂ¥ÃÂºÃÂÃÂ¯ÃÂ¼ÃÂ400+ÃÂ¨ÃÂ¯ÃÂÃÂ¯ÃÂ¼ÃÂ ====================
+            { word: "spacesuit", meaning: "宇航服" }, { word: "asteroid", meaning: "小行星" },
+            { word: "multitasker", meaning: "多任务处理者" }, { word: "comet", meaning: "彗星" },
+            { word: "tianwen", meaning: "天问" }, { word: "probe", meaning: "探测器" },
+            { word: "mission", meaning: "任务" }, { word: "solar", meaning: "太阳的" },
+            { word: "system", meaning: "系统" }, { word: "planet", meaning: "星球" },
+            { word: "energy", meaning: "能量" }, { word: "collect", meaning: "收集" },
+            { word: "samples", meaning: "样本" }, { word: "drone", meaning: "无人机" },
+            { word: "laser", meaning: "激光" }, { word: "sensors", meaning: "传感器" },
+            { word: "protect", meaning: "保护" }, { word: "forest", meaning: "森林" },
+            { word: "temperature", meaning: "温度" }, { word: "oxygen", meaning: "氧气" },
+            { word: "orbit", meaning: "轨道" }, { word: "satellite", meaning: "卫星" },
+            { word: "lunar", meaning: "月球的" }, { word: "gravity", meaning: "重力" },
+            { word: "atmosphere", meaning: "大气层" }, { word: "radiation", meaning: "辐射" },
+            { word: "experiment", meaning: "实验" }, { word: "research", meaning: "研究" },
+            { word: "discovery", meaning: "发现" }, { word: "invention", meaning: "发明" },
+            { word: "technology", meaning: "技术" }, { word: "innovation", meaning: "创新" },
+            { word: "digital", meaning: "数字的" }, { word: "virtual", meaning: "虚拟的" },
+            { word: "algorithm", meaning: "算法" }, { word: "data", meaning: "数据" },
+            { word: "internet", meaning: "互联网" }, { word: "network", meaning: "网络" },
+            { word: "security", meaning: "安全" }, { word: "privacy", meaning: "隐私" },
+            { word: "environment", meaning: "环境" }, { word: "climate", meaning: "气候" },
+            { word: "pollution", meaning: "污染" }, { word: "recycle", meaning: "回收" },
+            { word: "sustainable", meaning: "可持续的" }, { word: "carbon", meaning: "碳" },
+            { word: "emission", meaning: "排放" }, { word: "ecosystem", meaning: "生态系统" },
+            { word: "species", meaning: "物种" }, { word: "wildlife", meaning: "野生动物" },
+            { word: "conservation", meaning: "保护" }, { word: "extinction", meaning: "灭绝" },
+            { word: "economy", meaning: "经济" }, { word: "policy", meaning: "政策" },
+            { word: "election", meaning: "选举" }, { word: "conflict", meaning: "冲突" },
+            { word: "summit", meaning: "峰会" }, { word: "diplomacy", meaning: "外交" },
+            { word: "global", meaning: "全球的" }, { word: "international", meaning: "国际的" },
+            { word: "culture", meaning: "文化" }, { word: "tradition", meaning: "传统" },
+            { word: "heritage", meaning: "遗产" }, { word: "history", meaning: "历史" },
+            { word: "ancient", meaning: "古代的" }, { word: "modern", meaning: "现代的" },
+            { word: "literature", meaning: "文学" }, { word: "poem", meaning: "诗歌" },
+            { word: "artist", meaning: "艺术家" }, { word: "music", meaning: "音乐" },
+            { word: "instrument", meaning: "乐器" }, { word: "painting", meaning: "绘画" },
+            { word: "architecture", meaning: "建筑" }, { word: "design", meaning: "设计" },
+            { word: "fashion", meaning: "时尚" }, { word: "sport", meaning: "运动" },
+            { word: "athlete", meaning: "运动员" }, { word: "competition", meaning: "比赛" },
+            { word: "championship", meaning: "冠军赛" }, { word: "medal", meaning: "奖牌" },
+            { word: "health", meaning: "健康" }, { word: "disease", meaning: "疾病" },
+            { word: "treatment", meaning: "治疗" }, { word: "vaccine", meaning: "疫苗" },
+            { word: "medicine", meaning: "药物" }, { word: "hospital", meaning: "医院" },
+            { word: "doctor", meaning: "医生" }, { word: "patient", meaning: "病人" },
+            { word: "education", meaning: "教育" }, { word: "knowledge", meaning: "知识" },
+            { word: "skill", meaning: "技能" }, { word: "experience", meaning: "经验" },
+            { word: "opportunity", meaning: "机会" }, { word: "challenge", meaning: "挑战" },
+            { word: "solution", meaning: "解决方案" }, { word: "problem", meaning: "问题" },
+            { word: "cause", meaning: "原因" }, { word: "effect", meaning: "效果" },
+            { word: "result", meaning: "结果" }, { word: "reason", meaning: "理由" },
+            { word: "fact", meaning: "事实" }, { word: "opinion", meaning: "观点" },
+            { word: "idea", meaning: "想法" }, { word: "concept", meaning: "概念" },
+            { word: "method", meaning: "方法" }, { word: "process", meaning: "过程" },
+            { word: "structure", meaning: "结构" }, { word: "function", meaning: "功能" },
+            { word: "quality", meaning: "质量" }, { word: "quantity", meaning: "数量" },
+            { word: "difference", meaning: "差异" }, { word: "similarity", meaning: "相似性" },
+            { word: "comparison", meaning: "比较" }, { word: "analysis", meaning: "分析" },
+            { word: "summary", meaning: "总结" }, { word: "conclusion", meaning: "结论" },
+            { word: "evidence", meaning: "证据" }, { word: "example", meaning: "例子" },
+            { word: "detail", meaning: "细节" }, { word: "feature", meaning: "特征" },
+            { word: "characteristic", meaning: "特点" }, { word: "advantage", meaning: "优势" },
+            { word: "disadvantage", meaning: "劣势" }, { word: "benefit", meaning: "利益" },
+            { word: "risk", meaning: "风险" }, { word: "danger", meaning: "危险" },
+            { word: "safety", meaning: "安全" }, { word: "accident", meaning: "事故" },
+            { word: "emergency", meaning: "紧急情况" }, { word: "disaster", meaning: "灾难" },
+            { word: "crisis", meaning: "危机" }, { word: "response", meaning: "回应" },
+            { word: "recovery", meaning: "恢复" }, { word: "development", meaning: "发展" },
+            { word: "growth", meaning: "增长" }, { word: "improvement", meaning: "改进" },
+            { word: "progress", meaning: "进步" }, { word: "success", meaning: "成功" },
+            { word: "failure", meaning: "失败" }, { word: "achievement", meaning: "成就" },
+            { word: "goal", meaning: "目标" }, { word: "plan", meaning: "计划" },
+            { word: "decision", meaning: "决定" }, { word: "choice", meaning: "选择" },
+            { word: "option", meaning: "选项" }, { word: "possibility", meaning: "可能性" },
+            { word: "probability", meaning: "概率" }, { word: "analyze", meaning: "分析" },
+            { word: "evaluate", meaning: "评估" }, { word: "compare", meaning: "比较" },
+            { word: "contrast", meaning: "对比" }, { word: "explain", meaning: "解释" },
+            { word: "describe", meaning: "描述" }, { word: "discuss", meaning: "讨论" },
+            { word: "argue", meaning: "争论" }, { word: "suggest", meaning: "建议" },
+            { word: "recommend", meaning: "推荐" }, { word: "require", meaning: "要求" },
+            { word: "demand", meaning: "需求" }, { word: "supply", meaning: "供应" },
+            { word: "support", meaning: "支持" }, { word: "oppose", meaning: "反对" },
+            { word: "agree", meaning: "同意" }, { word: "disagree", meaning: "不同意" },
+            { word: "believe", meaning: "相信" }, { word: "doubt", meaning: "怀疑" },
+            { word: "know", meaning: "知道" }, { word: "understand", meaning: "理解" },
+            { word: "learn", meaning: "学习" }, { word: "teach", meaning: "教" },
+            { word: "remember", meaning: "记住" }, { word: "forget", meaning: "忘记" },
+            { word: "consider", meaning: "考虑" }, { word: "ignore", meaning: "忽略" },
+            { word: "include", meaning: "包含" }, { word: "exclude", meaning: "排除" },
+            { word: "create", meaning: "创造" }, { word: "destroy", meaning: "破坏" },
+            { word: "build", meaning: "建造" }, { word: "damage", meaning: "损坏" },
+            { word: "increase", meaning: "增加" }, { word: "decrease", meaning: "减少" },
+            { word: "improve", meaning: "改善" }, { word: "worsen", meaning: "恶化" },
+            { word: "develop", meaning: "发展" }, { word: "decline", meaning: "下降" },
+            { word: "appear", meaning: "出现" }, { word: "disappear", meaning: "消失" },
+            { word: "remain", meaning: "保持" }, { word: "change", meaning: "改变" },
+            { word: "become", meaning: "变成" }, { word: "seem", meaning: "似乎" },
+            { word: "represent", meaning: "代表" }, { word: "indicate", meaning: "表明" },
+            { word: "mean", meaning: "意思是" }, { word: "refer", meaning: "指的是" },
+            { word: "focus", meaning: "聚焦" }, { word: "concentrate", meaning: "集中" },
+            { word: "achieve", meaning: "实现" }, { word: "accomplish", meaning: "完成" },
+            { word: "attempt", meaning: "尝试" }, { word: "try", meaning: "尝试" },
+            { word: "succeed", meaning: "成功" }, { word: "fail", meaning: "失败" },
+            { word: "continue", meaning: "继续" }, { word: "stop", meaning: "停止" },
+            { word: "start", meaning: "开始" }, { word: "wait", meaning: "等待" },
+            { word: "hurry", meaning: "匆忙" }, { word: "enjoy", meaning: "享受" },
+            { word: "hate", meaning: "讨厌" }, { word: "love", meaning: "爱" },
+            { word: "like", meaning: "喜欢" }, { word: "prefer", meaning: "更喜欢" },
+            { word: "choose", meaning: "选择" }, { word: "need", meaning: "需要" },
+            { word: "want", meaning: "想要" }, { word: "hope", meaning: "希望" },
+            { word: "wish", meaning: "愿望" }, { word: "expect", meaning: "期望" },
+            { word: "predict", meaning: "预测" }, { word: "imagine", meaning: "想象" },
+            { word: "suppose", meaning: "假设" }, { word: "prove", meaning: "证明" },
+            { word: "confirm", meaning: "确认" }, { word: "deny", meaning: "否认" },
+            { word: "admit", meaning: "承认" }, { word: "promise", meaning: "承诺" },
+            { word: "refuse", meaning: "拒绝" }, { word: "offer", meaning: "提供" },
+            { word: "give", meaning: "给" }, { word: "take", meaning: "拿" },
+            { word: "bring", meaning: "带来" }, { word: "carry", meaning: "携带" },
+            { word: "send", meaning: "发送" }, { word: "receive", meaning: "收到" },
+            { word: "accept", meaning: "接受" }, { word: "allow", meaning: "允许" },
+            { word: "prevent", meaning: "阻止" }, { word: "encourage", meaning: "鼓励" },
+            { word: "discourage", meaning: "劝阻" }, { word: "inspire", meaning: "激励" },
+            { word: "motivate", meaning: "激发" }, { word: "force", meaning: "强迫" },
+            { word: "persuade", meaning: "说服" }, { word: "convince", meaning: "使信服" }
+        ];        // ==================== 初中高频词库（400+词） ====================
         const JUNIOR_WORDS = [
-            { word: "a", meaning: "ÃÂ¤ÃÂ¸ÃÂÃÂ¯ÃÂ¼ÃÂÃÂ¤ÃÂ¸ÃÂªÃÂ¯ÃÂ¼ÃÂ" }, { word: "able", meaning: "ÃÂ¨ÃÂÃÂ½ÃÂ¥ÃÂ¤ÃÂÃÂ§ÃÂÃÂ" }, { word: "about", meaning: "ÃÂ¥ÃÂÃÂ³ÃÂ¤ÃÂºÃÂ" }, { word: "above", meaning: "ÃÂ¥ÃÂÃÂ¨...ÃÂ¤ÃÂ¸ÃÂÃÂ©ÃÂÃÂ¢" }, { word: "accept", meaning: "ÃÂ¦ÃÂÃÂ¥ÃÂ¥ÃÂÃÂ" },
-            { word: "accident", meaning: "ÃÂ¤ÃÂºÃÂÃÂ¦ÃÂÃÂ" }, { word: "achieve", meaning: "ÃÂ¥ÃÂ®ÃÂÃÂ§ÃÂÃÂ°" }, { word: "across", meaning: "ÃÂ§ÃÂ©ÃÂ¿ÃÂ¨ÃÂ¿ÃÂ" }, { word: "act", meaning: "ÃÂ¨ÃÂ¡ÃÂÃÂ¥ÃÂÃÂ¨" }, { word: "active", meaning: "ÃÂ¦ÃÂ´ÃÂ»ÃÂ¨ÃÂ·ÃÂÃÂ§ÃÂÃÂ" },
-            { word: "activity", meaning: "ÃÂ¦ÃÂ´ÃÂ»ÃÂ¥ÃÂÃÂ¨" }, { word: "add", meaning: "ÃÂ¥ÃÂ¢ÃÂÃÂ¥ÃÂÃÂ " }, { word: "address", meaning: "ÃÂ¥ÃÂÃÂ°ÃÂ¥ÃÂÃÂ" }, { word: "admire", meaning: "ÃÂ©ÃÂÃÂ¦ÃÂ¤ÃÂ½ÃÂ©" }, { word: "adult", meaning: "ÃÂ¦ÃÂÃÂÃÂ¤ÃÂºÃÂº" },
-            { word: "advice", meaning: "ÃÂ¥ÃÂ»ÃÂºÃÂ¨ÃÂ®ÃÂ®" }, { word: "afford", meaning: "ÃÂ¨ÃÂ´ÃÂÃÂ¦ÃÂÃÂÃÂ¥ÃÂ¾ÃÂÃÂ¨ÃÂµÃÂ·" }, { word: "afraid", meaning: "ÃÂ¥ÃÂ®ÃÂ³ÃÂ¦ÃÂÃÂÃÂ§ÃÂÃÂ" }, { word: "after", meaning: "ÃÂ¥ÃÂÃÂ¨...ÃÂ¤ÃÂ¹ÃÂÃÂ¥ÃÂÃÂ" }, { word: "again", meaning: "ÃÂ¥ÃÂÃÂÃÂ¦ÃÂ¬ÃÂ¡" },
-            { word: "age", meaning: "ÃÂ¥ÃÂ¹ÃÂ´ÃÂ©ÃÂ¾ÃÂ" }, { word: "ago", meaning: "ÃÂ¤ÃÂ»ÃÂ¥ÃÂ¥ÃÂÃÂ" }, { word: "agree", meaning: "ÃÂ¥ÃÂÃÂÃÂ¦ÃÂÃÂ" }, { word: "air", meaning: "ÃÂ§ÃÂ©ÃÂºÃÂ¦ÃÂ°ÃÂ" }, { word: "all", meaning: "ÃÂ¥ÃÂÃÂ¨ÃÂ©ÃÂÃÂ¨" },
-            { word: "allow", meaning: "ÃÂ¥ÃÂÃÂÃÂ¨ÃÂ®ÃÂ¸" }, { word: "almost", meaning: "ÃÂ¥ÃÂÃÂ ÃÂ¤ÃÂ¹ÃÂ" }, { word: "alone", meaning: "ÃÂ§ÃÂÃÂ¬ÃÂ¨ÃÂÃÂª" }, { word: "along", meaning: "ÃÂ¦ÃÂ²ÃÂ¿ÃÂ§ÃÂÃÂ" }, { word: "already", meaning: "ÃÂ¥ÃÂ·ÃÂ²ÃÂ§ÃÂ»ÃÂ" },
-            { word: "also", meaning: "ÃÂ¤ÃÂ¹ÃÂ" }, { word: "although", meaning: "ÃÂ¨ÃÂÃÂ½ÃÂ§ÃÂÃÂ¶" }, { word: "always", meaning: "ÃÂ¦ÃÂÃÂ»ÃÂ¦ÃÂÃÂ¯" }, { word: "among", meaning: "ÃÂ¥ÃÂÃÂ¨...ÃÂ¤ÃÂ¹ÃÂÃÂ¤ÃÂ¸ÃÂ­" }, { word: "and", meaning: "ÃÂ¥ÃÂÃÂ" },
-            { word: "angry", meaning: "ÃÂ§ÃÂÃÂÃÂ¦ÃÂ°ÃÂÃÂ§ÃÂÃÂ" }, { word: "animal", meaning: "ÃÂ¥ÃÂÃÂ¨ÃÂ§ÃÂÃÂ©" }, { word: "another", meaning: "ÃÂ¥ÃÂÃÂ¦ÃÂ¤ÃÂ¸ÃÂÃÂ¤ÃÂ¸ÃÂª" }, { word: "answer", meaning: "ÃÂ¥ÃÂÃÂÃÂ§ÃÂ­ÃÂ" }, { word: "any", meaning: "ÃÂ¤ÃÂ»ÃÂ»ÃÂ¤ÃÂ½ÃÂ" },
-            { word: "appear", meaning: "ÃÂ¥ÃÂÃÂºÃÂ§ÃÂÃÂ°" }, { word: "apple", meaning: "ÃÂ¨ÃÂÃÂ¹ÃÂ¦ÃÂÃÂ" }, { word: "area", meaning: "ÃÂ¥ÃÂÃÂºÃÂ¥ÃÂÃÂ" }, { word: "arm", meaning: "ÃÂ¦ÃÂÃÂÃÂ¨ÃÂÃÂ" }, { word: "army", meaning: "ÃÂ¥ÃÂÃÂÃÂ©ÃÂÃÂ" },
-            { word: "around", meaning: "ÃÂ¥ÃÂÃÂ´ÃÂ§ÃÂ»ÃÂ" }, { word: "arrive", meaning: "ÃÂ¥ÃÂÃÂ°ÃÂ¨ÃÂ¾ÃÂ¾" }, { word: "art", meaning: "ÃÂ¨ÃÂÃÂºÃÂ¦ÃÂÃÂ¯" }, { word: "article", meaning: "ÃÂ¦ÃÂÃÂÃÂ§ÃÂ«ÃÂ " }, { word: "as", meaning: "ÃÂ¤ÃÂ½ÃÂÃÂ¤ÃÂ¸ÃÂº" },
-            { word: "ask", meaning: "ÃÂ©ÃÂÃÂ®" }, { word: "asleep", meaning: "ÃÂ§ÃÂÃÂ¡ÃÂ§ÃÂÃÂÃÂ§ÃÂÃÂ" }, { word: "associate", meaning: "ÃÂ¨ÃÂÃÂÃÂ§ÃÂ³ÃÂ»" }, { word: "assume", meaning: "ÃÂ¥ÃÂÃÂÃÂ¨ÃÂ®ÃÂ¾" }, { word: "at", meaning: "ÃÂ¥ÃÂÃÂ¨" },
-            { word: "attack", meaning: "ÃÂ¦ÃÂÃÂ»ÃÂ¥ÃÂÃÂ»" }, { word: "attend", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂÃÂ " }, { word: "attention", meaning: "ÃÂ¦ÃÂ³ÃÂ¨ÃÂ¦ÃÂÃÂ" }, { word: "attitude", meaning: "ÃÂ¦ÃÂÃÂÃÂ¥ÃÂºÃÂ¦" }, { word: "attract", meaning: "ÃÂ¥ÃÂÃÂ¸ÃÂ¥ÃÂ¼ÃÂ" },
-            { word: "audience", meaning: "ÃÂ¨ÃÂ§ÃÂÃÂ¤ÃÂ¼ÃÂ" }, { word: "author", meaning: "ÃÂ¤ÃÂ½ÃÂÃÂ¨ÃÂÃÂ" }, { word: "available", meaning: "ÃÂ¥ÃÂÃÂ¯ÃÂ§ÃÂÃÂ¨ÃÂ§ÃÂÃÂ" }, { word: "avoid", meaning: "ÃÂ©ÃÂÃÂ¿ÃÂ¥ÃÂÃÂ" }, { word: "away", meaning: "ÃÂ§ÃÂ¦ÃÂ»ÃÂ¥ÃÂ¼ÃÂ" },
-            { word: "baby", meaning: "ÃÂ¥ÃÂ©ÃÂ´ÃÂ¥ÃÂÃÂ¿" }, { word: "back", meaning: "ÃÂ¥ÃÂÃÂÃÂ©ÃÂÃÂ¢" }, { word: "bad", meaning: "ÃÂ¥ÃÂÃÂÃÂ§ÃÂÃÂ" }, { word: "bag", meaning: "ÃÂ¥ÃÂÃÂ" }, { word: "balance", meaning: "ÃÂ¥ÃÂ¹ÃÂ³ÃÂ¨ÃÂ¡ÃÂ¡" },
-            { word: "ball", meaning: "ÃÂ§ÃÂÃÂ" }, { word: "bank", meaning: "ÃÂ©ÃÂÃÂ¶ÃÂ¨ÃÂ¡ÃÂ" }, { word: "bar", meaning: "ÃÂ©ÃÂÃÂÃÂ¥ÃÂÃÂ§" }, { word: "base", meaning: "ÃÂ¥ÃÂÃÂºÃÂ§ÃÂ¡ÃÂ" }, { word: "basic", meaning: "ÃÂ¥ÃÂÃÂºÃÂ¦ÃÂÃÂ¬ÃÂ§ÃÂÃÂ" },
-            { word: "battle", meaning: "ÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂ" }, { word: "be", meaning: "ÃÂ¦ÃÂÃÂ¯" }, { word: "bear", meaning: "ÃÂ¥ÃÂ¿ÃÂÃÂ¥ÃÂÃÂ" }, { word: "beat", meaning: "ÃÂ¦ÃÂÃÂÃÂ¨ÃÂ´ÃÂ¥" }, { word: "beautiful", meaning: "ÃÂ§ÃÂ¾ÃÂÃÂ¤ÃÂ¸ÃÂ½ÃÂ§ÃÂÃÂ" },
-            { word: "because", meaning: "ÃÂ¥ÃÂÃÂ ÃÂ¤ÃÂ¸ÃÂº" }, { word: "become", meaning: "ÃÂ¥ÃÂÃÂÃÂ¦ÃÂÃÂ" }, { word: "bed", meaning: "ÃÂ¥ÃÂºÃÂ" }, { word: "before", meaning: "ÃÂ¥ÃÂÃÂ¨...ÃÂ¤ÃÂ¹ÃÂÃÂ¥ÃÂÃÂ" }, { word: "begin", meaning: "ÃÂ¥ÃÂ¼ÃÂÃÂ¥ÃÂ§ÃÂ" },
-            { word: "behavior", meaning: "ÃÂ¨ÃÂ¡ÃÂÃÂ¤ÃÂ¸ÃÂº" }, { word: "behind", meaning: "ÃÂ¥ÃÂÃÂ¨...ÃÂ¥ÃÂÃÂÃÂ©ÃÂÃÂ¢" }, { word: "believe", meaning: "ÃÂ§ÃÂÃÂ¸ÃÂ¤ÃÂ¿ÃÂ¡" }, { word: "bell", meaning: "ÃÂ©ÃÂÃÂ" }, { word: "belong", meaning: "ÃÂ¥ÃÂ±ÃÂÃÂ¤ÃÂºÃÂ" },
-            { word: "below", meaning: "ÃÂ¥ÃÂÃÂ¨...ÃÂ¤ÃÂ¸ÃÂÃÂ©ÃÂÃÂ¢" }, { word: "benefit", meaning: "ÃÂ¥ÃÂÃÂ©ÃÂ§ÃÂÃÂ" }, { word: "beside", meaning: "ÃÂ¥ÃÂÃÂ¨...ÃÂ¦ÃÂÃÂÃÂ¨ÃÂ¾ÃÂ¹" }, { word: "best", meaning: "ÃÂ¦ÃÂÃÂÃÂ¥ÃÂ¥ÃÂ½ÃÂ§ÃÂÃÂ" }, { word: "better", meaning: "ÃÂ¦ÃÂÃÂ´ÃÂ¥ÃÂ¥ÃÂ½ÃÂ§ÃÂÃÂ" },
-            { word: "between", meaning: "ÃÂ¥ÃÂÃÂ¨...ÃÂ¤ÃÂ¹ÃÂÃÂ©ÃÂÃÂ´" }, { word: "beyond", meaning: "ÃÂ¨ÃÂ¶ÃÂÃÂ¨ÃÂ¿ÃÂ" }, { word: "big", meaning: "ÃÂ¥ÃÂ¤ÃÂ§ÃÂ§ÃÂÃÂ" }, { word: "billion", meaning: "ÃÂ¥ÃÂÃÂÃÂ¤ÃÂºÃÂ¿" }, { word: "bird", meaning: "ÃÂ©ÃÂ¸ÃÂ" },
-            { word: "birth", meaning: "ÃÂ¥ÃÂÃÂºÃÂ§ÃÂÃÂ" }, { word: "bit", meaning: "ÃÂ¤ÃÂ¸ÃÂÃÂ§ÃÂÃÂ¹" }, { word: "black", meaning: "ÃÂ©ÃÂ»ÃÂÃÂ¨ÃÂÃÂ²" }, { word: "blood", meaning: "ÃÂ¨ÃÂ¡ÃÂ" }, { word: "blue", meaning: "ÃÂ¨ÃÂÃÂÃÂ¨ÃÂÃÂ²" },
-            { word: "board", meaning: "ÃÂ¦ÃÂÃÂ¿" }, { word: "boat", meaning: "ÃÂ¨ÃÂÃÂ¹" }, { word: "body", meaning: "ÃÂ¨ÃÂºÃÂ«ÃÂ¤ÃÂ½ÃÂ" }, { word: "book", meaning: "ÃÂ¤ÃÂ¹ÃÂ¦" }, { word: "border", meaning: "ÃÂ¨ÃÂ¾ÃÂ¹ÃÂ§ÃÂÃÂ" },
-            { word: "born", meaning: "ÃÂ¥ÃÂÃÂºÃÂ§ÃÂÃÂ" }, { word: "both", meaning: "ÃÂ¤ÃÂ¸ÃÂ¤ÃÂ¨ÃÂÃÂ" }, { word: "box", meaning: "ÃÂ§ÃÂÃÂÃÂ¥ÃÂ­ÃÂ" }, { word: "boy", meaning: "ÃÂ§ÃÂÃÂ·ÃÂ¥ÃÂ­ÃÂ©" }, { word: "brain", meaning: "ÃÂ¥ÃÂ¤ÃÂ§ÃÂ¨ÃÂÃÂ" },
-            { word: "branch", meaning: "ÃÂ¥ÃÂÃÂÃÂ¦ÃÂÃÂ¯" }, { word: "brave", meaning: "ÃÂ¥ÃÂÃÂÃÂ¦ÃÂÃÂ¢ÃÂ§ÃÂÃÂ" }, { word: "bread", meaning: "ÃÂ©ÃÂÃÂ¢ÃÂ¥ÃÂÃÂ" }, { word: "break", meaning: "ÃÂ¦ÃÂÃÂÃÂ§ÃÂ ÃÂ´" }, { word: "breath", meaning: "ÃÂ¥ÃÂÃÂ¼ÃÂ¥ÃÂÃÂ¸" },
-            { word: "bridge", meaning: "ÃÂ¦ÃÂ¡ÃÂ¥" }, { word: "bright", meaning: "ÃÂ¦ÃÂÃÂÃÂ¤ÃÂºÃÂ®ÃÂ§ÃÂÃÂ" }, { word: "bring", meaning: "ÃÂ¥ÃÂ¸ÃÂ¦ÃÂ¦ÃÂÃÂ¥" }, { word: "broad", meaning: "ÃÂ¥ÃÂ®ÃÂ½ÃÂ§ÃÂÃÂ" }, { word: "brother", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂ¼ÃÂ" },
-            { word: "brown", meaning: "ÃÂ¦ÃÂ£ÃÂÃÂ¨ÃÂÃÂ²" }, { word: "build", meaning: "ÃÂ¥ÃÂ»ÃÂºÃÂ©ÃÂÃÂ " }, { word: "building", meaning: "ÃÂ¥ÃÂ»ÃÂºÃÂ§ÃÂ­ÃÂÃÂ§ÃÂÃÂ©" }, { word: "burn", meaning: "ÃÂ§ÃÂÃÂÃÂ§ÃÂÃÂ§" }, { word: "bus", meaning: "ÃÂ¥ÃÂÃÂ¬ÃÂ¥ÃÂÃÂ±ÃÂ¦ÃÂ±ÃÂ½ÃÂ¨ÃÂ½ÃÂ¦" },
-            { word: "business", meaning: "ÃÂ¥ÃÂÃÂÃÂ¤ÃÂ¸ÃÂ" }, { word: "busy", meaning: "ÃÂ¥ÃÂ¿ÃÂÃÂ§ÃÂ¢ÃÂÃÂ§ÃÂÃÂ" }, { word: "but", meaning: "ÃÂ¤ÃÂ½ÃÂÃÂ¦ÃÂÃÂ¯" }, { word: "buy", meaning: "ÃÂ¨ÃÂ´ÃÂ­ÃÂ¤ÃÂ¹ÃÂ°" }, { word: "by", meaning: "ÃÂ©ÃÂÃÂÃÂ¨ÃÂ¿ÃÂ" },
-            { word: "cake", meaning: "ÃÂ¨ÃÂÃÂÃÂ§ÃÂ³ÃÂ" }, { word: "calculate", meaning: "ÃÂ¨ÃÂ®ÃÂ¡ÃÂ§ÃÂ®ÃÂ" }, { word: "call", meaning: "ÃÂ¦ÃÂÃÂÃÂ§ÃÂÃÂµÃÂ¨ÃÂ¯ÃÂ" }, { word: "calm", meaning: "ÃÂ¥ÃÂ¹ÃÂ³ÃÂ©ÃÂÃÂÃÂ§ÃÂÃÂ" }, { word: "camera", meaning: "ÃÂ§ÃÂÃÂ¸ÃÂ¦ÃÂÃÂº" },
-            { word: "camp", meaning: "ÃÂ¨ÃÂÃÂ¥ÃÂ¥ÃÂÃÂ°" }, { word: "can", meaning: "ÃÂ¨ÃÂÃÂ½" }, { word: "cancel", meaning: "ÃÂ¥ÃÂÃÂÃÂ¦ÃÂ¶ÃÂ" }, { word: "cancer", meaning: "ÃÂ§ÃÂÃÂÃÂ§ÃÂÃÂ" }, { word: "candidate", meaning: "ÃÂ¥ÃÂÃÂÃÂ©ÃÂÃÂÃÂ¤ÃÂºÃÂº" },
-            { word: "capital", meaning: "ÃÂ©ÃÂ¦ÃÂÃÂ©ÃÂÃÂ½" }, { word: "car", meaning: "ÃÂ¦ÃÂ±ÃÂ½ÃÂ¨ÃÂ½ÃÂ¦" }, { word: "card", meaning: "ÃÂ¥ÃÂÃÂ¡ÃÂ§ÃÂÃÂ" }, { word: "care", meaning: "ÃÂ¥ÃÂÃÂ³ÃÂ¥ÃÂ¿ÃÂ" }, { word: "career", meaning: "ÃÂ¨ÃÂÃÂÃÂ¤ÃÂ¸ÃÂ" },
-            { word: "careful", meaning: "ÃÂ¥ÃÂ°ÃÂÃÂ¥ÃÂ¿ÃÂÃÂ§ÃÂÃÂ" }, { word: "carry", meaning: "ÃÂ¦ÃÂÃÂºÃÂ¥ÃÂ¸ÃÂ¦" }, { word: "case", meaning: "ÃÂ¦ÃÂ¡ÃÂÃÂ¤ÃÂ¾ÃÂ" }, { word: "cat", meaning: "ÃÂ§ÃÂÃÂ«" }, { word: "catch", meaning: "ÃÂ¦ÃÂÃÂÃÂ¤ÃÂ½ÃÂ" },
-            { word: "cause", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂÃÂ " }, { word: "celebrate", meaning: "ÃÂ¥ÃÂºÃÂÃÂ§ÃÂ¥ÃÂ" }, { word: "cell", meaning: "ÃÂ§ÃÂ»ÃÂÃÂ¨ÃÂÃÂ" }, { word: "center", meaning: "ÃÂ¤ÃÂ¸ÃÂ­ÃÂ¥ÃÂ¿ÃÂ" }, { word: "century", meaning: "ÃÂ¤ÃÂ¸ÃÂÃÂ§ÃÂºÃÂª" },
-            { word: "certain", meaning: "ÃÂ§ÃÂ¡ÃÂ®ÃÂ¥ÃÂ®ÃÂÃÂ§ÃÂÃÂ" }, { word: "certainly", meaning: "ÃÂ¥ÃÂ½ÃÂÃÂ§ÃÂÃÂ¶" }, { word: "chain", meaning: "ÃÂ©ÃÂÃÂ¾ÃÂ¦ÃÂÃÂ¡" }, { word: "chair", meaning: "ÃÂ¦ÃÂ¤ÃÂÃÂ¥ÃÂ­ÃÂ" }, { word: "challenge", meaning: "ÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂ" },
-            { word: "chance", meaning: "ÃÂ¦ÃÂÃÂºÃÂ¤ÃÂ¼ÃÂ" }, { word: "change", meaning: "ÃÂ¦ÃÂÃÂ¹ÃÂ¥ÃÂÃÂ" }, { word: "character", meaning: "ÃÂ¦ÃÂÃÂ§ÃÂ¦ÃÂ ÃÂ¼" }, { word: "charge", meaning: "ÃÂ¦ÃÂÃÂ¶ÃÂ¨ÃÂ´ÃÂ¹" }, { word: "cheap", meaning: "ÃÂ¤ÃÂ¾ÃÂ¿ÃÂ¥ÃÂ®ÃÂÃÂ§ÃÂÃÂ" },
-            { word: "check", meaning: "ÃÂ¦ÃÂ£ÃÂÃÂ¦ÃÂÃÂ¥" }, { word: "chemical", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂ­ÃÂ¦ÃÂ§ÃÂÃÂ" }, { word: "child", meaning: "ÃÂ¥ÃÂ­ÃÂ©ÃÂ¥ÃÂ­ÃÂ" }, { word: "choice", meaning: "ÃÂ©ÃÂÃÂÃÂ¦ÃÂÃÂ©" }, { word: "choose", meaning: "ÃÂ©ÃÂÃÂÃÂ¦ÃÂÃÂ©" },
-            { word: "church", meaning: "ÃÂ¦ÃÂÃÂÃÂ¥ÃÂ ÃÂ" }, { word: "circle", meaning: "ÃÂ¥ÃÂÃÂ" }, { word: "city", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂ¸ÃÂ" }, { word: "claim", meaning: "ÃÂ¥ÃÂ£ÃÂ°ÃÂ§ÃÂ§ÃÂ°" }, { word: "class", meaning: "ÃÂ§ÃÂÃÂ­ÃÂ§ÃÂºÃÂ§" },
-            { word: "clean", meaning: "ÃÂ¦ÃÂ¸ÃÂÃÂ¦ÃÂ´ÃÂ" }, { word: "clear", meaning: "ÃÂ¦ÃÂ¸ÃÂÃÂ¦ÃÂ¥ÃÂÃÂ§ÃÂÃÂ" }, { word: "climb", meaning: "ÃÂ§ÃÂÃÂ¬" }, { word: "clock", meaning: "ÃÂ¦ÃÂÃÂ¶ÃÂ©ÃÂÃÂ" }, { word: "close", meaning: "ÃÂ¥ÃÂÃÂ³ÃÂ©ÃÂÃÂ­" },
-            { word: "clothes", meaning: "ÃÂ¨ÃÂ¡ÃÂ£ÃÂ¦ÃÂÃÂ" }, { word: "cloud", meaning: "ÃÂ¤ÃÂºÃÂ" }, { word: "club", meaning: "ÃÂ¤ÃÂ¿ÃÂ±ÃÂ¤ÃÂ¹ÃÂÃÂ©ÃÂÃÂ¨" }, { word: "coach", meaning: "ÃÂ¦ÃÂÃÂÃÂ§ÃÂ»ÃÂ" }, { word: "coal", meaning: "ÃÂ§ÃÂÃÂ¤" },
-            { word: "coast", meaning: "ÃÂ¦ÃÂµÃÂ·ÃÂ¥ÃÂ²ÃÂ¸" }, { word: "coat", meaning: "ÃÂ¥ÃÂ¤ÃÂÃÂ¥ÃÂ¥ÃÂ" }, { word: "code", meaning: "ÃÂ¤ÃÂ»ÃÂ£ÃÂ§ÃÂ ÃÂ" }, { word: "coffee", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂÃÂ¡" }, { word: "cold", meaning: "ÃÂ¥ÃÂÃÂ·ÃÂ§ÃÂÃÂ" },
-            { word: "collect", meaning: "ÃÂ¦ÃÂÃÂ¶ÃÂ©ÃÂÃÂ" }, { word: "college", meaning: "ÃÂ¥ÃÂ¤ÃÂ§ÃÂ¥ÃÂ­ÃÂ¦" }, { word: "color", meaning: "ÃÂ©ÃÂ¢ÃÂÃÂ¨ÃÂÃÂ²" }, { word: "come", meaning: "ÃÂ¦ÃÂÃÂ¥" }, { word: "comfortable", meaning: "ÃÂ¨ÃÂÃÂÃÂ©ÃÂÃÂÃÂ§ÃÂÃÂ" },
-            { word: "common", meaning: "ÃÂ¦ÃÂÃÂ®ÃÂ©ÃÂÃÂÃÂ§ÃÂÃÂ" }, { word: "communicate", meaning: "ÃÂ¦ÃÂ²ÃÂÃÂ©ÃÂÃÂ" }, { word: "community", meaning: "ÃÂ§ÃÂ¤ÃÂ¾ÃÂ¥ÃÂÃÂº" }, { word: "company", meaning: "ÃÂ¥ÃÂÃÂ¬ÃÂ¥ÃÂÃÂ¸" }, { word: "compare", meaning: "ÃÂ¦ÃÂ¯ÃÂÃÂ¨ÃÂ¾ÃÂ" },
-            { word: "compete", meaning: "ÃÂ§ÃÂ«ÃÂÃÂ¤ÃÂºÃÂ" }, { word: "complete", meaning: "ÃÂ¥ÃÂ®ÃÂÃÂ¦ÃÂÃÂ" }, { word: "computer", meaning: "ÃÂ¨ÃÂ®ÃÂ¡ÃÂ§ÃÂ®ÃÂÃÂ¦ÃÂÃÂº" }, { word: "concern", meaning: "ÃÂ¥ÃÂÃÂ³ÃÂ¥ÃÂ¿ÃÂ" }, { word: "condition", meaning: "ÃÂ¦ÃÂÃÂ¡ÃÂ¤ÃÂ»ÃÂ¶" },
-            { word: "conference", meaning: "ÃÂ¤ÃÂ¼ÃÂÃÂ¨ÃÂ®ÃÂ®" }, { word: "confidence", meaning: "ÃÂ¤ÃÂ¿ÃÂ¡ÃÂ¥ÃÂ¿ÃÂ" }, { word: "confirm", meaning: "ÃÂ§ÃÂ¡ÃÂ®ÃÂ¨ÃÂ®ÃÂ¤" }, { word: "confuse", meaning: "ÃÂ¦ÃÂ·ÃÂ·ÃÂ¦ÃÂ·ÃÂ" }, { word: "connect", meaning: "ÃÂ¨ÃÂ¿ÃÂÃÂ¦ÃÂÃÂ¥" },
-            { word: "consider", meaning: "ÃÂ¨ÃÂÃÂÃÂ¨ÃÂÃÂ" }, { word: "consist", meaning: "ÃÂ§ÃÂÃÂ±...ÃÂ§ÃÂ»ÃÂÃÂ¦ÃÂÃÂ" }, { word: "constant", meaning: "ÃÂ¤ÃÂ¸ÃÂÃÂ¦ÃÂÃÂ­ÃÂ§ÃÂÃÂ" }, { word: "construction", meaning: "ÃÂ¥ÃÂ»ÃÂºÃÂ¨ÃÂ®ÃÂ¾" }, { word: "contain", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂÃÂ«" },
-            { word: "continue", meaning: "ÃÂ§ÃÂ»ÃÂ§ÃÂ§ÃÂ»ÃÂ­" }, { word: "control", meaning: "ÃÂ¦ÃÂÃÂ§ÃÂ¥ÃÂÃÂ¶" }, { word: "conversation", meaning: "ÃÂ¥ÃÂ¯ÃÂ¹ÃÂ¨ÃÂ¯ÃÂ" }, { word: "cook", meaning: "ÃÂ§ÃÂÃÂ¹ÃÂ©ÃÂ¥ÃÂª" }, { word: "cool", meaning: "ÃÂ¥ÃÂÃÂÃÂ§ÃÂÃÂ½ÃÂ§ÃÂÃÂ" },
-            { word: "copy", meaning: "ÃÂ¥ÃÂ¤ÃÂÃÂ¥ÃÂÃÂ¶" }, { word: "corner", meaning: "ÃÂ¨ÃÂ§ÃÂÃÂ¨ÃÂÃÂ½" }, { word: "correct", meaning: "ÃÂ¦ÃÂ­ÃÂ£ÃÂ§ÃÂ¡ÃÂ®ÃÂ§ÃÂÃÂ" }, { word: "cost", meaning: "ÃÂ¨ÃÂÃÂ±ÃÂ¨ÃÂ´ÃÂ¹" }, { word: "could", meaning: "ÃÂ¥ÃÂÃÂ¯ÃÂ¤ÃÂ»ÃÂ¥" },
-            { word: "council", meaning: "ÃÂ¥ÃÂ§ÃÂÃÂ¥ÃÂÃÂÃÂ¤ÃÂ¼ÃÂ" }, { word: "count", meaning: "ÃÂ¦ÃÂÃÂ°ÃÂ¦ÃÂÃÂ°" }, { word: "country", meaning: "ÃÂ¥ÃÂÃÂ½ÃÂ¥ÃÂ®ÃÂ¶" }, { word: "county", meaning: "ÃÂ¥ÃÂÃÂ¿" }, { word: "couple", meaning: "ÃÂ¤ÃÂ¸ÃÂÃÂ¥ÃÂ¯ÃÂ¹" },
-            { word: "courage", meaning: "ÃÂ¥ÃÂÃÂÃÂ¦ÃÂ°ÃÂ" }, { word: "course", meaning: "ÃÂ¨ÃÂ¯ÃÂ¾ÃÂ§ÃÂ¨ÃÂ" }, { word: "court", meaning: "ÃÂ¦ÃÂ³ÃÂÃÂ¥ÃÂºÃÂ­" }, { word: "cover", meaning: "ÃÂ¨ÃÂ¦ÃÂÃÂ§ÃÂÃÂ" }, { word: "crash", meaning: "ÃÂ§ÃÂ¢ÃÂ°ÃÂ¦ÃÂÃÂ" },
-            { word: "crazy", meaning: "ÃÂ§ÃÂÃÂ¯ÃÂ§ÃÂÃÂÃÂ§ÃÂÃÂ" }, { word: "cream", meaning: "ÃÂ¥ÃÂ¥ÃÂ¶ÃÂ¦ÃÂ²ÃÂ¹" }, { word: "create", meaning: "ÃÂ¥ÃÂÃÂÃÂ©ÃÂÃÂ " }, { word: "credit", meaning: "ÃÂ¤ÃÂ¿ÃÂ¡ÃÂ§ÃÂÃÂ¨" }, { word: "crime", meaning: "ÃÂ§ÃÂÃÂ¯ÃÂ§ÃÂ½ÃÂª" },
-            { word: "crisis", meaning: "ÃÂ¥ÃÂÃÂ±ÃÂ¦ÃÂÃÂº" }, { word: "critical", meaning: "ÃÂ¥ÃÂÃÂ³ÃÂ©ÃÂÃÂ®ÃÂ§ÃÂÃÂ" }, { word: "cross", meaning: "ÃÂ§ÃÂ©ÃÂ¿ÃÂ¨ÃÂ¿ÃÂ" }, { word: "crowd", meaning: "ÃÂ¤ÃÂºÃÂºÃÂ§ÃÂ¾ÃÂ¤" }, { word: "crucial", meaning: "ÃÂ¨ÃÂÃÂ³ÃÂ¥ÃÂÃÂ³ÃÂ©ÃÂÃÂÃÂ¨ÃÂ¦ÃÂÃÂ§ÃÂÃÂ" },
-            { word: "cry", meaning: "ÃÂ¥ÃÂÃÂ­" }, { word: "cultural", meaning: "ÃÂ¦ÃÂÃÂÃÂ¥ÃÂÃÂÃÂ§ÃÂÃÂ" }, { word: "culture", meaning: "ÃÂ¦ÃÂÃÂÃÂ¥ÃÂÃÂ" }, { word: "cup", meaning: "ÃÂ¦ÃÂÃÂ¯ÃÂ¥ÃÂ­ÃÂ" }, { word: "current", meaning: "ÃÂ¥ÃÂ½ÃÂÃÂ¥ÃÂÃÂÃÂ§ÃÂÃÂ" },
-            { word: "curtain", meaning: "ÃÂ§ÃÂªÃÂÃÂ¥ÃÂ¸ÃÂ" }, { word: "curve", meaning: "ÃÂ¦ÃÂÃÂ²ÃÂ§ÃÂºÃÂ¿" }, { word: "customer", meaning: "ÃÂ©ÃÂ¡ÃÂ¾ÃÂ¥ÃÂ®ÃÂ¢" }, { word: "cut", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂÃÂ²" }, { word: "cycle", meaning: "ÃÂ¥ÃÂ¾ÃÂªÃÂ§ÃÂÃÂ¯" },
-            { word: "dad", meaning: "ÃÂ§ÃÂÃÂ¸ÃÂ§ÃÂÃÂ¸" }, { word: "daily", meaning: "ÃÂ¦ÃÂ¯ÃÂÃÂ¦ÃÂÃÂ¥ÃÂ§ÃÂÃÂ" }, { word: "damage", meaning: "ÃÂ¦ÃÂÃÂÃÂ¥ÃÂÃÂ" }, { word: "dance", meaning: "ÃÂ¨ÃÂ·ÃÂ³ÃÂ¨ÃÂÃÂ" }, { word: "danger", meaning: "ÃÂ¥ÃÂÃÂ±ÃÂ©ÃÂÃÂ©" },
-            { word: "dangerous", meaning: "ÃÂ¥ÃÂÃÂ±ÃÂ©ÃÂÃÂ©ÃÂ§ÃÂÃÂ" }, { word: "dark", meaning: "ÃÂ©ÃÂ»ÃÂÃÂ¦ÃÂÃÂÃÂ§ÃÂÃÂ" }, { word: "data", meaning: "ÃÂ¦ÃÂÃÂ°ÃÂ¦ÃÂÃÂ®" }, { word: "date", meaning: "ÃÂ¦ÃÂÃÂ¥ÃÂ¦ÃÂÃÂ" }, { word: "daughter", meaning: "ÃÂ¥ÃÂ¥ÃÂ³ÃÂ¥ÃÂÃÂ¿" },
-            { word: "day", meaning: "ÃÂ¥ÃÂ¤ÃÂ©" }, { word: "dead", meaning: "ÃÂ¦ÃÂ­ÃÂ»ÃÂ§ÃÂÃÂ" }, { word: "deal", meaning: "ÃÂ¥ÃÂ¤ÃÂÃÂ§ÃÂÃÂ" }, { word: "dear", meaning: "ÃÂ¤ÃÂºÃÂ²ÃÂ§ÃÂÃÂ±ÃÂ§ÃÂÃÂ" }, { word: "death", meaning: "ÃÂ¦ÃÂ­ÃÂ»ÃÂ¤ÃÂºÃÂ¡" },
-            { word: "debate", meaning: "ÃÂ¨ÃÂ¾ÃÂ©ÃÂ¨ÃÂ®ÃÂº" }, { word: "debt", meaning: "ÃÂ¥ÃÂÃÂºÃÂ¥ÃÂÃÂ¡" }, { word: "decade", meaning: "ÃÂ¥ÃÂÃÂÃÂ¥ÃÂ¹ÃÂ´" }, { word: "decide", meaning: "ÃÂ¥ÃÂÃÂ³ÃÂ¥ÃÂ®ÃÂ" }, { word: "decision", meaning: "ÃÂ¥ÃÂÃÂ³ÃÂ¥ÃÂ®ÃÂ" }
+            { word: "a", meaning: "一（个）" }, { word: "able", meaning: "能够的" }, { word: "about", meaning: "关于" }, { word: "above", meaning: "在...上面" }, { word: "accept", meaning: "接受" },
+            { word: "accident", meaning: "事故" }, { word: "achieve", meaning: "实现" }, { word: "across", meaning: "穿过" }, { word: "act", meaning: "行动" }, { word: "active", meaning: "活跃的" },
+            { word: "activity", meaning: "活动" }, { word: "add", meaning: "增加" }, { word: "address", meaning: "地址" }, { word: "admire", meaning: "钦佩" }, { word: "adult", meaning: "成人" },
+            { word: "advice", meaning: "建议" }, { word: "afford", meaning: "负担得起" }, { word: "afraid", meaning: "害怕的" }, { word: "after", meaning: "在...之后" }, { word: "again", meaning: "再次" },
+            { word: "age", meaning: "年龄" }, { word: "ago", meaning: "以前" }, { word: "agree", meaning: "同意" }, { word: "air", meaning: "空气" }, { word: "all", meaning: "全部" },
+            { word: "allow", meaning: "允许" }, { word: "almost", meaning: "几乎" }, { word: "alone", meaning: "独自" }, { word: "along", meaning: "沿着" }, { word: "already", meaning: "已经" },
+            { word: "also", meaning: "也" }, { word: "although", meaning: "虽然" }, { word: "always", meaning: "总是" }, { word: "among", meaning: "在...之中" }, { word: "and", meaning: "和" },
+            { word: "angry", meaning: "生气的" }, { word: "animal", meaning: "动物" }, { word: "another", meaning: "另一个" }, { word: "answer", meaning: "回答" }, { word: "any", meaning: "任何" },
+            { word: "appear", meaning: "出现" }, { word: "apple", meaning: "苹果" }, { word: "area", meaning: "区域" }, { word: "arm", meaning: "手臂" }, { word: "army", meaning: "军队" },
+            { word: "around", meaning: "围绕" }, { word: "arrive", meaning: "到达" }, { word: "art", meaning: "艺术" }, { word: "article", meaning: "文章" }, { word: "as", meaning: "作为" },
+            { word: "ask", meaning: "问" }, { word: "asleep", meaning: "睡着的" }, { word: "associate", meaning: "联系" }, { word: "assume", meaning: "假设" }, { word: "at", meaning: "在" },
+            { word: "attack", meaning: "攻击" }, { word: "attend", meaning: "参加" }, { word: "attention", meaning: "注意" }, { word: "attitude", meaning: "态度" }, { word: "attract", meaning: "吸引" },
+            { word: "audience", meaning: "观众" }, { word: "author", meaning: "作者" }, { word: "available", meaning: "可用的" }, { word: "avoid", meaning: "避免" }, { word: "away", meaning: "离开" },
+            { word: "baby", meaning: "婴儿" }, { word: "back", meaning: "后面" }, { word: "bad", meaning: "坏的" }, { word: "bag", meaning: "包" }, { word: "balance", meaning: "平衡" },
+            { word: "ball", meaning: "球" }, { word: "bank", meaning: "银行" }, { word: "bar", meaning: "酒吧" }, { word: "base", meaning: "基础" }, { word: "basic", meaning: "基本的" },
+            { word: "battle", meaning: "战斗" }, { word: "be", meaning: "是" }, { word: "bear", meaning: "忍受" }, { word: "beat", meaning: "打败" }, { word: "beautiful", meaning: "美丽的" },
+            { word: "because", meaning: "因为" }, { word: "become", meaning: "变成" }, { word: "bed", meaning: "床" }, { word: "before", meaning: "在...之前" }, { word: "begin", meaning: "开始" },
+            { word: "behavior", meaning: "行为" }, { word: "behind", meaning: "在...后面" }, { word: "believe", meaning: "相信" }, { word: "bell", meaning: "钟" }, { word: "belong", meaning: "属于" },
+            { word: "below", meaning: "在...下面" }, { word: "benefit", meaning: "利益" }, { word: "beside", meaning: "在...旁边" }, { word: "best", meaning: "最好的" }, { word: "better", meaning: "更好的" },
+            { word: "between", meaning: "在...之间" }, { word: "beyond", meaning: "超过" }, { word: "big", meaning: "大的" }, { word: "billion", meaning: "十亿" }, { word: "bird", meaning: "鸟" },
+            { word: "birth", meaning: "出生" }, { word: "bit", meaning: "一点" }, { word: "black", meaning: "黑色" }, { word: "blood", meaning: "血" }, { word: "blue", meaning: "蓝色" },
+            { word: "board", meaning: "板" }, { word: "boat", meaning: "船" }, { word: "body", meaning: "身体" }, { word: "book", meaning: "书" }, { word: "border", meaning: "边界" },
+            { word: "born", meaning: "出生" }, { word: "both", meaning: "两者" }, { word: "box", meaning: "盒子" }, { word: "boy", meaning: "男孩" }, { word: "brain", meaning: "大脑" },
+            { word: "branch", meaning: "分支" }, { word: "brave", meaning: "勇敢的" }, { word: "bread", meaning: "面包" }, { word: "break", meaning: "打破" }, { word: "breath", meaning: "呼吸" },
+            { word: "bridge", meaning: "桥" }, { word: "bright", meaning: "明亮的" }, { word: "bring", meaning: "带来" }, { word: "broad", meaning: "宽的" }, { word: "brother", meaning: "兄弟" },
+            { word: "brown", meaning: "棕色" }, { word: "build", meaning: "建造" }, { word: "building", meaning: "建筑物" }, { word: "burn", meaning: "燃烧" }, { word: "bus", meaning: "公共汽车" },
+            { word: "business", meaning: "商业" }, { word: "busy", meaning: "忙碌的" }, { word: "but", meaning: "但是" }, { word: "buy", meaning: "购买" }, { word: "by", meaning: "通过" },
+            { word: "cake", meaning: "蛋糕" }, { word: "calculate", meaning: "计算" }, { word: "call", meaning: "打电话" }, { word: "calm", meaning: "平静的" }, { word: "camera", meaning: "相机" },
+            { word: "camp", meaning: "营地" }, { word: "can", meaning: "能" }, { word: "cancel", meaning: "取消" }, { word: "cancer", meaning: "癌症" }, { word: "candidate", meaning: "候选人" },
+            { word: "capital", meaning: "首都" }, { word: "car", meaning: "汽车" }, { word: "card", meaning: "卡片" }, { word: "care", meaning: "关心" }, { word: "career", meaning: "职业" },
+            { word: "careful", meaning: "小心的" }, { word: "carry", meaning: "携带" }, { word: "case", meaning: "案例" }, { word: "cat", meaning: "猫" }, { word: "catch", meaning: "抓住" },
+            { word: "cause", meaning: "原因" }, { word: "celebrate", meaning: "庆祝" }, { word: "cell", meaning: "细胞" }, { word: "center", meaning: "中心" }, { word: "century", meaning: "世纪" },
+            { word: "certain", meaning: "确定的" }, { word: "certainly", meaning: "当然" }, { word: "chain", meaning: "链条" }, { word: "chair", meaning: "椅子" }, { word: "challenge", meaning: "挑战" },
+            { word: "chance", meaning: "机会" }, { word: "change", meaning: "改变" }, { word: "character", meaning: "性格" }, { word: "charge", meaning: "收费" }, { word: "cheap", meaning: "便宜的" },
+            { word: "check", meaning: "检查" }, { word: "chemical", meaning: "化学的" }, { word: "child", meaning: "孩子" }, { word: "choice", meaning: "选择" }, { word: "choose", meaning: "选择" },
+            { word: "church", meaning: "教堂" }, { word: "circle", meaning: "圆" }, { word: "city", meaning: "城市" }, { word: "claim", meaning: "声称" }, { word: "class", meaning: "班级" },
+            { word: "clean", meaning: "清洁" }, { word: "clear", meaning: "清楚的" }, { word: "climb", meaning: "爬" }, { word: "clock", meaning: "时钟" }, { word: "close", meaning: "关闭" },
+            { word: "clothes", meaning: "衣服" }, { word: "cloud", meaning: "云" }, { word: "club", meaning: "俱乐部" }, { word: "coach", meaning: "教练" }, { word: "coal", meaning: "煤" },
+            { word: "coast", meaning: "海岸" }, { word: "coat", meaning: "外套" }, { word: "code", meaning: "代码" }, { word: "coffee", meaning: "咖啡" }, { word: "cold", meaning: "冷的" },
+            { word: "collect", meaning: "收集" }, { word: "college", meaning: "大学" }, { word: "color", meaning: "颜色" }, { word: "come", meaning: "来" }, { word: "comfortable", meaning: "舒适的" },
+            { word: "common", meaning: "普通的" }, { word: "communicate", meaning: "沟通" }, { word: "community", meaning: "社区" }, { word: "company", meaning: "公司" }, { word: "compare", meaning: "比较" },
+            { word: "compete", meaning: "竞争" }, { word: "complete", meaning: "完成" }, { word: "computer", meaning: "计算机" }, { word: "concern", meaning: "关心" }, { word: "condition", meaning: "条件" },
+            { word: "conference", meaning: "会议" }, { word: "confidence", meaning: "信心" }, { word: "confirm", meaning: "确认" }, { word: "confuse", meaning: "混淆" }, { word: "connect", meaning: "连接" },
+            { word: "consider", meaning: "考虑" }, { word: "consist", meaning: "由...组成" }, { word: "constant", meaning: "不断的" }, { word: "construction", meaning: "建设" }, { word: "contain", meaning: "包含" },
+            { word: "continue", meaning: "继续" }, { word: "control", meaning: "控制" }, { word: "conversation", meaning: "对话" }, { word: "cook", meaning: "烹饪" }, { word: "cool", meaning: "凉爽的" },
+            { word: "copy", meaning: "复制" }, { word: "corner", meaning: "角落" }, { word: "correct", meaning: "正确的" }, { word: "cost", meaning: "花费" }, { word: "could", meaning: "可以" },
+            { word: "council", meaning: "委员会" }, { word: "count", meaning: "数数" }, { word: "country", meaning: "国家" }, { word: "county", meaning: "县" }, { word: "couple", meaning: "一对" },
+            { word: "courage", meaning: "勇气" }, { word: "course", meaning: "课程" }, { word: "court", meaning: "法庭" }, { word: "cover", meaning: "覆盖" }, { word: "crash", meaning: "碰撞" },
+            { word: "crazy", meaning: "疯狂的" }, { word: "cream", meaning: "奶油" }, { word: "create", meaning: "创造" }, { word: "credit", meaning: "信用" }, { word: "crime", meaning: "犯罪" },
+            { word: "crisis", meaning: "危机" }, { word: "critical", meaning: "关键的" }, { word: "cross", meaning: "穿过" }, { word: "crowd", meaning: "人群" }, { word: "crucial", meaning: "至关重要的" },
+            { word: "cry", meaning: "哭" }, { word: "cultural", meaning: "文化的" }, { word: "culture", meaning: "文化" }, { word: "cup", meaning: "杯子" }, { word: "current", meaning: "当前的" },
+            { word: "curtain", meaning: "窗帘" }, { word: "curve", meaning: "曲线" }, { word: "customer", meaning: "顾客" }, { word: "cut", meaning: "切割" }, { word: "cycle", meaning: "循环" },
+            { word: "dad", meaning: "爸爸" }, { word: "daily", meaning: "每日的" }, { word: "damage", meaning: "损坏" }, { word: "dance", meaning: "跳舞" }, { word: "danger", meaning: "危险" },
+            { word: "dangerous", meaning: "危险的" }, { word: "dark", meaning: "黑暗的" }, { word: "data", meaning: "数据" }, { word: "date", meaning: "日期" }, { word: "daughter", meaning: "女儿" },
+            { word: "day", meaning: "天" }, { word: "dead", meaning: "死的" }, { word: "deal", meaning: "处理" }, { word: "dear", meaning: "亲爱的" }, { word: "death", meaning: "死亡" },
+            { word: "debate", meaning: "辩论" }, { word: "debt", meaning: "债务" }, { word: "decade", meaning: "十年" }, { word: "decide", meaning: "决定" }, { word: "decision", meaning: "决定" }
         ];        let currentBank = "waichong";
         let originalWords = [...WAICHONG_WORDS];
         let wrongList = [];
@@ -407,8 +407,8 @@
         phoneInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') loginBtn.click(); });
         loginBtn.onclick = () => {
             let phone = phoneInput.value.trim();
-            if (!phone) loginError.innerText = 'ÃÂ¨ÃÂ¯ÃÂ·ÃÂ¨ÃÂ¾ÃÂÃÂ¥ÃÂÃÂ¥ÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂºÃÂ¥ÃÂÃÂ·';
-            else if (!ALLOWED_PHONES.includes(phone)) loginError.innerText = 'ÃÂ¨ÃÂ¯ÃÂ¥ÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂºÃÂ¥ÃÂÃÂ·ÃÂ¦ÃÂÃÂªÃÂ¨ÃÂÃÂ·ÃÂ¥ÃÂ¾ÃÂÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂÃÂ¯ÃÂ¼ÃÂÃÂ¨ÃÂ¯ÃÂ·ÃÂ¨ÃÂÃÂÃÂ§ÃÂ³ÃÂ»ÃÂ¥ÃÂ®ÃÂ¢ÃÂ¦ÃÂÃÂÃÂ¨ÃÂ´ÃÂ­ÃÂ¤ÃÂ¹ÃÂ°ÃÂ£ÃÂÃÂ';
+            if (!phone) loginError.innerText = '请输入手机号';
+            else if (!ALLOWED_PHONES.includes(phone)) loginError.innerText = '该手机号未获得授权，请联系客服购买。';
             else { currentPhone = phone; loginContainer.classList.add('hidden'); gameContainer.classList.remove('hidden'); initGame(); }
         };
 
@@ -430,7 +430,7 @@
                             answered = true;
                             answeredCount++;
                             levelQuestionsCount++;
-                            document.getElementById('feedbackMsg').innerHTML = `ÃÂ¢ÃÂÃÂ° ÃÂ¨ÃÂ¶ÃÂÃÂ¦ÃÂÃÂ¶ÃÂ¯ÃÂ¼ÃÂÃÂ¦ÃÂ­ÃÂ£ÃÂ§ÃÂ¡ÃÂ®ÃÂ§ÃÂ­ÃÂÃÂ¦ÃÂ¡ÃÂÃÂ¦ÃÂÃÂ¯ ${currentQuestion.word}`;
+                            document.getElementById('feedbackMsg').innerHTML = `⏰ 超时！正确答案是 ${currentQuestion.word}`;
                             if (!wrongList.some(w => w.word === currentQuestion.word)) {
                                 wrongList.push({ word: currentQuestion.word, meaning: currentQuestion.meaning });
                                 saveWrong(); renderWrongList();
@@ -447,16 +447,16 @@
             if (!currentQuestion) return;
             if (isPaused) {
                 isPaused = false; startTimer();
-                pauseBtn.innerHTML = 'ÃÂ¢ÃÂÃÂ¸ÃÂ¯ÃÂ¸ÃÂ ÃÂ¦ÃÂÃÂÃÂ¥ÃÂÃÂ'; pauseBtn.style.background = '#5f7f9e';
+                pauseBtn.innerHTML = '⏸️ 暂停'; pauseBtn.style.background = '#5f7f9e';
             } else {
                 isPaused = true; stopTimer();
-                pauseBtn.innerHTML = 'ÃÂ¢ÃÂÃÂ¶ÃÂ¯ÃÂ¸ÃÂ ÃÂ§ÃÂ»ÃÂ§ÃÂ§ÃÂ»ÃÂ­'; pauseBtn.style.background = '#2c7da0';
+                pauseBtn.innerHTML = '▶️ 继续'; pauseBtn.style.background = '#2c7da0';
             }
         }
 
         function toggleDirection() {
             quizDirection = quizDirection === 'ch2en' ? 'en2ch' : 'ch2en';
-            directionBtn.innerText = quizDirection === 'ch2en' ? 'ÃÂ°ÃÂÃÂÃÂ ÃÂ¤ÃÂ¸ÃÂ­ÃÂ¢ÃÂÃÂÃÂ¨ÃÂÃÂ±' : 'ÃÂ°ÃÂÃÂÃÂ ÃÂ¨ÃÂÃÂ±ÃÂ¢ÃÂÃÂÃÂ¤ÃÂ¸ÃÂ­';
+            directionBtn.innerText = quizDirection === 'ch2en' ? '🔄 中→英' : '🔄 英→中';
             generateNewQuestion();
         }
 
@@ -472,7 +472,7 @@
                 let utterance = new SpeechSynthesisUtterance(word);
                 utterance.lang = 'en-US'; utterance.rate = 0.9;
                 window.speechSynthesis.speak(utterance);
-            } else alert("ÃÂ¦ÃÂÃÂ¨ÃÂ§ÃÂÃÂÃÂ¦ÃÂµÃÂÃÂ¨ÃÂ§ÃÂÃÂ¥ÃÂÃÂ¨ÃÂ¤ÃÂ¸ÃÂÃÂ¦ÃÂÃÂ¯ÃÂ¦ÃÂÃÂÃÂ¨ÃÂ¯ÃÂ­ÃÂ©ÃÂÃÂ³ÃÂ¦ÃÂÃÂÃÂ¨ÃÂ¯ÃÂ»ÃÂ¥ÃÂÃÂÃÂ¨ÃÂÃÂ½ÃÂ£ÃÂÃÂ");
+            } else alert("您的浏览器不支持语音朗读功能。");
         }
 
         async function fetchPhonetic(word) {
@@ -548,14 +548,14 @@
 
         function generateNewQuestion() {
             if (isPaused) {
-                isPaused = false; pauseBtn.innerHTML = 'ÃÂ¢ÃÂÃÂ¸ÃÂ¯ÃÂ¸ÃÂ ÃÂ¦ÃÂÃÂÃÂ¥ÃÂÃÂ'; pauseBtn.style.background = '#5f7f9e';
+                isPaused = false; pauseBtn.innerHTML = '⏸️ 暂停'; pauseBtn.style.background = '#5f7f9e';
             }
             stopTimer(); enableOptions();
             const pool = getCurrentWordPool();
             if (pool.length === 0) {
-                document.getElementById('chineseWord').innerText = "ÃÂ°ÃÂÃÂÃÂ ÃÂ¦ÃÂÃÂ­ÃÂ¥ÃÂÃÂÃÂ¯ÃÂ¼ÃÂÃÂ¦ÃÂ²ÃÂ¡ÃÂ¦ÃÂÃÂÃÂ¥ÃÂÃÂ¯ÃÂ§ÃÂ»ÃÂÃÂ¤ÃÂ¹ÃÂ ÃÂ§ÃÂÃÂÃÂ¥ÃÂÃÂÃÂ¨ÃÂ¯ÃÂÃÂ¤ÃÂºÃÂÃÂ¯ÃÂ¼ÃÂ";
+                document.getElementById('chineseWord').innerText = "🎉 恭喜！没有可练习的单词了！";
                 document.getElementById('optionsContainer').innerHTML = "";
-                document.getElementById('feedbackMsg').innerText = "ÃÂ§ÃÂÃÂ¹ÃÂ¥ÃÂÃÂ»ÃÂ£ÃÂÃÂÃÂ©ÃÂÃÂÃÂ¦ÃÂÃÂ°ÃÂ¥ÃÂ¼ÃÂÃÂ¥ÃÂ§ÃÂÃÂ£ÃÂÃÂÃÂ§ÃÂ»ÃÂ§ÃÂ§ÃÂ»ÃÂ­ÃÂ©ÃÂÃÂÃÂ¦ÃÂÃÂºÃÂ§ÃÂ»ÃÂÃÂ¤ÃÂ¹ÃÂ ";
+                document.getElementById('feedbackMsg').innerText = "点击「重新开始」继续随机练习";
                 currentQuestion = null; return;
             }
             const randomIndex = Math.floor(Math.random() * pool.length);
@@ -600,15 +600,15 @@
             levelQuestionsCount++;
             if (isCorrect) {
                 currentScore++; levelCorrectCount++;
-                document.getElementById('feedbackMsg').innerText = "ÃÂ¢ÃÂÃÂ ÃÂ¦ÃÂ­ÃÂ£ÃÂ§ÃÂ¡ÃÂ®ÃÂ¯ÃÂ¼ÃÂ";
+                document.getElementById('feedbackMsg').innerText = "✅ 正确！";
                 if (currentMode === "wrongPractice") {
                     const idx = wrongList.findIndex(w => w.word === currentQuestion.word);
                     if (idx !== -1) { wrongList.splice(idx, 1); saveWrong(); renderWrongList(); }
-                    if (wrongList.length === 0) { currentMode = "normal"; document.getElementById('modeInfo').innerText = "ÃÂ°ÃÂÃÂÃÂ² ÃÂ©ÃÂÃÂÃÂ¦ÃÂÃÂºÃÂ¦ÃÂ¨ÃÂ¡ÃÂ¥ÃÂ¼ÃÂ"; }
+                    if (wrongList.length === 0) { currentMode = "normal"; document.getElementById('modeInfo').innerText = "🎲 随机模式"; }
                 }
                 updateScoreUI(); updateLevelDisplay();
             } else {
-                document.getElementById('feedbackMsg').innerHTML = `ÃÂ¢ÃÂÃÂ ÃÂ©ÃÂÃÂÃÂ¨ÃÂ¯ÃÂ¯ÃÂ¯ÃÂ¼ÃÂÃÂ¦ÃÂ­ÃÂ£ÃÂ§ÃÂ¡ÃÂ®ÃÂ§ÃÂ­ÃÂÃÂ¦ÃÂ¡ÃÂÃÂ¦ÃÂÃÂ¯ ${currentQuestion.word}`;
+                document.getElementById('feedbackMsg').innerHTML = `❌ 错误！正确答案是 ${currentQuestion.word}`;
                 if (!wrongList.some(w => w.word === currentQuestion.word)) {
                     wrongList.push({ word: currentQuestion.word, meaning: currentQuestion.meaning });
                     saveWrong(); renderWrongList();
@@ -620,11 +620,11 @@
                 if (passRate >= LEVEL_PASS_RATE) {
                     currentLevel++; levelQuestionsCount = 0; levelCorrectCount = 0;
                     updateLevelDisplay();
-                    alert(`ÃÂ°ÃÂÃÂÃÂ ÃÂ¦ÃÂÃÂ­ÃÂ¥ÃÂÃÂÃÂ©ÃÂÃÂÃÂ¨ÃÂ¿ÃÂÃÂ§ÃÂ¬ÃÂ¬ ${currentLevel-1} ÃÂ¥ÃÂÃÂ³ÃÂ¯ÃÂ¼ÃÂÃÂ¨ÃÂ¿ÃÂÃÂ¥ÃÂÃÂ¥ÃÂ§ÃÂ¬ÃÂ¬ ${currentLevel} ÃÂ¥ÃÂÃÂ³`);
+                    alert(`🎉 恭喜通过第 ${currentLevel-1} 关！进入第 ${currentLevel} 关`);
                 } else {
                     levelQuestionsCount = 0; levelCorrectCount = 0;
                     updateLevelDisplay();
-                    alert(`ÃÂ¢ÃÂÃÂ ÃÂ§ÃÂ¬ÃÂ¬ ${currentLevel} ÃÂ¥ÃÂÃÂ³ÃÂ¦ÃÂÃÂªÃÂ©ÃÂÃÂÃÂ¨ÃÂ¿ÃÂÃÂ¯ÃÂ¼ÃÂÃÂ¦ÃÂ­ÃÂ£ÃÂ§ÃÂ¡ÃÂ®ÃÂ§ÃÂÃÂ${Math.round(passRate*100)}% < 80%ÃÂ¯ÃÂ¼ÃÂÃÂ¯ÃÂ¼ÃÂÃÂ¨ÃÂ¯ÃÂ·ÃÂ¥ÃÂÃÂ»ÃÂ©ÃÂÃÂÃÂ©ÃÂ¢ÃÂÃÂ¦ÃÂÃÂ¬ÃÂ§ÃÂ»ÃÂÃÂ¤ÃÂ¹ÃÂ ÃÂ¥ÃÂÃÂÃÂ©ÃÂÃÂÃÂ¦ÃÂÃÂ°ÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂ¬ÃÂ¥ÃÂÃÂ³`);
+                    alert(`❌ 第 ${currentLevel} 关未通过（正确率${Math.round(passRate*100)}% < 80%），请去错题本练习后重新挑战本关`);
                 }
             }
             if (currentMode !== "wrongPractice") {
@@ -636,11 +636,11 @@
 
         function renderWrongList() {
             const container = document.getElementById('wrongList');
-            if (wrongList.length === 0) { container.innerHTML = "<div style='color:gray;'>ÃÂ¦ÃÂÃÂÃÂ¦ÃÂÃÂ ÃÂ©ÃÂÃÂÃÂ©ÃÂ¢ÃÂÃÂ¯ÃÂ¼ÃÂÃÂ§ÃÂ­ÃÂÃÂ©ÃÂÃÂÃÂ¥ÃÂÃÂÃÂ¨ÃÂÃÂªÃÂ¥ÃÂÃÂ¨ÃÂ¥ÃÂÃÂºÃÂ§ÃÂÃÂ°</div>"; return; }
+            if (wrongList.length === 0) { container.innerHTML = "<div style='color:gray;'>暂无错题，答错后自动出现</div>"; return; }
             container.innerHTML = "";
             wrongList.forEach(item => {
                 const div = document.createElement('div'); div.className = 'wrong-item';
-                div.innerHTML = `<div><strong>${item.word}</strong> ${item.meaning}</div><button class="retry-single" data-word="${item.word}">ÃÂ©ÃÂÃÂÃÂ¥ÃÂÃÂ</button>`;
+                div.innerHTML = `<div><strong>${item.word}</strong> ${item.meaning}</div><button class="retry-single" data-word="${item.word}">重做</button>`;
                 container.appendChild(div);
             });
             document.querySelectorAll('.retry-single').forEach(btn => {
@@ -650,7 +650,7 @@
                     if (wrongItem) {
                         stopTimer();
                         currentMode = "wrongPractice";
-                        document.getElementById('modeInfo').innerText = "ÃÂ¢ÃÂÃÂ ÃÂ¯ÃÂ¸ÃÂ ÃÂ©ÃÂÃÂÃÂ©ÃÂ¢ÃÂÃÂ§ÃÂ»ÃÂÃÂ¤ÃÂ¹ÃÂ ÃÂ¦ÃÂ¨ÃÂ¡ÃÂ¥ÃÂ¼ÃÂÃÂ¯ÃÂ¼ÃÂÃÂ¥ÃÂÃÂÃÂ¤ÃÂ¸ÃÂªÃÂ©ÃÂÃÂÃÂ¥ÃÂÃÂÃÂ¯ÃÂ¼ÃÂ";
+                        document.getElementById('modeInfo').innerText = "⚠️ 错题练习模式（单个重做）";
                         currentQuestion = { word: wrongItem.word, meaning: wrongItem.meaning };
                         if (quizDirection === 'ch2en') {
                             document.getElementById('chineseWord').innerText = currentQuestion.meaning;
@@ -670,10 +670,10 @@
 
         function nextQuestion() {
             if (currentMode === "wrongPractice") {
-                if (!answered && currentQuestion) { document.getElementById('feedbackMsg').innerText = "ÃÂ¨ÃÂ¯ÃÂ·ÃÂ¥ÃÂÃÂÃÂ§ÃÂ­ÃÂÃÂ¥ÃÂ¯ÃÂ¹ÃÂ¥ÃÂ½ÃÂÃÂ¥ÃÂÃÂÃÂ©ÃÂÃÂÃÂ©ÃÂ¢ÃÂÃÂ¯ÃÂ¼ÃÂ"; return; }
+                if (!answered && currentQuestion) { document.getElementById('feedbackMsg').innerText = "请先答对当前错题！"; return; }
                 generateNewQuestion();
             } else {
-                if (!answered && currentQuestion) { document.getElementById('feedbackMsg').innerText = "ÃÂ¨ÃÂ¯ÃÂ·ÃÂ¥ÃÂÃÂÃÂ¥ÃÂÃÂÃÂ§ÃÂ­ÃÂÃÂ¥ÃÂ½ÃÂÃÂ¥ÃÂÃÂÃÂ©ÃÂ¢ÃÂÃÂ§ÃÂÃÂ®ÃÂ¯ÃÂ¼ÃÂ"; return; }
+                if (!answered && currentQuestion) { document.getElementById('feedbackMsg').innerText = "请先回答当前题目！"; return; }
                 generateNewQuestion();
             }
         }
@@ -682,14 +682,14 @@
             stopTimer();
             currentScore = 0; answeredCount = 0; currentMode = "normal";
             currentLevel = 1; levelQuestionsCount = 0; levelCorrectCount = 0;
-            document.getElementById('modeInfo').innerText = "ÃÂ°ÃÂÃÂÃÂ² ÃÂ©ÃÂÃÂÃÂ¦ÃÂÃÂºÃÂ¦ÃÂ¨ÃÂ¡ÃÂ¥ÃÂ¼ÃÂ";
+            document.getElementById('modeInfo').innerText = "🎲 随机模式";
             wrongList = []; saveWrong(); renderWrongList();
             updateScoreUI(); updateLevelDisplay();
             generateNewQuestion();
         }
 
-        function clearWrong() { wrongList = []; saveWrong(); renderWrongList(); if (currentMode === "wrongPractice") { currentMode = "normal"; document.getElementById('modeInfo').innerText = "ÃÂ°ÃÂÃÂÃÂ² ÃÂ©ÃÂÃÂÃÂ¦ÃÂÃÂºÃÂ¦ÃÂ¨ÃÂ¡ÃÂ¥ÃÂ¼ÃÂ"; generateNewQuestion(); } }
-        function practiceAllWrong() { if (wrongList.length === 0) { alert("ÃÂ©ÃÂÃÂÃÂ©ÃÂ¢ÃÂÃÂ¦ÃÂÃÂ¬ÃÂ¤ÃÂ¸ÃÂºÃÂ§ÃÂ©ÃÂºÃÂ¯ÃÂ¼ÃÂÃÂ¨ÃÂ¯ÃÂ·ÃÂ¥ÃÂÃÂÃÂ§ÃÂ­ÃÂÃÂ©ÃÂÃÂÃÂ¤ÃÂ¸ÃÂÃÂ¤ÃÂºÃÂÃÂ©ÃÂ¢ÃÂÃÂ§ÃÂÃÂ®"); return; } stopTimer(); currentMode = "wrongPractice"; document.getElementById('modeInfo').innerText = "ÃÂ¢ÃÂÃÂ ÃÂ¯ÃÂ¸ÃÂ ÃÂ©ÃÂÃÂÃÂ©ÃÂ¢ÃÂÃÂ§ÃÂ»ÃÂÃÂ¤ÃÂ¹ÃÂ ÃÂ¦ÃÂ¨ÃÂ¡ÃÂ¥ÃÂ¼ÃÂÃÂ¯ÃÂ¼ÃÂÃÂ¥ÃÂÃÂ¨ÃÂ©ÃÂÃÂ¨ÃÂ©ÃÂÃÂÃÂ©ÃÂ¢ÃÂÃÂ¯ÃÂ¼ÃÂ"; generateNewQuestion(); }
+        function clearWrong() { wrongList = []; saveWrong(); renderWrongList(); if (currentMode === "wrongPractice") { currentMode = "normal"; document.getElementById('modeInfo').innerText = "🎲 随机模式"; generateNewQuestion(); } }
+        function practiceAllWrong() { if (wrongList.length === 0) { alert("错题本为空，请先答错一些题目"); return; } stopTimer(); currentMode = "wrongPractice"; document.getElementById('modeInfo').innerText = "⚠️ 错题练习模式（全部错题）"; generateNewQuestion(); }
         function switchBank(bank) {
             if (bank === currentBank) return;
             stopTimer();
@@ -697,7 +697,7 @@
             originalWords = bank === "waichong" ? [...WAICHONG_WORDS] : [...JUNIOR_WORDS];
             currentScore = 0; answeredCount = 0; currentMode = "normal";
             currentLevel = 1; levelQuestionsCount = 0; levelCorrectCount = 0;
-            document.getElementById('modeInfo').innerText = "ÃÂ°ÃÂÃÂÃÂ² ÃÂ©ÃÂÃÂÃÂ¦ÃÂÃÂºÃÂ¦ÃÂ¨ÃÂ¡ÃÂ¥ÃÂ¼ÃÂ";
+            document.getElementById('modeInfo').innerText = "🎲 随机模式";
             updateScoreUI(); updateLevelDisplay();
             generateNewQuestion();
             document.querySelectorAll('.bank-btn').forEach(btn => {
