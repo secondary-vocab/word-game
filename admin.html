@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>后台管理 - 添加/删除授权手机号</title>
+    <title>后台管理 - 添加/删除授权手机号（修复版）</title>
     <style>
         * { box-sizing: border-box; }
         body {
@@ -76,9 +76,9 @@
 </head>
 <body>
 <div class="container">
-    <h1>🔐 管理授权手机号</h1>
+    <h1>🔐 管理授权手机号（修复版）</h1>
     <div class="input-group">
-        <label>🔑 GitHub 令牌 (Personal Access Token)</label>
+        <label>🔑 GitHub 令牌</label>
         <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
         <button id="saveTokenBtn">保存令牌</button>
         <div id="tokenMsg" class="error"></div>
@@ -130,21 +130,33 @@
         }
     };
 
+    // 使用 TextEncoder/TextDecoder 确保 UTF-8 编码
     async function fetchFileContent() {
         const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
         const res = await fetch(url, { headers: { 'Authorization': `token ${githubToken}` } });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        const content = atob(data.content.replace(/\n/g, ''));
+        // 使用 atob 解码 base64，然后转为 UTF-8 字符串
+        const binaryStr = atob(data.content.replace(/\n/g, ''));
+        const bytes = new Uint8Array(binaryStr.length);
+        for (let i = 0; i < binaryStr.length; i++) bytes[i] = binaryStr.charCodeAt(i);
+        const content = new TextDecoder('utf-8').decode(bytes);
         return { content, sha: data.sha };
     }
 
     async function updateFile(newContent, sha, commitMsg) {
         const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
+        // 确保新内容也是 UTF-8 编码后 Base64
+        const encoder = new TextEncoder();
+        const data = encoder.encode(newContent);
+        let binaryStr = '';
+        for (let i = 0; i < data.length; i++) binaryStr += String.fromCharCode(data[i]);
+        const base64Content = btoa(binaryStr);
+        
         const res = await fetch(url, {
             method: 'PUT',
             headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: commitMsg, content: btoa(unescape(encodeURIComponent(newContent))), sha, branch: BRANCH })
+            body: JSON.stringify({ message: commitMsg, content: base64Content, sha, branch: BRANCH })
         });
         if (!res.ok) throw new Error(`更新失败: ${res.status}`);
         return await res.json();
@@ -165,6 +177,7 @@
     async function updatePhoneList(newPhones) {
         const { content, sha } = await fetchFileContent();
         const newLine = `const ALLOWED_PHONES = [${newPhones.map(p => `'${p}'`).join(', ')}];`;
+        // 使用精确替换，确保只修改白名单行
         const newContent = content.replace(/const ALLOWED_PHONES = \[[\s\S]*?\];/, newLine);
         await updateFile(newContent, sha, `更新白名单: ${newPhones.length}个号码`);
     }
