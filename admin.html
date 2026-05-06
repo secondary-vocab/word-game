@@ -3,66 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>后台管理 - 添加手机号</title>
+    <title>后台管理 - 添加/删除授权手机号</title>
     <style>
-        body { font-family: system-ui; max-width: 500px; margin: 50px auto; padding: 20px; background: #f0f7ff; }
-        .card { background: white; border-radius: 32px; padding: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        input, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 60px; border: 1px solid #ccc; font-size: 1rem; }
-        button { background: #2c7da0; color: white; font-weight: bold; border: none; cursor: pointer; }
-        .success { color: green; margin-top: 10px; }
-        .error { color: red; margin-top: 10px; }
+        * { box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f7ff;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 32px;
+            padding: 24px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        h1 { font-size: 1.6rem; margin-bottom: 20px; color: #1e3c72; }
+        .input-group { margin-bottom: 20px; }
+        label { font-weight: 500; display: block; margin-bottom: 6px; }
+        input, button {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 1rem;
+            border-radius: 60px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background: #2c7da0;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        button:hover { background: #1f5e7a; }
+        .error { color: #d9534f; margin-top: 8px; }
+        .success { color: #28a745; margin-top: 8px; }
+        .phone-list {
+            background: #f8f9fa;
+            border-radius: 24px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+        .phone-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .phone-number { font-family: monospace; font-size: 1rem; }
+        .del-btn {
+            background: #dc3545;
+            border: none;
+            border-radius: 40px;
+            padding: 4px 12px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            width: auto;
+            margin: 0;
+        }
+        .del-btn:hover { background: #c82333; }
+        .refresh-btn {
+            background: #5f7f9e;
+            margin-top: 0;
+        }
+        hr { margin: 20px 0; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2>🔐 添加授权手机号</h2>
-        <input type="password" id="token" placeholder="GitHub 令牌（ghp_开头）">
-        <input type="tel" id="phone" placeholder="手机号（例如 13812345678）">
-        <button id="addBtn">添加</button>
-        <div id="msg"></div>
+<div class="container">
+    <h1>🔐 管理授权手机号</h1>
+    <div class="input-group">
+        <label>🔑 GitHub 令牌 (Personal Access Token)</label>
+        <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
+        <button id="saveTokenBtn">保存令牌</button>
+        <div id="tokenMsg" class="error"></div>
     </div>
-    <script>
-        const REPO = 'secondary-vocab/word-game';
-        const FILE = 'index.html';
-        const BRANCH = 'main';
 
-        document.getElementById('addBtn').onclick = async () => {
-            const token = document.getElementById('token').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            if (!token || !phone) { alert('请填写令牌和手机号'); return; }
-            if (!/^1[3-9]\d{9}$/.test(phone)) { alert('手机号格式错误'); return; }
+    <div id="mainPanel" style="display: none;">
+        <div class="input-group">
+            <label>📱 添加新手机号</label>
+            <input type="tel" id="newPhone" placeholder="例如 13812345678">
+            <button id="addBtn">➕ 添加</button>
+            <div id="addMsg" class="success"></div>
+        </div>
 
-            const url = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
-            try {
-                const res = await fetch(url, { headers: { 'Authorization': `token ${token}` } });
-                const data = await res.json();
-                let content = atob(data.content.replace(/\n/g, ''));
-                const regex = /(const ALLOWED_PHONES = \[)([\s\S]*?)(\];)/;
-                const match = content.match(regex);
-                if (!match) throw new Error('未找到白名单');
-                let phones = [];
-                const phoneRegex = /'(\d+)'/g;
-                let m;
-                while ((m = phoneRegex.exec(match[2])) !== null) phones.push(m[1]);
-                if (phones.includes(phone)) { document.getElementById('msg').innerHTML = '⚠️ 手机号已存在'; return; }
-                phones.push(phone);
-                const newLine = `const ALLOWED_PHONES = [${phones.map(p => `'${p}'`).join(', ')}];`;
-                const newContent = content.replace(regex, newLine);
-                const updateRes = await fetch(url, {
-                    method: 'PUT',
-                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: `添加手机号 ${phone}`, content: btoa(unescape(encodeURIComponent(newContent))), sha: data.sha, branch: BRANCH })
-                });
-                if (updateRes.ok) {
-                    document.getElementById('msg').innerHTML = `✅ 成功添加 ${phone}，稍等1-2分钟生效`;
-                    document.getElementById('phone').value = '';
-                } else {
-                    throw new Error('提交失败');
-                }
-            } catch (err) {
-                document.getElementById('msg').innerHTML = `❌ 添加失败: ${err.message}`;
+        <hr>
+        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <h3>📋 当前授权列表</h3>
+            <button id="refreshBtn" class="refresh-btn">🔄 刷新</button>
+        </div>
+        <div id="phoneList" class="phone-list">加载中...</div>
+    </div>
+</div>
+
+<script>
+    // 仓库信息
+    const REPO_OWNER = 'secondary-vocab';
+    const REPO_NAME = 'word-game';
+    const FILE_PATH = 'index.html';
+    const BRANCH = 'main';
+
+    let githubToken = localStorage.getItem('github_token');
+
+    // 初始化
+    if (githubToken) {
+        document.getElementById('mainPanel').style.display = 'block';
+        document.getElementById('tokenMsg').innerHTML = '✅ 令牌已保存';
+        document.getElementById('tokenInput').value = '';
+        refreshList();
+    }
+
+    // 保存令牌
+    document.getElementById('saveTokenBtn').onclick = () => {
+        const token = document.getElementById('tokenInput').value.trim();
+        if (token && token.startsWith('ghp_')) {
+            localStorage.setItem('github_token', token);
+            githubToken = token;
+            document.getElementById('mainPanel').style.display = 'block';
+            document.getElementById('tokenMsg').innerHTML = '✅ 令牌保存成功！';
+            document.getElementById('tokenInput').value = '';
+            refreshList();
+        } else {
+            document.getElementById('tokenMsg').innerHTML = '❌ 无效令牌，必须以 ghp_ 开头';
+        }
+    };
+
+    // 获取当前文件内容和 SHA
+    async function fetchFileContent() {
+        const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
+        const res = await fetch(url, {
+            headers: { 'Authorization': `token ${githubToken}` }
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        const content = atob(data.content.replace(/\n/g, ''));
+        return { content, sha: data.sha };
+    }
+
+    // 更新文件
+    async function updateFile(newContent, sha, commitMsg) {
+        const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
+        const res = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `token ${githubToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: commitMsg,
+                content: btoa(unescape(encodeURIComponent(newContent))),
+                sha: sha,
+                branch: BRANCH
+            })
+        });
+        if (!res.ok) throw new Error(`更新失败: ${res.status}`);
+        return await res.json();
+    }
+
+    // 获取当前白名单手机号数组
+    async function getPhoneList() {
+        const { content } = await fetchFileContent();
+        const regex = /const ALLOWED_PHONES = \[([\s\S]*?)\];/;
+        const match = content.match(regex);
+        if (!match) throw new Error('未找到 ALLOWED_PHONES 数组');
+        const phonesStr = match[1];
+        const phoneRegex = /'(\d+)'/g;
+        let phones = [], m;
+        while ((m = phoneRegex.exec(phonesStr)) !== null) {
+            phones.push(m[1]);
+        }
+        return { phones, content };
+    }
+
+    // 更新白名单数组并提交
+    async function updatePhoneList(newPhones) {
+        const { content, sha } = await fetchFileContent();
+        const newLine = `const ALLOWED_PHONES = [${newPhones.map(p => `'${p}'`).join(', ')}];`;
+        const newContent = content.replace(/const ALLOWED_PHONES = \[[\s\S]*?\];/, newLine);
+        await updateFile(newContent, sha, `更新白名单: ${newPhones.length}个号码`);
+    }
+
+    // 刷新界面列表
+    async function refreshList() {
+        const listDiv = document.getElementById('phoneList');
+        listDiv.innerHTML = '加载中...';
+        try {
+            const { phones } = await getPhoneList();
+            if (phones.length === 0) {
+                listDiv.innerHTML = '<div style="color:gray;">暂无授权手机号</div>';
+                return;
             }
-        };
-    </script>
+            let html = '';
+            phones.forEach(phone => {
+                html += `
+                    <div class="phone-item">
+                        <span class="phone-number">${phone}</span>
+                        <button class="del-btn" data-phone="${phone}">删除</button>
+                    </div>
+                `;
+            });
+            listDiv.innerHTML = html;
+            // 绑定删除事件
+            document.querySelectorAll('.del-btn').forEach(btn => {
+                btn.onclick = async (e) => {
+                    e.stopPropagation();
+                    const phoneToDel = btn.getAttribute('data-phone');
+                    if (confirm(`确定要删除手机号 ${phoneToDel} 吗？\n删除后该号码将无法登录。`)) {
+                        try {
+                            const { phones: currentPhones } = await getPhoneList();
+                            const newPhones = currentPhones.filter(p => p !== phoneToDel);
+                            await updatePhoneList(newPhones);
+                            document.getElementById('addMsg').innerHTML = `✅ 已删除 ${phoneToDel}，稍后生效`;
+                            refreshList();
+                        } catch (err) {
+                            document.getElementById('addMsg').innerHTML = `❌ 删除失败: ${err.message}`;
+                        }
+                    }
+                };
+            });
+        } catch (err) {
+            listDiv.innerHTML = `<div class="error">加载失败: ${err.message}</div>`;
+        }
+    }
+
+    // 添加手机号
+    document.getElementById('addBtn').onclick = async () => {
+        const phone = document.getElementById('newPhone').value.trim();
+        if (!phone) {
+            document.getElementById('addMsg').innerHTML = '❌ 请输入手机号';
+            return;
+        }
+        if (!/^1[3-9]\d{9}$/.test(phone)) {
+            document.getElementById('addMsg').innerHTML = '❌ 手机号格式错误（11位数字）';
+            return;
+        }
+        try {
+            const { phones } = await getPhoneList();
+            if (phones.includes(phone)) {
+                document.getElementById('addMsg').innerHTML = '⚠️ 手机号已存在';
+                return;
+            }
+            phones.push(phone);
+            await updatePhoneList(phones);
+            document.getElementById('addMsg').innerHTML = `✅ 成功添加 ${phone}，稍等1-2分钟生效`;
+            document.getElementById('newPhone').value = '';
+            refreshList();
+        } catch (err) {
+            document.getElementById('addMsg').innerHTML = `❌ 添加失败: ${err.message}`;
+        }
+    };
+
+    // 手动刷新按钮
+    document.getElementById('refreshBtn').onclick = () => {
+        refreshList();
+    };
+</script>
 </body>
 </html>
