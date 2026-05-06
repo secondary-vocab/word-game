@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>后台管理 - 添加手机号</title>
+    <style>
+        body { font-family: system-ui; max-width: 500px; margin: 50px auto; padding: 20px; background: #f0f7ff; }
+        .card { background: white; border-radius: 32px; padding: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        input, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 60px; border: 1px solid #ccc; font-size: 1rem; }
+        button { background: #2c7da0; color: white; font-weight: bold; border: none; cursor: pointer; }
+        .success { color: green; margin-top: 10px; }
+        .error { color: red; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>🔐 添加授权手机号</h2>
+        <input type="password" id="token" placeholder="GitHub 令牌（ghp_开头）">
+        <input type="tel" id="phone" placeholder="手机号（例如 13812345678）">
+        <button id="addBtn">添加</button>
+        <div id="msg"></div>
+    </div>
+    <script>
+        const REPO = 'secondary-vocab/word-game';
+        const FILE = 'index.html';
+        const BRANCH = 'main';
+
+        document.getElementById('addBtn').onclick = async () => {
+            const token = document.getElementById('token').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            if (!token || !phone) { alert('请填写令牌和手机号'); return; }
+            if (!/^1[3-9]\d{9}$/.test(phone)) { alert('手机号格式错误'); return; }
+
+            const url = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
+            try {
+                const res = await fetch(url, { headers: { 'Authorization': `token ${token}` } });
+                const data = await res.json();
+                let content = atob(data.content.replace(/\n/g, ''));
+                const regex = /(const ALLOWED_PHONES = \[)([\s\S]*?)(\];)/;
+                const match = content.match(regex);
+                if (!match) throw new Error('未找到白名单');
+                let phones = [];
+                const phoneRegex = /'(\d+)'/g;
+                let m;
+                while ((m = phoneRegex.exec(match[2])) !== null) phones.push(m[1]);
+                if (phones.includes(phone)) { document.getElementById('msg').innerHTML = '⚠️ 手机号已存在'; return; }
+                phones.push(phone);
+                const newLine = `const ALLOWED_PHONES = [${phones.map(p => `'${p}'`).join(', ')}];`;
+                const newContent = content.replace(regex, newLine);
+                const updateRes = await fetch(url, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: `添加手机号 ${phone}`, content: btoa(unescape(encodeURIComponent(newContent))), sha: data.sha, branch: BRANCH })
+                });
+                if (updateRes.ok) {
+                    document.getElementById('msg').innerHTML = `✅ 成功添加 ${phone}，稍等1-2分钟生效`;
+                    document.getElementById('phone').value = '';
+                } else {
+                    throw new Error('提交失败');
+                }
+            } catch (err) {
+                document.getElementById('msg').innerHTML = `❌ 添加失败: ${err.message}`;
+            }
+        };
+    </script>
+</body>
+</html>
