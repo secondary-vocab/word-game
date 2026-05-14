@@ -92,16 +92,18 @@
             gap: 12px;
             margin: 10px 0;
         }
-        .chinese-word {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #0b2b44;
-            margin: 0;
-            white-space: nowrap;
-            overflow-x: auto;
-            max-width: 100%;
-            padding-bottom: 4px;
-        }
+       .chinese-word {
+    font-size: clamp(1.2rem, 6vw, 1.8rem);
+    font-weight: 600;
+    color: #0b2b44;
+    margin: 0;
+    white-space: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+    padding-bottom: 4px;
+    line-height: 1.4;
+    scrollbar-width: thin;
+}
         @media (max-width: 600px) {
             .chinese-word {
                 font-size: 1.5rem;
