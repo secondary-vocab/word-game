@@ -1530,20 +1530,17 @@
         }
 
         function nextQuestion() {
-            if (currentMode === "wrongPractice") {
-                if (!answered && currentQuestion) {
-                    document.getElementById('feedbackMsg').innerText = "请先答对当前错题！";
-                    return;
-                }
-                generateNewQuestion();
-            } else {
-                if (!answered && currentQuestion) {
-                    document.getElementById('feedbackMsg').innerText = "请先回答当前题目！";
-                    return;
-                }
-                generateNewQuestion();
-            }
+    if (currentMode === "wrongPractice") {
+        if (!answered && currentQuestion) {
+            document.getElementById('feedbackMsg').innerText = "请先答对当前错题！";
+            return;
         }
+        generateNewQuestion();
+    } else {
+        // 无论是否答题，直接生成下一题
+        generateNewQuestion();
+    }
+}
 
         function restartGame() {
             stopTimer();
