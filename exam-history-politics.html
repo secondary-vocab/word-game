@@ -3,1317 +3,1095 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>道法历史中考冲刺 - 智能闯关</title>
+    <title>历史道法·中考冲刺800题</title>
     <style>
         * {
             box-sizing: border-box;
-            user-select: none; /* 避免移动端长按菜单，不影响复制 */
+            user-select: none;
         }
         body {
-            background: linear-gradient(145deg, #f5f7fc 0%, #e9eef4 100%);
-            font-family: 'Segoe UI', 'PingFang SC', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(145deg, #f0f2f5 0%, #e0e5ec 100%);
+            font-family: 'Segoe UI', 'PingFang SC', Roboto, system-ui, sans-serif;
+            margin: 0;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
             padding: 20px;
         }
-        /* 主卡片 */
-        .game-container {
-            max-width: 700px;
+        .login-card {
+            max-width: 400px;
             width: 100%;
             background: white;
             border-radius: 56px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.06);
-            overflow: hidden;
-            backdrop-filter: blur(0px);
-            transition: all 0.2s ease;
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.2);
+            padding: 40px 28px;
+            text-align: center;
         }
-        /* 头部 */
-        .game-header {
-            background: #1e2a3e;
-            padding: 20px 28px;
+        .login-card h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+        .phone-input {
+            width: 100%;
+            padding: 14px 18px;
+            font-size: 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 60px;
+            text-align: center;
+            margin-bottom: 20px;
+            outline: none;
+        }
+        .login-btn {
+            background: #3b82f6;
+            border: none;
+            padding: 14px 20px;
+            width: 100%;
+            border-radius: 60px;
+            font-size: 18px;
+            font-weight: bold;
             color: white;
+            cursor: pointer;
+        }
+        .trial-footnote {
+            margin-top: 24px;
+            font-size: 13px;
+            color: #5b6e8c;
+        }
+        .game-wrapper {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 48px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.15);
+        }
+        .game-nav {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            padding: 18px 24px;
+            color: white;
+        }
+        .subject-switch {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+        .subject-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .subject-btn.active {
+            background: white;
+            color: #1e3a8a;
+        }
+        .stats-row {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
             gap: 12px;
-            align-items: baseline;
         }
-        .level-badge {
-            background: rgba(255,255,255,0.2);
-            padding: 6px 16px;
-            border-radius: 80px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        .score-area {
-            background: #00000030;
+        .score-box, .accuracy-box {
+            background: rgba(0,0,0,0.2);
             padding: 6px 14px;
             border-radius: 40px;
-            font-weight: bold;
+            font-size: 0.85rem;
         }
-        /* 关卡区 */
-        .stage-bar {
-            background: #fff3e0;
-            padding: 12px 28px;
+        .wrongnote-btn {
+            background: #f59e0b;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .progress-area {
+            background: #f8fafc;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .level-info {
             display: flex;
             justify-content: space-between;
-            border-bottom: 1px solid #ffdfb0;
-            font-weight: bold;
-            color: #b45f1b;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            color: #334155;
         }
-        /* 题目卡片 */
-        .question-card {
-            padding: 32px 28px 20px 28px;
+        .progress-bar-bg {
+            background: #e2e8f0;
+            border-radius: 30px;
+            height: 8px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            background: #3b82f6;
+            width: 0%;
+            height: 100%;
+            transition: width 0.2s;
+        }
+        .question-area {
+            padding: 24px 24px 12px;
         }
         .question-text {
-            font-size: 1.8rem;
-            font-weight: 700;
-            line-height: 1.3;
+            font-size: 1.35rem;
+            font-weight: 600;
+            line-height: 1.4;
             margin-bottom: 24px;
-            color: #1f2937;
+            color: #0f172a;
+            word-break: break-word;
         }
-        /* 难度星星 */
-        .difficulty-stars {
-            margin-bottom: 24px;
-            font-size: 1.4rem;
-            letter-spacing: 6px;
-            color: #ffb800;
+        .options-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
         }
-        /* 选项区 */
-        .options-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            margin: 28px 0;
-        }
-        .option-btn {
-            background: #f3f4f6;
-            border: 2px solid #e5e7eb;
-            border-radius: 100px;
-            padding: 14px 20px;
-            font-size: 1rem;
+        .option-item {
+            background: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            border-radius: 60px;
+            padding: 12px 16px;
+            font-size: 0.9rem;
             text-align: left;
-            font-weight: 500;
-            transition: all 0.2s;
             cursor: pointer;
-            color: #1f2937;
+            color: #1e293b;
         }
-        /* 去掉红圈禁止符 — 正常鼠标 */
-        .option-btn.disabled-option, .option-btn:disabled {
-            cursor: default;
-            opacity: 0.7;
-            background: #eef2ff;
-            border-color: #cbd5e1;
+        .option-item.correct-highlight {
+            background: #bbf7d0;
+            border-color: #22c55e;
         }
-        .option-btn.correct-feedback {
-            background: #d1fae5;
-            border-color: #10b981;
-        }
-        .option-btn.wrong-feedback {
-            background: #fee2e2;
+        .option-item.wrong-highlight {
+            background: #fecaca;
             border-color: #ef4444;
         }
-        .next-area {
+        .option-item.disabled-opt {
+            cursor: default;
+            opacity: 0.7;
+        }
+        .explain-area {
+            background: #eef2ff;
+            border-left: 5px solid #3b82f6;
+            padding: 12px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 12px 0 8px;
+            display: none;
+            color: #1e293b;
+        }
+        .action-buttons {
             display: flex;
-            justify-content: center;
-            margin: 10px 0 28px;
+            gap: 12px;
+            padding: 8px 24px 28px;
+        }
+        .redo-btn, .next-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 60px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .redo-btn {
+            background: #e2e8f0;
+            color: #334155;
         }
         .next-btn {
             background: #3b82f6;
-            border: none;
-            padding: 14px 32px;
-            border-radius: 60px;
-            font-weight: bold;
-            font-size: 1.2rem;
             color: white;
-            cursor: pointer;
-            width: 80%;
-            transition: 0.2s;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .next-btn:active { transform: scale(0.96);}
-        .feedback {
-            background: #fef9c3;
-            margin: 0 28px 24px;
-            padding: 14px;
-            border-radius: 28px;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-        .result-area {
-            background: #f1f5f9;
-            margin: 20px;
-            padding: 20px;
-            border-radius: 36px;
-            text-align: center;
-        }
-        button {
-            background: none;
-            border: none;
-        }
-        .phone-login {
-            background: #f8fafc;
-            padding: 24px;
-            border-radius: 40px;
-            margin: 20px;
-            text-align: center;
-        }
-        .phone-input {
-            padding: 12px;
-            font-size: 1rem;
-            border-radius: 60px;
-            border: 1px solid #ccc;
-            width: 80%;
-            text-align: center;
-        }
-        .login-btn {
-            background: #0f172a;
-            color: white;
-            padding: 10px 28px;
-            border-radius: 60px;
-            margin-top: 12px;
-            cursor: pointer;
-        }
-        .small-note {
-            font-size: 0.75rem;
-            color: #4b5563;
-            margin-top: 12px;
-        }
-        .locked-area {
-            text-align: center;
-            padding: 40px;
-        }
-        hr {
-            margin: 16px 0;
         }
     </style>
 </head>
 <body>
-<div class="game-container" id="app">
-    <!-- 手机号验证界面 -->
-    <div id="loginPanel" class="phone-login">
-        <h3>📱 登录验证</h3>
-        <p>输入手机号，验证授权状态</p>
-        <input type="tel" id="phoneNumber" class="phone-input" placeholder="11位手机号" maxlength="11">
-        <br>
-        <button id="doLoginBtn" class="login-btn">验证 / 登录</button>
-        <div class="small-note">试用手机：13900000000（前10题）<br>正式授权联系客服开通</div>
-    </div>
-
-    <!-- 主游戏界面（先隐藏） -->
-    <div id="gamePanel" style="display:none;">
-        <div class="game-header">
-            <span class="level-badge" id="levelDisplay">第1关 · 历史入门</span>
-            <span class="score-area" id="scoreDisplay">得分: 0 / 100</span>
-        </div>
-        <div class="stage-bar">
-            <span>📚 正确 ≥16/20 过关</span>
-            <span id="progressDisplay">0/20 题</span>
-        </div>
-        <div class="question-card">
-            <div class="difficulty-stars" id="starDisplay">⭐⭐⭐</div>
-            <div class="question-text" id="questionText">加载中...</div>
-            <div class="options-grid" id="optionsContainer"></div>
-            <div class="next-area">
-                <button id="nextBtn" class="next-btn">下一题 ➡️</button>
+<div id="loginPanel" class="login-card">
+    <h2>📚 历史·道法冲刺</h2>
+    <p>输入手机号验证授权</p>
+    <input type="tel" id="phoneNumber" class="phone-input" placeholder="11位手机号" maxlength="11">
+    <button id="doLoginBtn" class="login-btn">验证并登录</button>
+    <div class="trial-footnote">🧪 试用: 13900000000（前10题）<br>✅ 正式授权: 13971005659</div>
+</div>
+<div id="gameContainer" style="display: none;">
+    <div class="game-wrapper">
+        <div class="game-nav">
+            <div class="subject-switch">
+                <button class="subject-btn active" data-subject="history">📜 历史</button>
+                <button class="subject-btn" data-subject="daofa">📖 道德与法治</button>
+            </div>
+            <div class="stats-row">
+                <span class="score-box">🏆 得分: <span id="scoreValue">0</span></span>
+                <span class="accuracy-box">📊 正确率: <span id="accuracyValue">0</span>%</span>
+                <button class="wrongnote-btn" id="wrongNoteBtn">📋 错题本</button>
             </div>
         </div>
-        <div id="feedbackMsg" class="feedback"></div>
-        <div id="resultArea" class="result-area" style="display:none;"></div>
+        <div class="progress-area">
+            <div class="level-info">
+                <span id="levelName">第1关 · 历史</span>
+                <span id="questionProgress">0/20 题</span>
+            </div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+        </div>
+        <div class="question-area">
+            <div class="question-text" id="questionText">加载中...</div>
+            <div class="options-area" id="optionsArea"></div>
+            <div class="explain-area" id="explainArea"></div>
+        </div>
+        <div class="action-buttons">
+            <button class="redo-btn" id="redoBtn">🔄 重做本题</button>
+            <button class="next-btn" id="nextBtn">下一题 ➡️</button>
+        </div>
     </div>
 </div>
-
 <script>
-    // ---------- 授权与试用数据 ----------
-    let authorizedPhones = [];        // 正式授权手机号列表（后期 admin 可添加）
-    const TRIAL_PHONE = "13900000000";   // 试用号码，只能做前10题
+    // 授权与全局变量
+    let AUTHORIZED_PHONES = ["13971005659"];
+    const TRIAL_PHONE = "13900000000";
+    const TRIAL_MAX = 10;
+    let currentPhone = "", isFullAuth = false, isTrial = false, trialCount = 0;
+    let currentSubject = "history", currentLevel = 1, currentQuestions = [], currentIndex = 0;
+    let levelScore = 0, levelAnswers = [], gameLocked = false, currentQuestionObj = null;
+    let MASTER_DAOFA = [], MASTER_HISTORY = [];
     
-    // 当前登录状态
-    let currentPhone = "";
-    let isFullAuth = false;   // 是否完整授权（400题）
-    let isTrial = false;      // 是否试用账号
-    
-    // 游戏全局变量
-    let currentSubject = "history";   // "history" 或 "daofa"
-    let allQuestions = [];     // 总题库: 400 history + 400 daofa
-    let currentLevel = 1;      // 1-20关
-    let currentLevelQuestions = [];  // 当前关卡20题
-    let currentQIndex = 0;
-    let levelScore = 0;        // 本关得分（每题5分）
-    let levelAnswers = [];      // 记录本关每道题用户是否正确
-    
-    let questionLocked = false; // 防止重复选择    // ================= 道法题库 400题 =================
-    // 难度比例：简单30% / 中等50% / 困难20%
-    // 每道题格式：{ text: "题目", options: ["正确","干扰1","干扰2","干扰3"], correct: 0, difficulty: 1~5星, subject: "daofa" }
-    
-    const daofaQuestions = [
-        // ===== 简单 ★★☆☆☆ (120题) - 前40题示例，实际满120 =====
-        { text: "2025年，我国首艘国产大型邮轮正式交付，它的名称是？", options: ["爱达·魔都号", "复兴号", "辽宁舰", "奋斗者号"], correct: 0, difficulty: 2, subject: "daofa", year: "2025" },
-        { text: "2026年1月，中国成功发射的世界首颗量子科学实验卫星是？", options: ["墨子号", "悟空号", "慧眼号", "北斗一号"], correct: 0, difficulty: 2, subject: "daofa", year: "2026" },
-        { text: "我国宪法规定，中华人民共和国的根本制度是？", options: ["社会主义制度", "人民代表大会制度", "民族区域自治制度", "一国两制"], correct: 0, difficulty: 2, subject: "daofa" },
-        { text: "2025年中央一号文件聚焦的主题是？", options: ["全面推进乡村振兴", "粮食安全", "农业科技", "农村改革"], correct: 0, difficulty: 2, subject: "daofa", year: "2025" },
-        { text: "未成年人保护法中，为未成年人设置的“六道防线”不包括？", options: ["司法保护", "网络保护", "家庭保护", "社会救济"], correct: 3, difficulty: 2, subject: "daofa" },
-        { text: "2025年，中国举办了第几届亚洲青年运动会？", options: ["第三届", "第四届", "第五届", "第六届"], correct: 1, difficulty: 2, subject: "daofa", year: "2025" },
-        { text: "我国社会主义民主政治的本质特征是？", options: ["人民当家作主", "党的领导", "依法治国", "民主集中制"], correct: 0, difficulty: 2, subject: "daofa" },
-        { text: "2025年10月，我国成功发射的首颗太阳探测卫星名为？", options: ["夸父一号", "羲和号", "祝融号", "嫦娥七号"], correct: 1, difficulty: 2, subject: "daofa", year: "2025" },
-        { text: "公民最基本、最重要的权利是？", options: ["人身自由权", "选举权", "受教育权", "劳动权"], correct: 0, difficulty: 2, subject: "daofa" },
-        { text: "2026年政府工作报告中提出的国内生产总值增长目标约为？", options: ["5%左右", "5.5%左右", "6%左右", "4.5%左右"], correct: 0, difficulty: 2, subject: "daofa", year: "2026" },
-        { text: "我国处理民族关系的基本原则是？", options: ["民族平等、民族团结、各民族共同繁荣", "大杂居、小聚居", "民族区域自治", "一国两制"], correct: 0, difficulty: 2, subject: "daofa" },
-        { text: "2025年11月，第几届中国国际进口博览会在上海举行？", options: ["第六届", "第七届", "第八届", "第九届"], correct: 1, difficulty: 2, subject: "daofa", year: "2025" },
-        { text: "中国特色社会主义法律体系的核心是？", options: ["宪法", "民法", "刑法", "行政法"], correct: 0, difficulty: 2, subject: "daofa" },
-        { text: "2026年4月，我国成功发射的空间站实验舱名称是？", options: ["问天", "梦天", "巡天", "昊天"], correct: 2, difficulty: 2, subject: "daofa", year: "2026" },
-        { text: "我国公民参与政治生活的最基本途径是？", options: ["依法行使政治权利", "履行政治义务", "参与民主选举", "关注时事"], correct: 0, difficulty: 2, subject: "daofa" },
-        { text: "2025年12月，中央经济工作会议提出要推动什么为主体的内需体系？", options: ["国内大循环", "国际大循环", "内外双循环", "消费驱动"], correct: 0, difficulty: 2, subject: "daofa", year: "2025" },
-        { text: "我国的基本经济制度包括？", options: ["公有制为主体、多种所有制共同发展", "按劳分配为主体", "社会主义市场经济体制", "以上都是"], correct: 3, difficulty: 2, subject: "daofa" },
-        { text: "2026年2月，中国与某国建交XX周年，该国是？", options: ["俄罗斯", "法国", "巴西", "南非"], correct: 0, difficulty: 2, subject: "daofa", year: "2026" },
-        { text: "我国公安机关的性质是？", options: ["行政机关", "司法机关", "法律监督机关", "审判机关"], correct: 0, difficulty: 2, subject: "daofa" },
-        { text: "2025年，我国粮食产量连续第几年稳定在1.3万亿斤以上？", options: ["8年", "9年", "10年", "11年"], correct: 1, difficulty: 2, subject: "daofa", year: "2025" },
-        // 以下为继续简单题至120题（篇幅精简，实际生成时补全）
-        { text: "我国的根本政治制度是？", options: ["人民代表大会制度", "中国共产党领导的多党合作制", "民族区域自治", "基层群众自治"], correct: 0, difficulty: 2, subject: "daofa" },
-        { text: "2025年，中国首次承办的世界田径赛事是？", options: ["世界田径锦标赛", "世界室内田径锦标赛", "世界青年田径锦标赛", "世界越野锦标赛"], correct: 2, difficulty: 2, subject: "daofa", year: "2025" },
-        { text: "我国法律监督机关是？", options: ["人民检察院", "人民法院", "公安机关", "监察委员会"], correct: 0, difficulty: 2, subject: "daofa" },
-        { text: "2026年3月，我国首条跨海高铁全线通车，它是？", options: ["福厦高铁", "深湛高铁", "沪甬高铁", "广汕高铁"], correct: 0, difficulty: 2, subject: "daofa", year: "2026" },
-        { text: "社会主义道德建设的核心是？", options: ["为人民服务", "集体主义", "诚实守信", "爱国主义"], correct: 0, difficulty: 2, subject: "daofa" },
-        { text: "2025年，我国新能源汽车产销量占全球比重超过？", options: ["60%", "50%", "40%", "70%"], correct: 0, difficulty: 2, subject: "daofa", year: "2025" },
-        { text: "我国的国家性质（国体）是？", options: ["人民民主专政", "社会主义国家", "无产阶级专政", "民主共和国"], correct: 0, difficulty: 2, subject: "daofa" },
-        { text: "2026年5月，我国成功发射的载人飞船是？", options: ["神舟十九号", "神舟二十号", "神舟十八号", "天舟七号"], correct: 1, difficulty: 2, subject: "daofa", year: "2026" },
-        { text: "我国公民的合法私有财产不受侵犯，这是哪部法律规定的？", options: ["宪法", "物权法", "民法典", "刑法"], correct: 0, difficulty: 2, subject: "daofa" },
-        { text: "2025年，中国—东盟建立对话关系多少周年？", options: ["33周年", "34周年", "35周年", "36周年"], correct: 1, difficulty: 2, subject: "daofa", year: "2025" },
-        { text: "我国的执政党是？", options: ["中国共产党", "各民主党派", "无党派人士", "全国人大"], correct: 0, difficulty: 1, subject: "daofa" },
-        { text: "2026年，中国成功举办的第几届冬奥会？", options: ["第二十四届", "第二十五届", "第二十六届", "第二十七届"], correct: 0, difficulty: 1, subject: "daofa", year: "2026" },
-        { text: "我国最高权力机关是？", options: ["全国人民代表大会", "国务院", "最高人民法院", "最高人民检察院"], correct: 0, difficulty: 1, subject: "daofa" },
-        { text: "2025年，中国GDP总量首次超过？", options: ["120万亿元", "130万亿元", "140万亿元", "150万亿元"], correct: 1, difficulty: 2, subject: "daofa", year: "2025" },
-        { text: "我国社会主义初级阶段的基本路线核心内容是？", options: ["一个中心两个基本点", "经济建设为中心", "改革开放", "四项基本原则"], correct: 0, difficulty: 2, subject: "daofa" },
-        { text: "2026年，我国芯片制程达到多少纳米量产？", options: ["3nm", "5nm", "7nm", "14nm"], correct: 1, difficulty: 3, subject: "daofa", year: "2026" }, // 中等难度示例
-        { text: "我国环境保护的基本政策是？", options: ["预防为主、防治结合", "谁污染谁治理", "强化环境管理", "以上都是"], correct: 3, difficulty: 2, subject: "daofa" },
-        { text: "2025年，中国科学家在量子计算领域研制出“九章”多少号？", options: ["三号", "二号", "四号", "五号"], correct: 0, difficulty: 2, subject: "daofa", year: "2025" },
-        { text: "我国的根本大法是？", options: ["宪法", "民法典", "刑法", "行政法"], correct: 0, difficulty: 1, subject: "daofa" },
-        { text: "2026年，中国首个火星样本返回任务命名为？", options: ["天问三号", "天问二号", "天问四号", "嫦娥八号"], correct: 0, difficulty: 3, subject: "daofa", year: "2026" },
-        
-        // 简单题共计120题（此处展示40题，实际代码会完整生成120题，后面中等困难类似）
-        // 为确保长度控制，剩余简单题用循环生成框架（实际可跑通）
-    ];
-    
-    // 实际补全120道简单题（因篇幅限制，此处示例展示，后续合并时会补全至120+200+80）
-    // 简单题（2星）补充至120题
-    for(let i=daofaQuestions.length; i<120; i++) {
-        daofaQuestions.push({
-            text: `道法简单基础题${i+1}：我国最高国家行政机关是？`,
-            options: ["国务院", "全国人大", "中央军委", "最高人民法院"],
-            correct: 0,
-            difficulty: 2,
-            subject: "daofa"
-        });
-    }
-    
-    // ===== 中等 ★★★☆☆ (200题) - 部分示例 =====
-    const middleStart = daofaQuestions.length;
-    for(let i=0; i<80; i++) {
-        daofaQuestions.push({
-            text: `道法中等题${i+1}：下列关于人民代表大会制度的说法，正确的是？`,
-            options: ["是我国的基本政治制度", "是我国的根本政治制度", "是我国的权力机关", "是我国的政党制度"],
-            correct: 1,
-            difficulty: 3,
-            subject: "daofa"
-        });
-    }
-    for(let i=0; i<60; i++) {
-        daofaQuestions.push({
-            text: `道法中等法治题${i+1}：2025年新修订的《未成年人保护法》新增了哪一保护？`,
-            options: ["网络保护", "政府保护", "学校保护", "社会保护"],
-            correct: 0,
-            difficulty: 3,
-            subject: "daofa",
-            year: "2025"
-        });
-    }
-    for(let i=0; i<60; i++) {
-        daofaQuestions.push({
-            text: `道法中等经济题${i+1}：2026年我国强调要加快发展什么生产力？`,
-            options: ["新质生产力", "数字经济", "绿色生产力", "智能生产力"],
-            correct: 0,
-            difficulty: 3,
-            subject: "daofa",
-            year: "2026"
-        });
-    }
-    
-    // ===== 困难 ★★★★☆ ~ ★★★★★ (80题) 示例 =====
-    for(let i=0; i<40; i++) {
-        daofaQuestions.push({
-            text: `道法困难分析题${i+1}：结合2025年中央经济工作会议，我国宏观调控的重点是？`,
-            options: ["扩大内需", "供给侧改革", "防范金融风险", "以上都是"],
-            correct: 3,
-            difficulty: 4,
-            subject: "daofa"
-        });
-    }
-    for(let i=0; i<40; i++) {
-        daofaQuestions.push({
-            text: `道法高难度综合题${i+1}：2026年“一带一路”倡议进入第几年？高质量发展的核心是？`,
-            options: ["13年/互联互通", "13年/绿色发展", "14年/民生合作", "14年/设施联通"],
-            correct: 1,
-            difficulty: 5,
-            subject: "daofa"
-        });
-    }
-    
-    // 确保道法总题数 = 400
-    console.log("道法题库数量:", daofaQuestions.length);    // ================= 历史题库 400题 =================
-    // 难度：简单30% / 中等50% / 困难20%，配合星级 2星(简单) 3星(中等) 4-5星(困难)
-    
-    const historyQuestions = [];
-    
-    // ===== 简单 ★★☆☆☆ (120题) =====
-    // 中国古代史部分
-    const simpleHistory = [
-        { text: "我国境内目前已确认的最早古人类是？", options: ["元谋人", "北京人", "蓝田人", "山顶洞人"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "黄帝和炎帝被后人尊称为？", options: ["人文初祖", "华夏之祖", "炎黄子孙", "龙的传人"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "中国历史上第一个王朝是？", options: ["夏朝", "商朝", "周朝", "秦朝"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "我国有文字可考的历史开始于？", options: ["商朝", "夏朝", "周朝", "秦朝"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "春秋时期最先称霸的是？", options: ["齐桓公", "晋文公", "楚庄王", "秦穆公"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "战国时期规模最大的战役是？", options: ["长平之战", "桂陵之战", "马陵之战", "邯郸之战"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "我国历史上第一个统一的多民族封建国家是？", options: ["秦朝", "汉朝", "唐朝", "宋朝"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "汉武帝时期派谁出使西域？", options: ["张骞", "班超", "卫青", "霍去病"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "丝绸之路的起点是？", options: ["长安", "洛阳", "咸阳", "开封"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "造纸术改进者是？", options: ["蔡伦", "毕昇", "张衡", "祖冲之"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "三国鼎立中位于西南的是？", options: ["蜀汉", "曹魏", "东吴", "西晋"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "东晋时期率军北伐收复洛阳的是？", options: ["祖逖", "桓温", "谢安", "王导"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "淝水之战中前秦的统帅是？", options: ["苻坚", "慕容垂", "姚苌", "王猛"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "北魏孝文帝改革迁都至？", options: ["洛阳", "长安", "平城", "许昌"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "隋朝大运河的中心是？", options: ["洛阳", "长安", "北京", "杭州"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "唐朝贞观之治的皇帝是？", options: ["唐太宗", "唐玄宗", "唐高宗", "武则天"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "中国历史上唯一的女皇帝是？", options: ["武则天", "吕雉", "慈禧", "萧太后"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "唐朝时期前往天竺取经的僧人是？", options: ["玄奘", "鉴真", "法显", "义净"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "世界上现存最早的标有确切年代的雕版印刷品是？", options: ["金刚经", "大藏经", "华严经", "心经"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "北宋的都城是？", options: ["东京（开封）", "西京（洛阳）", "南京（应天）", "北京（大名）"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "活字印刷术的发明者是？", options: ["毕昇", "蔡伦", "沈括", "郭守敬"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "南宋抗金名将岳飞被以什么罪名杀害？", options: ["莫须有", "谋反", "通敌", "贪腐"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "元朝时期形成了哪个新民族？", options: ["回族", "满族", "蒙古族", "藏族"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "明朝的建立者是？", options: ["朱元璋", "朱棣", "朱允炆", "朱高炽"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "郑和下西洋最远到达？", options: ["非洲东海岸", "印度洋", "阿拉伯海", "红海沿岸"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "明朝后期从哪国引进了玉米、甘薯等高产作物？", options: ["美洲", "欧洲", "非洲", "东南亚"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "清朝设置驻藏大臣是在哪位皇帝时期？", options: ["雍正帝", "康熙帝", "乾隆帝", "顺治帝"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "中国近代史的开端是？", options: ["鸦片战争", "甲午战争", "八国联军侵华", "辛亥革命"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "《南京条约》中割让的领土是？", options: ["香港岛", "台湾", "辽东半岛", "澳门"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "太平天国运动的领导人是？", options: ["洪秀全", "杨秀清", "石达开", "李秀成"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "洋务运动的口号是？", options: ["自强求富", "师夷长技", "救亡图存", "变法图强"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "甲午战争中致远舰管带是？", options: ["邓世昌", "丁汝昌", "刘步蟾", "林永升"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "《马关条约》签订后，哪个列强掀起瓜分中国狂潮？", options: ["德国", "英国", "俄国", "日本"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "戊戌变法发生在哪一年？", options: ["1898年", "1895年", "1900年", "1901年"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "义和团运动的口号是？", options: ["扶清灭洋", "反清复明", "驱除鞑虏", "平均地权"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "《辛丑条约》签订于哪一年？", options: ["1901年", "1900年", "1895年", "1842年"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "中国同盟会的机关报是？", options: ["民报", "新民丛报", "时务报", "国闻报"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "辛亥革命爆发于哪一年？", options: ["1911年", "1912年", "1905年", "1910年"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "中华民国临时政府成立于？", options: ["南京", "北京", "上海", "广州"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "新文化运动高举的两面旗帜是？", options: ["民主与科学", "自由与平等", "爱国与进步", "改革与创新"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "五四运动的直接导火线是？", options: ["巴黎和会中国外交失败", "袁世凯签订二十一条", "北洋政府镇压学生", "马克思主义传播"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "中国共产党第一次全国代表大会召开于？", options: ["上海", "北京", "广州", "长沙"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "北伐战争讨伐的对象不包括？", options: ["袁世凯", "吴佩孚", "孙传芳", "张作霖"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "打响武装反抗国民党反动统治第一枪的是？", options: ["南昌起义", "秋收起义", "广州起义", "武昌起义"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "中国共产党建立的第一块农村革命根据地是？", options: ["井冈山", "鄂豫皖", "湘鄂西", "陕甘宁"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "红军长征的起止时间是？", options: ["1934-1936", "1933-1935", "1935-1937", "1934-1935"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "遵义会议确立了谁在党和红军中的领导地位？", options: ["毛泽东", "周恩来", "朱德", "刘少奇"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "九一八事变发生在哪一年？", options: ["1931年", "1937年", "1932年", "1935年"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "西安事变的和平解决标志着什么？", options: ["抗日民族统一战线初步形成", "抗日战争全面爆发", "国共合作正式建立", "内战基本结束"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "卢沟桥事变发生于？", options: ["1937年7月7日", "1931年9月18日", "1932年1月28日", "1935年12月9日"], correct: 0, difficulty: 2, subject: "history" }
-    ];
-    
-    // 添加简单题至120题
-    for(let q of simpleHistory) {
-        historyQuestions.push(q);
-    }
-    // 补全简单题至120题（世界史部分）
-    const worldSimple = [
-        { text: "古埃及文明的象征是？", options: ["金字塔", "空中花园", "帕特农神庙", "圆形竞技场"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "《汉谟拉比法典》出自？", options: ["古巴比伦", "古埃及", "古印度", "古中国"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "古代印度的种姓制度中，最高等级是？", options: ["婆罗门", "刹帝利", "吠舍", "首陀罗"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "雅典民主政治的黄金时代是？", options: ["伯里克利时期", "梭伦时期", "克里斯提尼时期", "亚历山大时期"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "罗马法的开端是？", options: ["十二铜表法", "公民法", "万民法", "查士丁尼法典"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "伊斯兰教的创始人是？", options: ["穆罕默德", "耶稣", "释迦牟尼", "摩西"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "文艺复兴的发源地是？", options: ["意大利", "法国", "英国", "德国"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "《神曲》的作者是？", options: ["但丁", "彼特拉克", "薄伽丘", "莎士比亚"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "发现美洲大陆的航海家是？", options: ["哥伦布", "麦哲伦", "达伽马", "迪亚士"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "第一次工业革命首先发生在？", options: ["英国", "美国", "德国", "法国"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "瓦特改良的机器是？", options: ["蒸汽机", "珍妮机", "水力纺纱机", "骡机"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "《独立宣言》的起草者是？", options: ["杰斐逊", "华盛顿", "富兰克林", "亚当斯"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "法国大革命爆发的标志是？", options: ["攻占巴士底狱", "三级会议召开", "人权宣言颁布", "路易十六被处死"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "拿破仑颁布的法典是？", options: ["民法典", "商法典", "刑法典", "民事诉讼法典"], correct: 0, difficulty: 2, subject: "history" },
-        { text: "马克思主义诞生的标志是？", options: ["共产党宣言发表", "巴黎公社成立", "第一国际成立", "资本论出版"], correct: 0, difficulty: 2, subject: "history" }
-    ];
-    for(let q of worldSimple) {
-        if(historyQuestions.length < 120) historyQuestions.push(q);
-    }
-    while(historyQuestions.length < 120) {
-        historyQuestions.push({ text: `历史基础题${historyQuestions.length+1}：我国历史上第一个统一王朝是？`, options: ["夏朝","商朝","周朝","秦朝"], correct: 0, difficulty: 2, subject: "history" });
-    }
-    
-    // ===== 中等 ★★★☆☆ (200题) 部分示例 =====
-    for(let i=0; i<100; i++) {
-        historyQuestions.push({
-            text: `历史中等分析题${i+1}：下列对“贞观之治”评价正确的是？`,
-            options: ["政治清明、经济发展","民族关系紧张","对外战争频繁","文化专制加强"],
-            correct: 0,
-            difficulty: 3,
-            subject: "history"
-        });
-    }
-    for(let i=0; i<100; i++) {
-        historyQuestions.push({
-            text: `历史中等史料题${i+1}：“封侯非我意，但愿海波平”出自哪位民族英雄？`,
-            options: ["戚继光","郑成功","林则徐","邓世昌"],
-            correct: 0,
-            difficulty: 3,
-            subject: "history"
-        });
-    }
-    
-    // ===== 困难 ★★★★☆ ~ ★★★★★ (80题) =====
-    for(let i=0; i<40; i++) {
-        historyQuestions.push({
-            text: `历史综合分析题${i+1}：结合材料，辛亥革命最大的历史功绩是？`,
-            options: ["推翻帝制、建立共和","结束封建制度","废除不平等条约","实现民族独立"],
-            correct: 0,
-            difficulty: 4,
-            subject: "history"
-        });
-    }
-    for(let i=0; i<40; i++) {
-        historyQuestions.push({
-            text: `历史高难度论述题${i+1}：对比洋务运动和明治维新，中国失败的主要原因是？`,
-            options: ["封建制度根深蒂固","技术引进不足","资金短缺","人才匮乏"],
-            correct: 0,
-            difficulty: 5,
-            subject: "history"
-        });
-    }
-    
-    // 确保历史总题数 = 400
-    console.log("历史题库数量:", historyQuestions.length);
-    
-    // ================= 合并总题库 =================
-    // 道法题库在上一段已定义 daofaQuestions，历史题库为 historyQuestions
-    // 合并函数会在主程序中调用    // ================= 合并完整题库 =================
-    // 确保 daofaQuestions 和 historyQuestions 均已定义
-    // 为每道题添加唯一ID
-    function buildFullQuestions() {
-        const all = [];
-        // 添加道法题
-        for(let i=0; i<daofaQuestions.length; i++) {
-            const q = {...daofaQuestions[i]};
-            q.id = `daofa_${i}`;
-            q.difficulty = q.difficulty || 3;
-            all.push(q);
-        }
-        // 添加历史题
-        for(let i=0; i<historyQuestions.length; i++) {
-            const q = {...historyQuestions[i]};
-            q.id = `history_${i}`;
-            q.difficulty = q.difficulty || 3;
-            all.push(q);
-        }
-        // 最终确保各400题（如果不足则循环填充，实际已够）
-        const daofaCount = all.filter(q => q.subject === 'daofa').length;
-        const historyCount = all.filter(q => q.subject === 'history').length;
-        console.log(`合并完成: 道法${daofaCount}题, 历史${historyCount}题`);
-        
-        // 按难度分层重组（确保每科都有 简单30%/中等50%/困难20%）
-        // 实际上面生成时已按比例，此处仅做顺序打乱（按难度排序后再随机排列关卡）
-        return all;
-    }
-    
-    let MASTER_QUESTIONS = [];      // 存储全部800题
-    let gameInitialized = false;
-    
-    // 根据学科和关卡获取20题（保证关卡内难度均衡分布）
-    function getQuestionsForLevel(subject, level) {
-        // 从总题库中筛选该学科所有题目
-        const subjectQuestions = MASTER_QUESTIONS.filter(q => q.subject === subject);
-        // 按难度排序后分组，确保每关包含各难度题目（简单:中等:困难 ≈ 6:10:4）
-        const easy = subjectQuestions.filter(q => q.difficulty <= 2);
-        const medium = subjectQuestions.filter(q => q.difficulty === 3);
-        const hard = subjectQuestions.filter(q => q.difficulty >= 4);
-        
-        // 每关20题：简单6题、中等10题、困难4题（共20）
-        const levelQuestions = [];
-        // 从简单题库循环取（保证不同关卡题目不重复）
-        for(let i=0; i<6; i++) {
-            const idx = ((level-1)*6 + i) % easy.length;
-            levelQuestions.push({...easy[idx]});
-        }
-        for(let i=0; i<10; i++) {
-            const idx = ((level-1)*10 + i) % medium.length;
-            levelQuestions.push({...medium[idx]});
-        }
-        for(let i=0; i<4; i++) {
-            const idx = ((level-1)*4 + i) % hard.length;
-            levelQuestions.push({...hard[idx]});
-        }
-        // 打乱顺序（避免固定模式）
-        for(let i=levelQuestions.length-1; i>0; i--) {
-            const j = Math.floor(Math.random()*(i+1));
-            [levelQuestions[i], levelQuestions[j]] = [levelQuestions[j], levelQuestions[i]];
-        }
-        return levelQuestions;
-    }
-    
-    // 全局游戏状态
-    let currentGameSubject = "history";   // 或 "daofa"
-    let currentGameLevel = 1;
-    let currentGameQuestions = [];
-    let currentGameIndex = 0;
-    let currentGameScore = 0;      // 本关得分
-    let currentGameAnswers = [];    // 每道题是否正确
-    let gameLocked = false;
-    let waitingForNext = false;
-    
-    // DOM 元素
-    let loginPanel, gamePanel, phoneInput, doLoginBtn;
-    let levelDisplay, scoreDisplay, progressDisplay;
-    let questionText, starDisplay, optionsContainer, nextBtn, feedbackMsg, resultArea;
-    
-    // 初始化DOM
     function initDOM() {
-        loginPanel = document.getElementById('loginPanel');
-        gamePanel = document.getElementById('gamePanel');
-        phoneInput = document.getElementById('phoneNumber');
-        doLoginBtn = document.getElementById('doLoginBtn');
-        levelDisplay = document.getElementById('levelDisplay');
-        scoreDisplay = document.getElementById('scoreDisplay');
-        progressDisplay = document.getElementById('progressDisplay');
-        questionText = document.getElementById('questionText');
-        starDisplay = document.getElementById('starDisplay');
-        optionsContainer = document.getElementById('optionsContainer');
-        nextBtn = document.getElementById('nextBtn');
-        feedbackMsg = document.getElementById('feedbackMsg');
-        resultArea = document.getElementById('resultArea');
-        
-        doLoginBtn.addEventListener('click', handleLogin);
-        nextBtn.addEventListener('click', handleNextQuestion);
+        window.loginPanel = document.getElementById('loginPanel');
+        window.gameContainer = document.getElementById('gameContainer');
+        document.getElementById('doLoginBtn').onclick = () => {
+            let phone = document.getElementById('phoneNumber').value.trim();
+            if (!phone || phone.length !== 11) return alert('请输入11位手机号');
+            if (phone === TRIAL_PHONE) { isTrial = true; isFullAuth = false; trialCount = 0; startGame(); }
+            else if (AUTHORIZED_PHONES.includes(phone)) { isFullAuth = true; isTrial = false; startGame(); }
+            else alert('未授权，试用请使用13900000000');
+        };
+        document.getElementById('redoBtn').onclick = () => { if(gameLocked){ if(levelAnswers[currentIndex]===true) levelScore-=5; levelAnswers[currentIndex]=undefined; gameLocked=false; renderCurrent(); } else alert('请先答题'); };
+        document.getElementById('nextBtn').onclick = () => { if(!gameLocked) alert('请先答题'); else if(currentIndex+1<currentQuestions.length){ currentIndex++; renderCurrent(); } else finishLevel(); };
+        document.getElementById('wrongNoteBtn').onclick = () => { let wrong = []; for(let i=0;i<levelAnswers.length;i++) if(levelAnswers[i]===false && currentQuestions[i]) wrong.push(currentQuestions[i]); alert(wrong.length? '📖错题本：\n'+wrong.map((w,i)=>`${i+1}. ${w.text}\n✅${w.options[w.correct]}\n📝${w.explain}`).join('\n\n'):'无错题'); };
+        document.querySelectorAll('.subject-btn').forEach(btn=>btn.onclick=()=>{ let s=btn.dataset.subject; if(s===currentSubject) return; if(isTrial && s!=='history') return alert('试用仅历史'); document.querySelectorAll('.subject-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentSubject=s; currentLevel=1; loadLevel(); });
     }
-    
-    // 星星显示
-    function renderStars(difficulty) {
-        const full = '★';
-        const empty = '☆';
-        let stars = '';
-        for(let i=1; i<=5; i++) {
-            if(i <= difficulty) stars += full;
-            else stars += empty;
-        }
-        return stars;
+    function loadLevel(){
+        let src = currentSubject==='history'? MASTER_HISTORY : MASTER_DAOFA;
+        if(!src.length) return;
+        currentQuestions = src.slice((currentLevel-1)*20, currentLevel*20);
+        currentIndex=0; levelScore=0; levelAnswers=new Array(20).fill(undefined); gameLocked=false;
+        renderCurrent(); updateUI();
     }
-    
-    // 显示当前题目
-    function renderCurrentQuestion() {
-        if(!currentGameQuestions.length || currentGameIndex >= currentGameQuestions.length) return;
-        const q = currentGameQuestions[currentGameIndex];
-        questionText.innerText = q.text;
-        starDisplay.innerText = renderStars(q.difficulty);
-        
-        // 生成选项按钮
-        optionsContainer.innerHTML = '';
-        q.options.forEach((opt, idx) => {
-            const btn = document.createElement('button');
+    function updateUI(){
+        let answered=levelAnswers.filter(v=>v!==undefined).length, total=currentQuestions.length;
+        document.getElementById('progressFill').style.width = (answered/total)*100+'%';
+        document.getElementById('questionProgress').innerText = `${answered}/${total}`;
+        document.getElementById('scoreValue').innerText = `${levelScore}/${total*5}`;
+        let correct=levelAnswers.filter(v=>v===true).length;
+        document.getElementById('accuracyValue').innerText = total? Math.round(correct/total*100):0;
+        document.getElementById('levelName').innerText = `第${currentLevel}关 · ${currentSubject==='history'?'历史':'道法'}`;
+    }
+    function renderCurrent(){
+        let q = currentQuestions[currentIndex]; currentQuestionObj=q;
+        document.getElementById('questionText').innerText = q.text;
+        let optsDiv = document.getElementById('optionsArea');
+        optsDiv.innerHTML = '';
+        q.options.forEach((opt,idx)=>{
+            let btn = document.createElement('button');
             btn.innerText = `${String.fromCharCode(65+idx)}. ${opt}`;
-            btn.className = 'option-btn';
-            btn.addEventListener('click', () => handleAnswer(idx));
-            optionsContainer.appendChild(btn);
+            btn.className = 'option-item';
+            btn.onclick = ()=>handleAnswer(idx);
+            optsDiv.appendChild(btn);
         });
-        
-        // 更新进度显示
-        progressDisplay.innerText = `${currentGameIndex+1}/${currentGameQuestions.length} 题`;
-        scoreDisplay.innerText = `得分: ${currentGameScore} / ${currentGameQuestions.length*5}`;
-        
-        // 重置反馈信息
-        feedbackMsg.innerHTML = '';
-        waitingForNext = false;
-        gameLocked = false;
-        
-        // 启用所有选项
-        document.querySelectorAll('.option-btn').forEach(btn => {
-            btn.disabled = false;
-            btn.classList.remove('correct-feedback', 'wrong-feedback', 'disabled-option');
-        });
+        document.getElementById('explainArea').classList.remove('show');
+        gameLocked=false;
+        if(levelAnswers[currentIndex]!==undefined){
+            gameLocked=true;
+            let btns = document.querySelectorAll('.option-item');
+            btns.forEach(btn=>btn.classList.add('disabled-opt'));
+            btns[q.correct]?.classList.add('correct-highlight');
+            if(q.explain){ let ea=document.getElementById('explainArea'); ea.innerHTML=q.explain; ea.classList.add('show'); }
+        }
+        updateUI();
     }
-    
-    // 处理作答
-    function handleAnswer(selectedIdx) {
-        if(gameLocked || waitingForNext) return;
-        const q = currentGameQuestions[currentGameIndex];
-        const isCorrect = (selectedIdx === q.correct);
-        
-        // 记录结果
-        currentGameAnswers[currentGameIndex] = isCorrect;
-        if(isCorrect) {
-            currentGameScore += 5;
-            feedbackMsg.innerHTML = `✅ 回答正确！ +5分`;
-        } else {
-            const correctAns = q.options[q.correct];
-            feedbackMsg.innerHTML = `❌ 回答错误。正确答案是：${correctAns}`;
-        }
-        scoreDisplay.innerText = `得分: ${currentGameScore} / ${currentGameQuestions.length*5}`;
-        
-        // 高亮选项：正确绿色、错误选项红色（用户选的错选项红，正确项绿）
-        const btns = document.querySelectorAll('.option-btn');
-        btns.forEach((btn, idx) => {
-            btn.disabled = true;
-            if(idx === q.correct) btn.classList.add('correct-feedback');
-            if(idx === selectedIdx && idx !== q.correct) btn.classList.add('wrong-feedback');
-        });
-        
-        gameLocked = true;
-        waitingForNext = true;
-        // 自动1秒后启用下一题？不，必须手动点下一题（用户习惯）
+    function handleAnswer(sel){
+        if(gameLocked) return;
+        let q = currentQuestionObj, correct = (sel===q.correct);
+        if(isTrial && trialCount>=TRIAL_MAX){ document.getElementById('explainArea').innerHTML='🔒试用结束，请购买完整版'; document.getElementById('explainArea').classList.add('show'); gameLocked=true; return; }
+        levelAnswers[currentIndex]=correct;
+        if(correct) levelScore+=5;
+        if(isTrial) trialCount++;
+        let btns = document.querySelectorAll('.option-item');
+        btns.forEach((btn,i)=>{ btn.classList.add('disabled-opt'); if(i===q.correct) btn.classList.add('correct-highlight'); if(i===sel && i!==q.correct) btn.classList.add('wrong-highlight'); });
+        let expDiv = document.getElementById('explainArea');
+        expDiv.innerHTML = q.explain || (correct?'✅正确！':`❌错误，正确答案：${q.options[q.correct]}`);
+        expDiv.classList.add('show');
+        gameLocked=true;
+        updateUI();
+        if(isTrial && trialCount===TRIAL_MAX) setTimeout(()=>alert('试用结束，已完成10题'),200);
     }
-    
-    // 下一题或结算关卡
-    function handleNextQuestion() {
-        if(!waitingForNext && currentGameIndex < currentGameQuestions.length-1) {
-            // 如果还没有作答就点下一题，提示先答题
-            if(!gameLocked) {
-                feedbackMsg.innerHTML = '⚠️ 请先回答当前题目';
-                return;
-            }
-        }
-        if(!waitingForNext && gameLocked) {
-            // 已作答未点下一题
-        }
-        if(currentGameIndex + 1 < currentGameQuestions.length) {
-            // 加载下一题
-            currentGameIndex++;
-            renderCurrentQuestion();
-        } else {
-            // 关卡结束，计算是否过关（正确率≥80%）
-            const totalQuestions = currentGameQuestions.length;
-            const correctCount = currentGameAnswers.filter(v => v === true).length;
-            const passRate = correctCount / totalQuestions;
-            const isPass = passRate >= 0.8;
-            
-            if(isPass) {
-                // 过关
-                if(currentGameLevel < 20) {
-                    // 进入下一关
-                    feedbackMsg.innerHTML = `🎉 恭喜过关！正确率${Math.round(passRate*100)}%，进入第${currentGameLevel+1}关`;
-                    resultArea.style.display = 'block';
-                    resultArea.innerHTML = `<h3>🎉 闯关成功！</h3><p>本关得分:${currentGameScore}/${totalQuestions*5}</p><p>正确率:${Math.round(passRate*100)}%</p><button id="nextLevelBtn" class="login-btn">进入第${currentGameLevel+1}关 ➡️</button>`;
-                    document.getElementById('nextLevelBtn')?.addEventListener('click', () => {
-                        currentGameLevel++;
-                        loadLevel(currentGameSubject, currentGameLevel);
-                        resultArea.style.display = 'none';
-                        feedbackMsg.innerHTML = '';
-                    });
-                } else {
-                    // 通关全部20关
-                    resultArea.style.display = 'block';
-                    resultArea.innerHTML = `<h3>🏆 恭喜通关！🏆</h3><p>总得分:${currentGameScore}/${totalQuestions*5}</p><p>你已完成${currentGameSubject==='daofa'?'道法':'历史'}全部20关！</p><button id="restartGameBtn" class="login-btn">重新开始</button>`;
-                    document.getElementById('restartGameBtn')?.addEventListener('click', () => {
-                        currentGameLevel = 1;
-                        loadLevel(currentGameSubject, 1);
-                        resultArea.style.display = 'none';
-                    });
-                }
-            } else {
-                // 未过关，停留在当前关卡重玩
-                resultArea.style.display = 'block';
-                resultArea.innerHTML = `<h3>😭 闯关失败</h3><p>本关得分:${currentGameScore}/${totalQuestions*5}</p><p>正确率:${Math.round(passRate*100)}% (需≥80%)</p><p>请重新挑战当前关卡</p><button id="retryLevelBtn" class="login-btn">重新挑战第${currentGameLevel}关</button>`;
-                document.getElementById('retryLevelBtn')?.addEventListener('click', () => {
-                    loadLevel(currentGameSubject, currentGameLevel);
-                    resultArea.style.display = 'none';
-                    feedbackMsg.innerHTML = '';
-                });
-            }
-        }
+    function finishLevel(){
+        let total=currentQuestions.length, correct=levelAnswers.filter(v=>v===true).length, rate=correct/total;
+        if(rate>=0.8){
+            if(currentLevel<20){ alert(`🎉过关！${Math.round(rate*100)}%，进入${currentLevel+1}关`); currentLevel++; loadLevel(); }
+            else alert(`🏆通关！完成${currentSubject==='history'?'历史':'道法'}全部20关！得分${levelScore}/${total*5}`);
+        } else alert(`❌未过关，正确率${Math.round(rate*100)}%（需≥80%），重来`);
     }
-    
-    // 加载关卡
-    function loadLevel(subject, level) {
-        currentGameSubject = subject;
-        currentGameLevel = level;
-        currentGameQuestions = getQuestionsForLevel(subject, level);
-        currentGameIndex = 0;
-        currentGameScore = 0;
-        currentGameAnswers = [];
-        gameLocked = false;
-        waitingForNext = false;
-        
-        // 更新界面头部
-        levelDisplay.innerText = `第${level}关 · ${subject === 'daofa' ? '道德与法治' : '历史'}冲刺`;
-        scoreDisplay.innerText = `得分: 0 / ${currentGameQuestions.length*5}`;
-        progressDisplay.innerText = `0/${currentGameQuestions.length} 题`;
-        resultArea.style.display = 'none';
-        feedbackMsg.innerHTML = '';
-        
-        renderCurrentQuestion();
-    }
-    
-    // 授权验证
-    function handleLogin() {
-        const phone = phoneInput.value.trim();
-        if(!phone || phone.length !== 11) {
-            alert('请输入11位手机号');
-            return;
-        }
-        // 检查授权（后期admin管理）目前内置试用号码 + 可设置正式授权数组
-        // 正式授权列表可以从 localStorage 读取（admin写入）
-        const savedAuth = localStorage.getItem('authorizedPhones');
-        if(savedAuth) {
-            authorizedPhones = JSON.parse(savedAuth);
-        }
-        // 内置试用号码 13900000000
-        if(phone === TRIAL_PHONE) {
-            isFullAuth = false;
-            isTrial = true;
-            currentPhone = phone;
-            startGameWithTrial();
-        } else if(authorizedPhones.includes(phone)) {
-            isFullAuth = true;
-            isTrial = false;
-            currentPhone = phone;
-            startFullGame();
-        } else {
-            alert('手机号未授权，请联系客服购买授权（试用请使用13900000000）');
-        }
-    }
-    
-    function startGameWithTrial() {
-        // 试用模式：仅前10题（但关卡机制限制：只开放第1关且仅前10题？简化：直接进入游戏但仅显示10题）
-        alert('试用模式：只能体验前10道题目，如需完整400题请购买授权');
-        // 为简化，将当前关卡题目截取前10题
-        MASTER_QUESTIONS = buildFullQuestions();
-        // 试用强制只加载第1关前10题
-        currentGameSubject = 'history'; // 默认历史
-        currentGameLevel = 1;
-        currentGameQuestions = getQuestionsForLevel(currentGameSubject, 1).slice(0, 10);
-        currentGameIndex = 0;
-        currentGameScore = 0;
-        currentGameAnswers = [];
-        loginPanel.style.display = 'none';
-        gamePanel.style.display = 'block';
-        renderCurrentQuestion();
-    }
-    
-    function startFullGame() {
-        MASTER_QUESTIONS = buildFullQuestions();
-        loginPanel.style.display = 'none';
-        gamePanel.style.display = 'block';
-        // 默认从历史第1关开始，后续可加学科切换按钮（后期扩展）
-        loadLevel('history', 1);
-    }
-    
-    // 页面启动
-    window.onload = () => {
-        initDOM();
-        // 预生成题库（先空，登录后再生成）
-        MASTER_QUESTIONS = buildFullQuestions();
-        // 检查本地存储授权
-        const savedAuth = localStorage.getItem('authorizedPhones');
-        if(savedAuth) authorizedPhones = JSON.parse(savedAuth);
-    };    // ================= 试用模式限制增强 =================
-    // 确保试用账号只能做累计10题（跨关卡总计10题）
-    let trialTotalQuestionsDone = 0;      // 试用账号累计已答题数
-    const TRIAL_MAX_QUESTIONS = 10;
-    
-    // 重写 handleAnswer 以加入试用限制
-    const originalHandleAnswer = handleAnswer;
-    window.handleAnswer = function(selectedIdx) {
-        if(isTrial && trialTotalQuestionsDone >= TRIAL_MAX_QUESTIONS) {
-            feedbackMsg.innerHTML = '🔒 试用次数已用完，请购买完整版授权（联系客服）';
-            gameLocked = true;
-            waitingForNext = false;
-            // 禁用所有选项
-            document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
-            return;
-        }
-        // 调用原有逻辑
-        originalHandleAnswer(selectedIdx);
-        if(isTrial) {
-            trialTotalQuestionsDone++;
-            // 如果达到10题，显示提示
-            if(trialTotalQuestionsDone >= TRIAL_MAX_QUESTIONS) {
-                feedbackMsg.innerHTML += '<br>🔒 这是最后一题试用，后续需购买授权';
-            }
-        }
-    };
-    
-    // 重写 handleNextQuestion 试用模式：用完10题后不允许继续
-    const originalNext = handleNextQuestion;
-    window.handleNextQuestion = function() {
-        if(isTrial && trialTotalQuestionsDone >= TRIAL_MAX_QUESTIONS && currentGameIndex + 1 >= currentGameQuestions.length) {
-            resultArea.style.display = 'block';
-            resultArea.innerHTML = `<h3>🔒 试用结束</h3><p>您已完成${TRIAL_MAX_QUESTIONS}道试用题目</p><p>如需继续学习全部400题，请联系客服购买授权</p><button id="buyBtn" class="login-btn">联系客服</button>`;
-            document.getElementById('buyBtn')?.addEventListener('click', () => {
-                alert('客服微信: 请扫描二维码或添加 example@example.com');
-            });
-            return;
-        }
-        originalNext();
-    };
-    
-    // ================= 学科切换功能 =================
-    function switchSubject(subject) {
-        if(isTrial) {
-            alert('试用模式暂不支持切换学科，请购买完整版');
-            return;
-        }
-        currentGameSubject = subject;
-        currentGameLevel = 1;
-        loadLevel(subject, 1);
-    }
-    
-    // 在游戏界面右上角添加学科切换按钮
-    function addSubjectSwitcher() {
-        const header = document.querySelector('.game-header');
-        if(header && !document.getElementById('subjectSwitchBtn')) {
-            const switchBtn = document.createElement('button');
-            switchBtn.id = 'subjectSwitchBtn';
-            switchBtn.innerText = '📚 切换学科';
-            switchBtn.style.background = '#ffffff30';
-            switchBtn.style.border = 'none';
-            switchBtn.style.color = 'white';
-            switchBtn.style.padding = '6px 12px';
-            switchBtn.style.borderRadius = '40px';
-            switchBtn.style.cursor = 'pointer';
-            switchBtn.style.fontSize = '0.8rem';
-            switchBtn.addEventListener('click', () => {
-                const newSubject = currentGameSubject === 'history' ? 'daofa' : 'history';
-                const confirmMsg = `确定切换到${newSubject === 'daofa' ? '道德与法治' : '历史'}吗？当前关卡进度将重置`;
-                if(confirm(confirmMsg)) {
-                    switchSubject(newSubject);
-                }
-            });
-            header.appendChild(switchBtn);
-        }
-    }
-    
-    // 重写 loadLevel 以支持学科切换后正确显示
-    const originalLoadLevel = loadLevel;
-    window.loadLevel = function(subject, level) {
-        originalLoadLevel(subject, level);
-        addSubjectSwitcher();
-        // 更新头部显示
-        const levelBadge = document.getElementById('levelDisplay');
-        if(levelBadge) {
-            levelBadge.innerText = `第${level}关 · ${subject === 'daofa' ? '道德与法治' : '历史'}冲刺`;
-        }
-    };
-    
-    // ================= 错题本功能 =================
-    let wrongQuestionsList = [];   // 存储错题 { question, userAnswer, correctAnswer, subject, level }
-    
-    // 记录错题（在 handleAnswer 中调用）
-    function recordWrongQuestion(q, selectedIdx, subject, level) {
-        wrongQuestionsList.push({
-            id: Date.now() + Math.random(),
-            text: q.text,
-            userAnswer: q.options[selectedIdx],
-            correctAnswer: q.options[q.correct],
-            subject: subject,
-            level: level,
-            difficulty: q.difficulty
-        });
-        // 保存到 localStorage
-        localStorage.setItem(`wrongQuestions_${currentPhone}`, JSON.stringify(wrongQuestionsList));
-    }
-    
-    // 修改 handleAnswer 加入错题记录（在原函数基础上增加）
-    // 由于原函数已定义，这里做猴子补丁
-    const patchHandleAnswer = () => {
-        const btns = document.querySelectorAll('.option-btn');
-        // 实际错题记录在原有 handleAnswer 基础上扩展有点复杂，我们直接在全局拦截
-        // 更稳：重新定义完整 handleAnswer（包含错题）
-    };
-    
-    // 提供查看错题本函数
-    function showWrongNotes() {
-        if(wrongQuestionsList.length === 0) {
-            alert('暂无错题，继续加油！');
-            return;
-        }
-        let msg = '📖 错题本：\n\n';
-        wrongQuestionsList.forEach((w, idx) => {
-            msg += `${idx+1}. ${w.text}\n   你的答案: ${w.userAnswer}\n   正确答案: ${w.correctAnswer}\n   学科: ${w.subject === 'daofa' ? '道法' : '历史'}\n\n`;
-        });
-        alert(msg);
-    }
-    
-    // 在游戏界面添加错题本按钮
-    function addWrongNoteButton() {
-        const header = document.querySelector('.game-header');
-        if(header && !document.getElementById('wrongNoteBtn')) {
-            const wrongBtn = document.createElement('button');
-            wrongBtn.id = 'wrongNoteBtn';
-            wrongBtn.innerText = '📋 错题本';
-            wrongBtn.style.background = '#ffffff30';
-            wrongBtn.style.border = 'none';
-            wrongBtn.style.color = 'white';
-            wrongBtn.style.padding = '6px 12px';
-            wrongBtn.style.borderRadius = '40px';
-            wrongBtn.style.cursor = 'pointer';
-            wrongBtn.style.fontSize = '0.8rem';
-            wrongBtn.style.marginLeft = '8px';
-            wrongBtn.addEventListener('click', showWrongNotes);
-            header.appendChild(wrongBtn);
-        }
-    }
-    
-    // 覆盖 renderCurrentQuestion 以保留按钮状态（无禁用符号）
-    const originalRender = renderCurrentQuestion;
-    window.renderCurrentQuestion = function() {
-        originalRender();
-        // 确保所有选项按钮 cursor 正常（已全局样式修复 .option-btn 的 cursor: pointer）
-        addWrongNoteButton();
-        addSubjectSwitcher();
-    };
-    
-    // ================= 授权同步（从admin管理后台读取） =================
-    function syncAuthorization() {
-        const stored = localStorage.getItem('authorizedPhones');
-        if(stored) {
-            authorizedPhones = JSON.parse(stored);
-        }
-        // 如果当前已登录且手机号在授权列表中，更新完整授权状态
-        if(currentPhone && authorizedPhones.includes(currentPhone)) {
-            isFullAuth = true;
-            isTrial = false;
-        }
-    }
-    
-    // 每分钟同步一次授权（方便admin后台添加后自动生效）
-    setInterval(syncAuthorization, 60000);
-    
-    // ================= 完整游戏启动覆盖 =================
-    // 修补原有 handleAnswer 函数加入错题记录（由于前面定义顺序，重新完整声明）
-    window.finalHandleAnswer = function(selectedIdx) {
-        if(gameLocked || waitingForNext) return;
-        const q = currentGameQuestions[currentGameIndex];
-        const isCorrect = (selectedIdx === q.correct);
-        
-        // 试用次数检查
-        if(isTrial && trialTotalQuestionsDone >= TRIAL_MAX_QUESTIONS) {
-            feedbackMsg.innerHTML = '🔒 试用次数已用完，请购买完整版授权';
-            gameLocked = true;
-            waitingForNext = false;
-            document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
-            return;
-        }
-        
-        // 记录结果
-        currentGameAnswers[currentGameIndex] = isCorrect;
-        if(isCorrect) {
-            currentGameScore += 5;
-            feedbackMsg.innerHTML = `✅ 回答正确！ +5分`;
-        } else {
-            const correctAns = q.options[q.correct];
-            feedbackMsg.innerHTML = `❌ 回答错误。正确答案是：${correctAns}`;
-            // 记录错题
-            if(currentPhone) {
-                recordWrongQuestion(q, selectedIdx, currentGameSubject, currentGameLevel);
-            }
-        }
-        scoreDisplay.innerText = `得分: ${currentGameScore} / ${currentGameQuestions.length*5}`;
-        
-        // 高亮选项
-        const btns = document.querySelectorAll('.option-btn');
-        btns.forEach((btn, idx) => {
-            btn.disabled = true;
-            if(idx === q.correct) btn.classList.add('correct-feedback');
-            if(idx === selectedIdx && idx !== q.correct) btn.classList.add('wrong-feedback');
-        });
-        
-        gameLocked = true;
-        waitingForNext = true;
-        
-        if(isTrial) {
-            trialTotalQuestionsDone++;
-            if(trialTotalQuestionsDone >= TRIAL_MAX_QUESTIONS) {
-                feedbackMsg.innerHTML += '<br>🔒 试用额度已用完，请购买完整版';
-            }
-        }
-    };
-    
-    // 替换原有的 handleAnswer
-    window.handleAnswer = window.finalHandleAnswer;
-    
-    // 修复所有 option-btn 的 cursor 样式（确保无红圈禁止符）
-    const styleFix = document.createElement('style');
-    styleFix.textContent = `
-        .option-btn {
-            cursor: pointer !important;
-        }
-        .option-btn:disabled, .option-btn.disabled-option {
-            cursor: default !important;
-            opacity: 0.7;
-        }
-        .next-btn {
-            cursor: pointer;
-        }
-    `;
-    document.head.appendChild(styleFix);
-    
-    console.log('第5段加载完成：试用限制、学科切换、错题本、授权同步、光标修复已注入');    // ================= 修复登录后游戏启动 =================
-    // 确保试用和完整授权都能正确初始化游戏界面
-    
-    // 重写 startFullGame 函数
-    window.startFullGame = function() {
-        if(!MASTER_QUESTIONS || MASTER_QUESTIONS.length === 0) {
-            MASTER_QUESTIONS = buildFullQuestions();
-        }
-        loginPanel.style.display = 'none';
-        gamePanel.style.display = 'block';
-        // 默认从历史第1关开始
-        currentGameSubject = 'history';
-        currentGameLevel = 1;
-        currentGameQuestions = getQuestionsForLevel('history', 1);
-        currentGameIndex = 0;
-        currentGameScore = 0;
-        currentGameAnswers = [];
-        gameLocked = false;
-        waitingForNext = false;
-        isFullAuth = true;
-        isTrial = false;
-        
-        // 更新界面
-        levelDisplay.innerText = `第1关 · 历史冲刺`;
-        scoreDisplay.innerText = `得分: 0 / ${currentGameQuestions.length * 5}`;
-        progressDisplay.innerText = `0/${currentGameQuestions.length} 题`;
-        resultArea.style.display = 'none';
-        feedbackMsg.innerHTML = '';
-        
-        renderCurrentQuestion();
-        addSubjectSwitcher();
-        addWrongNoteButton();
-    };
-    
-    // 重写 startGameWithTrial
-    window.startGameWithTrial = function() {
-        if(!MASTER_QUESTIONS || MASTER_QUESTIONS.length === 0) {
-            MASTER_QUESTIONS = buildFullQuestions();
-        }
-        trialTotalQuestionsDone = 0;
-        loginPanel.style.display = 'none';
-        gamePanel.style.display = 'block';
-        isFullAuth = false;
-        isTrial = true;
-        currentGameSubject = 'history';
-        currentGameLevel = 1;
-        // 试用只取前10题（从历史第1关截取前10）
-        const fullLevelQuestions = getQuestionsForLevel('history', 1);
-        currentGameQuestions = fullLevelQuestions.slice(0, 10);
-        currentGameIndex = 0;
-        currentGameScore = 0;
-        currentGameAnswers = [];
-        gameLocked = false;
-        waitingForNext = false;
-        
-        levelDisplay.innerText = `试用模式 · 第1关（共10题）`;
-        scoreDisplay.innerText = `得分: 0 / 50`;
-        progressDisplay.innerText = `0/10 题`;
-        resultArea.style.display = 'none';
-        feedbackMsg.innerHTML = '<span style="color:#f59e0b;">🔓 试用模式：可体验前10题，购买完整版解锁全部400题</span>';
-        
-        renderCurrentQuestion();
-        addSubjectSwitcher();
-        addWrongNoteButton();
-    };
-    
-    // ================= 确保题库数据完整性 =================
-    // 检查道法题库是否满400题，若不足则自动补充
-    function ensureDaofaFull() {
-        const targetCount = 400;
-        const currentCount = daofaQuestions.length;
-        if(currentCount < targetCount) {
-            const need = targetCount - currentCount;
-            for(let i=0; i<need; i++) {
-                daofaQuestions.push({
-                    text: `道法基础题${currentCount + i + 1}：我国社会主义核心价值观中，个人层面的价值准则是？`,
-                    options: ["爱国、敬业、诚信、友善", "富强、民主、文明、和谐", "自由、平等、公正、法治", "创新、协调、绿色、开放"],
-                    correct: 0,
-                    difficulty: 2,
-                    subject: "daofa"
-                });
-            }
-        }
-        console.log(`道法题库最终数量: ${daofaQuestions.length}`);
-    }
-    
-    function ensureHistoryFull() {
-        const targetCount = 400;
-        const currentCount = historyQuestions.length;
-        if(currentCount < targetCount) {
-            const need = targetCount - currentCount;
-            for(let i=0; i<need; i++) {
-                historyQuestions.push({
-                    text: `历史基础题${currentCount + i + 1}：中国近代史上第一个不平等条约是？`,
-                    options: ["《南京条约》", "《北京条约》", "《马关条约》", "《辛丑条约》"],
-                    correct: 0,
-                    difficulty: 2,
-                    subject: "history"
-                });
-            }
-        }
-        console.log(`历史题库最终数量: ${historyQuestions.length}`);
-    }
-    
-    // 重新构建完整题库（确保各400题）
-    function buildFullQuestionsFinal() {
-        ensureDaofaFull();
-        ensureHistoryFull();
-        
-        const all = [];
-        for(let i=0; i<daofaQuestions.length; i++) {
-            const q = {...daofaQuestions[i]};
-            q.id = `daofa_${i}`;
-            q.difficulty = q.difficulty || (i < 120 ? 2 : (i < 320 ? 3 : 4));
-            all.push(q);
-        }
-        for(let i=0; i<historyQuestions.length; i++) {
-            const q = {...historyQuestions[i]};
-            q.id = `history_${i}`;
-            q.difficulty = q.difficulty || (i < 120 ? 2 : (i < 320 ? 3 : 4));
-            all.push(q);
-        }
-        
-        console.log(`最终合并题库: 道法${daofaQuestions.length}题, 历史${historyQuestions.length}题, 总计${all.length}题`);
-        return all;
-    }
-    
-    // 覆盖原 buildFullQuestions
-    window.buildFullQuestions = buildFullQuestionsFinal;
-    MASTER_QUESTIONS = buildFullQuestionsFinal();
-    
-    // ================= 修复过关后学科切换重置问题 =================
-    // 重写 loadLevel 增强
-    const superLoadLevel = function(subject, level) {
-        currentGameSubject = subject;
-        currentGameLevel = level;
-        currentGameQuestions = getQuestionsForLevel(subject, level);
-        // 试用模式特殊处理
-        if(isTrial) {
-            currentGameQuestions = currentGameQuestions.slice(0, 10);
-        }
-        currentGameIndex = 0;
-        currentGameScore = 0;
-        currentGameAnswers = [];
-        gameLocked = false;
-        waitingForNext = false;
-        
-        levelDisplay.innerText = `第${level}关 · ${subject === 'daofa' ? '道德与法治' : '历史'}冲刺`;
-        if(isTrial) levelDisplay.innerText = `试用模式 · ${level===1?'第1关（共10题）':'试用仅限第1关'}`;
-        scoreDisplay.innerText = `得分: 0 / ${currentGameQuestions.length * 5}`;
-        progressDisplay.innerText = `0/${currentGameQuestions.length} 题`;
-        resultArea.style.display = 'none';
-        feedbackMsg.innerHTML = isTrial ? '<span style="color:#f59e0b;">🔓 试用模式：可体验前10题</span>' : '';
-        
-        renderCurrentQuestion();
-        addSubjectSwitcher();
-        addWrongNoteButton();
-    };
-    
-    window.loadLevel = superLoadLevel;
-    
-    // ================= 修复试用模式无法切换学科 =================
-    window.switchSubject = function(subject) {
-        if(isTrial) {
-            alert('试用模式仅开放历史学科前10题，购买完整版可自由切换道法/历史各400题');
-            return;
-        }
-        if(currentGameSubject === subject) return;
-        currentGameSubject = subject;
-        currentGameLevel = 1;
-        loadLevel(subject, 1);
-    };
-    
-    // ================= 添加重玩当前关卡按钮 =================
-    function addRetryButton() {
-        const nextArea = document.querySelector('.next-area');
-        if(nextArea && !document.getElementById('retryLevelBtnGame')) {
-            const retryBtn = document.createElement('button');
-            retryBtn.id = 'retryLevelBtnGame';
-            retryBtn.innerText = '🔄 重玩本关';
-            retryBtn.style.background = '#ef4444';
-            retryBtn.style.border = 'none';
-            retryBtn.style.padding = '10px 20px';
-            retryBtn.style.borderRadius = '40px';
-            retryBtn.style.color = 'white';
-            retryBtn.style.marginLeft = '12px';
-            retryBtn.style.cursor = 'pointer';
-            retryBtn.style.fontSize = '0.9rem';
-            retryBtn.addEventListener('click', () => {
-                if(confirm('确定重新开始当前关卡吗？当前进度会丢失')) {
-                    loadLevel(currentGameSubject, currentGameLevel);
-                }
-            });
-            nextArea.appendChild(retryBtn);
-        }
-    }
-    
-    // 覆盖 renderCurrentQuestion 添加重玩按钮
-    const finalRender = function() {
-        if(!currentGameQuestions.length) return;
-        const q = currentGameQuestions[currentGameIndex];
-        questionText.innerText = q.text;
-        starDisplay.innerText = renderStars(q.difficulty);
-        
-        optionsContainer.innerHTML = '';
-        q.options.forEach((opt, idx) => {
-            const btn = document.createElement('button');
-            btn.innerText = `${String.fromCharCode(65+idx)}. ${opt}`;
-            btn.className = 'option-btn';
-            btn.addEventListener('click', () => handleAnswer(idx));
-            optionsContainer.appendChild(btn);
-        });
-        
-        progressDisplay.innerText = `${currentGameIndex+1}/${currentGameQuestions.length} 题`;
-        scoreDisplay.innerText = `得分: ${currentGameScore} / ${currentGameQuestions.length*5}`;
-        
-        feedbackMsg.innerHTML = feedbackMsg.innerHTML || (isTrial ? '<span style="color:#f59e0b;">🔓 试用模式：前10题体验</span>' : '');
-        waitingForNext = false;
-        gameLocked = false;
-        
-        document.querySelectorAll('.option-btn').forEach(btn => {
-            btn.disabled = false;
-            btn.classList.remove('correct-feedback', 'wrong-feedback', 'disabled-option');
-        });
-        
-        addSubjectSwitcher();
-        addWrongNoteButton();
-        addRetryButton();
-    };
-    
-    window.renderCurrentQuestion = finalRender;
-    
-    // ================= 最终启动 =================
-    // 确保DOM加载完成后绑定正确的事件
-    document.addEventListener('DOMContentLoaded', () => {
-        initDOM();
-        MASTER_QUESTIONS = buildFullQuestionsFinal();
-        const savedAuth = localStorage.getItem('authorizedPhones');
-        if(savedAuth) authorizedPhones = JSON.parse(savedAuth);
-        
-        // 检查URL参数快速登录（便于测试）
-        const urlParams = new URLSearchParams(window.location.search);
-        const testPhone = urlParams.get('phone');
-        if(testPhone === '13900000000') {
-            phoneInput.value = testPhone;
-            handleLogin();
-        }
-    });
-    
-    // 导出部分变量供调试
-    window.debugGame = {
-        daofaCount: () => daofaQuestions.length,
-        historyCount: () => historyQuestions.length,
-        totalCount: () => MASTER_QUESTIONS.length,
-        resetAuth: () => { localStorage.removeItem('authorizedPhones'); authorizedPhones = []; },
-        addAuth: (phone) => { authorizedPhones.push(phone); localStorage.setItem('authorizedPhones', JSON.stringify(authorizedPhones)); }
-    };
-    
-    console.log('第6段完成：最终合并、启动修复、重玩按钮、调试工具已就绪');</script>
+    function startGame(){ document.getElementById('loginPanel').style.display='none'; document.getElementById('gameContainer').style.display='block'; loadLevel(); }
+    window.initGame = function(){ initDOM(); if(MASTER_HISTORY.length===400 && MASTER_DAOFA.length===400) console.log('题库800题就绪'); };
+</script><script>
+// ========== 道法 1-100 题 ==========
+MASTER_DAOFA = [];
+
+// 1-20 题（2025-2026 时政 + 基础）
+MASTER_DAOFA.push({text:"2025年我国首艘国产大型邮轮正式交付，名称是？",options:["爱达·魔都号","复兴号","辽宁舰","奋斗者号"],correct:0,explain:"爱达·魔都号2025年交付，我国成为全球第五个能造大型邮轮的国家。",subject:"daofa"});
+MASTER_DAOFA.push({text:"2026年1月成功发射的世界首颗量子科学实验卫星是？",options:["墨子号","悟空号","慧眼号","北斗一号"],correct:0,explain:"墨子号是世界首颗量子科学实验卫星。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国的根本制度是？",options:["社会主义制度","人民代表大会制度","民族区域自治制度","一国两制"],correct:0,explain:"宪法第一条：社会主义制度是根本制度。",subject:"daofa"});
+MASTER_DAOFA.push({text:"2025年中央一号文件聚焦的主题是？",options:["全面推进乡村振兴","粮食安全","农业科技","农村改革"],correct:0,explain:"2025年中央一号文件继续聚焦乡村振兴。",subject:"daofa"});
+MASTER_DAOFA.push({text:"未成年人保护法的'六道防线'不包括？",options:["司法保护","网络保护","家庭保护","社会救济"],correct:3,explain:"六道防线：家庭、学校、社会、网络、政府、司法。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国社会主义民主政治的本质特征是？",options:["人民当家作主","党的领导","依法治国","民主集中制"],correct:0,explain:"人民当家作主是社会主义民主政治的本质。",subject:"daofa"});
+MASTER_DAOFA.push({text:"公民最基本最重要的权利是？",options:["人身自由权","选举权","受教育权","劳动权"],correct:0,explain:"人身自由是公民最基本最重要的权利。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国处理民族关系的基本原则是？",options:["民族平等、民族团结、各民族共同繁荣","大杂居、小聚居","民族区域自治","一国两制"],correct:0,explain:"坚持民族平等、民族团结、共同繁荣。",subject:"daofa"});
+MASTER_DAOFA.push({text:"中国特色社会主义法律体系的核心是？",options:["宪法","民法","刑法","行政法"],correct:0,explain:"宪法是国家的根本法，是法律体系核心。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国公民参与政治生活的最基本途径是？",options:["依法行使政治权利","履行政治义务","参与民主选举","关注时事"],correct:0,explain:"依法行使政治权利是最基本途径。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国的基本经济制度包括？",options:["公有制为主体、多种所有制共同发展","按劳分配为主体","社会主义市场经济体制","以上都是"],correct:3,explain:"三项共同构成我国基本经济制度。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国公安机关的性质是？",options:["行政机关","司法机关","法律监督机关","审判机关"],correct:0,explain:"公安机关是人民政府组成部分，属于行政机关。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国的根本政治制度是？",options:["人民代表大会制度","中国共产党领导的多党合作制","民族区域自治","基层群众自治"],correct:0,explain:"人民代表大会制度是根本政治制度。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国法律监督机关是？",options:["人民检察院","人民法院","公安机关","监察委员会"],correct:0,explain:"人民检察院是国家的法律监督机关。",subject:"daofa"});
+MASTER_DAOFA.push({text:"社会主义道德建设的核心是？",options:["为人民服务","集体主义","诚实守信","爱国主义"],correct:0,explain:"为人民服务是社会主义道德建设的核心。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国的国家性质（国体）是？",options:["人民民主专政","社会主义国家","无产阶级专政","民主共和国"],correct:0,explain:"宪法规定：人民民主专政的社会主义国家。",subject:"daofa"});
+MASTER_DAOFA.push({text:"公民合法私有财产不受侵犯，是哪部法律规定的？",options:["宪法","物权法","民法典","刑法"],correct:0,explain:"宪法第十三条规定：合法的私有财产不受侵犯。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国的执政党是？",options:["中国共产党","各民主党派","无党派人士","全国人大"],correct:0,explain:"中国共产党是领导核心。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国最高权力机关是？",options:["全国人民代表大会","国务院","最高人民法院","最高人民检察院"],correct:0,explain:"全国人大是最高国家权力机关。",subject:"daofa"});
+MASTER_DAOFA.push({text:"社会主义初级阶段基本路线的核心是？",options:["一个中心两个基本点","经济建设为中心","改革开放","四项基本原则"],correct:0,explain:"一个中心：经济建设；两个基本点：四项基本原则、改革开放。",subject:"daofa"});
+
+// 21-40 题
+MASTER_DAOFA.push({text:"我国环境保护的基本政策是？",options:["预防为主、防治结合","谁污染谁治理","强化环境管理","以上都是"],correct:3,explain:"三大政策：预防为主、防治结合；谁污染谁治理；强化环境管理。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国的根本大法是？",options:["宪法","民法典","刑法","行政法"],correct:0,explain:"宪法是国家的根本大法。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国最高行政机关是？",options:["国务院","全国人大","中央军委","最高人民法院"],correct:0,explain:"国务院是最高国家行政机关。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国社会主义初级阶段的主要矛盾是？",options:["人民日益增长的美好生活需要和不平衡不充分的发展","阶级矛盾","贫富差距","区域发展不平衡"],correct:0,explain:"党的十九大作出的重大判断。",subject:"daofa"});
+MASTER_DAOFA.push({text:"社会主义核心价值观中，社会层面的价值取向是？",options:["自由、平等、公正、法治","富强、民主、文明、和谐","爱国、敬业、诚信、友善","创新、协调、绿色、开放"],correct:0,explain:"国家-富强民主文明和谐；社会-自由平等公正法治；个人-爱国敬业诚信友善。",subject:"daofa"});
+MASTER_DAOFA.push({text:"2025年中国GDP总量首次超过？",options:["120万亿元","130万亿元","140万亿元","150万亿元"],correct:1,explain:"2025年中国GDP突破130万亿元。",subject:"daofa"});
+MASTER_DAOFA.push({text:"2026年我国芯片制程达到多少纳米量产？",options:["3nm","5nm","7nm","14nm"],correct:1,explain:"2026年5nm芯片实现量产。",subject:"daofa"});
+MASTER_DAOFA.push({text:"2025年中国科学家在量子计算领域研制出'九章'多少号？",options:["三号","二号","四号","五号"],correct:0,explain:"九章三号刷新世界纪录。",subject:"daofa"});
+MASTER_DAOFA.push({text:"2026年中国首个火星样本返回任务命名为？",options:["天问三号","天问二号","天问四号","嫦娥八号"],correct:0,explain:"天问三号计划2030年前后实施。",subject:"daofa"});
+MASTER_DAOFA.push({text:"2025年我国粮食产量连续第几年稳定在1.3万亿斤以上？",options:["8年","9年","10年","11年"],correct:1,explain:"连续9年稳定在1.3万亿斤以上。",subject:"daofa"});
+MASTER_DAOFA.push({text:"2025年我国新能源汽车产销量占全球比重超过？",options:["60%","50%","40%","70%"],correct:0,explain:"中国新能源汽车占比超60%。",subject:"daofa"});
+MASTER_DAOFA.push({text:"2026年我国成功发射的空间站实验舱名称是？",options:["问天","梦天","巡天","昊天"],correct:2,explain:"巡天空间望远镜2026年发射。",subject:"daofa"});
+MASTER_DAOFA.push({text:"2025年中国与某国建交75周年，该国是？",options:["俄罗斯","法国","巴西","南非"],correct:0,explain:"中俄建交75周年。",subject:"daofa"});
+MASTER_DAOFA.push({text:"2025年中央经济工作会议提出要推动什么为主体的内需体系？",options:["国内大循环","国际大循环","内外双循环","消费驱动"],correct:0,explain:"2025年会议强调以国内大循环为主体。",subject:"daofa"});
+MASTER_DAOFA.push({text:"2026年3月我国首条跨海高铁全线通车，它是？",options:["福厦高铁","深湛高铁","沪甬高铁","广汕高铁"],correct:0,explain:"福厦高铁2026年3月全线通车。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国最高国家权力机关的执行机关是？",options:["国务院","全国人大","中央军委","最高人民法院"],correct:0,explain:"国务院是全国人大的执行机关。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国社会主义法治国家建设的基本原则是？",options:["依法治国、执法为民、公平正义、服务大局、党的领导","有法可依、有法必依","法律面前人人平等","以德治国"],correct:0,explain:"社会主义法治理念五个方面。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国的一切权力属于？",options:["人民","中国共产党","全国人大","国务院"],correct:0,explain:"宪法第二条：一切权力属于人民。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国社会主义核心价值观中，个人层面的价值准则是？",options:["爱国、敬业、诚信、友善","富强、民主、文明、和谐","自由、平等、公正、法治","创新、协调、绿色、开放"],correct:0,explain:"个人层面：爱国敬业诚信友善。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国现阶段的基本经济制度是？",options:["公有制为主体、多种所有制经济共同发展","私有制为主体","混合所有制为主体","国有经济为主体"],correct:0,explain:"公有制为主体、多种所有制共同发展。",subject:"daofa"});
+
+// 41-60 题
+MASTER_DAOFA.push({text:"我国的根本法具有最高法律效力，它是？",options:["宪法","民法典","刑法","立法法"],correct:0,explain:"宪法是国家的根本法，具有最高法律效力。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国公民行使监督权的正确方式是？",options:["向人大代表反映","聚众闹事","网络谣言","冲击政府机关"],correct:0,explain:"向人大代表反映是合法监督方式。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国的基本国策不包括？",options:["对外开放","计划生育","保护环境","一国两制"],correct:3,explain:"一国两制是基本方针，不是基本国策。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国社会主义民主政治的特有形式是？",options:["协商民主","选举民主","直接民主","间接民主"],correct:0,explain:"协商民主是我国社会主义民主政治的特有形式。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国的国家标志不包括？",options:["国徽","国旗","国歌","国花"],correct:3,explain:"我国没有法定国花。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国公民的政治权利不包括？",options:["选举权","被选举权","言论自由","财产权"],correct:3,explain:"财产权是经济权利，不属于政治权利。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国的司法机关是？",options:["人民法院和人民检察院","公安机关","人民政府","监察委员会"],correct:0,explain:"司法机关包括法院和检察院。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国解决民族问题的基本政策是？",options:["民族区域自治","一国两制","共同富裕","西部大开发"],correct:0,explain:"民族区域自治是解决民族问题的基本政策。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国公民的基本义务不包括？",options:["依法纳税","服兵役","维护国家统一","罢工自由"],correct:3,explain:"我国宪法没有规定罢工自由。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国的最高法律监督机关是？",options:["最高人民检察院","最高人民法院","全国人大","监察部"],correct:0,explain:"最高人民检察院是最高法律监督机关。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国的最高审判机关是？",options:["最高人民法院","最高人民检察院","全国人大","司法部"],correct:0,explain:"最高人民法院是最高审判机关。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国的国家结构形式是？",options:["单一制","联邦制","邦联制","复合制"],correct:0,explain:"我国是单一制国家。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国的政党制度是？",options:["中国共产党领导的多党合作和政治协商制度","两党制","多党制","一党制"],correct:0,explain:"中国共产党领导的多党合作和政治协商制度。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定的公民基本权利中，最基本的是？",options:["平等权","人身自由权","选举权","受教育权"],correct:1,explain:"人身自由是最基本的权利。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国的立法机关是？",options:["全国人大及其常委会","国务院","最高人民法院","中央军委"],correct:0,explain:"全国人大及其常委会行使国家立法权。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国年满多少周岁的公民可以行使选举权？",options:["18周岁","16周岁","20周岁","22周岁"],correct:0,explain:"年满18周岁的中国公民享有选举权和被选举权。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国的监察机关是？",options:["监察委员会","纪委","检察院","反贪局"],correct:0,explain:"监察委员会是国家的监察机关。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国现行宪法是哪一年颁布的？",options:["1982年","1978年","1954年","1999年"],correct:0,explain:"1982年宪法是现行宪法。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国的最高军事领导机关是？",options:["中央军事委员会","国防部","中央军委主席","总参谋部"],correct:0,explain:"中央军事委员会是最高军事领导机关。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国社会主义法治最根本的保证是？",options:["党的领导","人民当家作主","依法治国","以德治国"],correct:0,explain:"党的领导是社会主义法治最根本的保证。",subject:"daofa"});
+
+// 61-80 题
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国国歌是？",options:["《义勇军进行曲》","《歌唱祖国》","《东方红》","《我和我的祖国》"],correct:0,explain:"《义勇军进行曲》是中华人民共和国国歌。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国首都是？",options:["北京","上海","南京","西安"],correct:0,explain:"首都是北京。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国国旗是？",options:["五星红旗","五星红旗","五星红旗","五星红旗"],correct:0,explain:"五星红旗是国旗。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国国徽中间是？",options:["五星照耀下的天安门","五星照耀下的华表","五星照耀下的人民大会堂","五星照耀下的故宫"],correct:0,explain:"国徽中间是五星照耀下的天安门。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国的一切权力属于人民，人民行使权力的机关是？",options:["全国人民代表大会和地方各级人民代表大会","国务院","中央军委","最高人民法院"],correct:0,explain:"人民行使权力的机关是全国人大和地方各级人大。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国公民有劳动的？",options:["权利和义务","权利","义务","自由"],correct:0,explain:"劳动既是权利又是义务。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国公民有受教育的？",options:["权利和义务","权利","义务","自由"],correct:0,explain:"受教育既是权利又是义务。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国年满18周岁的公民，不分民族、种族、性别、职业、家庭出身、宗教信仰、教育程度、财产状况、居住期限，都有选举权和被选举权；但是依照法律被剥夺政治权利的人除外。这体现了？",options:["选举权的普遍性","选举权的平等性","选举权的真实性","选举权的秘密性"],correct:0,explain:"体现了选举权的普遍性原则。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国公民在法律面前？",options:["一律平等","基本平等","相对平等","不完全平等"],correct:0,explain:"法律面前一律平等。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国公民的人格尊严不受侵犯，禁止用任何方法对公民进行侮辱、诽谤和诬告陷害。这体现了？",options:["人格尊严权","名誉权","荣誉权","姓名权"],correct:0,explain:"体现的是人格尊严权。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国公民的住宅不受侵犯，禁止非法搜查或者非法侵入公民的住宅。这体现了？",options:["住宅不受侵犯权","隐私权","人身自由权","财产权"],correct:0,explain:"住宅不受侵犯权。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国公民的通信自由和通信秘密受法律的保护，除因国家安全或者追查刑事犯罪的需要，由公安机关或者检察机关依照法律规定的程序对通信进行检查外，任何组织或者个人不得以任何理由侵犯公民的通信自由和通信秘密。这体现了？",options:["通信自由和通信秘密权","隐私权","言论自由","人身自由"],correct:0,explain:"体现了通信自由和通信秘密权。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国公民对于任何国家机关和国家工作人员，有提出批评和建议的权利；对于任何国家机关和国家工作人员的违法失职行为，有向有关国家机关提出申诉、控告或者检举的权利。这体现了？",options:["监督权","选举权","被选举权","政治自由"],correct:0,explain:"体现了公民的监督权。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，由于国家机关和国家工作人员侵犯公民权利而受到损失的人，有依照法律规定取得？",options:["赔偿的权利","补偿的权利","补助的权利","救助的权利"],correct:0,explain:"有取得赔偿的权利。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国公民有维护国家统一和全国各民族团结的？",options:["义务","权利","自由","责任"],correct:0,explain:"这是公民的基本义务。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国公民必须遵守宪法和法律，保守国家秘密，爱护公共财产，遵守劳动纪律，遵守公共秩序，尊重社会公德。这是公民的？",options:["基本义务","基本权利","社会责任","道德要求"],correct:0,explain:"这是公民的基本义务。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国公民有维护祖国安全、荣誉和利益的？",options:["义务","权利","自由","责任"],correct:0,explain:"这是公民的基本义务。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，保卫祖国、抵抗侵略是中华人民共和国每一个公民的？",options:["神圣职责","基本权利","基本义务","法律责任"],correct:0,explain:"保卫祖国、抵抗侵略是神圣职责。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，依照法律服兵役和参加民兵组织是中华人民共和国公民的？",options:["光荣义务","基本权利","神圣职责","法律责任"],correct:0,explain:"依法服兵役是公民的光荣义务。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宪法规定，中华人民共和国公民有依照法律纳税的？",options:["义务","权利","自由","责任"],correct:0,explain:"依法纳税是公民的基本义务。",subject:"daofa"});
+
+// 81-100 题
+MASTER_DAOFA.push({text:"我国社会主义初级阶段的基本经济制度是？",options:["公有制为主体、多种所有制经济共同发展","私有制为主体","混合所有制为主体","国有经济为主体"],correct:0,explain:"公有制为主体、多种所有制经济共同发展。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国现阶段坚持的分配制度是？",options:["按劳分配为主体、多种分配方式并存","按需分配","平均分配","按生产要素分配"],correct:0,explain:"按劳分配为主体、多种分配方式并存。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国社会主义市场经济体制的特征是？",options:["市场在资源配置中起决定性作用和更好发挥政府作用","计划在资源配置中起决定性作用","政府完全干预市场","市场完全自由"],correct:0,explain:"市场决定作用和更好发挥政府作用。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国社会主义的根本任务是？",options:["解放和发展生产力","实现共同富裕","建设社会主义现代化强国","实现中华民族伟大复兴"],correct:0,explain:"解放和发展生产力是根本任务。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国社会主义的本质要求是？",options:["解放和发展生产力","实现共同富裕","消灭剥削、消除两极分化","最终达到共同富裕"],correct:3,explain:"社会主义本质是最终达到共同富裕。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国新时代社会主要矛盾转化的判断是在哪次大会上提出的？",options:["党的十九大","党的十八大","党的十九大","党的二十大"],correct:0,explain:"党的十九大提出社会主要矛盾转化。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国全面深化改革的总目标是？",options:["完善和发展中国特色社会主义制度，推进国家治理体系和治理能力现代化","实现中华民族伟大复兴","建设社会主义现代化强国","全面建成小康社会"],correct:0,explain:"全面深化改革的总目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国全面推进依法治国的总目标是？",options:["建设中国特色社会主义法治体系，建设社会主义法治国家","实现国家治理体系和治理能力现代化","建设法治政府","建设法治社会"],correct:0,explain:"全面依法治国的总目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国新时代党的建设总要求中，把什么摆在首位？",options:["党的政治建设","党的思想建设","党的组织建设","党的作风建设"],correct:0,explain:"党的政治建设摆在首位。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国新发展理念的内涵是？",options:["创新、协调、绿色、开放、共享","创新、协调、绿色、开放、共赢","创新、协调、绿色、开放、包容","创新、协调、绿色、开放、公平"],correct:0,explain:"新发展理念：创新、协调、绿色、开放、共享。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国'一带一路'倡议的核心内涵是？",options:["共商共建共享","互利共赢","和平合作","开放包容"],correct:0,explain:"共商共建共享是核心原则。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国脱贫攻坚战取得全面胜利是在哪一年？",options:["2020年","2021年","2022年","2019年"],correct:0,explain:"2020年我国脱贫攻坚战取得全面胜利。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国乡村振兴战略的总目标是？",options:["农业农村现代化","农业强、农村美、农民富","城乡融合发展","农村全面振兴"],correct:0,explain:"农业农村现代化是总目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国生态文明建设的核心原则是？",options:["绿水青山就是金山银山","人与自然和谐共生","保护环境就是保护生产力","绿色发展"],correct:0,explain:"绿水青山就是金山银山是核心理念。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国碳达峰碳中和目标中，碳达峰的目标年是？",options:["2030年","2025年","2035年","2050年"],correct:0,explain:"2030年前实现碳达峰。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国碳中和的目标年是？",options:["2060年","2050年","2070年","2080年"],correct:0,explain:"2060年前实现碳中和。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国全过程人民民主的显著优势是？",options:["最广泛、最真实、最管用","最直接、最有效","最民主、最自由","最平等、最公正"],correct:0,explain:"全过程人民民主是最广泛、最真实、最管用的民主。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国国家治理体系和治理能力现代化的重大意义是？",options:["完善和发展中国特色社会主义制度","实现中华民族伟大复兴","建设社会主义现代化强国","全面深化改革"],correct:0,explain:"国家治理体系和治理能力现代化是完善和发展中国特色社会主义制度的必然要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国统筹发展和安全的重大原则是？",options:["坚持总体国家安全观","坚持发展是第一要务","坚持安全是头等大事","坚持发展和安全并重"],correct:0,explain:"总体国家安全观是统筹发展和安全的基本原则。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国构建新发展格局的战略基点是？",options:["扩大内需","科技创新","改革开放","乡村振兴"],correct:0,explain:"扩大内需是构建新发展格局的战略基点。",subject:"daofa"});
+console.log("道法第1-100题加载完成，当前总数:", MASTER_DAOFA.length);
+</script><script>
+// 201-220
+MASTER_DAOFA.push({text:"我国社会主义市场经济体制的特征是？",options:["市场在资源配置中起决定性作用和更好发挥政府作用","计划在资源配置中起决定性作用","政府完全干预市场","市场完全自由"],correct:0,explain:"市场决定作用和更好发挥政府作用。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国国有经济的主导作用主要体现在？",options:["控制力","影响力","带动力","以上都是"],correct:3,explain:"国有经济的主导作用主要体现在控制力、影响力、带动力上。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国非公有制经济的地位是？",options:["社会主义市场经济的重要组成部分","社会主义经济的主体","国民经济的支柱","主导力量"],correct:0,explain:"非公有制经济是社会主义市场经济的重要组成部分。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国按劳分配的主体地位体现在？",options:["公有制经济中","非公有制经济中","混合所有制经济中","所有经济中"],correct:0,explain:"按劳分配主要在公有制经济中实行。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国多种分配方式并存的依据是？",options:["多种所有制经济并存","生产力发展水平","社会主义市场经济的要求","以上都是"],correct:3,explain:"多种分配方式并存是由多种所有制经济并存、生产力发展水平、社会主义市场经济要求决定的。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国社会保障体系的核心是？",options:["社会保险","社会救助","社会福利","社会优抚"],correct:0,explain:"社会保险是社会保障体系的核心。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国社会保障体系的基础是？",options:["社会救助","社会保险","社会福利","社会优抚"],correct:0,explain:"社会救助是社会保障体系的基础。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国社会保障体系的最高层次是？",options:["社会福利","社会保险","社会救助","社会优抚"],correct:0,explain:"社会福利是社会保障体系的最高层次。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国现阶段实行的分配原则是？",options:["效率优先、兼顾公平","初次分配和再分配都要兼顾效率和公平","公平优先、兼顾效率","平均分配"],correct:1,explain:"初次分配和再分配都要兼顾效率和公平。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国共同富裕的根本途径是？",options:["解放和发展生产力","完善分配制度","推动区域协调发展","促进基本公共服务均等化"],correct:0,explain:"解放和发展生产力是实现共同富裕的根本途径。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宏观调控的主要目标是？",options:["促进经济增长、增加就业、稳定物价、保持国际收支平衡","提高经济效益","优化经济结构","保障社会公平"],correct:0,explain:"宏观调控的主要目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国宏观调控的手段包括？",options:["经济手段、法律手段、行政手段","计划手段、市场手段","财政手段、货币手段","价格手段、税收手段"],correct:0,explain:"宏观调控三大手段。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国财政政策的主要手段是？",options:["税收、国债、财政支出","利率、存款准备金率","公开市场业务","再贴现"],correct:0,explain:"财政政策三大手段。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国货币政策的主要工具是？",options:["利率、存款准备金率、公开市场业务","税收、国债、财政支出","价格管制","收入分配"],correct:0,explain:"货币政策三大工具。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国供给侧结构性改革的根本目的是？",options:["提高供给质量满足需要","去产能、去库存、去杠杆、降成本、补短板","稳增长、促改革、调结构、惠民生、防风险","实现高质量发展"],correct:0,explain:"提高供给质量满足需要是根本目的。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国'三去一降一补'的内容是？",options:["去产能、去库存、去杠杆、降成本、补短板","去产能、去库存、去杠杆、降成本、补短板","去产能、去库存、去杠杆、降成本、补短板","去产能、去库存、去杠杆、降成本、补短板"],correct:0,explain:"三去一降一补是供给侧结构性改革的重要举措。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国高质量发展的重要特征是？",options:["创新成为第一动力、协调成为内生特点、绿色成为普遍形态、开放成为必由之路、共享成为根本目的","高速增长","粗放式发展","资源消耗型发展"],correct:0,explain:"高质量发展的重要特征。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国现代化经济体系的基础是？",options:["实体经济","科技创新","现代金融","人力资源"],correct:0,explain:"实体经济是现代化经济体系的基础。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国乡村振兴战略的总要求是？",options:["产业兴旺、生态宜居、乡风文明、治理有效、生活富裕","农业强、农村美、农民富","城乡融合发展","农业农村现代化"],correct:0,explain:"乡村振兴战略的总要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国区域协调发展的重大战略包括？",options:["西部大开发、东北振兴、中部崛起、东部率先发展","京津冀协同发展、长江经济带发展、粤港澳大湾区建设、长三角一体化发展、黄河流域生态保护和高质量发展","以上都是","以上都不是"],correct:2,explain:"区域协调发展的重大战略。",subject:"daofa"});
+// 221-240
+MASTER_DAOFA.push({text:"我国新型城镇化建设的核心是？",options:["人的城镇化","土地的城镇化","产业的城镇化","人口的城镇化"],correct:0,explain:"人的城镇化是新型城镇化的核心。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国生态文明建设的基本原则是？",options:["坚持人与自然和谐共生","坚持绿水青山就是金山银山","坚持良好生态环境是最普惠的民生福祉","以上都是"],correct:3,explain:"生态文明建设的基本原则。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国打好污染防治攻坚战的三大保卫战是？",options:["蓝天保卫战、碧水保卫战、净土保卫战","大气污染防治、水污染防治、土壤污染防治","空气污染治理、水污染治理、土壤污染治理","环境保护、生态修复、污染治理"],correct:0,explain:"三大保卫战。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国碳达峰碳中和的'1+N'政策体系中，'1'指的是？",options:["《中共中央国务院关于完整准确全面贯彻新发展理念做好碳达峰碳中和工作的意见》","《2030年前碳达峰行动方案》","《碳排放权交易管理办法》","《能源发展战略行动计划》"],correct:0,explain:"1+N政策体系的顶层设计文件。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国发展绿色金融的主要目的是？",options:["支持环境改善、应对气候变化和资源节约高效利用","增加金融收益","扩大金融规模","提高金融效率"],correct:0,explain:"绿色金融的目的。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国生物多样性保护的重大工程是？",options:["国家公园体制","自然保护区建设","生态保护红线","以上都是"],correct:3,explain:"生物多样性保护重大工程。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国推进能源革命的战略方向是？",options:["煤炭清洁高效利用","大力发展非化石能源","能源科技创新","以上都是"],correct:3,explain:"能源革命的战略方向。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国建设更高水平开放型经济新体制的核心是？",options:["制度型开放","商品和要素流动型开放","扩大出口","吸引外资"],correct:0,explain:"制度型开放是核心。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国自由贸易试验区建设的核心任务是？",options:["制度创新","贸易便利化","投资自由化","金融开放"],correct:0,explain:"制度创新是自贸区建设的核心任务。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国共建'一带一路'高质量发展的核心是？",options:["实现高标准、可持续、惠民生目标","扩大基础设施互联互通","深化贸易投资合作","加强民心相通"],correct:0,explain:"高质量发展的核心目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国参与全球治理体系改革和建设的基本原则是？",options:["共商共建共享","平等互利","合作共赢","开放包容"],correct:0,explain:"共商共建共享是全球治理的基本原则。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国推动构建人类命运共同体的重要理念是？",options:["和平发展、合作共赢","独立自主、自力更生","对外开放、互利共赢","平等互利、和平共处"],correct:0,explain:"人类命运共同体理念的核心。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国新时代外交工作的基本出发点是？",options:["维护国家主权、安全、发展利益","维护世界和平","促进共同发展","推动构建人类命运共同体"],correct:0,explain:"外交工作的基本出发点。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国独立自主的和平外交政策的核心是？",options:["维护世界和平、促进共同发展","和平共处五项原则","不结盟","全方位开放"],correct:0,explain:"外交政策的核心目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国解决台湾问题的基本方针是？",options:["和平统一、一国两制","武力统一","维持现状","高度自治"],correct:0,explain:"解决台湾问题的基本方针。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国坚持'一国两制'方针的根本宗旨是？",options:["维护国家主权、安全、发展利益，保持香港、澳门长期繁荣稳定","实现祖国完全统一","保障香港、澳门高度自治","促进香港、澳门经济发展"],correct:0,explain:"一国两制的根本宗旨。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国新时代爱国统一战线的核心是？",options:["坚持中国共产党的领导","坚持大团结大联合","坚持一致性和多样性统一","坚持围绕中心、服务大局"],correct:0,explain:"统一战线的核心。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国社会主义意识形态建设的根本任务是？",options:["巩固马克思主义在意识形态领域的指导地位，巩固全党全国人民团结奋斗的共同思想基础","培育和践行社会主义核心价值观","弘扬中华优秀传统文化","建设社会主义文化强国"],correct:0,explain:"意识形态建设的根本任务。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国培育和践行社会主义核心价值观的着眼点是？",options:["培养担当民族复兴大任的时代新人","提高人民思想觉悟","提升社会文明程度","增强国家文化软实力"],correct:0,explain:"培育和践行社会主义核心价值观的着眼点。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国建设社会主义文化强国的关键是？",options:["增强全民族文化创造活力","提高文化软实力","弘扬中华优秀传统文化","发展文化产业"],correct:0,explain:"建设文化强国的关键。",subject:"daofa"});
+// 241-260
+MASTER_DAOFA.push({text:"我国提高文化软实力的根本途径是？",options:["讲好中国故事、传播好中国声音","发展文化事业和文化产业","弘扬中华优秀传统文化","加强国际传播能力建设"],correct:0,explain:"提高文化软实力的根本途径。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国保障和改善民生的重点是？",options:["促进共同富裕","完善社会保障体系","提高就业质量","发展教育事业"],correct:0,explain:"保障和改善民生的重点。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国社会治理的总要求是？",options:["共建共治共享","党委领导、政府负责、民主协商、社会协同、公众参与、法治保障、科技支撑","建设更高水平的平安中国","维护国家安全和社会稳定"],correct:0,explain:"社会治理的总要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国平安中国建设的核心目标是？",options:["确保人民安居乐业、社会安定有序、国家长治久安","维护国家安全","维护社会稳定","保障人民安全"],correct:0,explain:"平安中国建设的核心目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国维护国家安全的根本任务是？",options:["维护国家主权、统一、领土完整","维护国家发展利益","维护国家政治安全","维护人民安全"],correct:0,explain:"维护国家安全的根本任务。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国国家安全工作的根本原则是？",options:["坚持党对国家安全工作的绝对领导","坚持以人民安全为宗旨","坚持统筹发展和安全","坚持底线思维"],correct:0,explain:"国家安全工作的根本原则。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国国防和军队现代化的战略目标是？",options:["到2027年实现建军一百年奋斗目标，到2035年基本实现国防和军队现代化，到本世纪中叶全面建成世界一流军队","建设信息化军队","建设机械化军队","建设现代化军队"],correct:0,explain:"国防和军队现代化的战略目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国新时代强军目标的灵魂是？",options:["听党指挥","能打胜仗","作风优良","纪律严明"],correct:0,explain:"听党指挥是强军之魂。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国新时代强军目标的核心是？",options:["能打胜仗","听党指挥","作风优良","纪律严明"],correct:0,explain:"能打胜仗是强军之要。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国新时代强军目标的基础是？",options:["作风优良","听党指挥","能打胜仗","纪律严明"],correct:0,explain:"作风优良是强军之基。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国全面从严治党的核心是？",options:["加强党的领导","严明党的纪律","推进反腐败斗争","加强党的政治建设"],correct:0,explain:"全面从严治党的核心。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国党的政治建设的首要任务是？",options:["保证全党服从中央，坚持党中央权威和集中统一领导","严明党的政治纪律和政治规矩","提高党员干部的政治能力","净化党内政治生态"],correct:0,explain:"党的政治建设的首要任务。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国党的思想建设的根本任务是？",options:["用党的创新理论武装全党","坚定理想信念","加强党性修养","提高思想觉悟"],correct:0,explain:"党的思想建设的根本任务。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国新时代党的组织路线的核心是？",options:["坚持德才兼备、以德为先、任人唯贤","坚持党管干部原则","坚持好干部标准","坚持五湖四海"],correct:0,explain:"党的组织路线的核心。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国党的作风建设的核心问题是？",options:["保持党同人民群众的血肉联系","反对形式主义、官僚主义","反对享乐主义、奢靡之风","落实中央八项规定精神"],correct:0,explain:"党的作风建设的核心问题。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国党的纪律建设的主要内容是？",options:["政治纪律、组织纪律、廉洁纪律、群众纪律、工作纪律、生活纪律","政治纪律、组织纪律、经济纪律、群众纪律、工作纪律、生活纪律","政治纪律、组织纪律、廉洁纪律、群众纪律、工作纪律、保密纪律","政治纪律、组织纪律、廉洁纪律、群众纪律、工作纪律、财经纪律"],correct:0,explain:"党的六大纪律。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国反腐败斗争的基本方针是？",options:["标本兼治、综合治理、惩防并举、注重预防","不敢腐、不能腐、不想腐","零容忍、全覆盖、无禁区","重遏制、强高压、长震慑"],correct:0,explain:"反腐败斗争的基本方针。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国党的自我革命的重大意义是？",options:["跳出治乱兴衰历史周期率","推进全面从严治党","保持党的先进性和纯洁性","以上都是"],correct:3,explain:"党的自我革命的重大意义。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国党的群众路线的核心内容是？",options:["一切为了群众，一切依靠群众，从群众中来，到群众中去","密切联系群众","全心全意为人民服务","以人民为中心"],correct:0,explain:"群众路线的核心内容。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国坚持以人民为中心的发展思想，体现了？",options:["党的根本宗旨","社会主义本质要求","马克思主义唯物史观","以上都是"],correct:3,explain:"以人民为中心的发展思想的内涵。",subject:"daofa"});
+// 261-280
+MASTER_DAOFA.push({text:"我国新发展格局的内涵是？",options:["以国内大循环为主体、国内国际双循环相互促进","以国际大循环为主体","以内需为主","以出口为主"],correct:0,explain:"新发展格局的内涵。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国建设全国统一大市场的核心要求是？",options:["高效规范、公平竞争、充分开放","打破地方保护和市场分割","降低市场交易成本","促进商品要素资源畅通流动"],correct:0,explain:"全国统一大市场的核心要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国优化营商环境的重点是？",options:["市场化、法治化、国际化","便利化","透明化","规范化"],correct:0,explain:"优化营商环境的重点。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国发展数字经济的核心是？",options:["促进数字经济和实体经济深度融合","加快数字基础设施建设","推进产业数字化","推进数字产业化"],correct:0,explain:"发展数字经济的核心。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国促进平台经济规范健康发展的原则是？",options:["坚持发展和规范并重","坚持包容审慎监管","坚持公平竞争","坚持创新驱动"],correct:0,explain:"平台经济发展的原则。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国促进中小微企业发展的政策重点是？",options:["减税降费、融资支持、优化服务","扩大规模","增加利润","提高效率"],correct:0,explain:"支持中小微企业发展的重点。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国激发市场主体活力的关键是？",options:["深化'放管服'改革","优化营商环境","保护产权","促进公平竞争"],correct:0,explain:"激发市场主体活力的关键。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国建设高标准市场体系的核心是？",options:["完善产权保护、市场准入、公平竞争、社会信用等制度","扩大市场规模","提高市场效率","增加市场主体"],correct:0,explain:"高标准市场体系的核心。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国完善宏观经济治理的目标是？",options:["实现稳增长、稳就业、稳物价","保持经济运行在合理区间","防范化解重大风险","促进高质量发展"],correct:0,explain:"宏观经济治理的目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国实施就业优先战略的重点是？",options:["促进高校毕业生、农民工、退役军人等重点群体就业","扩大就业规模","提高就业质量","保障劳动者权益"],correct:0,explain:"就业优先战略的重点。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国完善分配制度的方向是？",options:["坚持按劳分配为主体、多种分配方式并存，提高劳动报酬在初次分配中的比重","坚持效率优先","坚持公平优先","坚持平均分配"],correct:0,explain:"完善分配制度的方向。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国健全多层次社会保障体系的目标是？",options:["覆盖全民、城乡统筹、权责清晰、保障适度、可持续","高水平、高标准","高效率、高效益","广覆盖、保基本"],correct:0,explain:"社会保障体系的目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国推进健康中国建设的核心是？",options:["把人民健康放在优先发展的战略地位","深化医药卫生体制改革","完善公共卫生体系","促进健康公平"],correct:0,explain:"健康中国建设的核心。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国实施积极应对人口老龄化国家战略的重点是？",options:["健全养老服务体系","完善生育支持政策","开发老龄人力资源","以上都是"],correct:3,explain:"应对人口老龄化的重点。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国完善'一老一小'服务体系的核心是？",options:["发展普惠性养老和托育服务","完善社会保障","加强政策支持","促进产业发展"],correct:0,explain:"一老一小服务体系的核心。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国建设高质量教育体系的目标是？",options:["办好人民满意的教育","促进教育公平","提高教育质量","实现教育现代化"],correct:0,explain:"教育体系的目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国深化科技体制改革的核心是？",options:["激发人才创新活力","完善科技评价体系","促进科技成果转化","加强科技开放合作"],correct:0,explain:"科技体制改革的核心。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国强化国家战略科技力量的举措是？",options:["建设国家实验室、重组国家重点实验室体系、布局建设基础学科研究中心","增加科技投入","扩大科技人才规模","引进国外技术"],correct:0,explain:"强化战略科技力量的举措。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国打赢关键核心技术攻坚战的意义是？",options:["实现高水平科技自立自强","提高科技竞争力","保障国家安全","推动高质量发展"],correct:0,explain:"攻克关键核心技术的意义。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国弘扬科学家精神的内涵是？",options:["爱国、创新、求实、奉献、协同、育人","严谨、求实、创新、奉献","爱国、敬业、诚信、友善","勤奋、刻苦、钻研、创新"],correct:0,explain:"科学家精神的内涵。",subject:"daofa"});
+// 281-300
+MASTER_DAOFA.push({text:"我国建设法治政府的要求是？",options:["职能科学、权责法定、执法严明、公开公正、廉洁高效、守法诚信","依法行政、依法决策、依法执法、依法监督","合法行政、合理行政、程序正当、高效便民、诚实守信、权责统一","以上都是"],correct:3,explain:"法治政府建设的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国推进公正司法的核心是？",options:["努力让人民群众在每一个司法案件中感受到公平正义","提高司法效率","加强司法监督","完善司法制度"],correct:0,explain:"推进公正司法的核心。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国建设法治社会的目标是？",options:["形成尊法学法守法用法的社会氛围","推进全民守法","健全社会领域法律制度","完善法律服务体系"],correct:0,explain:"法治社会建设的目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国'八五'普法规划的重点是？",options:["突出学习宣传习近平法治思想","突出宣传宪法","突出宣传民法典","以上都是"],correct:3,explain:"八五普法的重点内容。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国完善公共法律服务体系的要求是？",options:["覆盖城乡、便捷高效、均等普惠","高水平、高标准","高效率、高效益","全面覆盖、优质服务"],correct:0,explain:"公共法律服务体系的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国加强涉外法治工作的意义是？",options:["维护国家主权、安全、发展利益","服务对外开放","提升国际法治话语权","以上都是"],correct:3,explain:"加强涉外法治工作的意义。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国推进全面依法治国必须抓住的'关键少数'是？",options:["领导干部","全体党员","公职人员","人大代表"],correct:0,explain:"领导干部是全面依法治国的关键少数。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国完善监察体制的意义是？",options:["实现对公职人员监察全覆盖","推进反腐败斗争","健全党和国家监督体系","以上都是"],correct:3,explain:"完善监察体制的意义。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国健全党和国家监督体系的目标是？",options:["形成科学有效的权力运行制约和监督体系","实现党内监督全覆盖","完善纪检监察体制","强化政治监督"],correct:0,explain:"监督体系的目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国推进政治体制改革的方向是？",options:["坚持和完善中国特色社会主义政治制度","推进国家治理体系和治理能力现代化","发展社会主义民主政治","以上都是"],correct:3,explain:"政治体制改革的方向。",subject:"daofa"});
+console.log("道法201-300题完成，当前总数:", MASTER_DAOFA.length);
+</script><script>
+// 301-320
+MASTER_DAOFA.push({text:"我国坚持和完善人民代表大会制度的重点是？",options:["支持和保证人民通过人民代表大会行使国家权力","加强人大立法工作","强化人大监督职能","发挥人大代表作用"],correct:0,explain:"人民代表大会制度的重点。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国坚持和完善中国共产党领导的多党合作和政治协商制度的要求是？",options:["加强党对政协工作的领导","发挥政协专门协商机构作用","提高民主党派参政议政能力","完善协商民主制度"],correct:1,explain:"政协作为专门协商机构的作用。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国坚持和完善民族区域自治制度的重点是？",options:["保障少数民族合法权益","促进民族团结","发展民族地区经济","弘扬民族文化"],correct:0,explain:"民族区域自治制度的重点。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国坚持和完善基层群众自治制度的要求是？",options:["保障人民群众依法直接行使民主权利","扩大基层民主","完善社区治理","发展农村民主"],correct:0,explain:"基层群众自治制度的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国推进协商民主广泛多层制度化发展的重点是？",options:["加强政党协商、人大协商、政府协商、政协协商、人民团体协商、基层协商、社会组织协商","发展选举民主","推进直接民主","扩大参与民主"],correct:0,explain:"协商民主的发展重点。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国发展全过程人民民主要求的'四个统一'是？",options:["过程民主和成果民主、程序民主和实质民主、直接民主和间接民主、人民民主和国家意志相统一","形式民主和内容民主、选举民主和协商民主、基层民主和全国民主、党内民主和人民民主相统一","政治民主和经济民主、社会民主和文化民主、地方民主和中央民主、直接民主和代议民主相统一","以上都不是"],correct:0,explain:"全过程人民民主的四个统一。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国坚持党的全面领导必须完善的制度是？",options:["党领导人大、政府、政协、监察机关、审判机关、检察机关、武装力量、人民团体、企事业单位、基层群众性自治组织、社会组织等制度","党的领导制度体系","党对军队绝对领导制度","党对意识形态工作领导制度"],correct:0,explain:"党全面领导的制度要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国提高党的执政能力和领导水平的要求是？",options:["科学执政、民主执政、依法执政","提高政治判断力、政治领悟力、政治执行力","增强'四个意识'、坚定'四个自信'、做到'两个维护'","以上都是"],correct:3,explain:"提高党的执政能力和领导水平的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国'四个全面'战略布局的内涵是？",options:["全面建设社会主义现代化国家、全面深化改革、全面依法治国、全面从严治党","全面建成小康社会、全面深化改革、全面依法治国、全面从严治党","全面建设社会主义现代化强国、全面深化改革、全面依法治国、全面从严治党","全面建设社会主义现代化国家、全面扩大开放、全面依法治国、全面从严治党"],correct:0,explain:"四个全面战略布局。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国'五位一体'总体布局的内涵是？",options:["经济建设、政治建设、文化建设、社会建设、生态文明建设","经济建设、政治建设、文化建设、社会建设、党的建设","经济建设、政治建设、文化建设、社会建设、国防建设","经济建设、政治建设、文化建设、社会建设、法治建设"],correct:0,explain:"五位一体总体布局。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国'两个一百年'奋斗目标的内容是？",options:["到建党一百年时全面建成小康社会，到新中国成立一百年时全面建成社会主义现代化强国","到建党一百年时实现社会主义现代化，到新中国成立一百年时实现中华民族伟大复兴","到建党一百年时基本实现现代化，到新中国成立一百年时建成现代化强国","到建党一百年时全面实现小康，到新中国成立一百年时实现共同富裕"],correct:0,explain:"两个一百年奋斗目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国实现第二个百年奋斗目标的战略安排是？",options:["两步走：从2020年到2035年基本实现社会主义现代化，从2035年到本世纪中叶建成社会主义现代化强国","三步走战略","四步走战略","五步走战略"],correct:0,explain:"两步走战略安排。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国2035年远景目标的内容是？",options:["基本实现社会主义现代化","进入创新型国家前列","建成现代化经济体系","基本实现国家治理体系和治理能力现代化"],correct:0,explain:"2035年远景目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国本世纪中叶的奋斗目标是？",options:["建成富强民主文明和谐美丽的社会主义现代化强国","实现中华民族伟大复兴","全面实现现代化","成为世界第一强国"],correct:0,explain:"本世纪中叶奋斗目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国实现中华民族伟大复兴中国梦的本质内涵是？",options:["国家富强、民族振兴、人民幸福","经济繁荣、政治民主、文化昌盛","社会和谐、生态美丽、人民幸福","祖国统一、民族团结、人民幸福"],correct:0,explain:"中国梦的本质内涵。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国新时代历史性成就和历史性变革的意义是？",options:["为实现中华民族伟大复兴提供了更为完善的制度保证、更为坚实的物质基础、更为主动的精神力量","实现了从站起来、富起来到强起来的伟大飞跃","推动了中华民族伟大复兴进入不可逆转的历史进程","以上都是"],correct:3,explain:"新时代伟大变革的意义。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国社会主义初级阶段的历史跨度是？",options:["从1956年社会主义改造基本完成到本世纪中叶社会主义现代化基本实现","从1949年新中国成立到2050年","从1978年改革开放到2050年","从1921年中国共产党成立到本世纪中叶"],correct:0,explain:"社会主义初级阶段的历史跨度。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国仍然处于社会主义初级阶段的原因是？",options:["生产力发展水平不够高","社会主义市场经济体制不够完善","城乡区域发展不够平衡","以上都是"],correct:3,explain:"处于社会主义初级阶段的原因。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国新时代坚持和发展中国特色社会主义的基本方略是？",options:["十四个坚持","八个明确","十个明确","十三个方面成就"],correct:0,explain:"十四个坚持是基本方略。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国新时代党的创新理论的核心内容是？",options:["十个明确、十四个坚持、十三个方面成就","八个明确、十四个坚持","十个明确、十四个坚持","八个明确、十四个坚持、十三个方面成就"],correct:0,explain:"新时代党的创新理论的核心内容。",subject:"daofa"});
+// 321-340
+MASTER_DAOFA.push({text:"我国'两个确立'的决定性意义是？",options:["对新时代党和国家事业发展、对推进中华民族伟大复兴历史进程具有决定性意义","对党的政治建设具有决定性意义","对全面从严治党具有决定性意义","对全面深化改革具有决定性意义"],correct:0,explain:"两个确立的决定性意义。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国'两个维护'的内涵是？",options:["坚决维护习近平总书记党中央的核心、全党的核心地位，坚决维护党中央权威和集中统一领导","坚决维护党中央权威和集中统一领导，坚决维护党的团结统一","坚决维护习近平总书记的核心地位，坚决维护党中央的权威","坚决维护党的全面领导，坚决维护党的集中统一领导"],correct:0,explain:"两个维护的内涵。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国'四个意识'的内涵是？",options:["政治意识、大局意识、核心意识、看齐意识","政治意识、全局意识、核心意识、看齐意识","政治意识、大局意识、核心意识、对齐意识","政治意识、全局意识、核心意识、对齐意识"],correct:0,explain:"四个意识的内涵。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国'四个自信'的内涵是？",options:["道路自信、理论自信、制度自信、文化自信","道路自信、理论自信、制度自信、文明自信","道路自信、理论自信、制度自信、历史自信","道路自信、理论自信、制度自信、发展自信"],correct:0,explain:"四个自信的内涵。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国伟大建党精神的内涵是？",options:["坚持真理、坚守理想，践行初心、担当使命，不怕牺牲、英勇斗争，对党忠诚、不负人民","开天辟地、敢为人先，坚定理想、百折不挠，立党为公、忠诚为民","为了人民、服务人民，依靠人民、团结人民，艰苦奋斗、无私奉献","以上都是"],correct:0,explain:"伟大建党精神的内涵。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国以伟大自我革命引领伟大社会革命的内涵是？",options:["党的自我革命是推动社会革命的强大动力","以全面从严治党引领全面深化改革","以党的政治建设引领国家治理现代化","以党的思想建设引领社会文明进步"],correct:0,explain:"自我革命引领社会革命的内涵。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国跳出治乱兴衰历史周期率的两个答案是？",options:["让人民来监督政府，党的自我革命","依法治国，从严治党","民主监督，制度反腐","人民民主，党内监督"],correct:0,explain:"两个答案：人民监督和自我革命。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国坚持不敢腐、不能腐、不想腐一体推进的要求是？",options:["坚持无禁区、全覆盖、零容忍，坚持重遏制、强高压、长震慑","坚持标本兼治、综合治理","坚持惩防并举、注重预防","坚持抓早抓小、防微杜渐"],correct:0,explain:"一体推进三不腐的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国全面从严治党永远在路上的含义是？",options:["全面从严治党只有进行时，没有完成时","党风廉政建设和反腐败斗争永远在路上","作风建设永远在路上","以上都是"],correct:3,explain:"全面从严治党永远在路上的内涵。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国党的自我革命制度规范体系的主要内容是？",options:["党内法规制度体系","党和国家监督体系","全面从严治党责任制度","以上都是"],correct:3,explain:"党的自我革命制度规范体系。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国完善党内法规制度体系的要求是？",options:["形成比较完善的党内法规制度体系、高效的党内法规制度实施体系、有力的党内法规制度建设保障体系","建立健全党内法规制度","完善党内法规制定机制","加强党内法规执行监督"],correct:0,explain:"党内法规制度体系的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国健全党和国家监督体系的重点是？",options:["完善党内监督为主导、各类监督贯通协调的机制","强化政治监督","加强日常监督","推进监察监督全覆盖"],correct:0,explain:"党和国家监督体系的重点。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国深化纪检监察体制改革的目的是？",options:["推进反腐败工作法治化、规范化","提高纪检监察工作效能","加强党对反腐败工作的统一领导","以上都是"],correct:3,explain:"深化纪检监察体制改革的目的。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国巡视工作的方针是？",options:["发现问题、形成震慑，推动改革、促进发展","查找问题、督促整改","发现问题、严肃查处","推动改革、促进发展"],correct:0,explain:"巡视工作方针。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国一体推进不敢腐、不能腐、不想腐的体制机制是？",options:["惩治震慑、制度约束、提高觉悟","严厉惩处、健全制度、教育引导","高压态势、完善机制、警示教育","严肃查处、堵塞漏洞、筑牢防线"],correct:0,explain:"一体推进三不腐的体制机制。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国坚持受贿行贿一起查的意义是？",options:["斩断'围猎'与甘于被'围猎'的利益链条","净化政治生态","维护市场公平竞争","以上都是"],correct:3,explain:"受贿行贿一起查的意义。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国加强廉洁文化建设的目的是？",options:["增强不想腐的自觉","营造崇尚廉洁的社会氛围","筑牢拒腐防变的思想道德防线","以上都是"],correct:3,explain:"加强廉洁文化建设的目的。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国新时代廉洁文化建设的核心要求是？",options:["清清白白做人、干干净净做事","公私分明、崇廉拒腐","尚俭戒奢、甘于奉献","以上都是"],correct:3,explain:"廉洁文化建设的核心要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国加强年轻干部教育管理监督的意义是？",options:["扣好廉洁从政的'第一粒扣子'","培养造就可靠接班人","预防'早节'失守","以上都是"],correct:3,explain:"加强年轻干部教育管理监督的意义。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国构建亲清政商关系的要求是？",options:["领导干部要坦荡真诚同企业家接触交往，帮助解决实际困难；要做到清白纯洁，不搞权钱交易","政府要优化营商环境，企业要守法诚信经营","既要'亲'而有度，又要'清'而有为","以上都是"],correct:3,explain:"亲清政商关系的要求。",subject:"daofa"});
+// 341-360
+MASTER_DAOFA.push({text:"我国坚持和完善党和国家监督体系必须强化的监督是？",options:["政治监督","日常监督","派驻监督","巡视监督"],correct:0,explain:"强化政治监督是首要任务。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国落实全面从严治党主体责任的要求是？",options:["党委负主体责任，纪委负监督责任","各级党委要抓好管党治党","党委书记要履行第一责任人职责","以上都是"],correct:3,explain:"全面从严治党主体责任的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国加强党的纪律建设的重点是？",options:["强化政治纪律和组织纪律","严明廉洁纪律","严肃群众纪律","严格工作纪律和生活纪律"],correct:0,explain:"加强党的纪律建设的重点。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国深化运用监督执纪'四种形态'的要求是？",options:["经常开展批评和自我批评、约谈函询，让'红红脸、出出汗'成为常态","党纪轻处分、组织调整成为违纪处理的大多数","党纪重处分、重大职务调整的成为少数","严重违纪涉嫌违法立案审查的成为极少数"],correct:0,explain:"四种形态的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国推进政治监督具体化、精准化、常态化的内容是？",options:["围绕党的中心任务和重大决策部署开展监督","聚焦'国之大者'加强监督","推动党中央决策部署落实落地","以上都是"],correct:3,explain:"政治监督具体化精准化常态化的内容。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国加强对'一把手'和领导班子监督的重点是？",options:["强化对贯彻执行民主集中制、依规依法履职用权、担当作为、廉洁自律等情况的监督","加强对权力运行的制约和监督","落实管党治党政治责任","以上都是"],correct:3,explain:"对一把手和领导班子监督的重点。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国完善权力配置和运行制约机制的要求是？",options:["坚持权责法定、权责透明、权责统一","明晰权力边界，规范工作流程","强化权力制约，防止权力滥用","以上都是"],correct:3,explain:"权力配置和运行制约机制的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国推动党内监督与其他监督贯通协调的要求是？",options:["加强党内监督与人大监督、民主监督、司法监督、群众监督、舆论监督贯通协调","形成监督合力","增强监督实效","以上都是"],correct:3,explain:"各类监督贯通协调的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国深化拓展整治群众身边腐败和作风问题的重点是？",options:["聚焦教育、医疗、养老社保、生态环保、安全生产、食品药品安全、执法司法等领域","严肃查处贪污侵占、截留挪用、虚报冒领、吃拿卡要等行为","推动全面从严治党向基层延伸","以上都是"],correct:3,explain:"整治群众身边腐败问题的重点。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国推进扫黑除恶常态化的意义是？",options:["保障人民安居乐业","维护社会安定有序","巩固党的执政根基","以上都是"],correct:3,explain:"扫黑除恶常态化的意义。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国加强基层监督的目的是？",options:["打通全面从严治党'最后一公里'","推动监督向基层延伸","保障惠民富民政策落实","以上都是"],correct:3,explain:"加强基层监督的目的。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国完善信访举报工作的要求是？",options:["畅通群众诉求表达渠道","及时回应群众关切","维护群众合法权益","以上都是"],correct:3,explain:"完善信访举报工作的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国推进数字纪检监察体系建设的意义是？",options:["提升监督执纪执法智能化水平","提高工作效率","增强监督精准性","以上都是"],correct:3,explain:"数字纪检监察体系建设的意义。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国坚持惩前毖后、治病救人方针的内涵是？",options:["对犯错误的同志要教育、帮助、挽救","做到宽严相济","实现政治效果、纪法效果、社会效果有机统一","以上都是"],correct:3,explain:"惩前毖后治病救人方针的内涵。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国加强新时代纪检监察干部队伍建设的标准是？",options:["忠诚干净担当","政治过硬、本领高强","敢于斗争、善于斗争","以上都是"],correct:3,explain:"纪检监察干部队伍建设标准。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国深化反腐败国际合作的要求是？",options:["加强追逃追赃","推动'一带一路'廉洁建设","完善反腐败涉外法律体系","以上都是"],correct:3,explain:"反腐败国际合作的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国建设廉洁丝绸之路的意义是？",options:["推动共建'一带一路'高质量发展","促进沿线国家反腐败合作","提升我国反腐败国际影响力","以上都是"],correct:3,explain:"建设廉洁丝绸之路的意义。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国坚决打赢反腐败斗争攻坚战持久战的要求是？",options:["保持零容忍震慑不变、高压惩治力量常在","深化标本兼治","一体推进不敢腐、不能腐、不想腐","以上都是"],correct:3,explain:"打赢反腐败斗争攻坚战持久战的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国完善党的自我革命制度规范体系的意义是？",options:["为推进伟大自我革命提供制度保障","推动全面从严治党向纵深发展","确保党不变质、不变色、不变味","以上都是"],correct:3,explain:"完善党的自我革命制度规范体系的意义。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国坚持依规治党的要求是？",options:["健全党内法规体系","严格党内法规执行","形成有效的党内法规实施机制","以上都是"],correct:3,explain:"依规治党的要求。",subject:"daofa"});
+// 361-380
+MASTER_DAOFA.push({text:"我国健全党统一领导、全面覆盖、权威高效的监督体系的内涵是？",options:["坚持党中央对监督工作的集中统一领导","实现监督对象全覆盖、监督领域全覆盖","增强监督的严肃性、协同性、有效性","以上都是"],correct:3,explain:"监督体系的内涵。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国强化对公权力的监督制约的要求是？",options:["完善权力运行制约和监督体系","推动形成科学有效的权力运行机制","减少权力对微观经济活动的不当干预","以上都是"],correct:3,explain:"强化公权力监督制约的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国加强廉洁风险防控的目的是？",options:["预防腐败问题发生","保障干部廉洁从政","维护风清气正政治生态","以上都是"],correct:3,explain:"加强廉洁风险防控的目的。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国深化重点领域反腐败工作的重点是？",options:["金融、国企、工程建设、物资采购、资源开发、公共资源交易、医疗卫生、教育等领域","权力集中、资金密集、资源富集领域","群众反映强烈的突出问题","以上都是"],correct:3,explain:"深化重点领域反腐败工作的重点。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国加强纪检监察学科建设的意义是？",options:["培养专业化纪检监察人才","推动纪检监察理论与实践创新","构建中国特色纪检监察理论体系","以上都是"],correct:3,explain:"加强纪检监察学科建设的意义。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国推动纪检监察工作高质量发展的要求是？",options:["坚持稳中求进工作总基调","坚持实事求是、依规依纪依法","坚持系统观念、守正创新","以上都是"],correct:3,explain:"推动纪检监察工作高质量发展的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国深化纪检监察机构改革的目标是？",options:["形成系统集成、协同高效的纪检监察工作体系","健全纪检监察法规制度体系","完善纪检监察权力运行机制","以上都是"],correct:3,explain:"深化纪检监察机构改革的目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国加强纪检监察宣传工作的目的是？",options:["讲好反腐败故事","营造良好舆论氛围","教育引导党员干部","以上都是"],correct:3,explain:"加强纪检监察宣传工作的目的。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国健全纪检监察内控机制的要求是？",options:["强化内部监督制约","严格审批权限","规范工作流程","以上都是"],correct:3,explain:"纪检监察内控机制的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国坚持刀刃向内、严防'灯下黑'的意义是？",options:["保持纪检监察队伍的纯洁性","维护纪检监察机关公信力","确保党和人民赋予的权力不被滥用","以上都是"],correct:3,explain:"坚持刀刃向内的意义。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国加强纪检监察干部政治能力建设的重点是？",options:["提高政治判断力、政治领悟力、政治执行力","增强'四个意识'、坚定'四个自信'、做到'两个维护'","做党和人民的忠诚卫士","以上都是"],correct:3,explain:"纪检监察干部政治能力建设的重点。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国加强纪检监察干部专业能力建设的要求是？",options:["增强纪法贯通、法法衔接能力","提高监督检查、审查调查能力","提升信息化、智能化应用能力","以上都是"],correct:3,explain:"纪检监察干部专业能力建设的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国完善纪检监察干部考核评价机制的要求是？",options:["建立科学合理的考核指标体系","强化考核结果运用","激发干部干事创业积极性","以上都是"],correct:3,explain:"完善纪检监察干部考核评价机制的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国加强纪检监察干部作风建设的要求是？",options:["带头遵规守纪","力戒形式主义、官僚主义","弘扬优良作风","以上都是"],correct:3,explain:"纪检监察干部作风建设的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国健全纪检监察干部激励保障机制的意义是？",options:["激发干部担当作为","增强干部职业荣誉感","保持队伍生机活力","以上都是"],correct:3,explain:"健全纪检监察干部激励保障机制的意义。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国建设高素质专业化纪检监察干部队伍的目标是？",options:["政治过硬、本领高强","忠诚干净担当","敢于斗争、善于斗争","以上都是"],correct:3,explain:"纪检监察干部队伍建设的目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国新时代纪检监察工作的职责使命是？",options:["保障党的路线方针政策和党中央决策部署贯彻落实","维护党的肌体健康","服务保障党和国家事业发展","以上都是"],correct:3,explain:"新时代纪检监察工作的职责使命。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的'三不'一体推进战略目标是？",options:["实现不敢腐、不能腐、不想腐","通过惩治震慑、制度约束、提高觉悟","取得更多制度性成果和更大治理成效","以上都是"],correct:3,explain:"三不一体推进的战略目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的稳中求进工作总基调的内涵是？",options:["保持战略定力","注重策略方法","实现高质量发展","以上都是"],correct:3,explain:"稳中求进工作总基调的内涵。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的系统观念的要求是？",options:["加强前瞻性思考","注重全局性谋划","推进整体性发展","以上都是"],correct:3,explain:"坚持系统观念的要求。",subject:"daofa"});
+// 381-400
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的守正创新的要求是？",options:["坚守纪检监察工作根本原则","推进纪检监察工作理念、思路、方法创新","提高纪检监察工作科学化水平","以上都是"],correct:3,explain:"守正创新的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的依规依纪依法原则的内涵是？",options:["严格按照法定权限、规则、程序办事","提高纪检监察工作规范化、法治化水平","确保每一起案件都经得起历史和实践检验","以上都是"],correct:3,explain:"依规依纪依法原则的内涵。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的实事求是原则的要求是？",options:["以事实为依据，以纪法为准绳","客观公正处理问题","实现精准定性量纪执法","以上都是"],correct:3,explain:"实事求是原则的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的政治效果、纪法效果、社会效果相统一的要求是？",options:["既要依规依纪依法，又要讲政治顾大局","既要惩治腐败，又要教育挽救干部","既要严肃查处，又要维护稳定促进发展","以上都是"],correct:3,explain:"三效统一的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的惩前毖后、治病救人方针的实践要求是？",options:["精准运用'四种形态'","做实做细思想政治工作","做到宽严相济","以上都是"],correct:3,explain:"惩前毖后治病救人方针的实践要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的标本兼治的原则的要求是？",options:["既要保持高压惩治，又要加强制度建设","既要解决突出问题，又要注重源头治理","既要查处个案，又要推动系统治理","以上都是"],correct:3,explain:"标本兼治原则的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的深化标本兼治的路径是？",options:["一体推进不敢腐、不能腐、不想腐","同时发力、同向发力、综合发力","取得更多制度性成果和更大治理成效","以上都是"],correct:3,explain:"深化标本兼治的路径。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的以人民为中心的发展思想的要求是？",options:["坚决整治群众身边的腐败和作风问题","推动解决群众急难愁盼问题","增强人民群众获得感、幸福感、安全感","以上都是"],correct:3,explain:"以人民为中心的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的服务保障党和国家事业发展大局的要求是？",options:["围绕中心、服务大局","保障党的路线方针政策和党中央决策部署贯彻落实","为经济社会发展保驾护航","以上都是"],correct:3,explain:"服务保障大局的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的推动完善中国特色社会主义监督制度的要求是？",options:["健全党和国家监督体系","完善权力运行制约和监督体系","推动制度优势更好转化为治理效能","以上都是"],correct:3,explain:"完善监督制度的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的推进纪检监察工作规范化、法治化、正规化建设的要求是？",options:["健全法规制度体系","完善工作运行机制","加强内部监督管理","以上都是"],correct:3,explain:"规范化法治化正规化建设的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的深化纪检监察体制改革的要求是？",options:["完善纪检监察领导体制和工作机制","健全纪检监察法规制度","推进纪检监察机构职能权限责任法定化","以上都是"],correct:3,explain:"深化纪检监察体制改革的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的推动完善党的自我革命制度规范体系的要求是？",options:["健全党内法规体系","完善党内监督制度","强化全面从严治党制度保障","以上都是"],correct:3,explain:"完善党的自我革命制度规范体系的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的推进廉洁文化建设的路径是？",options:["加强廉洁教育","弘扬廉洁精神","营造崇廉拒腐氛围","以上都是"],correct:3,explain:"推进廉洁文化建设的路径。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的加强国际合作追逃追赃的要求是？",options:["织密追逃追赃网络","推动反腐败国际合作","建设廉洁丝绸之路","以上都是"],correct:3,explain:"加强国际合作追逃追赃的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的加强队伍建设的要求是？",options:["建设高素质专业化干部队伍","做党和人民的忠诚卫士","为实现新时代新征程党的使命任务提供坚强保障","以上都是"],correct:3,explain:"加强纪检监察队伍建设的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的推动完善党和国家监督体系的目标是？",options:["形成科学有效的权力运行制约和监督体系","实现监督全覆盖","增强监督严肃性、协同性、有效性","以上都是"],correct:3,explain:"完善党和国家监督体系的目标。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的推进政治监督具体化、精准化、常态化的路径是？",options:["围绕'国之大者'开展监督","推动党中央决策部署落实落地","保障党的中心任务顺利完成","以上都是"],correct:3,explain:"政治监督具体化精准化常态化的路径。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的强化日常监督的要求是？",options:["把监督融入日常、做在经常","抓早抓小、防微杜渐","及时发现和纠正问题","以上都是"],correct:3,explain:"强化日常监督的要求。",subject:"daofa"});
+MASTER_DAOFA.push({text:"我国纪检监察工作坚持的精准运用'四种形态'的要求是？",options:["实事求是、依规依纪依法","做到宽严相济、罚当其过","实现政治效果、纪法效果、社会效果有机统一","以上都是"],correct:3,explain:"精准运用四种形态的要求。",subject:"daofa"});
+console.log("道法301-400题完成，道法总题数:", MASTER_DAOFA.length);
+</script><script>
+// ========== 历史 1-100 题 ==========
+MASTER_HISTORY = [];
+
+// 1-20 中国古代史
+MASTER_HISTORY.push({text:"我国境内目前已确认的最早古人类是？",options:["元谋人","北京人","蓝田人","山顶洞人"],correct:0,explain:"元谋人距今约170万年，是我国最早的古人类。",subject:"history"});
+MASTER_HISTORY.push({text:"黄帝和炎帝被后人尊称为？",options:["人文初祖","华夏之祖","炎黄子孙","龙的传人"],correct:0,explain:"黄帝和炎帝被尊为'人文初祖'。",subject:"history"});
+MASTER_HISTORY.push({text:"中国历史上第一个王朝是？",options:["夏朝","商朝","周朝","秦朝"],correct:0,explain:"约公元前2070年，禹建立夏朝。",subject:"history"});
+MASTER_HISTORY.push({text:"我国有文字可考的历史开始于？",options:["商朝","夏朝","周朝","秦朝"],correct:0,explain:"商朝的甲骨文是我国最早的文字。",subject:"history"});
+MASTER_HISTORY.push({text:"春秋时期最先称霸的是？",options:["齐桓公","晋文公","楚庄王","秦穆公"],correct:0,explain:"齐桓公在管仲帮助下首先称霸。",subject:"history"});
+MASTER_HISTORY.push({text:"战国时期规模最大的战役是？",options:["长平之战","桂陵之战","马陵之战","邯郸之战"],correct:0,explain:"长平之战是战国时期规模最大的战役。",subject:"history"});
+MASTER_HISTORY.push({text:"我国历史上第一个统一的多民族封建国家是？",options:["秦朝","汉朝","唐朝","宋朝"],correct:0,explain:"秦始皇统一六国，建立秦朝。",subject:"history"});
+MASTER_HISTORY.push({text:"汉武帝时期派谁出使西域？",options:["张骞","班超","卫青","霍去病"],correct:0,explain:"张骞两次出使西域，开通丝绸之路。",subject:"history"});
+MASTER_HISTORY.push({text:"丝绸之路的起点是？",options:["长安","洛阳","咸阳","开封"],correct:0,explain:"丝绸之路以长安（今西安）为起点。",subject:"history"});
+MASTER_HISTORY.push({text:"造纸术改进者是？",options:["蔡伦","毕昇","张衡","祖冲之"],correct:0,explain:"东汉蔡伦改进造纸术。",subject:"history"});
+MASTER_HISTORY.push({text:"三国鼎立中位于西南的是？",options:["蜀汉","曹魏","东吴","西晋"],correct:0,explain:"蜀汉占据西南地区。",subject:"history"});
+MASTER_HISTORY.push({text:"东晋时期率军北伐收复洛阳的是？",options:["祖逖","桓温","谢安","王导"],correct:0,explain:"祖逖北伐一度收复洛阳。",subject:"history"});
+MASTER_HISTORY.push({text:"淝水之战中前秦的统帅是？",options:["苻坚","慕容垂","姚苌","王猛"],correct:0,explain:"苻坚率前秦军进攻东晋。",subject:"history"});
+MASTER_HISTORY.push({text:"北魏孝文帝改革迁都至？",options:["洛阳","长安","平城","许昌"],correct:0,explain:"孝文帝从平城迁都洛阳。",subject:"history"});
+MASTER_HISTORY.push({text:"隋朝大运河的中心是？",options:["洛阳","长安","北京","杭州"],correct:0,explain:"大运河以洛阳为中心。",subject:"history"});
+MASTER_HISTORY.push({text:"唐朝贞观之治的皇帝是？",options:["唐太宗","唐玄宗","唐高宗","武则天"],correct:0,explain:"唐太宗李世民年号贞观。",subject:"history"});
+MASTER_HISTORY.push({text:"中国历史上唯一的女皇帝是？",options:["武则天","吕雉","慈禧","萧太后"],correct:0,explain:"武则天改国号为周，是中国唯一女皇帝。",subject:"history"});
+MASTER_HISTORY.push({text:"唐朝时期前往天竺取经的僧人是？",options:["玄奘","鉴真","法显","义净"],correct:0,explain:"玄奘西行天竺取经。",subject:"history"});
+MASTER_HISTORY.push({text:"世界上现存最早的标有确切年代的雕版印刷品是？",options:["金刚经","大藏经","华严经","心经"],correct:0,explain:"《金刚经》雕版印刷品现存最早。",subject:"history"});
+MASTER_HISTORY.push({text:"北宋的都城是？",options:["东京（开封）","西京（洛阳）","南京（应天）","北京（大名）"],correct:0,explain:"北宋定都东京开封。",subject:"history"});
+// 21-40
+MASTER_HISTORY.push({text:"活字印刷术的发明者是？",options:["毕昇","蔡伦","沈括","郭守敬"],correct:0,explain:"北宋毕昇发明泥活字。",subject:"history"});
+MASTER_HISTORY.push({text:"南宋抗金名将岳飞被以什么罪名杀害？",options:["莫须有","谋反","通敌","贪腐"],correct:0,explain:"岳飞以'莫须有'罪名被杀害。",subject:"history"});
+MASTER_HISTORY.push({text:"元朝时期形成了哪个新民族？",options:["回族","满族","蒙古族","藏族"],correct:0,explain:"元朝时期形成回族。",subject:"history"});
+MASTER_HISTORY.push({text:"明朝的建立者是？",options:["朱元璋","朱棣","朱允炆","朱高炽"],correct:0,explain:"朱元璋建立明朝。",subject:"history"});
+MASTER_HISTORY.push({text:"郑和下西洋最远到达？",options:["非洲东海岸","印度洋","阿拉伯海","红海沿岸"],correct:0,explain:"郑和船队最远到达非洲东海岸。",subject:"history"});
+MASTER_HISTORY.push({text:"明朝后期从哪国引进了玉米、甘薯等高产作物？",options:["美洲","欧洲","非洲","东南亚"],correct:0,explain:"玉米、甘薯从美洲传入中国。",subject:"history"});
+MASTER_HISTORY.push({text:"清朝设置驻藏大臣是在哪位皇帝时期？",options:["雍正帝","康熙帝","乾隆帝","顺治帝"],correct:0,explain:"雍正帝时期设置驻藏大臣。",subject:"history"});
+MASTER_HISTORY.push({text:"中国近代史的开端是？",options:["鸦片战争","甲午战争","八国联军侵华","辛亥革命"],correct:0,explain:"1840年鸦片战争是中国近代史的开端。",subject:"history"});
+MASTER_HISTORY.push({text:"《南京条约》中割让的领土是？",options:["香港岛","台湾","辽东半岛","澳门"],correct:0,explain:"《南京条约》割让香港岛给英国。",subject:"history"});
+MASTER_HISTORY.push({text:"太平天国运动的领导人是？",options:["洪秀全","杨秀清","石达开","李秀成"],correct:0,explain:"洪秀全是太平天国运动的领导人。",subject:"history"});
+MASTER_HISTORY.push({text:"洋务运动的口号是？",options:["自强求富","师夷长技","救亡图存","变法图强"],correct:0,explain:"洋务运动前期自强，后期求富。",subject:"history"});
+MASTER_HISTORY.push({text:"甲午战争中致远舰管带是？",options:["邓世昌","丁汝昌","刘步蟾","林永升"],correct:0,explain:"邓世昌在黄海海战中壮烈殉国。",subject:"history"});
+MASTER_HISTORY.push({text:"《马关条约》签订后，哪个列强掀起瓜分中国狂潮？",options:["德国","英国","俄国","日本"],correct:0,explain:"德国强占胶州湾，掀起瓜分狂潮。",subject:"history"});
+MASTER_HISTORY.push({text:"戊戌变法发生在哪一年？",options:["1898年","1895年","1900年","1901年"],correct:0,explain:"1898年戊戌变法，又称百日维新。",subject:"history"});
+MASTER_HISTORY.push({text:"义和团运动的口号是？",options:["扶清灭洋","反清复明","驱除鞑虏","平均地权"],correct:0,explain:"义和团提出'扶清灭洋'口号。",subject:"history"});
+MASTER_HISTORY.push({text:"《辛丑条约》签订于哪一年？",options:["1901年","1900年","1895年","1842年"],correct:0,explain:"1901年签订《辛丑条约》。",subject:"history"});
+MASTER_HISTORY.push({text:"中国同盟会的机关报是？",options:["民报","新民丛报","时务报","国闻报"],correct:0,explain:"《民报》是中国同盟会的机关报。",subject:"history"});
+MASTER_HISTORY.push({text:"辛亥革命爆发于哪一年？",options:["1911年","1912年","1905年","1910年"],correct:0,explain:"1911年武昌起义，辛亥革命爆发。",subject:"history"});
+MASTER_HISTORY.push({text:"中华民国临时政府成立于？",options:["南京","北京","上海","广州"],correct:0,explain:"1912年中华民国临时政府在南京成立。",subject:"history"});
+MASTER_HISTORY.push({text:"新文化运动高举的两面旗帜是？",options:["民主与科学","自由与平等","爱国与进步","改革与创新"],correct:0,explain:"民主与科学是新文化运动的两大旗帜。",subject:"history"});
+// 41-60
+MASTER_HISTORY.push({text:"五四运动的直接导火线是？",options:["巴黎和会中国外交失败","袁世凯签订二十一条","北洋政府镇压学生","马克思主义传播"],correct:0,explain:"巴黎和会将德国在山东的特权转让给日本。",subject:"history"});
+MASTER_HISTORY.push({text:"中国共产党第一次全国代表大会召开于？",options:["上海","北京","广州","长沙"],correct:0,explain:"1921年中共一大在上海召开。",subject:"history"});
+MASTER_HISTORY.push({text:"北伐战争讨伐的对象不包括？",options:["袁世凯","吴佩孚","孙传芳","张作霖"],correct:0,explain:"袁世凯1916年已去世。",subject:"history"});
+MASTER_HISTORY.push({text:"打响武装反抗国民党反动统治第一枪的是？",options:["南昌起义","秋收起义","广州起义","武昌起义"],correct:0,explain:"1927年南昌起义。",subject:"history"});
+MASTER_HISTORY.push({text:"中国共产党建立的第一块农村革命根据地是？",options:["井冈山","鄂豫皖","湘鄂西","陕甘宁"],correct:0,explain:"井冈山革命根据地是第一个。",subject:"history"});
+MASTER_HISTORY.push({text:"红军长征的起止时间是？",options:["1934-1936","1933-1935","1935-1937","1934-1935"],correct:0,explain:"1934年10月至1936年10月。",subject:"history"});
+MASTER_HISTORY.push({text:"遵义会议确立了谁在党和红军中的领导地位？",options:["毛泽东","周恩来","朱德","刘少奇"],correct:0,explain:"遵义会议确立了毛泽东的领导地位。",subject:"history"});
+MASTER_HISTORY.push({text:"九一八事变发生在哪一年？",options:["1931年","1937年","1932年","1935年"],correct:0,explain:"1931年9月18日九一八事变。",subject:"history"});
+MASTER_HISTORY.push({text:"西安事变的和平解决标志着什么？",options:["抗日民族统一战线初步形成","抗日战争全面爆发","国共合作正式建立","内战基本结束"],correct:0,explain:"西安事变和平解决标志抗日民族统一战线初步形成。",subject:"history"});
+MASTER_HISTORY.push({text:"卢沟桥事变发生于？",options:["1937年7月7日","1931年9月18日","1932年1月28日","1935年12月9日"],correct:0,explain:"1937年7月7日卢沟桥事变。",subject:"history"});
+MASTER_HISTORY.push({text:"抗日战争中，中国军队取得的第一次大捷是？",options:["平型关大捷","台儿庄战役","百团大战","淞沪会战"],correct:0,explain:"平型关大捷是抗战以来首次大捷。",subject:"history"});
+MASTER_HISTORY.push({text:"抗日战争时期，敌后战场的战略总后方是？",options:["延安","瑞金","西柏坡","井冈山"],correct:0,explain:"延安是敌后战场的战略总后方。",subject:"history"});
+MASTER_HISTORY.push({text:"日本宣布无条件投降的时间是？",options:["1945年8月15日","1945年9月2日","1945年9月9日","1945年8月6日"],correct:0,explain:"1945年8月15日日本宣布无条件投降。",subject:"history"});
+MASTER_HISTORY.push({text:"重庆谈判签订的协定是？",options:["双十协定","停战协定","和平协定","建国协定"],correct:0,explain:"1945年国共签订《双十协定》。",subject:"history"});
+MASTER_HISTORY.push({text:"解放战争时期，三大战役的顺序是？",options:["辽沈战役、淮海战役、平津战役","淮海战役、辽沈战役、平津战役","平津战役、辽沈战役、淮海战役","辽沈战役、平津战役、淮海战役"],correct:0,explain:"三大战役的顺序：辽沈、淮海、平津。",subject:"history"});
+MASTER_HISTORY.push({text:"人民解放军攻占南京，标志着国民党在大陆统治结束的时间是？",options:["1949年4月23日","1949年10月1日","1948年9月12日","1949年1月31日"],correct:0,explain:"1949年4月23日南京解放。",subject:"history"});
+MASTER_HISTORY.push({text:"中华人民共和国成立的时间是？",options:["1949年10月1日","1949年9月21日","1949年10月10日","1949年8月1日"],correct:0,explain:"1949年10月1日开国大典。",subject:"history"});
+MASTER_HISTORY.push({text:"抗美援朝战争爆发于哪一年？",options:["1950年","1951年","1949年","1952年"],correct:0,explain:"1950年10月中国人民志愿军入朝作战。",subject:"history"});
+MASTER_HISTORY.push({text:"上甘岭战役发生在哪场战争中？",options:["抗美援朝战争","抗日战争","解放战争","对越自卫反击战"],correct:0,explain:"上甘岭战役是抗美援朝战争中的著名战役。",subject:"history"});
+MASTER_HISTORY.push({text:"我国第一个五年计划开始于哪一年？",options:["1953年","1952年","1954年","1951年"],correct:0,explain:"一五计划1953年开始。",subject:"history"});
+// 61-80
+MASTER_HISTORY.push({text:"第一届全国人民代表大会召开的时间是？",options:["1954年","1953年","1955年","1956年"],correct:0,explain:"1954年第一届全国人大召开。",subject:"history"});
+MASTER_HISTORY.push({text:"我国第一部社会主义类型的宪法颁布于？",options:["1954年","1949年","1956年","1958年"],correct:0,explain:"1954年宪法是我国第一部社会主义类型宪法。",subject:"history"});
+MASTER_HISTORY.push({text:"和平共处五项原则首次提出于哪一年？",options:["1953年","1954年","1955年","1956年"],correct:0,explain:"1953年周恩来首次提出和平共处五项原则。",subject:"history"});
+MASTER_HISTORY.push({text:"万隆会议召开于哪一年？",options:["1955年","1954年","1956年","1957年"],correct:0,explain:"1955年亚非会议在万隆召开。",subject:"history"});
+MASTER_HISTORY.push({text:"三大改造完成于哪一年？",options:["1956年","1955年","1957年","1958年"],correct:0,explain:"1956年三大改造基本完成。",subject:"history"});
+MASTER_HISTORY.push({text:"中共八大召开于哪一年？",options:["1956年","1955年","1957年","1958年"],correct:0,explain:"1956年中共八大召开。",subject:"history"});
+MASTER_HISTORY.push({text:"文化大革命开始于哪一年？",options:["1966年","1965年","1967年","1968年"],correct:0,explain:"1966年文化大革命开始。",subject:"history"});
+MASTER_HISTORY.push({text:"中国恢复在联合国合法席位的时间是？",options:["1971年","1970年","1972年","1973年"],correct:0,explain:"1971年联合国恢复中国合法席位。",subject:"history"});
+MASTER_HISTORY.push({text:"尼克松访华，中美关系开始走向正常化是在？",options:["1972年","1971年","1973年","1974年"],correct:0,explain:"1972年尼克松访华。",subject:"history"});
+MASTER_HISTORY.push({text:"真理标准问题大讨论开始于哪一年？",options:["1978年","1977年","1979年","1980年"],correct:0,explain:"1978年真理标准问题大讨论。",subject:"history"});
+MASTER_HISTORY.push({text:"中共十一届三中全会召开于哪一年？",options:["1978年","1977年","1979年","1980年"],correct:0,explain:"1978年12月十一届三中全会召开。",subject:"history"});
+MASTER_HISTORY.push({text:"我国经济特区中，第一个设立的是？",options:["深圳","珠海","汕头","厦门"],correct:0,explain:"1980年深圳成为第一个经济特区。",subject:"history"});
+MASTER_HISTORY.push({text:"家庭联产承包责任制最早在哪个地方试行？",options:["安徽凤阳","江苏华西","河南南街","山西大寨"],correct:0,explain:"安徽凤阳小岗村率先实行包产到户。",subject:"history"});
+MASTER_HISTORY.push({text:"中共十二大提出的重大理论是？",options:["建设有中国特色的社会主义","社会主义初级阶段理论","社会主义市场经济理论","三个代表重要思想"],correct:0,explain:"1982年中共十二大提出建设有中国特色的社会主义。",subject:"history"});
+MASTER_HISTORY.push({text:"我国开放沿海14个城市是在哪一年？",options:["1984年","1985年","1986年","1987年"],correct:0,explain:"1984年开放14个沿海城市。",subject:"history"});
+MASTER_HISTORY.push({text:"中英关于香港问题的联合声明签署于哪一年？",options:["1984年","1982年","1986年","1987年"],correct:0,explain:"1984年中英签署联合声明。",subject:"history"});
+MASTER_HISTORY.push({text:"中共十三大提出的基本路线核心是？",options:["一个中心，两个基本点","以经济建设为中心","四项基本原则","改革开放"],correct:0,explain:"中共十三大提出'一个中心，两个基本点'。",subject:"history"});
+MASTER_HISTORY.push({text:"我国第一个高新技术产业开发区是？",options:["北京中关村","上海张江","深圳南山","武汉光谷"],correct:0,explain:"中关村是我国第一个高新技术产业开发区。",subject:"history"});
+MASTER_HISTORY.push({text:"邓小平南方谈话是在哪一年？",options:["1992年","1991年","1993年","1990年"],correct:0,explain:"1992年邓小平视察南方并发表谈话。",subject:"history"});
+MASTER_HISTORY.push({text:"中共十四大提出的经济体制改革目标是？",options:["建立社会主义市场经济体制","建立计划经济体制","建立商品经济体制","建立混合经济体制"],correct:0,explain:"中共十四大提出建立社会主义市场经济体制。",subject:"history"});
+// 81-100
+MASTER_HISTORY.push({text:"中葡关于澳门问题的联合声明签署于哪一年？",options:["1987年","1986年","1988年","1989年"],correct:0,explain:"1987年中葡签署联合声明。",subject:"history"});
+MASTER_HISTORY.push({text:"香港回归祖国的时间是？",options:["1997年7月1日","1997年6月30日","1999年12月20日","1999年12月19日"],correct:0,explain:"1997年7月1日香港回归。",subject:"history"});
+MASTER_HISTORY.push({text:"澳门回归祖国的时间是？",options:["1999年12月20日","1999年12月19日","1997年7月1日","1997年6月30日"],correct:0,explain:"1999年12月20日澳门回归。",subject:"history"});
+MASTER_HISTORY.push({text:"我国加入世界贸易组织（WTO）的时间是？",options:["2001年","2000年","2002年","1999年"],correct:0,explain:"2001年中国加入WTO。",subject:"history"});
+MASTER_HISTORY.push({text:"神舟五号载人飞船成功发射，我国成为第三个掌握载人航天技术的国家，航天员是？",options:["杨利伟","费俊龙","聂海胜","翟志刚"],correct:0,explain:"2003年杨利伟乘坐神舟五号进入太空。",subject:"history"});
+MASTER_HISTORY.push({text:"我国成功举办第29届夏季奥运会是在哪一年？",options:["2008年","2004年","2012年","2016年"],correct:0,explain:"2008年北京奥运会。",subject:"history"});
+MASTER_HISTORY.push({text:"上海世博会举办于哪一年？",options:["2010年","2008年","2012年","2014年"],correct:0,explain:"2010年上海世博会。",subject:"history"});
+MASTER_HISTORY.push({text:"我国国内生产总值（GDP）超过日本，成为世界第二大经济体是在？",options:["2010年","2008年","2012年","2014年"],correct:0,explain:"2010年中国GDP超过日本。",subject:"history"});
+MASTER_HISTORY.push({text:"习近平提出'一带一路'倡议是在哪一年？",options:["2013年","2012年","2014年","2015年"],correct:0,explain:"2013年习近平提出'一带一路'倡议。",subject:"history"});
+MASTER_HISTORY.push({text:"我国设立的首个自由贸易试验区是？",options:["上海","广东","天津","福建"],correct:0,explain:"2013年上海自贸区设立。",subject:"history"});
+MASTER_HISTORY.push({text:"抗日战争胜利70周年阅兵举行于哪一年？",options:["2015年","2014年","2016年","2017年"],correct:0,explain:"2015年9月3日阅兵。",subject:"history"});
+MASTER_HISTORY.push({text:"中共十九大召开于哪一年？",options:["2017年","2016年","2018年","2019年"],correct:0,explain:"2017年中共十九大召开。",subject:"history"});
+MASTER_HISTORY.push({text:"我国脱贫攻坚战取得全面胜利是在哪一年？",options:["2020年","2019年","2021年","2022年"],correct:0,explain:"2020年我国脱贫攻坚战取得全面胜利。",subject:"history"});
+MASTER_HISTORY.push({text:"我国抗击新冠疫情斗争取得重大战略成果，武汉封城解除是在？",options:["2020年4月8日","2020年1月23日","2021年4月8日","2020年3月8日"],correct:0,explain:"2020年4月8日武汉解封。",subject:"history"});
+MASTER_HISTORY.push({text:"我国全面建成小康社会目标实现于哪一年？",options:["2020年","2019年","2021年","2022年"],correct:0,explain:"2020年我国全面建成小康社会。",subject:"history"});
+MASTER_HISTORY.push({text:"中国共产党建党100周年庆祝大会举行于哪一年？",options:["2021年","2020年","2022年","2019年"],correct:0,explain:"2021年建党100周年。",subject:"history"});
+MASTER_HISTORY.push({text:"北京成为首个'双奥之城'，成功举办冬奥会是在？",options:["2022年","2021年","2023年","2024年"],correct:0,explain:"2022年北京冬奥会。",subject:"history"});
+MASTER_HISTORY.push({text:"中共二十大召开于哪一年？",options:["2022年","2021年","2023年","2020年"],correct:0,explain:"2022年中共二十大召开。",subject:"history"});
+MASTER_HISTORY.push({text:"我国宣布新冠病毒感染调整为'乙类乙管'的时间是？",options:["2023年1月8日","2022年12月7日","2023年1月1日","2022年11月11日"],correct:0,explain:"2023年1月8日起新冠调整为乙类乙管。",subject:"history"});
+MASTER_HISTORY.push({text:"神舟十八号载人飞船成功发射的时间是？",options:["2024年","2023年","2025年","2022年"],correct:0,explain:"2024年神舟十八号成功发射。",subject:"history"});
+console.log("历史1-100题完成，当前总数:", MASTER_HISTORY.length);
+</script><script>
+// 101-120 中国古代史强化
+MASTER_HISTORY.push({text:"西周时期为巩固政权推行的制度是？",options:["分封制","郡县制","行省制","宗法制"],correct:0,explain:"分封制是西周重要政治制度。",subject:"history"});
+MASTER_HISTORY.push({text:"商鞅变法发生在哪一时期？",options:["战国时期","春秋时期","秦朝","西汉"],correct:0,explain:"商鞅变法发生于战国时期的秦国。",subject:"history"});
+MASTER_HISTORY.push({text:"百家争鸣局面出现的根本原因是？",options:["社会大变革","诸侯争霸","私学兴起","士阶层崛起"],correct:0,explain:"春秋战国社会大变革是根本原因。",subject:"history"});
+MASTER_HISTORY.push({text:"儒家学派的创始人是？",options:["孔子","孟子","荀子","老子"],correct:0,explain:"孔子是儒家学派创始人。",subject:"history"});
+MASTER_HISTORY.push({text:"道家学派的创始人是？",options:["老子","庄子","孔子","墨子"],correct:0,explain:"老子是道家学派创始人。",subject:"history"});
+MASTER_HISTORY.push({text:"法家思想的集大成者是？",options:["韩非子","商鞅","李斯","申不害"],correct:0,explain:"韩非子是法家集大成者。",subject:"history"});
+MASTER_HISTORY.push({text:"墨家学派主张的核心思想是？",options:["兼爱非攻","无为而治","仁政","法治"],correct:0,explain:"兼爱非攻是墨家核心思想。",subject:"history"});
+MASTER_HISTORY.push({text:"秦始皇统一文字的标准字体是？",options:["小篆","隶书","楷书","行书"],correct:0,explain:"小篆是秦朝标准字体。",subject:"history"});
+MASTER_HISTORY.push({text:"秦朝在地方推行的行政制度是？",options:["郡县制","分封制","行省制","州郡制"],correct:0,explain:"秦朝废除分封制，推行郡县制。",subject:"history"});
+MASTER_HISTORY.push({text:"汉武帝为加强中央集权采纳了谁的建议？",options:["主父偃","董仲舒","晁错","贾谊"],correct:0,explain:"主父偃建议推恩令。",subject:"history"});
+MASTER_HISTORY.push({text:"汉武帝采纳董仲舒建议，推行的政策是？",options:["罢黜百家，独尊儒术","推恩令","盐铁专卖","设置刺史"],correct:0,explain:"董仲舒建议罢黜百家，独尊儒术。",subject:"history"});
+MASTER_HISTORY.push({text:"东汉中后期突出的政治问题是？",options:["外戚宦官交替专权","藩镇割据","党锢之祸","黄巾起义"],correct:0,explain:"外戚宦官交替专权是东汉后期主要问题。",subject:"history"});
+MASTER_HISTORY.push({text:"赤壁之战发生的时间是？",options:["208年","200年","207年","209年"],correct:0,explain:"208年赤壁之战。",subject:"history"});
+MASTER_HISTORY.push({text:"魏晋南北朝时期，江南开发的主要原因是？",options:["北方人口南迁","南方气候优越","政策支持","水利兴修"],correct:0,explain:"北方人口南迁带来劳动力和技术。",subject:"history"});
+MASTER_HISTORY.push({text:"北魏孝文帝改革中，促进民族交融的措施是？",options:["迁都洛阳，改汉姓，穿汉服，说汉语","推行均田制","实行俸禄制","设立三长制"],correct:0,explain:"孝文帝汉化措施促进民族交融。",subject:"history"});
+MASTER_HISTORY.push({text:"隋朝统一全国的时间是？",options:["589年","581年","586年","590年"],correct:0,explain:"589年隋灭陈，统一全国。",subject:"history"});
+MASTER_HISTORY.push({text:"唐朝三省六部制中，负责审核政令的是？",options:["门下省","中书省","尚书省","内侍省"],correct:0,explain:"门下省负责审核。",subject:"history"});
+MASTER_HISTORY.push({text:"唐朝由盛转衰的转折点是？",options:["安史之乱","黄巢起义","藩镇割据","宦官专权"],correct:0,explain:"安史之乱是唐朝由盛转衰的转折点。",subject:"history"});
+MASTER_HISTORY.push({text:"世界上最早的纸币'交子'出现在哪一时期？",options:["北宋","唐朝","南宋","元朝"],correct:0,explain:"北宋时期出现交子。",subject:"history"});
+MASTER_HISTORY.push({text:"南宋时期最著名的抗金将领是？",options:["岳飞","韩世忠","张俊","刘光世"],correct:0,explain:"岳飞是南宋抗金名将。",subject:"history"});
+// 121-140
+MASTER_HISTORY.push({text:"元朝为管理辽阔疆域创立的制度是？",options:["行省制","郡县制","分封制","路府制"],correct:0,explain:"元朝创立行省制。",subject:"history"});
+MASTER_HISTORY.push({text:"元朝时形成的新民族是？",options:["回族","满族","蒙古族","藏族"],correct:0,explain:"元朝时期形成回族。",subject:"history"});
+MASTER_HISTORY.push({text:"明朝加强皇权的措施是？",options:["废除丞相，设内阁","设军机处","设议政王大臣会议","设南书房"],correct:0,explain:"朱元璋废除丞相，设立内阁。",subject:"history"});
+MASTER_HISTORY.push({text:"郑和下西洋的主要目的是？",options:["宣扬国威，加强联系","开辟航线","寻找建文帝","发展贸易"],correct:0,explain:"郑和下西洋主要目的是宣扬国威。",subject:"history"});
+MASTER_HISTORY.push({text:"明朝中后期抗击倭寇的民族英雄是？",options:["戚继光","俞大猷","郑成功","林则徐"],correct:0,explain:"戚继光抗击倭寇。",subject:"history"});
+MASTER_HISTORY.push({text:"李自成农民起义提出的口号是？",options:["均田免赋","等贵贱均贫富","王侯将相宁有种乎","苍天已死黄天当立"],correct:0,explain:"李自成提出均田免赋。",subject:"history"});
+MASTER_HISTORY.push({text:"清朝为加强对西藏的管理设立的机构是？",options:["驻藏大臣","西域都护","宣政院","理藩院"],correct:0,explain:"雍正时期设立驻藏大臣。",subject:"history"});
+MASTER_HISTORY.push({text:"清朝在新疆设立的最高军政长官是？",options:["伊犁将军","新疆巡抚","西域都护","安西都护"],correct:0,explain:"伊犁将军是新疆最高军政长官。",subject:"history"});
+MASTER_HISTORY.push({text:"清朝为加强对台湾的管辖，设立了？",options:["台湾府","福建省","台湾省","澎湖巡检司"],correct:0,explain:"1684年清朝设立台湾府。",subject:"history"});
+MASTER_HISTORY.push({text:"清朝时期在东北设置的将军辖区是？",options:["盛京将军、吉林将军、黑龙江将军","辽东将军","奉天将军","东北将军"],correct:0,explain:"清朝在东北设三将军。",subject:"history"});
+MASTER_HISTORY.push({text:"清朝时期蒙古地区实行的制度是？",options:["盟旗制度","郡县制","行省制","分封制"],correct:0,explain:"盟旗制度是清代蒙古地区管理制度。",subject:"history"});
+MASTER_HISTORY.push({text:"清朝设置理藩院的主要职能是？",options:["管理边疆民族事务","管理外交事务","管理财政事务","管理军事事务"],correct:0,explain:"理藩院管理边疆民族事务。",subject:"history"});
+MASTER_HISTORY.push({text:"清朝时期，沙俄侵略我国东北地区，雅克萨之战后签订的条约是？",options:["《尼布楚条约》","《瑷珲条约》","《北京条约》","《天津条约》"],correct:0,explain:"《尼布楚条约》划定中俄东段边界。",subject:"history"});
+MASTER_HISTORY.push({text:"鸦片战争前，英国向中国大量走私鸦片的主要目的是？",options:["扭转贸易逆差","打开中国市场","掠夺财富","削弱中国国力"],correct:0,explain:"英国为扭转对华贸易逆差走私鸦片。",subject:"history"});
+MASTER_HISTORY.push({text:"林则徐虎门销烟发生在哪一年？",options:["1839年","1840年","1838年","1841年"],correct:0,explain:"1839年林则徐虎门销烟。",subject:"history"});
+MASTER_HISTORY.push({text:"第二次鸦片战争期间，英法联军火烧圆明园是在？",options:["1860年","1856年","1858年","1861年"],correct:0,explain:"1860年英法联军火烧圆明园。",subject:"history"});
+MASTER_HISTORY.push({text:"《北京条约》中，清政府割让给英国的领土是？",options:["九龙司地方一区","香港岛","新界","威海卫"],correct:0,explain:"《北京条约》割让九龙司地方一区。",subject:"history"});
+MASTER_HISTORY.push({text:"洋务派创办的近代军事工业中，最早的是？",options:["安庆内军械所","江南制造总局","金陵机器局","福州船政局"],correct:0,explain:"1861年曾国藩创办安庆内军械所。",subject:"history"});
+MASTER_HISTORY.push({text:"洋务运动创办的民用工业不包括？",options:["安庆内军械所","轮船招商局","汉阳铁厂","湖北织布局"],correct:0,explain:"安庆内军械所是军事工业。",subject:"history"});
+MASTER_HISTORY.push({text:"中国近代第一所新式学堂是？",options:["京师同文馆","京师大学堂","福州船政学堂","天津水师学堂"],correct:0,explain:"1862年京师同文馆成立。",subject:"history"});
+// 141-160
+MASTER_HISTORY.push({text:"甲午战争爆发于哪一年？",options:["1894年","1895年","1893年","1896年"],correct:0,explain:"1894年甲午战争爆发。",subject:"history"});
+MASTER_HISTORY.push({text:"《马关条约》中，清政府割让给日本的领土是？",options:["辽东半岛、台湾、澎湖列岛","香港岛","九龙司地方一区","库页岛"],correct:0,explain:"《马关条约》割让辽东半岛、台湾、澎湖列岛。",subject:"history"});
+MASTER_HISTORY.push({text:"三国干涉还辽中的三国是？",options:["俄、德、法","英、法、德","美、英、法","俄、英、德"],correct:0,explain:"俄德法三国干涉还辽。",subject:"history"});
+MASTER_HISTORY.push({text:"公车上书发生于哪一年？",options:["1895年","1894年","1896年","1898年"],correct:0,explain:"1895年公车上书。",subject:"history"});
+MASTER_HISTORY.push({text:"戊戌六君子不包括？",options:["康有为","谭嗣同","刘光第","杨锐"],correct:0,explain:"康有为未被害。",subject:"history"});
+MASTER_HISTORY.push({text:"义和团运动首先爆发于？",options:["山东","直隶","山西","河南"],correct:0,explain:"义和团首先在山东爆发。",subject:"history"});
+MASTER_HISTORY.push({text:"八国联军侵华发生在哪一年？",options:["1900年","1899年","1901年","1898年"],correct:0,explain:"1900年八国联军侵华。",subject:"history"});
+MASTER_HISTORY.push({text:"《辛丑条约》中，清政府赔款白银数额是？",options:["4.5亿两","2亿两","1亿两","3亿两"],correct:0,explain:"《辛丑条约》赔款4.5亿两白银。",subject:"history"});
+MASTER_HISTORY.push({text:"中国同盟会成立的地点是？",options:["日本东京","上海","北京","广州"],correct:0,explain:"1905年同盟会在东京成立。",subject:"history"});
+MASTER_HISTORY.push({text:"同盟会的革命纲领'三民主义'是指？",options:["民族、民权、民生","民主、民权、民生","民族、民主、民生","民族、民权、民治"],correct:0,explain:"三民主义：民族、民权、民生。",subject:"history"});
+MASTER_HISTORY.push({text:"武昌起义发生的时间是？",options:["1911年10月10日","1911年10月1日","1912年1月1日","1911年12月29日"],correct:0,explain:"1911年10月10日武昌起义。",subject:"history"});
+MASTER_HISTORY.push({text:"袁世凯窃取革命果实后，于哪一年称帝？",options:["1915年","1916年","1914年","1917年"],correct:0,explain:"1915年袁世凯称帝。",subject:"history"});
+MASTER_HISTORY.push({text:"新文化运动中提倡白话文最有影响的是？",options:["胡适","鲁迅","陈独秀","李大钊"],correct:0,explain:"胡适发表《文学改良刍议》提倡白话文。",subject:"history"});
+MASTER_HISTORY.push({text:"新文化运动中，鲁迅的代表作《狂人日记》旨在？",options:["批判封建礼教","倡导白话文","宣传民主科学","传播马克思主义"],correct:0,explain:"《狂人日记》批判封建礼教。",subject:"history"});
+MASTER_HISTORY.push({text:"李大钊在《新青年》上发表文章，系统介绍马克思主义的是？",options:["《我的马克思主义观》","《庶民的胜利》","《布尔什维主义的胜利》","《法俄革命之比较观》"],correct:0,explain:"《我的马克思主义观》系统介绍马克思主义。",subject:"history"});
+MASTER_HISTORY.push({text:"五四运动后期，运动中心转移到上海，斗争形式转变为？",options:["工人罢工、商人罢市","学生罢课","工人罢工","商人罢市"],correct:0,explain:"后期以工人罢工、商人罢市为主。",subject:"history"});
+MASTER_HISTORY.push({text:"中国共产党第一次全国代表大会上，当选中央局书记的是？",options:["陈独秀","李大钊","毛泽东","张国焘"],correct:0,explain:"陈独秀当选中央局书记。",subject:"history"});
+MASTER_HISTORY.push({text:"第一次国共合作实现的标志是？",options:["国民党一大召开","中共三大召开","西湖会议","北伐战争开始"],correct:0,explain:"1924年国民党一大召开标志着国共合作实现。",subject:"history"});
+MASTER_HISTORY.push({text:"北伐战争讨伐的对象吴佩孚、孙传芳、张作霖，其中吴佩孚的主力在？",options:["湖北、湖南","江西、福建","东北","江苏、浙江"],correct:0,explain:"吴佩孚主力在湖北湖南。",subject:"history"});
+MASTER_HISTORY.push({text:"北伐战争期间，叶挺领导的独立团隶属于？",options:["第四军","第一军","第二军","第三军"],correct:0,explain:"叶挺独立团隶属第四军。",subject:"history"});
+// 161-180
+MASTER_HISTORY.push({text:"四一二反革命政变发生在哪一年？",options:["1927年","1926年","1928年","1925年"],correct:0,explain:"1927年4月12日蒋介石发动政变。",subject:"history"});
+MASTER_HISTORY.push({text:"中国共产党打响武装反抗国民党反动统治第一枪的起义是？",options:["南昌起义","秋收起义","广州起义","武昌起义"],correct:0,explain:"1927年南昌起义。",subject:"history"});
+MASTER_HISTORY.push({text:"毛泽东在哪次会议上提出'政权是由枪杆子中取得的'著名论断？",options:["八七会议","遵义会议","古田会议","瓦窑堡会议"],correct:0,explain:"八七会议上毛泽东提出这一论断。",subject:"history"});
+MASTER_HISTORY.push({text:"秋收起义后，毛泽东率领部队创建的第一个农村革命根据地是？",options:["井冈山根据地","鄂豫皖根据地","湘鄂西根据地","陕甘宁根据地"],correct:0,explain:"井冈山是中国第一个农村革命根据地。",subject:"history"});
+MASTER_HISTORY.push({text:"井冈山会师后成立的红军是？",options:["红四军","红一军","红二军","红三军"],correct:0,explain:"朱德毛泽东会师后成立红四军。",subject:"history"});
+MASTER_HISTORY.push({text:"古田会议召开于哪一年？",options:["1929年","1928年","1930年","1931年"],correct:0,explain:"1929年古田会议召开。",subject:"history"});
+MASTER_HISTORY.push({text:"古田会议确立的原则是？",options:["思想建党、政治建军","党指挥枪","支部建在连上","官兵平等"],correct:0,explain:"古田会议确立思想建党、政治建军原则。",subject:"history"});
+MASTER_HISTORY.push({text:"中华苏维埃共和国临时中央政府成立的地点是？",options:["江西瑞金","江西井冈山","福建长汀","湖南浏阳"],correct:0,explain:"1931年在瑞金成立。",subject:"history"});
+MASTER_HISTORY.push({text:"红军长征的直接原因是？",options:["第五次反'围剿'失败","开辟新根据地","战略转移","北上抗日"],correct:0,explain:"第五次反'围剿'失败被迫长征。",subject:"history"});
+MASTER_HISTORY.push({text:"遵义会议召开的年份是？",options:["1935年","1934年","1936年","1933年"],correct:0,explain:"1935年遵义会议召开。",subject:"history"});
+MASTER_HISTORY.push({text:"遵义会议在最危急关头挽救了党、挽救了红军、挽救了中国革命，它确立了谁在党和红军中的领导地位？",options:["毛泽东","周恩来","朱德","张闻天"],correct:0,explain:"遵义会议确立了毛泽东领导地位。",subject:"history"});
+MASTER_HISTORY.push({text:"红军长征中，打乱敌人追剿计划的是？",options:["四渡赤水","巧渡金沙江","强渡大渡河","飞夺泸定桥"],correct:0,explain:"四渡赤水打乱追剿计划。",subject:"history"});
+MASTER_HISTORY.push({text:"红军长征中，跳出敌人包围圈的是？",options:["巧渡金沙江","四渡赤水","强渡大渡河","飞夺泸定桥"],correct:0,explain:"巧渡金沙江跳出包围圈。",subject:"history"});
+MASTER_HISTORY.push({text:"红军三大主力会师的地点与时间是？",options:["1936年甘肃会宁","1935年陕北吴起镇","1936年甘肃静宁","1935年甘肃会宁"],correct:0,explain:"1936年会宁会师长征胜利结束。",subject:"history"});
+MASTER_HISTORY.push({text:"九一八事变后，中国共产党派谁领导东北抗日联军？",options:["杨靖宇","赵尚志","周保中","李兆麟"],correct:0,explain:"杨靖宇领导东北抗联。",subject:"history"});
+MASTER_HISTORY.push({text:"华北事变后，中国共产党发表了什么宣言，号召停止内战一致抗日？",options:["八一宣言","抗日宣言","救国宣言","抗战宣言"],correct:0,explain:"《八一宣言》号召停止内战一致抗日。",subject:"history"});
+MASTER_HISTORY.push({text:"瓦窑堡会议召开于哪一年？",options:["1935年","1934年","1936年","1937年"],correct:0,explain:"1935年瓦窑堡会议召开。",subject:"history"});
+MASTER_HISTORY.push({text:"瓦窑堡会议确定的政策是？",options:["建立抗日民族统一战线","土地革命","武装斗争","党的建设"],correct:0,explain:"瓦窑堡会议确立建立抗日民族统一战线政策。",subject:"history"});
+MASTER_HISTORY.push({text:"一二九运动发生在哪一年？",options:["1935年","1936年","1934年","1937年"],correct:0,explain:"1935年一二九运动爆发。",subject:"history"});
+MASTER_HISTORY.push({text:"西安事变的发动者是？",options:["张学良、杨虎城","冯玉祥","李宗仁","白崇禧"],correct:0,explain:"张学良杨虎城发动西安事变。",subject:"history"});
+// 181-200
+MASTER_HISTORY.push({text:"中国共产党确定全面抗战路线的会议是？",options:["洛川会议","瓦窑堡会议","遵义会议","六届六中全会"],correct:0,explain:"洛川会议制定全面抗战路线。",subject:"history"});
+MASTER_HISTORY.push({text:"平型关大捷发生在哪一年？",options:["1937年","1938年","1936年","1939年"],correct:0,explain:"1937年平型关大捷。",subject:"history"});
+MASTER_HISTORY.push({text:"毛泽东《论持久战》发表的时间是？",options:["1938年","1937年","1939年","1940年"],correct:0,explain:"1938年毛泽东发表《论持久战》。",subject:"history"});
+MASTER_HISTORY.push({text:"抗日战争进入相持阶段是在哪一年？",options:["1938年","1937年","1939年","1940年"],correct:0,explain:"1938年广州武汉失守后进入相持阶段。",subject:"history"});
+MASTER_HISTORY.push({text:"百团大战的指挥者是？",options:["彭德怀","林彪","刘伯承","贺龙"],correct:0,explain:"彭德怀指挥百团大战。",subject:"history"});
+MASTER_HISTORY.push({text:"百团大战发生在哪一年？",options:["1940年","1939年","1941年","1942年"],correct:0,explain:"1940年百团大战。",subject:"history"});
+MASTER_HISTORY.push({text:"抗战时期，为了克服困难，中国共产党开展的大生产运动，中央领导人也参加生产，毛泽东的题词是？",options:["自己动手，丰衣足食","自力更生","艰苦奋斗","生产自救"],correct:0,explain:"毛泽东题词'自己动手，丰衣足食'。",subject:"history"});
+MASTER_HISTORY.push({text:"皖南事变发生在哪一年？",options:["1941年","1940年","1942年","1943年"],correct:0,explain:"1941年皖南事变。",subject:"history"});
+MASTER_HISTORY.push({text:"中国共产党在延安开展整风运动的主要内容是？",options:["反对主观主义、宗派主义、党八股","反对官僚主义","反对形式主义","反对享乐主义"],correct:0,explain:"整风运动反对三股歪风。",subject:"history"});
+MASTER_HISTORY.push({text:"中共七大召开于哪一年？",options:["1945年","1944年","1946年","1943年"],correct:0,explain:"1945年中共七大召开。",subject:"history"});
+MASTER_HISTORY.push({text:"中共七大上，被确立为党的指导思想的是？",options:["毛泽东思想","邓小平理论","三个代表重要思想","科学发展观"],correct:0,explain:"七大确立毛泽东思想为指导思想。",subject:"history"});
+MASTER_HISTORY.push({text:"日本宣布无条件投降后，中国战区受降仪式在南京举行，时间是？",options:["1945年9月9日","1945年8月15日","1945年9月2日","1945年10月10日"],correct:0,explain:"1945年9月9日南京受降。",subject:"history"});
+MASTER_HISTORY.push({text:"抗战胜利后，中国共产党提出的三大口号是？",options:["和平、民主、团结","和平、统一、民主","团结、统一、民主","和平、团结、民主"],correct:0,explain:"和平、民主、团结是三大口号。",subject:"history"});
+MASTER_HISTORY.push({text:"国民党发动全面内战的时间是？",options:["1946年6月","1945年8月","1947年3月","1946年3月"],correct:0,explain:"1946年6月国民党进攻中原解放区。",subject:"history"});
+MASTER_HISTORY.push({text:"解放战争时期，毛泽东提出的十大军事原则的核心是？",options:["集中优势兵力，各个歼灭敌人","打歼灭战","运动战","速决战"],correct:0,explain:"集中优势兵力各个歼灭是核心。",subject:"history"});
+MASTER_HISTORY.push({text:"刘邓大军千里跃进大别山的意义是？",options:["揭开了战略进攻的序幕","粉碎了重点进攻","夺取了战略要地","牵制了敌人兵力"],correct:0,explain:"刘邓大军挺进大别山揭开战略进攻序幕。",subject:"history"});
+MASTER_HISTORY.push({text:"三大战役中，首先打响的是？",options:["辽沈战役","淮海战役","平津战役","渡江战役"],correct:0,explain:"辽沈战役1948年9月首先打响。",subject:"history"});
+MASTER_HISTORY.push({text:"淮海战役的指挥者是？",options:["刘伯承、陈毅、邓小平、粟裕、谭震林","林彪、罗荣桓","聂荣臻、林彪","彭德怀"],correct:0,explain:"淮海战役总前委五位书记。",subject:"history"});
+MASTER_HISTORY.push({text:"平津战役中，北平和平解放的时间是？",options:["1949年1月31日","1949年1月15日","1948年12月","1949年1月21日"],correct:0,explain:"1949年1月31日北平和平解放。",subject:"history"});
+MASTER_HISTORY.push({text:"渡江战役占领南京的时间是？",options:["1949年4月23日","1949年4月21日","1949年4月20日","1949年4月24日"],correct:0,explain:"1949年4月23日南京解放。",subject:"history"});
+console.log("历史101-200题完成，当前总数:", MASTER_HISTORY.length);
+</script><script>
+// 201-220 现代史部分
+MASTER_HISTORY.push({text:"中国人民政治协商会议第一届全体会议召开于哪一年？",options:["1949年9月","1949年10月","1948年9月","1950年9月"],correct:0,explain:"1949年9月政协会议召开。",subject:"history"});
+MASTER_HISTORY.push({text:"《共同纲领》的作用是？",options:["起临时宪法作用","正式宪法","法律","法规"],correct:0,explain:"《共同纲领》起临时宪法作用。",subject:"history"});
+MASTER_HISTORY.push({text:"西藏和平解放的时间是？",options:["1951年","1950年","1952年","1953年"],correct:0,explain:"1951年西藏和平解放。",subject:"history"});
+MASTER_HISTORY.push({text:"土地改革完成于哪一年？",options:["1952年底","1951年底","1953年底","1950年底"],correct:0,explain:"1952年底土地改革基本完成。",subject:"history"});
+MASTER_HISTORY.push({text:"第一个五年计划超额完成是在哪一年？",options:["1957年","1956年","1958年","1955年"],correct:0,explain:"1957年一五计划超额完成。",subject:"history"});
+MASTER_HISTORY.push({text:"武汉长江大桥建成通车是在哪一年？",options:["1957年","1956年","1958年","1959年"],correct:0,explain:"1957年武汉长江大桥通车。",subject:"history"});
+MASTER_HISTORY.push({text:"三大改造的实质是？",options:["生产资料私有制向社会主义公有制转变","所有制形式变化","经济结构调整","生产方式变革"],correct:0,explain:"三大改造实现所有制转变。",subject:"history"});
+MASTER_HISTORY.push({text:"中共八大提出当时国内的主要矛盾是？",options:["先进社会制度与落后生产力之间的矛盾","阶级矛盾","人民内部矛盾","敌我矛盾"],correct:0,explain:"八大提出先进制度与落后生产力的矛盾。",subject:"history"});
+MASTER_HISTORY.push({text:"社会主义建设总路线提出于哪一年？",options:["1958年","1957年","1959年","1960年"],correct:0,explain:"1958年提出总路线。",subject:"history"});
+MASTER_HISTORY.push({text:"人民公社化运动开始的标志是？",options:["1958年全国农村普遍建立人民公社","1957年","1959年","1960年"],correct:0,explain:"1958年人民公社化开始。",subject:"history"});
+MASTER_HISTORY.push({text:"庐山会议召开于哪一年？",options:["1959年","1958年","1960年","1961年"],correct:0,explain:"1959年庐山会议。",subject:"history"});
+MASTER_HISTORY.push({text:"调整、巩固、充实、提高八字方针提出于哪一年？",options:["1960年","1959年","1961年","1962年"],correct:0,explain:"1960年提出八字方针。",subject:"history"});
+MASTER_HISTORY.push({text:"七千人大会召开于哪一年？",options:["1962年","1961年","1963年","1960年"],correct:0,explain:"1962年七千人大会召开。",subject:"history"});
+MASTER_HISTORY.push({text:"我国第一颗原子弹爆炸成功的时间是？",options:["1964年","1965年","1963年","1966年"],correct:0,explain:"1964年我国第一颗原子弹爆炸成功。",subject:"history"});
+MASTER_HISTORY.push({text:"我国第一颗氢弹爆炸成功的时间是？",options:["1967年","1968年","1966年","1965年"],correct:0,explain:"1967年我国第一颗氢弹爆炸成功。",subject:"history"});
+MASTER_HISTORY.push({text:"我国第一颗人造地球卫星'东方红一号'发射成功是在哪一年？",options:["1970年","1971年","1969年","1972年"],correct:0,explain:"1970年东方红一号发射成功。",subject:"history"});
+MASTER_HISTORY.push({text:"中国恢复在联合国的合法席位是在哪一年？",options:["1971年","1970年","1972年","1973年"],correct:0,explain:"1971年中国恢复联合国合法席位。",subject:"history"});
+MASTER_HISTORY.push({text:"美国总统尼克松访华期间，中美双方签署了？",options:["《中美联合公报》","《中美建交公报》","《中美贸易协定》","《中美互不侵犯条约》"],correct:0,explain:"1972年尼克松访华签署《中美联合公报》。",subject:"history"});
+MASTER_HISTORY.push({text:"中日正式建交是在哪一年？",options:["1972年","1971年","1973年","1974年"],correct:0,explain:"1972年中日建交。",subject:"history"});
+MASTER_HISTORY.push({text:"毛泽东逝世于哪一年？",options:["1976年","1975年","1977年","1978年"],correct:0,explain:"1976年毛泽东逝世。",subject:"history"});
+// 221-240
+MASTER_HISTORY.push({text:"'两个凡是'的方针是什么？",options:["凡是毛主席作出的决策，我们都坚决维护；凡是毛主席的指示，我们都始终不渝地遵循","凡是对毛主席有利的，我们就拥护","凡是毛主席说的，都是正确的","凡是毛主席定下的，都不能改"],correct:0,explain:"两个凡是的内容。",subject:"history"});
+MASTER_HISTORY.push({text:"真理标准问题大讨论，实践是检验真理的唯一标准一文发表在？",options:["《光明日报》","《人民日报》","《解放军报》","《红旗》杂志"],correct:0,explain:"实践标准一文发表于《光明日报》。",subject:"history"});
+MASTER_HISTORY.push({text:"十一届三中全会的召开标志着？",options:["改革开放新时期开始","现代化建设开始","经济体制改革开始","政治体制改革开始"],correct:0,explain:"十一届三中全会标志改革开放新时期开始。",subject:"history"});
+MASTER_HISTORY.push({text:"十一届三中全会重新确立的思想路线是？",options:["解放思想，实事求是","与时俱进","求真务实","科学发展"],correct:0,explain:"重新确立解放思想、实事求是思想路线。",subject:"history"});
+MASTER_HISTORY.push({text:"家庭联产承包责任制最早在哪个地方取得成功？",options:["安徽省凤阳县小岗村","江苏省华西村","河南省南街村","山西省大寨村"],correct:0,explain:"小岗村率先实行包产到户。",subject:"history"});
+MASTER_HISTORY.push({text:"我国第一个经济特区是？",options:["深圳","珠海","汕头","厦门"],correct:0,explain:"深圳是第一个经济特区。",subject:"history"});
+MASTER_HISTORY.push({text:"《关于建国以来党的若干历史问题的决议》通过于哪一年？",options:["1981年","1980年","1982年","1983年"],correct:0,explain:"1981年通过历史决议。",subject:"history"});
+MASTER_HISTORY.push({text:"我国成功发射的第一颗通信卫星是？",options:["东方红二号","东方红一号","风云一号","资源一号"],correct:0,explain:"1984年东方红二号发射成功。",subject:"history"});
+MASTER_HISTORY.push({text:"城市经济体制改革全面展开是在哪一年？",options:["1985年","1984年","1986年","1987年"],correct:0,explain:"1985年城市改革全面展开。",subject:"history"});
+MASTER_HISTORY.push({text:"'三步走'发展战略提出于哪一年？",options:["1987年","1986年","1988年","1985年"],correct:0,explain:"1987年十三大提出三步走战略。",subject:"history"});
+MASTER_HISTORY.push({text:"海南建省并设立经济特区是在哪一年？",options:["1988年","1987年","1989年","1990年"],correct:0,explain:"1988年海南建省并设特区。",subject:"history"});
+MASTER_HISTORY.push({text:"我国第一座核电站秦山核电站并网发电是在哪一年？",options:["1991年","1990年","1992年","1993年"],correct:0,explain:"1991年秦山核电站并网发电。",subject:"history"});
+MASTER_HISTORY.push({text:"海峡两岸关系协会和海峡交流基金会达成的'九二共识'是指？",options:["坚持一个中国原则","坚持和平统一","坚持一国两制","坚持不统不独"],correct:0,explain:"九二共识坚持一个中国原则。",subject:"history"});
+MASTER_HISTORY.push({text:"汪辜会谈举行于哪一年？",options:["1993年","1992年","1994年","1995年"],correct:0,explain:"1993年汪辜会谈。",subject:"history"});
+MASTER_HISTORY.push({text:"我国正式接入互联网是在哪一年？",options:["1994年","1993年","1995年","1996年"],correct:0,explain:"1994年中国全功能接入互联网。",subject:"history"});
+MASTER_HISTORY.push({text:"西部大开发战略提出于哪一年？",options:["1999年","1998年","2000年","2001年"],correct:0,explain:"1999年提出西部大开发。",subject:"history"});
+MASTER_HISTORY.push({text:"我国加入世界贸易组织（WTO）的时间是？",options:["2001年","2000年","2002年","1999年"],correct:0,explain:"2001年中国加入WTO。",subject:"history"});
+MASTER_HISTORY.push({text:"上海合作组织正式成立的时间是？",options:["2001年","2000年","2002年","1999年"],correct:0,explain:"2001年上海合作组织成立。",subject:"history"});
+MASTER_HISTORY.push({text:"神舟五号成功发射，实现载人航天梦想，宇航员是？",options:["杨利伟","费俊龙","聂海胜","翟志刚"],correct:0,explain:"2003年杨利伟乘神舟五号飞天。",subject:"history"});
+MASTER_HISTORY.push({text:"我国首次月球探测工程'嫦娥一号'发射成功是在哪一年？",options:["2007年","2006年","2008年","2005年"],correct:0,explain:"2007年嫦娥一号发射成功。",subject:"history"});
+// 241-260
+MASTER_HISTORY.push({text:"北京奥运会开幕式举行于哪一年？",options:["2008年","2007年","2009年","2010年"],correct:0,explain:"2008年北京奥运会。",subject:"history"});
+MASTER_HISTORY.push({text:"我国第一艘航空母舰辽宁舰正式交付海军是在哪一年？",options:["2012年","2011年","2013年","2010年"],correct:0,explain:"2012年辽宁舰交付。",subject:"history"});
+MASTER_HISTORY.push({text:"习近平提出实现中华民族伟大复兴的中国梦是在哪一年？",options:["2012年","2013年","2011年","2014年"],correct:0,explain:"2012年习近平提出中国梦。",subject:"history"});
+MASTER_HISTORY.push({text:"我国设立的第一个自由贸易试验区是？",options:["上海","广东","天津","福建"],correct:0,explain:"2013年上海自贸区设立。",subject:"history"});
+MASTER_HISTORY.push({text:"'一带一路'国际合作高峰论坛首次举办是在哪一年？",options:["2017年","2016年","2018年","2015年"],correct:0,explain:"2017年首届'一带一路'高峰论坛举行。",subject:"history"});
+MASTER_HISTORY.push({text:"港珠澳大桥正式通车是在哪一年？",options:["2018年","2017年","2019年","2016年"],correct:0,explain:"2018年港珠澳大桥通车。",subject:"history"});
+MASTER_HISTORY.push({text:"新中国成立70周年阅兵举行于哪一年？",options:["2019年","2018年","2020年","2017年"],correct:0,explain:"2019年国庆70周年阅兵。",subject:"history"});
+MASTER_HISTORY.push({text:"我国脱贫攻坚战取得全面胜利，现行标准下农村贫困人口全部脱贫，这一目标实现于？",options:["2020年","2019年","2021年","2018年"],correct:0,explain:"2020年脱贫攻坚战取得全面胜利。",subject:"history"});
+MASTER_HISTORY.push({text:"中国共产党建党100周年庆祝大会举行于？",options:["2021年","2020年","2022年","2019年"],correct:0,explain:"2021年建党100周年。",subject:"history"});
+MASTER_HISTORY.push({text:"北京冬奥会成功举办，北京成为'双奥之城'，是哪一年？",options:["2022年","2021年","2023年","2020年"],correct:0,explain:"2022年北京冬奥会。",subject:"history"});
+MASTER_HISTORY.push({text:"中共二十大召开于哪一年？",options:["2022年","2021年","2023年","2020年"],correct:0,explain:"2022年中共二十大召开。",subject:"history"});
+MASTER_HISTORY.push({text:"神舟十五号与神舟十四号在轨交接，中国空间站首次同时停靠两艘载人飞船是在？",options:["2022年","2023年","2021年","2024年"],correct:0,explain:"2022年11月神舟十五号对接。",subject:"history"});
+MASTER_HISTORY.push({text:"C919国产大型客机完成首次商业载客飞行是在？",options:["2023年","2022年","2024年","2021年"],correct:0,explain:"2023年C919商业首飞。",subject:"history"});
+MASTER_HISTORY.push({text:"神舟十六号载人飞船发射成功，航天员是？",options:["景海鹏、朱杨柱、桂海潮","费俊龙、邓清明、张陆","陈冬、刘洋、蔡旭哲","汤洪波、唐胜杰、江新林"],correct:0,explain:"神舟十六号三名航天员。",subject:"history"});
+MASTER_HISTORY.push({text:"我国宣布新冠疫情防控转为'乙类乙管'的时间是？",options:["2023年1月8日","2022年12月7日","2023年1月1日","2022年11月11日"],correct:0,explain:"2023年1月8日起乙类乙管。",subject:"history"});
+MASTER_HISTORY.push({text:"神舟十七号载人飞船发射成功是在？",options:["2023年","2024年","2022年","2025年"],correct:0,explain:"2023年神舟十七号发射。",subject:"history"});
+MASTER_HISTORY.push({text:"国产首艘大型邮轮'爱达·魔都号'正式交付的时间是？",options:["2025年","2024年","2023年","2026年"],correct:0,explain:"2025年爱达·魔都号交付。",subject:"history"});
+MASTER_HISTORY.push({text:"2026年成功发射的世界首颗量子科学实验卫星是？",options:["墨子号","悟空号","慧眼号","北斗一号"],correct:0,explain:"2026年墨子号在轨交付。",subject:"history"});
+MASTER_HISTORY.push({text:"2025年中国GDP总量首次超过多少万亿元？",options:["130","120","140","150"],correct:0,explain:"2025年中国GDP突破130万亿元。",subject:"history"});
+MASTER_HISTORY.push({text:"2026年中国成功发射的空间站巡天空间望远镜名称是？",options:["巡天","问天","梦天","昊天"],correct:0,explain:"2026年巡天空间望远镜发射。",subject:"history"});
+// 261-280
+MASTER_HISTORY.push({text:"古巴比伦文明的代表是？",options:["汉谟拉比法典","金字塔","空中花园","种姓制度"],correct:0,explain:"汉谟拉比法典是古巴比伦文明代表。",subject:"history"});
+MASTER_HISTORY.push({text:"古印度种姓制度中，最高等级是？",options:["婆罗门","刹帝利","吠舍","首陀罗"],correct:0,explain:"婆罗门是最高等级。",subject:"history"});
+MASTER_HISTORY.push({text:"雅典民主政治的黄金时代是？",options:["伯里克利时期","梭伦时期","克里斯提尼时期","亚历山大时期"],correct:0,explain:"伯里克利时期雅典民主达到顶峰。",subject:"history"});
+MASTER_HISTORY.push({text:"罗马法制史上第一部成文法是？",options:["十二铜表法","公民法","万民法","查士丁尼法典"],correct:0,explain:"十二铜表法是第一部成文法。",subject:"history"});
+MASTER_HISTORY.push({text:"伊斯兰教创立者是？",options:["穆罕默德","耶稣","释迦牟尼","摩西"],correct:0,explain:"穆罕默德创立伊斯兰教。",subject:"history"});
+MASTER_HISTORY.push({text:"文艺复兴的发源地是？",options:["意大利","法国","英国","德国"],correct:0,explain:"意大利是文艺复兴发源地。",subject:"history"});
+MASTER_HISTORY.push({text:"文艺复兴先驱但丁的代表作是？",options:["《神曲》","《歌集》","《十日谈》","《巨人传》"],correct:0,explain:"但丁著《神曲》。",subject:"history"});
+MASTER_HISTORY.push({text:"达·芬奇的代表作不包括？",options:["《大卫》","《蒙娜丽莎》","《最后的晚餐》","《岩间圣母》"],correct:0,explain:"《大卫》是米开朗基罗作品。",subject:"history"});
+MASTER_HISTORY.push({text:"新航路开辟中，发现美洲大陆的是？",options:["哥伦布","麦哲伦","达伽马","迪亚士"],correct:0,explain:"哥伦布发现美洲大陆。",subject:"history"});
+MASTER_HISTORY.push({text:"麦哲伦船队完成的壮举是？",options:["环球航行","发现好望角","到达印度","发现美洲"],correct:0,explain:"麦哲伦船队完成环球航行。",subject:"history"});
+MASTER_HISTORY.push({text:"英国资产阶级革命爆发的标志是？",options:["议会召开","纳西比战役","光荣革命","查理一世被处死"],correct:0,explain:"1640年议会召开标志革命爆发。",subject:"history"});
+MASTER_HISTORY.push({text:"《权利法案》颁布于哪一年？",options:["1689年","1688年","1687年","1690年"],correct:0,explain:"1689年《权利法案》颁布。",subject:"history"});
+MASTER_HISTORY.push({text:"美国独立战争爆发的标志是？",options:["来克星顿枪声","波士顿倾茶事件","独立宣言发表","萨拉托加大捷"],correct:0,explain:"1775年来克星顿枪声标志开始。",subject:"history"});
+MASTER_HISTORY.push({text:"《独立宣言》的起草者是？",options:["杰斐逊","华盛顿","富兰克林","亚当斯"],correct:0,explain:"杰斐逊起草《独立宣言》。",subject:"history"});
+MASTER_HISTORY.push({text:"法国大革命爆发的标志是？",options:["攻占巴士底狱","三级会议召开","人权宣言颁布","路易十六被处死"],correct:0,explain:"1789年攻占巴士底狱标志革命爆发。",subject:"history"});
+MASTER_HISTORY.push({text:"拿破仑颁布的法典是？",options:["民法典","商法典","刑法典","民事诉讼法典"],correct:0,explain:"拿破仑颁布《民法典》。",subject:"history"});
+MASTER_HISTORY.push({text:"第一次工业革命首先发生在？",options:["英国","美国","德国","法国"],correct:0,explain:"英国率先开始工业革命。",subject:"history"});
+MASTER_HISTORY.push({text:"瓦特改良的机器是？",options:["蒸汽机","珍妮机","水力纺纱机","骡机"],correct:0,explain:"瓦特改良蒸汽机。",subject:"history"});
+MASTER_HISTORY.push({text:"史蒂芬孙发明的交通工具是？",options:["火车","汽车","轮船","飞机"],correct:0,explain:"史蒂芬孙发明火车。",subject:"history"});
+MASTER_HISTORY.push({text:"马克思主义诞生的标志是？",options:["《共产党宣言》发表","巴黎公社成立","第一国际成立","《资本论》出版"],correct:0,explain:"1848年《共产党宣言》发表标志马克思主义诞生。",subject:"history"});
+// 281-300
+MASTER_HISTORY.push({text:"巴黎公社发生在哪一年？",options:["1871年","1870年","1872年","1869年"],correct:0,explain:"1871年巴黎公社。",subject:"history"});
+MASTER_HISTORY.push({text:"美国南北战争期间，颁布《解放黑人奴隶宣言》的总统是？",options:["林肯","华盛顿","杰斐逊","罗斯福"],correct:0,explain:"林肯颁布《解放黑人奴隶宣言》。",subject:"history"});
+MASTER_HISTORY.push({text:"日本明治维新开始于哪一年？",options:["1868年","1867年","1869年","1870年"],correct:0,explain:"1868年明治维新开始。",subject:"history"});
+MASTER_HISTORY.push({text:"第二次工业革命的标志是？",options:["电力的广泛应用","蒸汽机的改进","内燃机的发明","计算机的发明"],correct:0,explain:"电力的广泛应用是第二次工业革命标志。",subject:"history"});
+MASTER_HISTORY.push({text:"爱迪生的主要发明是？",options:["电灯","发电机","电动机","电话"],correct:0,explain:"爱迪生发明电灯。",subject:"history"});
+MASTER_HISTORY.push({text:"莱特兄弟的发明是？",options:["飞机","汽车","电话","电报"],correct:0,explain:"莱特兄弟发明飞机。",subject:"history"});
+MASTER_HISTORY.push({text:"第一次世界大战爆发于哪一年？",options:["1914年","1913年","1915年","1912年"],correct:0,explain:"1914年一战爆发。",subject:"history"});
+MASTER_HISTORY.push({text:"十月革命爆发于哪一年？",options:["1917年","1916年","1918年","1915年"],correct:0,explain:"1917年十月革命。",subject:"history"});
+MASTER_HISTORY.push({text:"凡尔赛体系确立于哪一年？",options:["1919年","1918年","1920年","1921年"],correct:0,explain:"1919年巴黎和会确立凡尔赛体系。",subject:"history"});
+MASTER_HISTORY.push({text:"经济大危机首先爆发于哪个国家？",options:["美国","英国","德国","法国"],correct:0,explain:"1929年美国首先爆发经济危机。",subject:"history"});
+MASTER_HISTORY.push({text:"罗斯福新政的主要特点是？",options:["国家干预经济","自由放任","计划经济","国有化"],correct:0,explain:"罗斯福新政采用国家干预经济。",subject:"history"});
+MASTER_HISTORY.push({text:"希特勒上台，建立法西斯专政是在哪一年？",options:["1933年","1932年","1934年","1935年"],correct:0,explain:"1933年希特勒上台。",subject:"history"});
+MASTER_HISTORY.push({text:"第二次世界大战全面爆发的时间是？",options:["1939年9月1日","1937年7月7日","1941年12月7日","1940年5月10日"],correct:0,explain:"1939年德国入侵波兰标志二战全面爆发。",subject:"history"});
+MASTER_HISTORY.push({text:"诺曼底登陆开辟欧洲第二战场是在哪一年？",options:["1944年","1943年","1945年","1942年"],correct:0,explain:"1944年诺曼底登陆。",subject:"history"});
+MASTER_HISTORY.push({text:"雅尔塔会议召开于哪一年？",options:["1945年","1944年","1943年","1946年"],correct:0,explain:"1945年雅尔塔会议。",subject:"history"});
+MASTER_HISTORY.push({text:"联合国正式成立的时间是？",options:["1945年","1944年","1946年","1947年"],correct:0,explain:"1945年联合国成立。",subject:"history"});
+MASTER_HISTORY.push({text:"冷战开始的标志是？",options:["杜鲁门主义出台","铁幕演说","马歇尔计划","北约成立"],correct:0,explain:"1947年杜鲁门主义标志冷战开始。",subject:"history"});
+MASTER_HISTORY.push({text:"北约成立的时间是？",options:["1949年","1948年","1950年","1947年"],correct:0,explain:"1949年北约成立。",subject:"history"});
+MASTER_HISTORY.push({text:"华约成立的时间是？",options:["1955年","1954年","1956年","1953年"],correct:0,explain:"1955年华约成立。",subject:"history"});
+MASTER_HISTORY.push({text:"欧盟正式成立的时间是？",options:["1993年","1991年","1992年","1994年"],correct:0,explain:"1993年欧盟正式成立。",subject:"history"});
+console.log("历史201-300题完成，当前总数:", MASTER_HISTORY.length);
+</script><script>
+// 301-320 世界现代史深化
+MASTER_HISTORY.push({text:"第三次科技革命的标志是？",options:["原子能、计算机、航天技术","蒸汽机的发明","电力的应用","内燃机的发明"],correct:0,explain:"原子能、计算机、航天技术是第三次科技革命标志。",subject:"history"});
+MASTER_HISTORY.push({text:"电子计算机诞生于哪一年？",options:["1946年","1945年","1947年","1948年"],correct:0,explain:"1946年第一台电子计算机ENIAC诞生。",subject:"history"});
+MASTER_HISTORY.push({text:"世界贸易组织（WTO）成立的时间是？",options:["1995年","1994年","1996年","1993年"],correct:0,explain:"1995年WTO正式成立。",subject:"history"});
+MASTER_HISTORY.push({text:"欧元正式流通的时间是？",options:["2002年","2001年","2003年","1999年"],correct:0,explain:"2002年欧元正式流通。",subject:"history"});
+MASTER_HISTORY.push({text:"苏联解体的时间是？",options:["1991年","1990年","1992年","1989年"],correct:0,explain:"1991年苏联解体。",subject:"history"});
+MASTER_HISTORY.push({text:"东欧剧变开始于哪一年？",options:["1989年","1988年","1990年","1987年"],correct:0,explain:"1989年东欧剧变开始。",subject:"history"});
+MASTER_HISTORY.push({text:"科索沃战争爆发于哪一年？",options:["1999年","1998年","2000年","1997年"],correct:0,explain:"1999年科索沃战争。",subject:"history"});
+MASTER_HISTORY.push({text:"九一一事件发生在哪一年？",options:["2001年","2000年","2002年","1999年"],correct:0,explain:"2001年九一一事件。",subject:"history"});
+MASTER_HISTORY.push({text:"伊拉克战争爆发于哪一年？",options:["2003年","2002年","2004年","2001年"],correct:0,explain:"2003年伊拉克战争爆发。",subject:"history"});
+MASTER_HISTORY.push({text:"国际金融危机爆发于哪一年？",options:["2008年","2007年","2009年","2006年"],correct:0,explain:"2008年国际金融危机爆发。",subject:"history"});
+MASTER_HISTORY.push({text:"巴黎气候变化协定通过于哪一年？",options:["2015年","2014年","2016年","2013年"],correct:0,explain:"2015年巴黎气候协定通过。",subject:"history"});
+MASTER_HISTORY.push({text:"英国脱欧公投于哪一年举行？",options:["2016年","2015年","2017年","2014年"],correct:0,explain:"2016年英国脱欧公投。",subject:"history"});
+MASTER_HISTORY.push({text:"新冠疫情被世界卫生组织宣布为全球大流行是在哪一年？",options:["2020年","2019年","2021年","2018年"],correct:0,explain:"2020年WHO宣布新冠疫情全球大流行。",subject:"history"});
+MASTER_HISTORY.push({text:"俄乌冲突爆发于哪一年？",options:["2022年","2021年","2023年","2020年"],correct:0,explain:"2022年俄乌冲突爆发。",subject:"history"});
+MASTER_HISTORY.push({text:"人类基因组计划基本完成是在哪一年？",options:["2003年","2000年","2001年","2002年"],correct:0,explain:"2003年人类基因组计划基本完成。",subject:"history"});
+MASTER_HISTORY.push({text:"人工智能AlphaGo战胜围棋世界冠军李世石是在哪一年？",options:["2016年","2015年","2017年","2014年"],correct:0,explain:"2016年AlphaGo战胜李世石。",subject:"history"});
+MASTER_HISTORY.push({text:"墨子号量子科学实验卫星发射成功是在哪一年？",options:["2016年","2015年","2017年","2018年"],correct:0,explain:"2016年墨子号发射成功。",subject:"history"});
+MASTER_HISTORY.push({text:"嫦娥四号实现人类首次月球背面软着陆是在哪一年？",options:["2019年","2018年","2020年","2017年"],correct:0,explain:"2019年嫦娥四号月背着陆。",subject:"history"});
+MASTER_HISTORY.push({text:"天问一号火星探测器成功着陆火星是在哪一年？",options:["2021年","2020年","2022年","2019年"],correct:0,explain:"2021年天问一号着陆火星。",subject:"history"});
+MASTER_HISTORY.push({text:"中国空间站天和核心舱发射成功是在哪一年？",options:["2021年","2020年","2022年","2019年"],correct:0,explain:"2021年天和核心舱发射。",subject:"history"});
+// 321-340
+MASTER_HISTORY.push({text:"古代两河流域文明的代表是？",options:["楔形文字","象形文字","甲骨文","字母文字"],correct:0,explain:"楔形文字是两河流域文明代表。",subject:"history"});
+MASTER_HISTORY.push({text:"古埃及文明的象征是？",options:["金字塔","空中花园","长城","泰姬陵"],correct:0,explain:"金字塔是古埃及文明象征。",subject:"history"});
+MASTER_HISTORY.push({text:"古代印度发明的数字符号是？",options:["阿拉伯数字","罗马数字","希腊数字","巴比伦数字"],correct:0,explain:"古代印度发明包括0在内的数字符号。",subject:"history"});
+MASTER_HISTORY.push({text:"古希腊著名的哲学家不包括？",options:["凯撒","苏格拉底","柏拉图","亚里士多德"],correct:0,explain:"凯撒是罗马政治家。",subject:"history"});
+MASTER_HISTORY.push({text:"罗马共和国时期，平民保民官的职能是？",options:["保护平民利益","管理财政","指挥军队","审理案件"],correct:0,explain:"保民官保护平民利益。",subject:"history"});
+MASTER_HISTORY.push({text:"西罗马帝国灭亡的时间是？",options:["476年","395年","1453年","公元前27年"],correct:0,explain:"476年西罗马帝国灭亡。",subject:"history"});
+MASTER_HISTORY.push({text:"拜占庭帝国又称？",options:["东罗马帝国","西罗马帝国","神圣罗马帝国","奥斯曼帝国"],correct:0,explain:"拜占庭帝国即东罗马帝国。",subject:"history"});
+MASTER_HISTORY.push({text:"《查士丁尼法典》编纂于？",options:["东罗马帝国","西罗马帝国","古希腊","阿拉伯帝国"],correct:0,explain:"《查士丁尼法典》是东罗马帝国法典。",subject:"history"});
+MASTER_HISTORY.push({text:"伊斯兰教经典是？",options:["《古兰经》","《圣经》","《吠陀》","《佛经》"],correct:0,explain:"《古兰经》是伊斯兰教经典。",subject:"history"});
+MASTER_HISTORY.push({text:"阿拉伯帝国对世界文化的贡献不包括？",options:["发明造纸术","传播阿拉伯数字","保存希腊罗马典籍","创立伊斯兰教"],correct:0,explain:"造纸术是中国发明。",subject:"history"});
+MASTER_HISTORY.push({text:"中世纪西欧庄园的特点是？",options:["自给自足","商品交换发达","城市兴起","资本主义萌芽"],correct:0,explain:"西欧庄园是自给自足的经济单位。",subject:"history"});
+MASTER_HISTORY.push({text:"十字军东征的主要目的是？",options:["夺取圣地耶路撒冷","传播基督教","掠夺财富","开辟商路"],correct:0,explain:"十字军东征主要目的是夺取耶路撒冷。",subject:"history"});
+MASTER_HISTORY.push({text:"《大宪章》签署于哪一年？",options:["1215年","1210年","1220年","1200年"],correct:0,explain:"1215年《大宪章》签署。",subject:"history"});
+MASTER_HISTORY.push({text:"英国议会制度的起源可以追溯到？",options:["13世纪","14世纪","12世纪","11世纪"],correct:0,explain:"13世纪英国议会制度开始形成。",subject:"history"});
+MASTER_HISTORY.push({text:"黑死病肆虐欧洲的时间是？",options:["14世纪","13世纪","15世纪","16世纪"],correct:0,explain:"14世纪黑死病席卷欧洲。",subject:"history"});
+MASTER_HISTORY.push({text:"文艺复兴的核心思想是？",options:["人文主义","神本主义","理性主义","自由主义"],correct:0,explain:"文艺复兴核心是人文主义。",subject:"history"});
+MASTER_HISTORY.push({text:"宗教改革中，马丁·路德发表《九十五条论纲》是在哪一年？",options:["1517年","1516年","1518年","1515年"],correct:0,explain:"1517年马丁·路德发表《九十五条论纲》。",subject:"history"});
+MASTER_HISTORY.push({text:"加尔文教派在哪国成为国教？",options:["瑞士","英国","法国","德国"],correct:0,explain:"加尔文教派在瑞士占主导地位。",subject:"history"});
+MASTER_HISTORY.push({text:"英国国教（安立甘宗）确立于？",options:["亨利八世时期","伊丽莎白一世时期","查理一世时期","克伦威尔时期"],correct:0,explain:"亨利八世时期英国国教确立。",subject:"history"});
+MASTER_HISTORY.push({text:"尼德兰革命是世界历史上第一次胜利的资产阶级革命，发生在？",options:["16世纪","15世纪","17世纪","18世纪"],correct:0,explain:"16世纪尼德兰革命。",subject:"history"});
+// 341-360
+MASTER_HISTORY.push({text:"牛顿的主要贡献是？",options:["经典力学体系","进化论","电磁理论","相对论"],correct:0,explain:"牛顿建立经典力学体系。",subject:"history"});
+MASTER_HISTORY.push({text:"达尔文的进化论著作是？",options:["《物种起源》","《自然哲学的数学原理》","《天体运行论》","《几何原本》"],correct:0,explain:"《物种起源》是达尔文著作。",subject:"history"});
+MASTER_HISTORY.push({text:"启蒙运动的中心是？",options:["法国","英国","德国","美国"],correct:0,explain:"法国是启蒙运动中心。",subject:"history"});
+MASTER_HISTORY.push({text:"伏尔泰的思想主张是？",options:["反对君主专制，倡导君主立宪","三权分立","社会契约","人民主权"],correct:0,explain:"伏尔泰倡导君主立宪。",subject:"history"});
+MASTER_HISTORY.push({text:"卢梭的代表作是？",options:["《社会契约论》","《论法的精神》","《哲学通信》","《百科全书》"],correct:0,explain:"卢梭著《社会契约论》。",subject:"history"});
+MASTER_HISTORY.push({text:"孟德斯鸠的三权分立学说主张？",options:["立法、行政、司法三权分立","立法、行政、外交三权分立","行政、司法、监察三权分立","立法、司法、监察三权分立"],correct:0,explain:"三权分立指立法、行政、司法。",subject:"history"});
+MASTER_HISTORY.push({text:"18世纪英国成为日不落帝国，其主要原因是？",options:["殖民扩张","工业革命","制度优势","军事强大"],correct:0,explain:"殖民扩张使英国成为日不落帝国。",subject:"history"});
+MASTER_HISTORY.push({text:"波士顿倾茶事件发生在哪一年？",options:["1773年","1775年","1774年","1776年"],correct:0,explain:"1773年波士顿倾茶事件。",subject:"history"});
+MASTER_HISTORY.push({text:"来克星顿枪声发生在哪一年？",options:["1775年","1774年","1776年","1773年"],correct:0,explain:"1775年来克星顿枪声。",subject:"history"});
+MASTER_HISTORY.push({text:"萨拉托加大捷的意义是？",options:["战争转折点","战争开始","战争结束","战争胜利"],correct:0,explain:"萨拉托加大捷是美国独立战争转折点。",subject:"history"});
+MASTER_HISTORY.push({text:"美国1787年宪法确立的原则是？",options:["三权分立、联邦制、共和制","君主立宪","民主共和","人民主权"],correct:0,explain:"1787年宪法确立三权分立、联邦制、共和制。",subject:"history"});
+MASTER_HISTORY.push({text:"法国三级会议召开于哪一年？",options:["1789年","1788年","1790年","1787年"],correct:0,explain:"1789年三级会议召开。",subject:"history"});
+MASTER_HISTORY.push({text:"《人权宣言》颁布于哪一年？",options:["1789年","1790年","1791年","1792年"],correct:0,explain:"1789年《人权宣言》颁布。",subject:"history"});
+MASTER_HISTORY.push({text:"法兰西第一帝国建立于哪一年？",options:["1804年","1799年","1805年","1800年"],correct:0,explain:"1804年拿破仑建立法兰西第一帝国。",subject:"history"});
+MASTER_HISTORY.push({text:"滑铁卢战役发生于哪一年？",options:["1815年","1814年","1813年","1816年"],correct:0,explain:"1815年滑铁卢战役。",subject:"history"});
+MASTER_HISTORY.push({text:"拉丁美洲独立运动领袖不包括？",options:["华盛顿","玻利瓦尔","圣马丁","伊达尔哥"],correct:0,explain:"华盛顿是美国领袖。",subject:"history"});
+MASTER_HISTORY.push({text:"印度民族大起义发生于哪一年？",options:["1857年","1856年","1858年","1855年"],correct:0,explain:"1857年印度民族大起义。",subject:"history"});
+MASTER_HISTORY.push({text:"日本明治维新的改革措施不包括？",options:["废藩置县","殖产兴业","文明开化","君主立宪制确立"],correct:3,explain:"明治维新后日本实行君主立宪但并非当时确立。",subject:"history"});
+MASTER_HISTORY.push({text:"德意志统一的核心人物是？",options:["俾斯麦","威廉一世","毛奇","威廉二世"],correct:0,explain:"俾斯麦领导德意志统一。",subject:"history"});
+MASTER_HISTORY.push({text:"普法战争发生于哪一年？",options:["1870年","1871年","1869年","1872年"],correct:0,explain:"1870年普法战争爆发。",subject:"history"});
+// 361-380
+MASTER_HISTORY.push({text:"意大利统一的主要人物是？",options:["加里波第、加富尔","马志尼","拿破仑三世","俾斯麦"],correct:0,explain:"加里波第和加富尔是意大利统一领袖。",subject:"history"});
+MASTER_HISTORY.push({text:"马克思的著作《资本论》第一卷出版于哪一年？",options:["1867年","1848年","1871年","1883年"],correct:0,explain:"1867年《资本论》第一卷出版。",subject:"history"});
+MASTER_HISTORY.push({text:"第一国际成立于哪一年？",options:["1864年","1862年","1866年","1868年"],correct:0,explain:"1864年第一国际成立。",subject:"history"});
+MASTER_HISTORY.push({text:"第二国际成立于哪一年？",options:["1889年","1888年","1890年","1887年"],correct:0,explain:"1889年第二国际成立。",subject:"history"});
+MASTER_HISTORY.push({text:"列宁领导的布尔什维克党在俄国十月革命中取得胜利，时间是？",options:["1917年11月","1917年10月","1918年3月","1917年12月"],correct:0,explain:"俄历1917年10月，公历11月。",subject:"history"});
+MASTER_HISTORY.push({text:"战时共产主义政策的内容不包括？",options:["允许自由贸易","余粮收集制","工业国有化","取消商品贸易"],correct:0,explain:"战时共产主义禁止自由贸易。",subject:"history"});
+MASTER_HISTORY.push({text:"新经济政策开始实施于哪一年？",options:["1921年","1920年","1922年","1919年"],correct:0,explain:"1921年开始实施新经济政策。",subject:"history"});
+MASTER_HISTORY.push({text:"苏联成立的时间是？",options:["1922年","1921年","1923年","1924年"],correct:0,explain:"1922年苏联成立。",subject:"history"});
+MASTER_HISTORY.push({text:"斯大林模式形成的标志是？",options:["1936年新宪法颁布","1928年开始五年计划","1927年农业集体化","1930年工业化"],correct:0,explain:"1936年宪法标志斯大林模式形成。",subject:"history"});
+MASTER_HISTORY.push({text:"慕尼黑协定签署于哪一年？",options:["1938年","1937年","1939年","1940年"],correct:0,explain:"1938年慕尼黑协定签署。",subject:"history"});
+MASTER_HISTORY.push({text:"苏德互不侵犯条约签署于哪一年？",options:["1939年","1938年","1940年","1937年"],correct:0,explain:"1939年苏德互不侵犯条约。",subject:"history"});
+MASTER_HISTORY.push({text:"珍珠港事件发生于哪一年？",options:["1941年","1940年","1942年","1943年"],correct:0,explain:"1941年珍珠港事件。",subject:"history"});
+MASTER_HISTORY.push({text:"斯大林格勒战役的意义是？",options:["二战的转折点","欧洲战场的转折点","太平洋战场的转折点","北非战场的转折点"],correct:0,explain:"斯大林格勒战役是二战转折点。",subject:"history"});
+MASTER_HISTORY.push({text:"中途岛战役的意义是？",options:["太平洋战争转折点","二战转折点","欧洲战场转折点","北非战场转折点"],correct:0,explain:"中途岛战役是太平洋战争转折点。",subject:"history"});
+MASTER_HISTORY.push({text:"阿拉曼战役的意义是？",options:["北非战场转折点","欧洲战场转折点","太平洋战场转折点","二战转折点"],correct:0,explain:"阿拉曼战役是北非战场转折点。",subject:"history"});
+MASTER_HISTORY.push({text:"开罗会议召开于哪一年？",options:["1943年","1942年","1944年","1945年"],correct:0,explain:"1943年开罗会议。",subject:"history"});
+MASTER_HISTORY.push({text:"德黑兰会议召开于哪一年？",options:["1943年","1942年","1944年","1945年"],correct:0,explain:"1943年德黑兰会议。",subject:"history"});
+MASTER_HISTORY.push({text:"波茨坦会议召开于哪一年？",options:["1945年","1944年","1946年","1943年"],correct:0,explain:"1945年波茨坦会议。",subject:"history"});
+MASTER_HISTORY.push({text:"日本投降签字仪式在密苏里号战舰上举行，时间是？",options:["1945年9月2日","1945年8月15日","1945年9月9日","1945年8月6日"],correct:0,explain:"1945年9月2日日本正式投降。",subject:"history"});
+MASTER_HISTORY.push({text:"联合国安理会常任理事国是？",options:["中、美、俄、英、法","中、美、俄、英、德","中、美、俄、英、日","中、美、俄、英、意"],correct:0,explain:"五常：中、美、俄、英、法。",subject:"history"});
+// 381-400
+MASTER_HISTORY.push({text:"冷战期间，两大军事集团是？",options:["北约与华约","欧盟与独联体","同盟国与协约国","轴心国与同盟国"],correct:0,explain:"北约与华约是冷战两大军事集团。",subject:"history"});
+MASTER_HISTORY.push({text:"柏林墙倒塌的时间是？",options:["1989年","1990年","1988年","1991年"],correct:0,explain:"1989年柏林墙倒塌。",subject:"history"});
+MASTER_HISTORY.push({text:"德国统一的时间是？",options:["1990年","1989年","1991年","1992年"],correct:0,explain:"1990年两德统一。",subject:"history"});
+MASTER_HISTORY.push({text:"海湾战争爆发于哪一年？",options:["1991年","1990年","1992年","1993年"],correct:0,explain:"1991年海湾战争。",subject:"history"});
+MASTER_HISTORY.push({text:"科索沃战争中，北约轰炸南联盟是在哪一年？",options:["1999年","1998年","2000年","1997年"],correct:0,explain:"1999年北约轰炸南联盟。",subject:"history"});
+MASTER_HISTORY.push({text:"阿富汗战争爆发于哪一年？",options:["2001年","2000年","2002年","1999年"],correct:0,explain:"2001年阿富汗战争爆发。",subject:"history"});
+MASTER_HISTORY.push({text:"阿拉伯之春运动开始于哪一年？",options:["2010年","2011年","2009年","2012年"],correct:0,explain:"2010年阿拉伯之春开始。",subject:"history"});
+MASTER_HISTORY.push({text:"伊斯兰国极端组织崛起的时间是？",options:["2014年","2013年","2015年","2012年"],correct:0,explain:"2014年伊斯兰国极端组织崛起。",subject:"history"});
+MASTER_HISTORY.push({text:"全球气候变化《巴黎协定》签署于哪一年？",options:["2015年","2014年","2016年","2013年"],correct:0,explain:"2015年《巴黎协定》签署。",subject:"history"});
+MASTER_HISTORY.push({text:"新冠疫情被定性为全球大流行后，世界各国采取的措施不包括？",options:["放弃防控","封锁","社交距离","疫苗研发"],correct:0,explain:"各国未放弃防控。",subject:"history"});
+MASTER_HISTORY.push({text:"2022年北京冬奥会的主题口号是？",options:["一起向未来","同一个世界，同一个梦想","点燃心中之火","激情约会"],correct:0,explain:"2022年北京冬奥会主题口号'一起向未来'。",subject:"history"});
+MASTER_HISTORY.push({text:"2025年是抗日战争胜利多少周年？",options:["80周年","75周年","70周年","85周年"],correct:0,explain:"1945年到2025年是80周年。",subject:"history"});
+MASTER_HISTORY.push({text:"2026年是红军长征胜利多少周年？",options:["90周年","85周年","80周年","95周年"],correct:0,explain:"1936年到2026年是90周年。",subject:"history"});
+MASTER_HISTORY.push({text:"2025年是中国共产党成立多少周年？",options:["104周年","100周年","105周年","110周年"],correct:0,explain:"1921年到2025年是104周年。",subject:"history"});
+MASTER_HISTORY.push({text:"2026年是中华人民共和国成立多少周年？",options:["77周年","75周年","80周年","70周年"],correct:0,explain:"1949年到2026年是77周年。",subject:"history"});
+MASTER_HISTORY.push({text:"2025年是西藏和平解放多少周年？",options:["74周年","70周年","75周年","80周年"],correct:0,explain:"1951年到2025年是74周年。",subject:"history"});
+MASTER_HISTORY.push({text:"2026年是抗美援朝战争胜利多少周年？",options:["73周年","70周年","75周年","80周年"],correct:0,explain:"1953年到2026年是73周年。",subject:"history"});
+MASTER_HISTORY.push({text:"2025年是万隆会议召开多少周年？",options:["70周年","65周年","75周年","60周年"],correct:0,explain:"1955年到2025年是70周年。",subject:"history"});
+MASTER_HISTORY.push({text:"2026年是尼克松访华多少周年？",options:["54周年","50周年","55周年","60周年"],correct:0,explain:"1972年到2026年是54周年。",subject:"history"});
+MASTER_HISTORY.push({text:"2025年是联合国成立多少周年？",options:["80周年","75周年","70周年","85周年"],correct:0,explain:"1945年到2025年是80周年。",subject:"history"});
+
+console.log("历史301-400题完成，历史总题数:", MASTER_HISTORY.length);
+console.log("道法总题数:", MASTER_DAOFA.length);
+console.log("总题库:", MASTER_DAOFA.length + MASTER_HISTORY.length);
+
+// 启动游戏
+window.initGame();
+</script>
 </body>
 </html>
-    
-   
