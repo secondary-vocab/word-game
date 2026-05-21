@@ -663,6 +663,14 @@ if(isTrialMode) {
 // 启动游戏
 initGame();
 </script>
+<script>
+document.getElementById('doLoginBtn').addEventListener('click', function() {
+    var phone = document.getElementById('phoneNumber').value.trim();
+    if (phone === '13900000000') alert('试用模式');
+    else if (phone === '13971005659') alert('正式授权');
+    else alert('未授权手机号');
+});
+</script>
 </body>
 </html><script>
 // 为每个学科独立存储错题本
