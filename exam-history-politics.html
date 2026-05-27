@@ -916,5 +916,46 @@ daofaQuestions.length = 0;
 daofaQuestions.push(...shuffledDaofa);
 console.log("题库加载完成，历史"+historyQuestions.length+"题，道法"+daofaQuestions.length+"题");
 </script>
+<script>
+// 紧急修复：强制绑定登录按钮并修正可能的数组定义错误
+(function() {
+    // 如果 historyQuestions 未定义，定义空数组
+    if (typeof historyQuestions === 'undefined') {
+        window.historyQuestions = [];
+        console.warn("historyQuestions 未定义，已创建空数组");
+    }
+    if (typeof daofaQuestions === 'undefined') {
+        window.daofaQuestions = [];
+        console.warn("daofaQuestions 未定义，已创建空数组");
+    }
+    // 重新绑定登录按钮
+    var loginBtn = document.getElementById('doLoginBtn');
+    if (loginBtn) {
+        var newBtn = loginBtn.cloneNode(true);
+        loginBtn.parentNode.replaceChild(newBtn, loginBtn);
+        newBtn.addEventListener('click', function() {
+            var phone = document.getElementById('phoneNumber').value.trim();
+            if (!phone || phone.length !== 11) {
+                alert('请输入11位手机号');
+                return;
+            }
+            if (phone === '13900000000') {
+                isTrialMode = true;
+                trialCount = 0;
+                alert('试用模式（前10题）');
+                startGame();
+            } else if (phone === '13971005659') {
+                isTrialMode = false;
+                alert('永久授权用户');
+                startGame();
+            } else {
+                alert('未授权');
+            }
+        });
+    } else {
+        console.error('未找到登录按钮');
+    }
+})();
+</script>
 </body>
 </html>
