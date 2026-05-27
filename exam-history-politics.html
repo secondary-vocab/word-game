@@ -958,4 +958,38 @@ console.log("题库加载完成，历史"+historyQuestions.length+"题，道法"
 })();
 </script>
 </body>
+<script>
+// 强制修复登录和游戏启动（放在文件最后）
+(function() {
+    // 确保 startGame 函数存在
+    if (typeof startGame !== 'function') {
+        window.startGame = function() {
+            document.getElementById('loginPanel').style.display = 'none';
+            document.getElementById('gamePanel').style.display = 'block';
+            // 如果题库数据已加载，则加载关卡
+            if (typeof loadLevel === 'function') {
+                loadLevel();
+            } else {
+                console.warn('loadLevel 未定义，请检查题库数据');
+            }
+        };
+    }
+    // 重新绑定登录按钮，防止原有绑定失效
+    var btn = document.getElementById('doLoginBtn');
+    if (btn) {
+        btn.onclick = function() {
+            var phone = document.getElementById('phoneNumber').value.trim();
+            if (phone === '13900000000') {
+                alert('试用模式（前10题）');
+                startGame();
+            } else if (phone === '13971005659') {
+                alert('永久授权用户');
+                startGame();
+            } else {
+                alert('未授权手机号');
+            }
+        };
+    }
+})();
+</script>
 </html>
