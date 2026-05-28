@@ -86,6 +86,13 @@
 let currentSubject="history",currentLevel=1,currentQuestions=[],currentIndex=0,levelScore=0,levelAnswers=[],questionLocked=false,isTrialMode=false,trialCount=0;
 const TRIAL_LIMIT=10,TRIAL_PHONE="13900000000",FULL_PHONE="13971005659";
 let wrongListHistory=[],wrongListDaofa=[],subjectProgress={history:{level:1,score:0,answers:[],currentIndex:0},daofa:{level:1,score:0,answers:[],currentIndex:0}};
+// 内嵌题库（2道测试题）
+const historyQuestions = [
+    {text:"中国历史上第一个王朝是？",options:["夏朝","商朝","周朝","秦朝"],answerIndex:0,explanation:"约公元前2070年禹建立夏朝。",stars:2}
+];
+const daofaQuestions = [
+    {text:"中国特色社会主义最本质的特征是？",options:["人民民主专政","中国共产党领导","依法治国","以德治国"],answerIndex:1,explanation:"中国共产党领导是中国特色社会主义最本质的特征。",stars:2}
+];
 function shuffleArray(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function loadLevel(){currentQuestions=(currentSubject==='history'?historyQuestions:daofaQuestions).slice((currentLevel-1)*20,currentLevel*20);currentIndex=0;levelScore=0;levelAnswers=[];questionLocked=false;renderQuestion();updateUI();saveProgress()}
 function renderQuestion(){if(!currentQuestions.length||currentIndex>=currentQuestions.length)return;let q=currentQuestions[currentIndex];document.getElementById('questionText').innerText=q.text;let stars='';for(let i=1;i<=5;i++)stars+=i<=q.stars?'★':'☆';document.getElementById('starDisplay').innerHTML=stars;let optsDiv=document.getElementById('optionsArea');optsDiv.innerHTML='';q.options.forEach((opt,idx)=>{let btn=document.createElement('button');btn.innerText=`${String.fromCharCode(65+idx)}. ${opt}`;btn.className='option-item';btn.onclick=()=>handleAnswer(idx);optsDiv.appendChild(btn)});document.getElementById('explainArea').classList.remove('show');document.getElementById('explainArea').innerHTML='';questionLocked=false;updateUI()}
@@ -99,16 +106,6 @@ function switchSubject(s){if(s===currentSubject)return;subjectProgress[currentSu
 function showWrongNotes(){let w=currentSubject==='history'?wrongListHistory:wrongListDaofa;if(w.length===0){alert('暂无错题');return}let msg='📖错题本：\n\n';w.forEach((wi,idx)=>{msg+=`${idx+1}. ${wi.text}\n   你的答案:${wi.userAnswer}\n   正确答案:${wi.correctAnswer}\n   解析:${wi.explain}\n\n`});if(confirm(msg+'\n是否重做所有错题？')){if(currentSubject==='history')wrongListHistory=[];else wrongListDaofa=[];localStorage.setItem('wrongList_history',JSON.stringify(wrongListHistory));localStorage.setItem('wrongList_daofa',JSON.stringify(wrongListDaofa));alert('错题本已清空，请重新练习');loadLevel()}}
 function startGame(){document.getElementById('loginPanel').style.display='none';document.getElementById('gamePanel').style.display='block';loadLevel()}
 document.addEventListener('DOMContentLoaded',()=>{loadFromStorage();document.getElementById('doLoginBtn').addEventListener('click',()=>{let p=document.getElementById('phoneNumber').value.trim();if(!p||p.length!==11){alert('请输入11位手机号');return}if(p===TRIAL_PHONE){isTrialMode=true;trialCount=0;alert('试用模式（前10题）');startGame()}else if(p===FULL_PHONE){isTrialMode=false;alert('永久授权用户');startGame()}else{alert('未授权')}});document.getElementById('nextBtn').addEventListener('click',nextQuestion);document.getElementById('redoBtn').addEventListener('click',redoCurrentQuestion);document.getElementById('wrongNoteBtn').addEventListener('click',showWrongNotes);document.querySelectorAll('.subject-btn').forEach(btn=>{btn.addEventListener('click',()=>switchSubject(btn.dataset.subject))})});
-// 题库数据将通过外部 questions.json 加载
-fetch('questions.json')
-    .then(res=>res.json())
-    .then(data=>{
-        window.historyQuestions = data.history;
-        window.daofaQuestions = data.daofa;
-        console.log('题库加载成功，历史'+window.historyQuestions.length+'题，道法'+window.daofaQuestions.length+'题');
-        if(document.getElementById('gamePanel').style.display==='block') loadLevel();
-    })
-    .catch(e=>console.error('题库加载失败',e));
 </script>
 </body>
 </html>
