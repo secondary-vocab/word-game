@@ -3,111 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>道法历史中考冲刺</title>
+    <title>道法历史 · 闯关</title>
     <style>
-        *{box-sizing:border-box;user-select:none}
-        body{background:linear-gradient(135deg,#667eea,#764ba2);font-family:'Segoe UI','PingFang SC',Roboto,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;padding:20px}
-        .game-container{max-width:700px;width:100%;background:#fff;border-radius:56px;box-shadow:0 20px 40px rgba(0,0,0,0.1);overflow:hidden}
-        .phone-login{background:#f8fafc;padding:32px 24px;border-radius:40px;margin:20px;text-align:center}
-        .phone-login h3{font-size:24px;margin-bottom:8px;color:#1e293b}
-        .phone-input{padding:14px;font-size:18px;border-radius:60px;border:1px solid #ccc;width:90%;text-align:center;margin:16px 0}
-        .login-btn{background:#0f172a;color:#fff;padding:12px 28px;border-radius:60px;font-size:18px;border:none;cursor:pointer;width:90%}
-        .small-note{font-size:13px;color:#4b5563;margin-top:16px}
-        .game-panel{display:none}
-        .game-header{background:linear-gradient(135deg,#667eea,#764ba2);padding:20px;color:#fff}
-        .subject-switch{display:flex;gap:12px;margin-bottom:12px}
-        .subject-btn{background:rgba(255,255,255,0.2);border:none;padding:6px 16px;border-radius:40px;color:#fff;cursor:pointer}
-        .subject-btn.active{background:#fff;color:#667eea}
-        .stats-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-        .score-box,.accuracy-box{background:rgba(0,0,0,0.2);padding:4px 12px;border-radius:20px;font-size:14px}
-        .wrongnote-btn{background:#f59e0b;border:none;padding:4px 12px;border-radius:20px;color:#fff;cursor:pointer}
-        .progress-area{background:#f1f5f9;padding:12px 20px}
-        .level-info{display:flex;justify-content:space-between;margin-bottom:6px;font-size:14px}
-        .progress-bar-bg{background:#e2e8f0;border-radius:10px;height:6px;overflow:hidden}
-        .progress-bar-fill{background:linear-gradient(90deg,#667eea,#764ba2);width:0%;height:100%;transition:width .2s}
-        .question-area{padding:20px}
-        .difficulty-stars{font-size:18px;color:#ffb800;margin-bottom:8px}
-        .question-text{font-size:20px;font-weight:600;line-height:1.4;margin-bottom:20px}
-        .options-area{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
-        .option-item{background:#f8fafc;border:2px solid #e2e8f0;border-radius:60px;padding:12px 16px;font-size:15px;text-align:left;cursor:pointer}
-        .option-item.correct-highlight{background:#dcfce7;border-color:#22c55e}
-        .option-item.wrong-highlight{background:#fee2e2;border-color:#ef4444}
-        .option-item.disabled-opt{cursor:default;opacity:.7}
-        .explain-area{background:#eef2ff;border-radius:16px;padding:12px;font-size:14px;color:#1e40af;display:none}
-        .explain-area.show{display:block}
-        .action-buttons{display:flex;gap:12px;padding:0 20px 20px}
-        .redo-btn,.next-btn{flex:1;padding:12px;border-radius:60px;font-size:16px;font-weight:700;border:none;cursor:pointer}
-        .redo-btn{background:#f1f5f9}
-        .next-btn{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
-        .level-result{background:#fff;border-radius:32px;padding:24px;text-align:center;margin:20px}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, 'PingFang SC', 'Segoe UI', Roboto, sans-serif;
+            background: #FBF9F5;
+            color: #2C2C2C;
+            min-height: 100vh;
+            padding: 20px 16px 80px;
+            display: flex;
+            justify-content: center;
+        }
+        .app {
+            max-width: 480px;
+            width: 100%;
+        }
+        /* 顶部切换栏 */
+        .tab-bar {
+            display: flex;
+            gap: 0;
+            background: #F0EDE8;
+            border-radius: 40px;
+            padding: 4px;
+            margin-bottom: 28px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 12px 0;
+            border: none;
+            border-radius: 36px;
+            background: transparent;
+            font-size: 17px;
+            font-weight: 500;
+            color: #8A8A8A;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .tab-btn.active {
+            background: #FFFFFF;
+            color: #2C2C2C;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        /* 进度地图 */
+        .map-section {
+            background: #FFFFFF;
+            border-radius: 28px;
+            padding: 24px 20px 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+        }
+        .map-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #6B6B6B;
+            margin-bottom: 20px;
+            letter-spacing: 0.3px;
+        }
+        .map-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            padding: 0 4px;
+        }
+        .map-row::before {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 24px;
+            right: 24px;
+            height: 2px;
+            background: #E8E4DE;
+            z-index: 0;
+        }
+        .node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1;
+            cursor: pointer;
+            gap: 6px;
+        }
+        .node-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #D6D2CA;
+            background: #FBF9F5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #B0B0B0;
+            transition: all 0.3s;
+        }
+        .node.done .node-circle {
+            border-color: #5B7B8A;
+            background: #5B7B8A;
+            color: #fff;
+        }
+        .node.current .node-circle {
+            border-color: #5B7B8A;
+            border-width: 2px;
+            background: #FFFFFF;
+            color: #5B7B8A;
+        }
+        .node-label {
+            font-size: 12px;
+            color: #8A8A8A;
+            font-weight: 450;
+            letter-spacing: 0.2px;
+        }
+        .node.done .node-label { color: #5B7B8A; font-weight: 500; }
+        .node.current .node-label { color: #2C2C2C; font-weight: 500; }
+        /* 统计卡片 */
+        .stats-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            flex: 1;
+            background: #F8F6F3;
+            border-radius: 18px;
+            padding: 16px 12px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2C2C2C;
+            letter-spacing: -0.5px;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #8A8A8A;
+            margin-top: 2px;
+        }
+        /* 入口按钮 */
+        .action-grid {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 16px 0;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 500;
+            background: #FFFFFF;
+            color: #2C2C2C;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .action-btn.primary {
+            background: #2C2C2C;
+            color: #FFFFFF;
+        }
+        .action-btn.primary:active { opacity: 0.8; }
+        .action-btn:active { transform: scale(0.97); }
+        /* 底部 */
+        .footer {
+            font-size: 13px;
+            color: #B8B8B8;
+            text-align: center;
+            padding-top: 16px;
+            border-top: 1px solid #F0EDE8;
+        }
     </style>
 </head>
 <body>
-<div class="game-container">
-    <div id="loginPanel" class="phone-login">
-        <h3>📱 道法历史冲刺</h3>
-        <p>输入手机号验证授权</p>
-        <input type="tel" id="phoneNumber" class="phone-input" placeholder="11位手机号" maxlength="11"><br>
-        <button id="doLoginBtn" class="login-btn">验证并登录</button>
-        <div class="small-note">🔓 试用手机：13900000000（前10题）<br>✅ 正式授权请联系客服开通</div>
+<div class="app" id="app">
+    <!-- 切换栏 -->
+    <div class="tab-bar">
+        <button class="tab-btn active" data-subject="history">历史</button>
+        <button class="tab-btn" data-subject="daofa">道法</button>
     </div>
-    <div id="gamePanel" class="game-panel">
-        <div class="game-header">
-            <div class="subject-switch">
-                <button class="subject-btn active" data-subject="history">📜 历史</button>
-                <button class="subject-btn" data-subject="daofa">📖 道德与法治</button>
+
+    <!-- 进度地图 -->
+    <div class="map-section">
+        <div class="map-title">学习进度 · 八年级</div>
+        <div class="map-row" id="mapRow">
+            <div class="node done" data-module="七上">
+                <div class="node-circle">✓</div>
+                <span class="node-label">七上</span>
             </div>
-            <div class="stats-row">
-                <span class="score-box">🏆 得分: <span id="scoreValue">0</span></span>
-                <span class="accuracy-box">📊 正确率: <span id="accuracyValue">0</span>%</span>
-                <button class="wrongnote-btn" id="wrongNoteBtn">📋 错题本</button>
+            <div class="node done" data-module="七下">
+                <div class="node-circle">✓</div>
+                <span class="node-label">七下</span>
             </div>
-        </div>
-        <div class="progress-area">
-            <div class="level-info">
-                <span id="levelName">第1关 · 历史</span>
-                <span id="questionProgress">0/20 题</span>
+            <div class="node current" data-module="八上">
+                <div class="node-circle">3</div>
+                <span class="node-label">八上</span>
             </div>
-            <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
-        </div>
-        <div class="question-area">
-            <div class="difficulty-stars" id="starDisplay">★★★☆☆</div>
-            <div class="question-text" id="questionText">加载中...</div>
-            <div class="options-area" id="optionsArea"></div>
-            <div class="explain-area" id="explainArea"></div>
-        </div>
-        <div class="action-buttons">
-            <button class="redo-btn" id="redoBtn">🔄 重做本题</button>
-            <button class="next-btn" id="nextBtn">下一题 ➡️</button>
+            <div class="node" data-module="八下">
+                <div class="node-circle">4</div>
+                <span class="node-label">八下</span>
+            </div>
         </div>
     </div>
+
+    <!-- 统计 -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="stat-number">43</div>
+            <div class="stat-label">已完成</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">72%</div>
+            <div class="stat-label">正确率</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">200</div>
+            <div class="stat-label">总题数</div>
+        </div>
+    </div>
+
+    <!-- 入口 -->
+    <div class="action-grid">
+        <button class="action-btn primary" id="continueBtn">继续学习</button>
+        <button class="action-btn" id="wrongBtn">错题本</button>
+        <button class="action-btn" id="reportBtn">诊断报告</button>
+    </div>
+
+    <div class="footer">道法历史 · 闯关诊断</div>
 </div>
+
 <script>
-let currentSubject="history",currentLevel=1,currentQuestions=[],currentIndex=0,levelScore=0,levelAnswers=[],questionLocked=false,isTrialMode=false,trialCount=0;
-const TRIAL_LIMIT=10,TRIAL_PHONE="13900000000",FULL_PHONE="13971005659";
-let wrongListHistory=[],wrongListDaofa=[],subjectProgress={history:{level:1,score:0,answers:[],currentIndex:0},daofa:{level:1,score:0,answers:[],currentIndex:0}};
-fetch('questions.json')
-    .then(res=>res.json())
-    .then(data=>{
-        window.historyQuestions = data.history;
-        window.daofaQuestions = data.daofa;
-        console.log('题库加载成功，历史'+window.historyQuestions.length+'题，道法'+window.daofaQuestions.length+'题');
-        if(document.getElementById('gamePanel').style.display==='block') loadLevel();
-    })
-    .catch(e=>console.error('题库加载失败',e));
-function shuffleArray(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function loadLevel(){currentQuestions=(currentSubject==='history'?historyQuestions:daofaQuestions).slice((currentLevel-1)*20,currentLevel*20);currentIndex=0;levelScore=0;levelAnswers=[];questionLocked=false;renderQuestion();updateUI();saveProgress()}
-function renderQuestion(){if(!currentQuestions.length||currentIndex>=currentQuestions.length)return;let q=currentQuestions[currentIndex];document.getElementById('questionText').innerText=q.text;let stars='';for(let i=1;i<=5;i++)stars+=i<=q.stars?'★':'☆';document.getElementById('starDisplay').innerHTML=stars;let optsDiv=document.getElementById('optionsArea');optsDiv.innerHTML='';q.options.forEach((opt,idx)=>{let btn=document.createElement('button');btn.innerText=`${String.fromCharCode(65+idx)}. ${opt}`;btn.className='option-item';btn.onclick=()=>handleAnswer(idx);optsDiv.appendChild(btn)});document.getElementById('explainArea').classList.remove('show');document.getElementById('explainArea').innerHTML='';questionLocked=false;updateUI()}
-function updateUI(){let total=currentQuestions.length,answered=levelAnswers.length,percent=total>0?(answered/total)*100:0;document.getElementById('progressFill').style.width=percent+'%';document.getElementById('questionProgress').innerText=`${answered}/${total}题`;let maxScore=total*5,correctCount=levelAnswers.filter(v=>v===true).length,acc=total>0?Math.round(correctCount/total*100):0;document.getElementById('scoreValue').innerText=`${levelScore}/${maxScore}`;document.getElementById('accuracyValue').innerText=acc;document.getElementById('levelName').innerText=`第${currentLevel}关·${currentSubject==='history'?'历史':'道法'}`}
-function saveProgress(){subjectProgress[currentSubject]={level:currentLevel,score:levelScore,answers:levelAnswers,currentIndex:currentIndex};localStorage.setItem('subjectProgress',JSON.stringify(subjectProgress))}
-function loadFromStorage(){let sp=localStorage.getItem('subjectProgress');if(sp){try{let p=JSON.parse(sp);if(p.history)subjectProgress.history=p.history;if(p.daofa)subjectProgress.daofa=p.daofa}catch(e){}}let wh=localStorage.getItem('wrongList_history');if(wh)wrongListHistory=JSON.parse(wh);let wd=localStorage.getItem('wrongList_daofa');if(wd)wrongListDaofa=JSON.parse(wd)}
-function handleAnswer(s){if(questionLocked)return;let q=currentQuestions[currentIndex],isCorrect=(s===q.answerIndex);if(isTrialMode&&trialCount>=TRIAL_LIMIT){alert('试用次数已用完');return}levelAnswers[currentIndex]=isCorrect;if(isCorrect){levelScore+=5;if(isTrialMode)trialCount++}else{let wi={text:q.text,userAnswer:q.options[s],correctAnswer:q.options[q.answerIndex],explain:q.explanation};if(currentSubject==='history')wrongListHistory.push(wi);else wrongListDaofa.push(wi);if(isTrialMode)trialCount++}let btns=document.querySelectorAll('.option-item');btns.forEach((btn,idx)=>{btn.classList.add('disabled-opt');if(idx===q.answerIndex)btn.classList.add('correct-highlight');if(idx===s&&idx!==q.answerIndex)btn.classList.add('wrong-highlight')});let ed=document.getElementById('explainArea');ed.innerHTML=q.explanation||(isCorrect?'✅正确':`❌正确答案：${q.options[q.answerIndex]}`);ed.classList.add('show');questionLocked=true;updateUI();saveProgress();if(isTrialMode&&trialCount>=TRIAL_LIMIT)setTimeout(()=>alert('试用已用完'),100)}
-function nextQuestion(){if(!questionLocked&&levelAnswers[currentIndex]===undefined){alert('请先回答本题');return}if(currentIndex+1<currentQuestions.length){currentIndex++;renderQuestion()}else{let total=currentQuestions.length,correctCount=levelAnswers.filter(v=>v===true).length,rate=correctCount/total;if(rate>=0.8){if(currentLevel<20){alert(`🎉过关！进入第${currentLevel+1}关`);currentLevel++;loadLevel()}else{alert('🏆通关！');let d=document.createElement('div');d.className='level-result';d.innerHTML='<h3>🏆通关！</h3><button onclick="location.reload()">重新开始</button>';document.querySelector('.question-area').after(d)}}else{alert(`❌未过关(${Math.round(rate*100)}%)，重做本关`);if(!document.getElementById('retryBtn')){let b=document.createElement('button');b.id='retryBtn';b.innerText='重做本关';b.className='redo-btn';b.onclick=()=>{loadLevel();b.remove()};document.querySelector('.action-buttons').after(b)}}}}
-function redoCurrentQuestion(){if(!questionLocked&&levelAnswers[currentIndex]===undefined){alert('请先完成本题');return}if(levelAnswers[currentIndex]===true)levelScore-=5;levelAnswers[currentIndex]=undefined;questionLocked=false;renderQuestion();updateUI()}
-function switchSubject(s){if(s===currentSubject)return;subjectProgress[currentSubject]={level:currentLevel,score:levelScore,answers:levelAnswers,currentIndex:currentIndex};currentSubject=s;if(subjectProgress[currentSubject]){currentLevel=subjectProgress[currentSubject].level||1;levelScore=subjectProgress[currentSubject].score||0;levelAnswers=subjectProgress[currentSubject].answers||[];currentIndex=subjectProgress[currentSubject].currentIndex||0}else{currentLevel=1;levelScore=0;levelAnswers=[];currentIndex=0}loadLevel();document.querySelectorAll('.subject-btn').forEach(btn=>{btn.classList.toggle('active',btn.dataset.subject===s)});saveProgress()}
-function showWrongNotes(){let w=currentSubject==='history'?wrongListHistory:wrongListDaofa;if(w.length===0){alert('暂无错题');return}let msg='📖错题本：\n\n';w.forEach((wi,idx)=>{msg+=`${idx+1}. ${wi.text}\n   你的答案:${wi.userAnswer}\n   正确答案:${wi.correctAnswer}\n   解析:${wi.explain}\n\n`});if(confirm(msg+'\n是否重做所有错题？')){if(currentSubject==='history')wrongListHistory=[];else wrongListDaofa=[];localStorage.setItem('wrongList_history',JSON.stringify(wrongListHistory));localStorage.setItem('wrongList_daofa',JSON.stringify(wrongListDaofa));alert('错题本已清空，请重新练习');loadLevel()}}
-function startGame(){document.getElementById('loginPanel').style.display='none';document.getElementById('gamePanel').style.display='block';loadLevel()}
-document.addEventListener('DOMContentLoaded',()=>{loadFromStorage();document.getElementById('doLoginBtn').addEventListener('click',()=>{let p=document.getElementById('phoneNumber').value.trim();if(!p||p.length!==11){alert('请输入11位手机号');return}if(p===TRIAL_PHONE){isTrialMode=true;trialCount=0;alert('试用模式（前10题）');startGame()}else if(p===FULL_PHONE){isTrialMode=false;alert('永久授权用户');startGame()}else{alert('未授权')}});document.getElementById('nextBtn').addEventListener('click',nextQuestion);document.getElementById('redoBtn').addEventListener('click',redoCurrentQuestion);document.getElementById('wrongNoteBtn').addEventListener('click',showWrongNotes);document.querySelectorAll('.subject-btn').forEach(btn=>{btn.addEventListener('click',()=>switchSubject(btn.dataset.subject))})});
+    // 切换历史/道法
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            // 这里可以切换题库数据
+            console.log('切换到：', this.dataset.subject);
+        });
+    });
+
+    // 点击节点跳转
+    document.querySelectorAll('.node').forEach(node => {
+        node.addEventListener('click', function() {
+            alert('进入：' + this.dataset.module);
+        });
+    });
+
+    // 继续学习
+    document.getElementById('continueBtn').addEventListener('click', function() {
+        alert('继续学习（跳转到上次进度）');
+    });
+
+    // 错题本
+    document.getElementById('wrongBtn').addEventListener('click', function() {
+        alert('打开错题本');
+    });
+
+    // 诊断报告
+    document.getElementById('reportBtn').addEventListener('click', function() {
+        alert('查看诊断报告');
+    });
 </script>
 </body>
 </html>
