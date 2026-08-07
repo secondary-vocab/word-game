@@ -5,11 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>道法历史闯关</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-            background: #0f0f13;
-            color: #f0ece6;
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: #f0ece6;
+            color: #1a1a1a;
             min-height: 100vh;
             padding: 20px 16px 100px;
             display: flex;
@@ -26,19 +30,19 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0 16px;
+            padding: 4px 0 20px;
         }
         .logo {
             font-size: 22px;
             font-weight: 700;
-            letter-spacing: 1px;
-            background: linear-gradient(135deg, #f7d875, #f5b342);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+            color: #1a1a1a;
         }
-        .logo span { font-weight: 300; -webkit-text-fill-color: #888; }
+        .logo span {
+            color: #f5a342;
+        }
         .user-badge {
-            background: rgba(255,255,255,0.06);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-radius: 30px;
@@ -47,152 +51,92 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #555;
         }
         .user-badge .dot {
-            width: 8px; height: 8px;
+            width: 8px;
+            height: 8px;
             background: #5fcb7a;
             border-radius: 50%;
             display: inline-block;
         }
 
-        /* 进度卡片 - 毛玻璃 */
+        /* 毛玻璃卡片 */
         .glass-card {
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border-radius: 28px;
-            padding: 20px 20px 24px;
-            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 24px;
+            padding: 20px 20px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
             margin-bottom: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-            transition: all 0.2s;
-        }
-        .glass-card.dark {
-            background: rgba(20,20,26,0.7);
         }
 
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-        }
-        .progress-header h3 {
-            font-size: 16px;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-        }
-        .progress-header .tag {
-            font-size: 12px;
-            color: #f7d875;
-            background: rgba(247,216,117,0.12);
-            padding: 4px 12px;
-            border-radius: 30px;
-        }
-        .progress-ring-wrap {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .progress-ring {
-            position: relative;
-            width: 72px; height: 72px;
-            flex-shrink: 0;
-        }
-        .progress-ring svg {
-            transform: rotate(-90deg);
-            width: 72px; height: 72px;
-        }
-        .progress-ring .bg { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 6; }
-        .progress-ring .fg { fill: none; stroke: #f7d875; stroke-width: 6; stroke-linecap: round; stroke-dasharray: 188.5; stroke-dashoffset: 90; transition: stroke-dashoffset 0.6s; }
-        .progress-ring .center-text {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 18px; font-weight: 600; color: #f0ece6;
-        }
-        .progress-ring .center-text small { font-size: 11px; font-weight: 400; color: #888; }
-        .progress-stats {
+        /* 路径列表 */
+        .path-list {
             display: flex;
             flex-direction: column;
             gap: 4px;
-            font-size: 14px;
         }
-        .progress-stats .stat-row {
+        .path-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-        .progress-stats .stat-row .label { color: #999; font-size: 13px; }
-        .progress-stats .stat-row .value { color: #f0ece6; font-weight: 500; }
-        .progress-stats .stat-row .value.gold { color: #f7d875; }
-
-        /* 学科切换 */
-        .subject-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .subject-tabs .tab {
-            flex: 1;
-            padding: 12px 0;
-            text-align: center;
-            border-radius: 16px;
-            font-size: 15px;
-            font-weight: 500;
-            background: rgba(255,255,255,0.04);
-            color: #888;
-            transition: all 0.25s;
-            border: 1px solid transparent;
-            cursor: pointer;
-        }
-        .subject-tabs .tab.active {
-            background: rgba(247,216,117,0.10);
-            color: #f7d875;
-            border-color: rgba(247,216,117,0.15);
-        }
-        .subject-tabs .tab:active { transform: scale(0.96); }
-
-        /* 模块入口 - 卡片网格 */
-        .module-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        .module-item {
-            background: rgba(255,255,255,0.04);
-            border-radius: 18px;
-            padding: 16px 14px 14px;
-            border: 1px solid rgba(255,255,255,0.04);
-            transition: all 0.2s;
-        }
-        .module-item .title {
-            font-size: 15px;
-            font-weight: 500;
-            color: #f0ece6;
-        }
-        .module-item .sub {
-            font-size: 12px;
-            color: #777;
-            margin-top: 4px;
-            display: flex;
             justify-content: space-between;
+            padding: 14px 16px;
+            border-radius: 14px;
+            transition: all 0.2s;
+            background: transparent;
         }
-        .module-item .sub .count {
-            color: #f7d875;
+        .path-item.active {
+            background: rgba(245, 163, 66, 0.10);
+            border-left: 3px solid #f5a342;
         }
-        .module-item .status-badge {
-            font-size: 10px;
-            background: rgba(95,203,122,0.15);
-            color: #5fcb7a;
-            padding: 2px 10px;
+        .path-item .left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .path-item .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .path-item .dot.done {
+            background: #5fcb7a;
+        }
+        .path-item .dot.active {
+            background: #f5a342;
+            box-shadow: 0 0 0 3px rgba(245, 163, 66, 0.2);
+        }
+        .path-item .dot.pending {
+            background: #d0ccc6;
+        }
+        .path-item .name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+        .path-item .right {
+            font-size: 13px;
+            color: #999;
+        }
+        .path-item .right .count {
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+        .path-item .status-tag {
+            font-size: 11px;
+            padding: 2px 12px;
             border-radius: 30px;
-            display: inline-block;
-            margin-top: 8px;
+            background: rgba(95, 203, 122, 0.12);
+            color: #5fcb7a;
         }
-        .module-item .status-badge.pending {
-            background: rgba(255,255,255,0.06);
-            color: #666;
+        .path-item .status-tag.pending {
+            background: rgba(0, 0, 0, 0.04);
+            color: #bbb;
         }
 
         /* 主按钮 */
@@ -201,334 +145,813 @@
             padding: 16px;
             border: none;
             border-radius: 18px;
-            background: linear-gradient(135deg, #f7d875, #f5b342);
-            color: #0f0f13;
+            background: linear-gradient(135deg, #f5a342, #e8892a);
+            color: #fff;
             font-size: 17px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 4px 20px rgba(247,216,117,0.15);
-            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(245, 163, 66, 0.25);
+            margin-top: 8px;
         }
-        .btn-primary:active { transform: scale(0.97); opacity: 0.9; }
+        .btn-primary:active {
+            transform: scale(0.97);
+            opacity: 0.9;
+        }
+        .btn-secondary {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: #555;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-top: 10px;
+        }
+        .btn-secondary:active {
+            transform: scale(0.97);
+        }
 
-        /* 底部快捷入口 */
-        .quick-actions {
+        /* ===== 刷题页 ===== */
+        .quiz-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f0ece6;
+            z-index: 1000;
+            flex-direction: column;
+            padding: 20px 16px 30px;
+            overflow: hidden;
+        }
+        .quiz-page.show {
             display: flex;
-            gap: 12px;
         }
-        .quick-actions .qa {
-            flex: 1;
-            background: rgba(255,255,255,0.04);
-            border-radius: 16px;
-            padding: 14px 0;
-            text-align: center;
-            font-size: 14px;
-            color: #bbb;
-            border: 1px solid rgba(255,255,255,0.04);
-            transition: all 0.2s;
-        }
-        .quick-actions .qa:active { background: rgba(255,255,255,0.08); }
-        .quick-actions .qa .icon { font-size: 20px; display: block; margin-bottom: 4px; }
 
-        /* 刷题卡片 - 滑动交互 */
-        .card-stack {
-            position: relative;
-            margin: 12px 0 20px;
-            min-height: 320px;
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0 16px;
+            flex-shrink: 0;
         }
-        .swipe-card {
-            background: rgba(30,30,38,0.8);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 28px;
-            padding: 28px 22px 22px;
-            border: 1px solid rgba(255,255,255,0.06);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.5);
-            position: relative;
+        .quiz-header .back {
+            font-size: 24px;
+            cursor: pointer;
+            color: #1a1a1a;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             transition: all 0.2s;
+        }
+        .quiz-header .back:active {
+            transform: scale(0.92);
+        }
+        .quiz-header .progress-text {
+            font-size: 15px;
+            color: #888;
+            font-weight: 500;
+        }
+        .quiz-header .progress-text span {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        /* 卡片容器 - 支持触摸滑动 */
+        .quiz-card-wrap {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            border-radius: 28px;
+            touch-action: none;
+        }
+        .quiz-card-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+        .quiz-card {
+            min-width: 100%;
+            height: 100%;
+            padding: 28px 22px 20px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        .quiz-card .q-meta {
+            font-size: 12px;
+            color: #f5a342;
+            font-weight: 500;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+        .quiz-card .q-module {
+            font-size: 12px;
+            color: #bbb;
             margin-bottom: 16px;
         }
-        .swipe-card .q-tag {
-            font-size: 12px;
-            color: #f7d875;
-            background: rgba(247,216,117,0.10);
-            padding: 4px 14px;
-            border-radius: 30px;
-            display: inline-block;
-            margin-bottom: 12px;
-        }
-        .swipe-card .q-text {
+        .quiz-card .q-text {
             font-size: 20px;
             font-weight: 500;
-            line-height: 1.6;
-            color: #f0ece6;
-            margin-bottom: 16px;
+            line-height: 1.7;
+            color: #1a1a1a;
+            margin-bottom: 24px;
         }
-        .swipe-card .options {
+        .quiz-card .options {
             display: flex;
             flex-direction: column;
             gap: 10px;
+            margin-bottom: 16px;
         }
-        .swipe-card .options .opt {
-            background: rgba(255,255,255,0.04);
-            padding: 12px 16px;
+        .quiz-card .opt {
+            padding: 14px 18px;
             border-radius: 14px;
-            font-size: 15px;
-            color: #ccc;
-            border: 1px solid transparent;
+            background: rgba(0, 0, 0, 0.02);
+            border: 1.5px solid rgba(0, 0, 0, 0.04);
+            font-size: 16px;
+            color: #1a1a1a;
             transition: all 0.15s;
+            cursor: pointer;
+            user-select: none;
         }
-        .swipe-card .options .opt:active {
-            background: rgba(255,255,255,0.08);
+        .quiz-card .opt:active {
+            transform: scale(0.97);
         }
-        .swipe-actions {
+        .quiz-card .opt.correct {
+            border-color: #5fcb7a;
+            background: rgba(95, 203, 122, 0.08);
+        }
+        .quiz-card .opt.wrong {
+            border-color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.08);
+        }
+        .quiz-card .opt.disabled {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        .quiz-card .explanation {
+            margin-top: 6px;
+            padding: 16px 18px;
+            border-radius: 14px;
+            background: rgba(245, 163, 66, 0.06);
+            border-left: 3px solid #f5a342;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            display: none;
+        }
+        .quiz-card .explanation.show {
+            display: block;
+        }
+        .quiz-card .explanation strong {
+            color: #1a1a1a;
+        }
+
+        .quiz-footer {
             display: flex;
+            justify-content: space-between;
             gap: 16px;
-            margin-top: 18px;
+            padding-top: 16px;
+            flex-shrink: 0;
         }
-        .swipe-actions .sa {
+        .quiz-footer .nav-btn {
             flex: 1;
-            padding: 12px 0;
+            padding: 14px 0;
             border-radius: 16px;
-            text-align: center;
+            border: none;
             font-size: 15px;
             font-weight: 500;
-            background: rgba(255,255,255,0.04);
-            color: #bbb;
-            border: 1px solid rgba(255,255,255,0.04);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #555;
+            cursor: pointer;
             transition: all 0.2s;
-        }
-        .swipe-actions .sa:active { transform: scale(0.96); }
-        .swipe-actions .sa.left { color: #ff6b6b; border-color: rgba(255,107,107,0.15); }
-        .swipe-actions .sa.right { color: #5fcb7a; border-color: rgba(95,203,122,0.15); }
-
-        /* 诊断报告占位 */
-        .report-placeholder {
-            background: rgba(255,255,255,0.03);
-            border-radius: 20px;
-            padding: 20px;
             text-align: center;
-            color: #777;
-            font-size: 14px;
-            border: 1px dashed rgba(255,255,255,0.06);
-            margin-top: 12px;
+        }
+        .quiz-footer .nav-btn:active {
+            transform: scale(0.95);
+        }
+        .quiz-footer .nav-btn:disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .quiz-footer .nav-btn.primary {
+            background: linear-gradient(135deg, #f5a342, #e8892a);
+            color: #fff;
+            border: none;
+        }
+        .quiz-footer .nav-btn.primary:active {
+            opacity: 0.9;
         }
 
-        /* 工具类 */
-        .mt-8 { margin-top: 8px; }
-        .text-center { text-align: center; }
-        .flex { display: flex; }
-        .gap-8 { gap: 8px; }
-        .items-center { align-items: center; }
-
-        /* 响应式微调 */
+        /* 响应式 */
         @media (max-width: 420px) {
-            .module-grid { gap: 8px; }
-            .module-item { padding: 12px 10px; }
+            .path-item {
+                padding: 12px 14px;
+            }
+            .path-item .name {
+                font-size: 15px;
+            }
+            .quiz-card .q-text {
+                font-size: 18px;
+            }
+            .quiz-card .opt {
+                font-size: 15px;
+                padding: 12px 16px;
+            }
+        }
+
+        /* 滚动条隐藏 */
+        .quiz-card::-webkit-scrollbar {
+            width: 0;
         }
     </style>
 </head>
 <body>
-<div class="app">
 
-    <!-- 顶部 -->
-    <div class="header">
-        <div class="logo">道法历史<span>·闯关</span></div>
-        <div class="user-badge">
-            <span class="dot"></span>
-            八年级 · 诊断中
-        </div>
-    </div>
-
-    <!-- 进度卡片 -->
-    <div class="glass-card">
-        <div class="progress-header">
-            <h3>📊 诊断进度</h3>
-            <span class="tag">免费体验</span>
-        </div>
-        <div class="progress-ring-wrap">
-            <div class="progress-ring">
-                <svg viewBox="0 0 80 80">
-                    <circle class="bg" cx="40" cy="40" r="30"/>
-                    <circle class="fg" cx="40" cy="40" r="30" style="stroke-dashoffset: 90;"/>
-                </svg>
-                <div class="center-text">52<small>%</small></div>
-            </div>
-            <div class="progress-stats">
-                <div class="stat-row"><span class="label">已诊断</span><span class="value">104 / 200 题</span></div>
-                <div class="stat-row"><span class="label">正确率</span><span class="value gold">68%</span></div>
-                <div class="stat-row"><span class="label">薄弱模块</span><span class="value" style="color:#ff8a8a;">八下 · 法治</span></div>
+    <div class="app" id="homePage">
+        <!-- 顶部 -->
+        <div class="header">
+            <div class="logo">道法历史<span>·闯关</span></div>
+            <div class="user-badge">
+                <span class="dot"></span>
+                八年级 · 诊断中
             </div>
         </div>
-    </div>
 
-    <!-- 学科切换 -->
-    <div class="subject-tabs">
-        <div class="tab active">📜 历史</div>
-        <div class="tab">⚖️ 道法</div>
-    </div>
-
-    <!-- 模块入口 -->
-    <div class="module-grid">
-        <div class="module-item">
-            <div class="title">七上</div>
-            <div class="sub"><span>历史 · 道法</span><span class="count">0/0题</span></div>
-            <span class="status-badge pending">未开始</span>
-        </div>
-        <div class="module-item">
-            <div class="title">七下</div>
-            <div class="sub"><span>历史 · 道法</span><span class="count">0/0题</span></div>
-            <span class="status-badge pending">未开始</span>
-        </div>
-        <div class="module-item" style="border-color: rgba(247,216,117,0.15); background: rgba(247,216,117,0.04);">
-            <div class="title">八上</div>
-            <div class="sub"><span>历史 · 道法</span><span class="count">104/200题</span></div>
-            <span class="status-badge">进行中</span>
-        </div>
-        <div class="module-item">
-            <div class="title">八下</div>
-            <div class="sub"><span>历史 · 道法</span><span class="count">0/0题</span></div>
-            <span class="status-badge pending">未开始</span>
-        </div>
-        <div class="module-item">
-            <div class="title">九上</div>
-            <div class="sub"><span>历史 · 道法</span><span class="count">0/0题</span></div>
-            <span class="status-badge pending">未开始</span>
-        </div>
-        <div class="module-item">
-            <div class="title">九下</div>
-            <div class="sub"><span>历史 · 道法</span><span class="count">0/0题</span></div>
-            <span class="status-badge pending">未开始</span>
-        </div>
-    </div>
-
-    <!-- 主按钮 -->
-    <button class="btn-primary" id="startDiagnose">🚀 开始诊断 · 10分钟找到薄弱点</button>
-
-    <!-- 刷题卡片演示 -->
-    <div class="card-stack">
-        <div class="swipe-card" id="demoCard">
-            <span class="q-tag">📌 历史 · 八上 · 期中</span>
-            <div class="q-text">鸦片战争爆发于哪一年？</div>
-            <div class="options">
-                <div class="opt">A. 1838年</div>
-                <div class="opt">B. 1840年</div>
-                <div class="opt">C. 1842年</div>
-                <div class="opt">D. 1856年</div>
+        <!-- 路径卡片 -->
+        <div class="glass-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                <span style="font-size:15px;font-weight:500;color:#1a1a1a;">学习路径</span>
+                <span style="font-size:12px;color:#999;">已诊断 0 / 200 题</span>
             </div>
-            <div class="swipe-actions">
-                <div class="sa left">⬅️ 不熟</div>
-                <div class="sa right">认识 ➡️</div>
+            <div class="path-list" id="pathList">
+                <!-- 由 JS 动态生成 -->
             </div>
         </div>
+
+        <!-- 按钮 -->
+        <button class="btn-primary" id="startBtn">🚀 开始诊断 · 10分钟找到薄弱点</button>
+        <button class="btn-secondary" id="reportBtn">📊 诊断报告（即将上线）</button>
     </div>
 
-    <!-- 底部快捷入口 -->
-    <div class="quick-actions">
-        <div class="qa"><span class="icon">📒</span>错题本</div>
-        <div class="qa"><span class="icon">📊</span>诊断报告</div>
-        <div class="qa"><span class="icon">🏷️</span>定制推题</div>
+    <!-- ===== 刷题页 ===== -->
+    <div class="quiz-page" id="quizPage">
+        <div class="quiz-header">
+            <div class="back" id="quizBack">←</div>
+            <div class="progress-text">第 <span id="qIndexDisplay">1</span> / <span id="qTotalDisplay">0</span> 题</div>
+            <div style="width:44px;"></div>
+        </div>
+
+        <div class="quiz-card-wrap" id="cardWrap">
+            <div class="quiz-card-track" id="cardTrack">
+                <!-- 由 JS 动态生成 -->
+            </div>
+        </div>
+
+        <div class="quiz-footer">
+            <button class="nav-btn" id="prevBtn">← 上一题</button>
+            <button class="nav-btn primary" id="nextBtn">下一题 →</button>
+        </div>
     </div>
 
-    <!-- 诊断报告占位 -->
-    <div class="report-placeholder">
-        🧠 完成200题诊断后，将生成你的专属薄弱点报告
-    </div>
+    <script>
+        // ============================================================
+        // 示例题库（共20题，覆盖八上、八下两个模块）
+        // 实际使用时替换为完整题库，每道题包含：
+        //   id, module, subject, question, options[], answer (0-3), explanation
+        // ============================================================
+        const SAMPLE_QUESTIONS = [{
+            id: 1,
+            module: '八上',
+            subject: '历史',
+            question: '鸦片战争爆发于哪一年？',
+            options: ['1838年', '1840年', '1842年', '1856年'],
+            answer: 1,
+            explanation: '1840年6月，英国发动鸦片战争，是中国近代史的开端。'
+        }, {
+            id: 2,
+            module: '八上',
+            subject: '历史',
+            question: '《南京条约》中，中国被迫割让了哪个地方？',
+            options: ['香港岛', '台湾岛', '澳门', '九龙半岛'],
+            answer: 0,
+            explanation: '《南京条约》规定中国割让香港岛给英国。'
+        }, {
+            id: 3,
+            module: '八上',
+            subject: '历史',
+            question: '太平天国运动的领导人是谁？',
+            options: ['洪秀全', '石达开', '李秀成', '杨秀清'],
+            answer: 0,
+            explanation: '洪秀全于1851年在金田起义，建立太平天国。'
+        }, {
+            id: 4,
+            module: '八上',
+            subject: '历史',
+            question: '洋务运动的口号是什么？',
+            options: ['自强求富', '变法维新', '民主科学', '救亡图存'],
+            answer: 0,
+            explanation: '洋务运动以“自强”为前期口号，“求富”为后期口号。'
+        }, {
+            id: 5,
+            module: '八上',
+            subject: '历史',
+            question: '戊戌变法发生在哪一年？',
+            options: ['1895年', '1898年', '1900年', '1901年'],
+            answer: 1,
+            explanation: '1898年6月，光绪帝颁布“明定国是”诏书，开始变法。'
+        }, {
+            id: 6,
+            module: '八上',
+            subject: '历史',
+            question: '辛亥革命爆发于哪一年？',
+            options: ['1898年', '1901年', '1911年', '1912年'],
+            answer: 2,
+            explanation: '1911年10月10日，武昌起义爆发，辛亥革命开始。'
+        }, {
+            id: 7,
+            module: '八上',
+            subject: '历史',
+            question: '中国历史上第一部具有资产阶级共和国宪法性质的文件是？',
+            options: ['《钦定宪法大纲》', '《中华民国临时约法》', '《共同纲领》', '《五四宪法》'],
+            answer: 1,
+            explanation: '1912年颁布的《中华民国临时约法》是中国第一部资产阶级宪法性质的文件。'
+        }, {
+            id: 8,
+            module: '八上',
+            subject: '历史',
+            question: '新文化运动的口号是？',
+            options: ['自强求富', '民主科学', '救亡图存', '变法维新'],
+            answer: 1,
+            explanation: '新文化运动高举“民主”与“科学”两面大旗。'
+        }, {
+            id: 9,
+            module: '八上',
+            subject: '历史',
+            question: '五四运动爆发的直接导火索是什么？',
+            options: ['巴黎和会上中国外交失败', '军阀混战', '新文化运动', '十月革命'],
+            answer: 0,
+            explanation: '1919年巴黎和会上中国外交失败，引发了五四运动。'
+        }, {
+            id: 10,
+            module: '八上',
+            subject: '历史',
+            question: '中国共产党成立的时间是？',
+            options: ['1919年', '1920年', '1921年', '1922年'],
+            answer: 2,
+            explanation: '1921年7月23日，中共一大在上海召开，中国共产党诞生。'
+        }, {
+            id: 11,
+            module: '八下',
+            subject: '道法',
+            question: '我国宪法规定，中华人民共和国的一切权力属于谁？',
+            options: ['人民', '中国共产党', '全国人大', '国务院'],
+            answer: 0,
+            explanation: '宪法第二条明确规定：一切权力属于人民。'
+        }, {
+            id: 12,
+            module: '八下',
+            subject: '道法',
+            question: '公民最基本的政治权利是什么？',
+            options: ['言论自由', '选举权和被选举权', '监督权', '人身自由'],
+            answer: 1,
+            explanation: '选举权和被选举权是公民参与国家管理的最基本政治权利。'
+        }, {
+            id: 13,
+            module: '八下',
+            subject: '道法',
+            question: '我国的根本政治制度是？',
+            options: ['人民代表大会制度', '中国共产党领导的多党合作制', '民族区域自治制度', '基层群众自治制度'],
+            answer: 0,
+            explanation: '人民代表大会制度是我国的根本政治制度。'
+        }, {
+            id: 14,
+            module: '八下',
+            subject: '道法',
+            question: '我国宪法规定，公民有依法纳税的义务，这属于什么权利？',
+            options: ['基本权利', '基本义务', '既是权利也是义务', '以上都不对'],
+            answer: 1,
+            explanation: '依法纳税是公民的基本义务，不是权利。'
+        }, {
+            id: 15,
+            module: '八下',
+            subject: '道法',
+            question: '我国的国家机构实行什么组织原则？',
+            options: ['民主集中制', '民主制', '集中制', '分权制'],
+            answer: 0,
+            explanation: '我国国家机构实行民主集中制原则。'
+        }, {
+            id: 16,
+            module: '八下',
+            subject: '道法',
+            question: '我国宪法规定，公民的人身自由不受侵犯。以下属于人身自由的是？',
+            options: ['言论自由', '通信自由', '集会自由', '结社自由'],
+            answer: 1,
+            explanation: '通信自由属于人身自由的范畴，受宪法保护。'
+        }, {
+            id: 17,
+            module: '八下',
+            subject: '道法',
+            question: '我国宪法规定，国家推广什么语言？',
+            options: ['普通话', '方言', '少数民族语言', '外语'],
+            answer: 0,
+            explanation: '宪法规定国家推广普通话。'
+        }, {
+            id: 18,
+            module: '八下',
+            subject: '道法',
+            question: '我国宪法规定，公民的通信自由和通信秘密受法律保护，除因什么需要外？',
+            options: ['国家安全或追查刑事犯罪', '个人隐私', '商业调查', '家庭原因'],
+            answer: 0,
+            explanation: '宪法规定，除因国家安全或追查刑事犯罪需要外，通信秘密受法律保护。'
+        }, {
+            id: 19,
+            module: '八下',
+            subject: '道法',
+            question: '我国宪法规定，中华人民共和国公民在法律面前一律什么？',
+            options: ['平等', '自由', '公正', '民主'],
+            answer: 0,
+            explanation: '宪法第三十三条规定：公民在法律面前一律平等。'
+        }, {
+            id: 20,
+            module: '八下',
+            subject: '道法',
+            question: '我国宪法规定，国家尊重和保障什么？',
+            options: ['人权', '公民权', '政治权', '财产权'],
+            answer: 0,
+            explanation: '宪法第三十三条第三款规定：国家尊重和保障人权。'
+        }];
 
-</div>
+        // ============================================================
+        // 应用状态
+        // ============================================================
+        const state = {
+            questions: [],
+            currentIndex: 0,
+            answered: false,
+            selectedOption: -1,
+            history: {}, // { questionId: selectedIndex }
+            wrongIds: new Set(),
+            correctIds: new Set(),
+        };
 
-<script>
-    (function() {
-        // 简单的交互演示
+        // DOM 引用
+        const homePage = document.getElementById('homePage');
+        const quizPage = document.getElementById('quizPage');
+        const cardTrack = document.getElementById('cardTrack');
+        const qIndexDisplay = document.getElementById('qIndexDisplay');
+        const qTotalDisplay = document.getElementById('qTotalDisplay');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const startBtn = document.getElementById('startBtn');
+        const reportBtn = document.getElementById('reportBtn');
+        const quizBack = document.getElementById('quizBack');
+        const pathList = document.getElementById('pathList');
 
-        // 学科切换
-        const tabs = document.querySelectorAll('.subject-tabs .tab');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                tabs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                // 简单反馈
-                const text = this.textContent.trim();
-                const card = document.getElementById('demoCard');
-                if (card) {
-                    const tag = card.querySelector('.q-tag');
-                    if (text.includes('历史')) {
-                        tag.textContent = '📌 历史 · 八上 · 期中';
-                        card.querySelector('.q-text').textContent = '鸦片战争爆发于哪一年？';
-                        const opts = card.querySelectorAll('.opt');
-                        opts[0].textContent = 'A. 1838年';
-                        opts[1].textContent = 'B. 1840年';
-                        opts[2].textContent = 'C. 1842年';
-                        opts[3].textContent = 'D. 1856年';
-                    } else {
-                        tag.textContent = '⚖️ 道法 · 八上 · 期中';
-                        card.querySelector('.q-text').textContent = '我国宪法规定，公民最基本的政治权利是？';
-                        const opts = card.querySelectorAll('.opt');
-                        opts[0].textContent = 'A. 言论自由';
-                        opts[1].textContent = 'B. 选举权和被选举权';
-                        opts[2].textContent = 'C. 监督权';
-                        opts[3].textContent = 'D. 人身自由';
-                    }
-                }
+        // ============================================================
+        // 路径渲染
+        // ============================================================
+        const MODULES = ['七上', '七下', '八上', '八下', '九上', '九下', '中考冲刺'];
+        // 假设已完成：八上已做完，八下进行中
+        const MODULE_STATUS = {
+            '七上': 'done',
+            '七下': 'done',
+            '八上': 'done',
+            '八下': 'active',
+            '九上': 'pending',
+            '九下': 'pending',
+            '中考冲刺': 'pending'
+        };
+        const MODULE_COUNT = {
+            '七上': 0,
+            '七下': 0,
+            '八上': 10,
+            '八下': 10,
+            '九上': 0,
+            '九下': 0,
+            '中考冲刺': 0
+        };
+
+        function renderPath() {
+            let html = '';
+            MODULES.forEach(m => {
+                const status = MODULE_STATUS[m] || 'pending';
+                const count = MODULE_COUNT[m] || 0;
+                const dotClass = status === 'done' ? 'done' : status === 'active' ? 'active' : 'pending';
+                const statusText = status === 'done' ? '已完成' : status === 'active' ? '进行中' : '未开始';
+                const statusTagClass = status === 'done' ? '' : 'pending';
+                const activeClass = status === 'active' ? 'active' : '';
+                html += `
+                    <div class="path-item ${activeClass}">
+                        <div class="left">
+                            <span class="dot ${dotClass}"></span>
+                            <span class="name">${m}</span>
+                        </div>
+                        <div class="right">
+                            ${count > 0 ? `<span class="count">${count}</span> 题` : ''}
+                            <span class="status-tag ${statusTagClass}">${statusText}</span>
+                        </div>
+                    </div>
+                `;
             });
-        });
+            pathList.innerHTML = html;
+        }
+        renderPath();
 
-        // 开始诊断按钮
-        const btn = document.getElementById('startDiagnose');
-        if (btn) {
-            btn.addEventListener('click', function() {
-                this.textContent = '⏳ 诊断中...';
-                this.style.opacity = '0.7';
-                setTimeout(() => {
-                    this.textContent = '✅ 诊断完成 · 查看报告';
-                    this.style.opacity = '1';
-                }, 1500);
-                setTimeout(() => {
-                    this.textContent = '🚀 开始诊断 · 10分钟找到薄弱点';
-                }, 3000);
+        // ============================================================
+        // 刷题引擎
+        // ============================================================
+        function initQuiz(questions) {
+            state.questions = questions;
+            state.currentIndex = 0;
+            state.answered = false;
+            state.selectedOption = -1;
+            state.history = {};
+            state.wrongIds = new Set();
+            state.correctIds = new Set();
+
+            qTotalDisplay.textContent = questions.length;
+            renderCards(questions);
+            updateCardPosition(0);
+            updateQuizUI();
+        }
+
+        function renderCards(questions) {
+            let html = '';
+            questions.forEach((q, idx) => {
+                const letter = ['A', 'B', 'C', 'D'];
+                let optsHtml = q.options.map((opt, oi) => {
+                    return `<div class="opt" data-q="${idx}" data-opt="${oi}">${letter[oi]}. ${opt}</div>`;
+                }).join('');
+                html += `
+                    <div class="quiz-card" data-index="${idx}">
+                        <div class="q-meta">${q.subject} · ${q.module}</div>
+                        <div class="q-module">模块：${q.module}</div>
+                        <div class="q-text">${q.question}</div>
+                        <div class="options">${optsHtml}</div>
+                        <div class="explanation" id="explanation-${idx}"><strong>解析：</strong>${q.explanation}</div>
+                    </div>
+                `;
+            });
+            cardTrack.innerHTML = html;
+
+            // 绑定选项点击事件（委托）
+            cardTrack.querySelectorAll('.opt').forEach(el => {
+                el.addEventListener('click', function(e) {
+                    const qIdx = parseInt(this.dataset.q);
+                    const optIdx = parseInt(this.dataset.opt);
+                    handleOptionClick(qIdx, optIdx);
+                });
             });
         }
 
-        // 滑动按钮演示反馈
-        document.querySelectorAll('.sa').forEach(sa => {
-            sa.addEventListener('click', function() {
-                const card = document.getElementById('demoCard');
-                const origText = this.textContent;
-                this.textContent = this.classList.contains('left') ? '✅ 已标记不熟' : '✅ 已标记认识';
-                this.style.opacity = '0.7';
-                setTimeout(() => {
-                    this.textContent = origText;
-                    this.style.opacity = '1';
-                }, 800);
-                // 微震动反馈效果
-                if (card) {
-                    card.style.transform = 'scale(0.98)';
-                    setTimeout(() => { card.style.transform = 'scale(1)'; }, 150);
+        function handleOptionClick(qIdx, optIdx) {
+            if (state.answered) return;
+            if (qIdx !== state.currentIndex) return;
+
+            const q = state.questions[qIdx];
+            const card = cardTrack.querySelector(`.quiz-card[data-index="${qIdx}"]`);
+            if (!card) return;
+
+            const opts = card.querySelectorAll('.opt');
+            const expl = card.querySelector('.explanation');
+
+            // 禁用所有选项
+            opts.forEach(o => o.classList.add('disabled'));
+
+            // 标记正确/错误
+            const isCorrect = (optIdx === q.answer);
+            opts.forEach((o, i) => {
+                if (i === q.answer) o.classList.add('correct');
+                if (i === optIdx && !isCorrect) o.classList.add('wrong');
+            });
+
+            // 显示解析
+            expl.classList.add('show');
+
+            state.answered = true;
+            state.selectedOption = optIdx;
+            state.history[q.id] = optIdx;
+            if (isCorrect) {
+                state.correctIds.add(q.id);
+            } else {
+                state.wrongIds.add(q.id);
+            }
+
+            // 更新底部按钮文案
+            updateQuizUI();
+        }
+
+        function updateCardPosition(index) {
+            const track = cardTrack;
+            const cardWidth = track.parentElement.clientWidth || 380;
+            track.style.transform = `translateX(-${index * cardWidth}px)`;
+            qIndexDisplay.textContent = index + 1;
+            state.currentIndex = index;
+            state.answered = false;
+            state.selectedOption = -1;
+
+            // 重置卡片状态
+            const card = cardTrack.querySelector(`.quiz-card[data-index="${index}"]`);
+            if (card) {
+                const opts = card.querySelectorAll('.opt');
+                const expl = card.querySelector('.explanation');
+                opts.forEach(o => {
+                    o.classList.remove('correct', 'wrong', 'disabled');
+                });
+                expl.classList.remove('show');
+
+                // 如果这道题之前答过，恢复状态
+                const q = state.questions[index];
+                if (q && state.history[q.id] !== undefined) {
+                    const prevOpt = state.history[q.id];
+                    const isCorrect = (prevOpt === q.answer);
+                    opts.forEach((o, i) => {
+                        if (i === q.answer) o.classList.add('correct');
+                        if (i === prevOpt && !isCorrect) o.classList.add('wrong');
+                        o.classList.add('disabled');
+                    });
+                    expl.classList.add('show');
+                    state.answered = true;
+                    state.selectedOption = prevOpt;
                 }
-            });
+            }
+
+            updateQuizUI();
+        }
+
+        function updateQuizUI() {
+            const total = state.questions.length;
+            const idx = state.currentIndex;
+            qIndexDisplay.textContent = idx + 1;
+            prevBtn.disabled = (idx === 0);
+            // 下一题按钮文字
+            if (idx === total - 1) {
+                nextBtn.textContent = '📊 查看报告';
+            } else {
+                nextBtn.textContent = '下一题 →';
+            }
+            // 如果当前题已答，下一题可点；否则不可点
+            // 但为了体验，让用户必须答题才能继续，已经通过选项点击控制
+            // 下一题始终可点，但如果未答则提示
+        }
+
+        // ============================================================
+        // 导航
+        // ============================================================
+        function goToPrev() {
+            if (state.currentIndex > 0) {
+                updateCardPosition(state.currentIndex - 1);
+            }
+        }
+
+        function goToNext() {
+            const q = state.questions[state.currentIndex];
+            if (!state.answered && state.history[q.id] === undefined) {
+                // 提示用户先答题
+                const card = cardTrack.querySelector(`.quiz-card[data-index="${state.currentIndex}"]`);
+                if (card) {
+                    const opts = card.querySelectorAll('.opt');
+                    opts.forEach(o => {
+                        o.style.transition = 'all 0.1s';
+                        o.style.borderColor = '#ff6b6b';
+                        setTimeout(() => {
+                            o.style.borderColor = '';
+                        }, 400);
+                    });
+                }
+                return;
+            }
+            if (state.currentIndex < state.questions.length - 1) {
+                updateCardPosition(state.currentIndex + 1);
+            } else {
+                // 最后一题，查看报告
+                alert('🎉 诊断完成！你已完成全部20题。\n正确率：' + Math.round(state.correctIds.size / state.questions.length *
+                    100) + '%\n薄弱模块将根据错题分析生成。');
+                // 这里可以跳转到报告页
+            }
+        }
+
+        // ============================================================
+        // 事件绑定
+        // ============================================================
+        startBtn.addEventListener('click', function() {
+            const questions = SAMPLE_QUESTIONS;
+            if (questions.length === 0) {
+                alert('题库为空，请先导入题目。');
+                return;
+            }
+            homePage.style.display = 'none';
+            quizPage.classList.add('show');
+            initQuiz(questions);
         });
 
-        // 模块点击演示
-        document.querySelectorAll('.module-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const title = this.querySelector('.title')?.textContent || '模块';
-                // 简单提示，实际可跳转
-                this.style.opacity = '0.6';
-                setTimeout(() => { this.style.opacity = '1'; }, 200);
-            });
+        quizBack.addEventListener('click', function() {
+            quizPage.classList.remove('show');
+            homePage.style.display = 'block';
         });
 
-        // 底部快捷入口点击演示
-        document.querySelectorAll('.qa').forEach(qa => {
-            qa.addEventListener('click', function() {
-                this.style.opacity = '0.5';
-                setTimeout(() => { this.style.opacity = '1'; }, 200);
-            });
+        prevBtn.addEventListener('click', goToPrev);
+        nextBtn.addEventListener('click', goToNext);
+
+        reportBtn.addEventListener('click', function() {
+            alert('📊 诊断报告功能即将上线。\n完成诊断后，将自动生成你的薄弱知识点分析。');
         });
 
-        console.log('✅ 道法历史闯关 UI 框架已加载 (演示模式)');
-    })();
-</script>
+        // ============================================================
+        // 触摸滑动（左右滑动翻题）
+        // ============================================================
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isSwiping = false;
+        const wrap = document.getElementById('cardWrap');
+
+        wrap.addEventListener('touchstart', function(e) {
+            const t = e.touches[0];
+            touchStartX = t.clientX;
+            touchStartY = t.clientY;
+            isSwiping = false;
+        }, { passive: true });
+
+        wrap.addEventListener('touchmove', function(e) {
+            if (e.touches.length !== 1) return;
+            const t = e.touches[0];
+            const dx = t.clientX - touchStartX;
+            const dy = t.clientY - touchStartY;
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 20) {
+                isSwiping = true;
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        wrap.addEventListener('touchend', function(e) {
+            if (!isSwiping) return;
+            const t = e.changedTouches[0];
+            const dx = t.clientX - touchStartX;
+            if (dx < -50) {
+                goToNext();
+            } else if (dx > 50) {
+                goToPrev();
+            }
+        }, { passive: true });
+
+        // ============================================================
+        // 键盘支持（左右箭头）
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            if (!quizPage.classList.contains('show')) return;
+            if (e.key === 'ArrowLeft') goToPrev();
+            if (e.key === 'ArrowRight') goToNext();
+        });
+
+        // ============================================================
+        // 窗口resize时重新定位卡片
+        // ============================================================
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                if (quizPage.classList.contains('show')) {
+                    const idx = state.currentIndex || 0;
+                    const track = cardTrack;
+                    const cardWidth = track.parentElement.clientWidth || 380;
+                    track.style.transition = 'none';
+                    track.style.transform = `translateX(-${idx * cardWidth}px)`;
+                    requestAnimationFrame(() => {
+                        track.style.transition = 'transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                    });
+                }
+            }, 200);
+        });
+
+        // 启动时检查
+        console.log('✅ 道法历史闯关已加载（浅色毛玻璃版）');
+        console.log('📚 题库共 ' + SAMPLE_QUESTIONS.length + ' 题（示例数据）');
+    </script>
 </body>
 </html>
