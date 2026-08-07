@@ -1,184 +1,180 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>道法历史闯关</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>道法历史 · 闯关</title>
     <style>
+        /* ===== 全局重置 ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
-            background: #f0ece6;
-            color: #1a1a1a;
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+            background: #f7f2eb;
+            color: #2c241c;
             min-height: 100vh;
-            padding: 20px 16px 100px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 24px 20px 40px;
+            -webkit-font-smoothing: antialiased;
         }
+
         .app {
             max-width: 420px;
             width: 100%;
         }
 
-        /* 顶部 */
+        /* ===== 顶部 ===== */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 4px 0 20px;
+            padding: 0 0 28px 0;
         }
         .logo {
             font-size: 22px;
-            font-weight: 700;
+            font-weight: 600;
             letter-spacing: 0.5px;
-            color: #1a1a1a;
+            color: #2c241c;
         }
         .logo span {
-            color: #f5a342;
+            font-weight: 300;
+            color: #8a7a6a;
         }
-        .user-badge {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 30px;
-            padding: 6px 16px 6px 12px;
+        .badge {
             font-size: 13px;
+            color: #8a7a6a;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 6px 16px 6px 14px;
+            border-radius: 30px;
+            border: 1px solid rgba(200, 180, 165, 0.2);
             display: flex;
             align-items: center;
             gap: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: #555;
         }
-        .user-badge .dot {
-            width: 8px;
-            height: 8px;
-            background: #5fcb7a;
+        .badge .dot {
+            width: 7px;
+            height: 7px;
+            background: #c49a6c;
             border-radius: 50%;
             display: inline-block;
         }
 
-        /* 毛玻璃卡片 */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 24px;
-            padding: 20px 20px 18px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+        /* ===== 卡片 ===== */
+        .card {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 24px 24px 20px;
+            box-shadow: 0 4px 24px rgba(180, 150, 120, 0.08);
             margin-bottom: 20px;
         }
-
-        /* 路径列表 */
-        .path-list {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+        .card-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #2c241c;
+            margin-bottom: 4px;
         }
+        .card-sub {
+            font-size: 13px;
+            color: #8a7a6a;
+            margin-bottom: 16px;
+        }
+
+        /* ===== 学习路径（极简列表） ===== */
         .path-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 14px 16px;
-            border-radius: 14px;
-            transition: all 0.2s;
-            background: transparent;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(200, 180, 165, 0.15);
         }
-        .path-item.active {
-            background: rgba(245, 163, 66, 0.10);
-            border-left: 3px solid #f5a342;
+        .path-item:last-child {
+            border-bottom: none;
         }
-        .path-item .left {
+        .path-left {
             display: flex;
             align-items: center;
             gap: 14px;
         }
-        .path-item .dot {
-            width: 10px;
-            height: 10px;
+        .path-dot {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             flex-shrink: 0;
+            background: #d5cdc5;
         }
-        .path-item .dot.done {
-            background: #5fcb7a;
+        .path-dot.done {
+            background: #c49a6c;
         }
-        .path-item .dot.active {
-            background: #f5a342;
-            box-shadow: 0 0 0 3px rgba(245, 163, 66, 0.2);
+        .path-dot.active {
+            background: #b8864a;
+            box-shadow: 0 0 0 3px rgba(184, 134, 74, 0.12);
         }
-        .path-item .dot.pending {
-            background: #d0ccc6;
-        }
-        .path-item .name {
+        .path-name {
             font-size: 16px;
-            font-weight: 500;
-            color: #1a1a1a;
+            font-weight: 450;
+            color: #2c241c;
         }
-        .path-item .right {
+        .path-meta {
             font-size: 13px;
-            color: #999;
+            color: #8a7a6a;
         }
-        .path-item .right .count {
-            color: #1a1a1a;
+        .path-meta strong {
+            color: #2c241c;
             font-weight: 500;
         }
-        .path-item .status-tag {
+        .path-tag {
             font-size: 11px;
+            color: #8a7a6a;
+            background: rgba(200, 180, 165, 0.15);
             padding: 2px 12px;
             border-radius: 30px;
-            background: rgba(95, 203, 122, 0.12);
-            color: #5fcb7a;
         }
-        .path-item .status-tag.pending {
-            background: rgba(0, 0, 0, 0.04);
-            color: #bbb;
+        .path-tag.done {
+            color: #b8864a;
+            background: rgba(184, 134, 74, 0.10);
+        }
+        .path-tag.active {
+            color: #b8864a;
+            background: rgba(184, 134, 74, 0.12);
         }
 
-        /* 主按钮 */
-        .btn-primary {
+        /* ===== 按钮 ===== */
+        .btn {
             width: 100%;
             padding: 16px;
             border: none;
-            border-radius: 18px;
-            background: linear-gradient(135deg, #f5a342, #e8892a);
-            color: #fff;
+            border-radius: 20px;
             font-size: 17px;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 20px rgba(245, 163, 66, 0.25);
-            margin-top: 8px;
+            transition: all 0.15s;
+            background: #b8864a;
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(184, 134, 74, 0.20);
+            margin-bottom: 12px;
         }
-        .btn-primary:active {
+        .btn:active {
             transform: scale(0.97);
             opacity: 0.9;
         }
         .btn-secondary {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            color: #555;
+            background: transparent;
+            color: #8a7a6a;
+            box-shadow: none;
+            border: 1px solid rgba(200, 180, 165, 0.25);
             font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            margin-top: 10px;
         }
         .btn-secondary:active {
-            transform: scale(0.97);
+            background: rgba(200, 180, 165, 0.05);
         }
 
-        /* ===== 刷题页 ===== */
+        /* ===== 刷题页（全屏） ===== */
         .quiz-page {
             display: none;
             position: fixed;
@@ -186,98 +182,91 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #f0ece6;
+            background: #f7f2eb;
             z-index: 1000;
             flex-direction: column;
-            padding: 20px 16px 30px;
-            overflow: hidden;
+            padding: 24px 20px 28px;
         }
         .quiz-page.show {
             display: flex;
         }
 
-        .quiz-header {
+        .quiz-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 4px 0 16px;
+            padding-bottom: 20px;
             flex-shrink: 0;
         }
-        .quiz-header .back {
-            font-size: 24px;
+        .quiz-back {
+            font-size: 26px;
             cursor: pointer;
-            color: #1a1a1a;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            color: #2c241c;
             width: 44px;
             height: 44px;
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.2s;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(200, 180, 165, 0.15);
+            transition: all 0.15s;
         }
-        .quiz-header .back:active {
+        .quiz-back:active {
             transform: scale(0.92);
         }
-        .quiz-header .progress-text {
+        .quiz-progress {
             font-size: 15px;
-            color: #888;
+            color: #8a7a6a;
+        }
+        .quiz-progress strong {
+            color: #2c241c;
             font-weight: 500;
         }
-        .quiz-header .progress-text span {
-            color: #1a1a1a;
-            font-weight: 600;
-        }
 
-        /* 卡片容器 - 支持触摸滑动 */
-        .quiz-card-wrap {
+        /* 卡片滑动区 */
+        .quiz-track-wrap {
             flex: 1;
             position: relative;
             overflow: hidden;
             border-radius: 28px;
             touch-action: none;
         }
-        .quiz-card-track {
+        .quiz-track {
             display: flex;
             height: 100%;
-            transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
             will-change: transform;
         }
         .quiz-card {
             min-width: 100%;
             height: 100%;
-            padding: 28px 22px 20px;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: #ffffff;
             border-radius: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.04);
+            padding: 32px 24px 20px;
+            box-shadow: 0 4px 24px rgba(180, 150, 120, 0.06);
             display: flex;
             flex-direction: column;
             overflow-y: auto;
         }
         .quiz-card .q-meta {
             font-size: 12px;
-            color: #f5a342;
+            color: #b8864a;
             font-weight: 500;
-            margin-bottom: 6px;
             letter-spacing: 0.3px;
+            margin-bottom: 4px;
         }
         .quiz-card .q-module {
             font-size: 12px;
-            color: #bbb;
-            margin-bottom: 16px;
+            color: #8a7a6a;
+            margin-bottom: 20px;
         }
         .quiz-card .q-text {
             font-size: 20px;
-            font-weight: 500;
+            font-weight: 450;
             line-height: 1.7;
-            color: #1a1a1a;
-            margin-bottom: 24px;
+            color: #2c241c;
+            margin-bottom: 28px;
         }
         .quiz-card .options {
             display: flex;
@@ -288,10 +277,10 @@
         .quiz-card .opt {
             padding: 14px 18px;
             border-radius: 14px;
-            background: rgba(0, 0, 0, 0.02);
-            border: 1.5px solid rgba(0, 0, 0, 0.04);
+            background: #f8f5f1;
+            border: 1.5px solid transparent;
             font-size: 16px;
-            color: #1a1a1a;
+            color: #2c241c;
             transition: all 0.15s;
             cursor: pointer;
             user-select: none;
@@ -300,25 +289,24 @@
             transform: scale(0.97);
         }
         .quiz-card .opt.correct {
-            border-color: #5fcb7a;
-            background: rgba(95, 203, 122, 0.08);
+            background: #f0f5ee;
+            border-color: #c49a6c;
         }
         .quiz-card .opt.wrong {
-            border-color: #ff6b6b;
-            background: rgba(255, 107, 107, 0.08);
+            background: #f8efed;
+            border-color: #d4a09a;
         }
         .quiz-card .opt.disabled {
-            opacity: 0.6;
+            opacity: 0.5;
             pointer-events: none;
         }
         .quiz-card .explanation {
-            margin-top: 6px;
+            margin-top: 4px;
             padding: 16px 18px;
             border-radius: 14px;
-            background: rgba(245, 163, 66, 0.06);
-            border-left: 3px solid #f5a342;
+            background: #f8f5f1;
             font-size: 14px;
-            color: #555;
+            color: #5a4e44;
             line-height: 1.6;
             display: none;
         }
@@ -326,54 +314,61 @@
             display: block;
         }
         .quiz-card .explanation strong {
-            color: #1a1a1a;
+            color: #2c241c;
+            font-weight: 500;
         }
 
-        .quiz-footer {
+        .quiz-bottom {
             display: flex;
-            justify-content: space-between;
-            gap: 16px;
+            gap: 14px;
             padding-top: 16px;
             flex-shrink: 0;
         }
-        .quiz-footer .nav-btn {
+        .quiz-bottom .nav-btn {
             flex: 1;
             padding: 14px 0;
             border-radius: 16px;
             border: none;
             font-size: 15px;
-            font-weight: 500;
+            font-weight: 450;
             background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: #555;
+            border: 1px solid rgba(200, 180, 165, 0.15);
+            color: #5a4e44;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.15s;
             text-align: center;
         }
-        .quiz-footer .nav-btn:active {
+        .quiz-bottom .nav-btn:active {
             transform: scale(0.95);
         }
-        .quiz-footer .nav-btn:disabled {
+        .quiz-bottom .nav-btn:disabled {
             opacity: 0.3;
             pointer-events: none;
         }
-        .quiz-footer .nav-btn.primary {
-            background: linear-gradient(135deg, #f5a342, #e8892a);
+        .quiz-bottom .nav-btn.primary {
+            background: #b8864a;
             color: #fff;
             border: none;
+            box-shadow: 0 4px 16px rgba(184, 134, 74, 0.15);
         }
-        .quiz-footer .nav-btn.primary:active {
+        .quiz-bottom .nav-btn.primary:active {
             opacity: 0.9;
         }
 
-        /* 响应式 */
+        .quiz-card::-webkit-scrollbar {
+            width: 0;
+        }
+
+        /* ===== 响应式 ===== */
         @media (max-width: 420px) {
-            .path-item {
-                padding: 12px 14px;
+            body {
+                padding: 16px 14px 30px;
             }
-            .path-item .name {
+            .card {
+                padding: 20px 18px 16px;
+                border-radius: 24px;
+            }
+            .path-name {
                 font-size: 15px;
             }
             .quiz-card .q-text {
@@ -384,67 +379,59 @@
                 padding: 12px 16px;
             }
         }
-
-        /* 滚动条隐藏 */
-        .quiz-card::-webkit-scrollbar {
-            width: 0;
-        }
     </style>
 </head>
 <body>
 
+    <!-- ========== 首页 ========== -->
     <div class="app" id="homePage">
-        <!-- 顶部 -->
+        <!-- 顶栏 -->
         <div class="header">
-            <div class="logo">道法历史<span>·闯关</span></div>
-            <div class="user-badge">
+            <div class="logo">道法历史 <span>· 闯关</span></div>
+            <div class="badge">
                 <span class="dot"></span>
                 八年级 · 诊断中
             </div>
         </div>
 
-        <!-- 路径卡片 -->
-        <div class="glass-card">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                <span style="font-size:15px;font-weight:500;color:#1a1a1a;">学习路径</span>
-                <span style="font-size:12px;color:#999;">已诊断 0 / 200 题</span>
-            </div>
-            <div class="path-list" id="pathList">
-                <!-- 由 JS 动态生成 -->
+        <!-- 学习路径卡片 -->
+        <div class="card">
+            <div class="card-title">学习路径</div>
+            <div class="card-sub">已诊断 0 / 200 题</div>
+            <div id="pathList">
+                <!-- JS 动态渲染 -->
             </div>
         </div>
 
         <!-- 按钮 -->
-        <button class="btn-primary" id="startBtn">🚀 开始诊断 · 10分钟找到薄弱点</button>
-        <button class="btn-secondary" id="reportBtn">📊 诊断报告（即将上线）</button>
+        <button class="btn" id="startBtn">开始诊断 · 10 分钟找到薄弱点</button>
+        <button class="btn btn-secondary" id="reportBtn">诊断报告（即将上线）</button>
     </div>
 
-    <!-- ===== 刷题页 ===== -->
+    <!-- ========== 刷题页 ========== -->
     <div class="quiz-page" id="quizPage">
-        <div class="quiz-header">
-            <div class="back" id="quizBack">←</div>
-            <div class="progress-text">第 <span id="qIndexDisplay">1</span> / <span id="qTotalDisplay">0</span> 题</div>
+        <div class="quiz-top">
+            <div class="quiz-back" id="quizBack">←</div>
+            <div class="quiz-progress">第 <strong id="qIndexDisplay">1</strong> / <span id="qTotalDisplay">0</span> 题</div>
             <div style="width:44px;"></div>
         </div>
 
-        <div class="quiz-card-wrap" id="cardWrap">
-            <div class="quiz-card-track" id="cardTrack">
-                <!-- 由 JS 动态生成 -->
+        <div class="quiz-track-wrap" id="trackWrap">
+            <div class="quiz-track" id="track">
+                <!-- JS 动态生成 -->
             </div>
         </div>
 
-        <div class="quiz-footer">
+        <div class="quiz-bottom">
             <button class="nav-btn" id="prevBtn">← 上一题</button>
             <button class="nav-btn primary" id="nextBtn">下一题 →</button>
         </div>
     </div>
 
     <script>
-        // ============================================================
-        // 示例题库（共20题，覆盖八上、八下两个模块）
-        // 实际使用时替换为完整题库，每道题包含：
-        //   id, module, subject, question, options[], answer (0-3), explanation
-        // ============================================================
+        // ================================================================
+        // 示例题库（20题，八上 + 八下）
+        // ================================================================
         const SAMPLE_QUESTIONS = [{
             id: 1,
             module: '八上',
@@ -452,7 +439,7 @@
             question: '鸦片战争爆发于哪一年？',
             options: ['1838年', '1840年', '1842年', '1856年'],
             answer: 1,
-            explanation: '1840年6月，英国发动鸦片战争，是中国近代史的开端。'
+            explanation: '1840年6月，英国发动鸦片战争，中国近代史开端。'
         }, {
             id: 2,
             module: '八上',
@@ -460,7 +447,7 @@
             question: '《南京条约》中，中国被迫割让了哪个地方？',
             options: ['香港岛', '台湾岛', '澳门', '九龙半岛'],
             answer: 0,
-            explanation: '《南京条约》规定中国割让香港岛给英国。'
+            explanation: '《南京条约》规定割让香港岛给英国。'
         }, {
             id: 3,
             module: '八上',
@@ -607,23 +594,20 @@
             explanation: '宪法第三十三条第三款规定：国家尊重和保障人权。'
         }];
 
-        // ============================================================
-        // 应用状态
-        // ============================================================
+        // ================================================================
+        // 状态
+        // ================================================================
         const state = {
             questions: [],
             currentIndex: 0,
             answered: false,
-            selectedOption: -1,
-            history: {}, // { questionId: selectedIndex }
-            wrongIds: new Set(),
-            correctIds: new Set(),
+            history: {}, // questionId -> selectedOptionIndex
         };
 
-        // DOM 引用
+        // DOM
         const homePage = document.getElementById('homePage');
         const quizPage = document.getElementById('quizPage');
-        const cardTrack = document.getElementById('cardTrack');
+        const track = document.getElementById('track');
         const qIndexDisplay = document.getElementById('qIndexDisplay');
         const qTotalDisplay = document.getElementById('qTotalDisplay');
         const prevBtn = document.getElementById('prevBtn');
@@ -633,11 +617,10 @@
         const quizBack = document.getElementById('quizBack');
         const pathList = document.getElementById('pathList');
 
-        // ============================================================
+        // ================================================================
         // 路径渲染
-        // ============================================================
+        // ================================================================
         const MODULES = ['七上', '七下', '八上', '八下', '九上', '九下', '中考冲刺'];
-        // 假设已完成：八上已做完，八下进行中
         const MODULE_STATUS = {
             '七上': 'done',
             '七下': 'done',
@@ -662,19 +645,19 @@
             MODULES.forEach(m => {
                 const status = MODULE_STATUS[m] || 'pending';
                 const count = MODULE_COUNT[m] || 0;
-                const dotClass = status === 'done' ? 'done' : status === 'active' ? 'active' : 'pending';
-                const statusText = status === 'done' ? '已完成' : status === 'active' ? '进行中' : '未开始';
-                const statusTagClass = status === 'done' ? '' : 'pending';
-                const activeClass = status === 'active' ? 'active' : '';
+                const dotClass = status === 'done' ? 'done' : status === 'active' ? 'active' : '';
+                const tagClass = status === 'done' ? 'done' : status === 'active' ? 'active' : '';
+                const tagText = status === 'done' ? '已完成' : status === 'active' ? '进行中' : '未开始';
+                const countText = count > 0 ? `${count} 题` : '';
                 html += `
-                    <div class="path-item ${activeClass}">
-                        <div class="left">
-                            <span class="dot ${dotClass}"></span>
-                            <span class="name">${m}</span>
+                    <div class="path-item">
+                        <div class="path-left">
+                            <span class="path-dot ${dotClass}"></span>
+                            <span class="path-name">${m}</span>
                         </div>
-                        <div class="right">
-                            ${count > 0 ? `<span class="count">${count}</span> 题` : ''}
-                            <span class="status-tag ${statusTagClass}">${statusText}</span>
+                        <div class="path-meta">
+                            ${countText ? `<strong>${countText}</strong> ` : ''}
+                            <span class="path-tag ${tagClass}">${tagText}</span>
                         </div>
                     </div>
                 `;
@@ -683,222 +666,178 @@
         }
         renderPath();
 
-        // ============================================================
+        // ================================================================
         // 刷题引擎
-        // ============================================================
+        // ================================================================
         function initQuiz(questions) {
             state.questions = questions;
             state.currentIndex = 0;
             state.answered = false;
-            state.selectedOption = -1;
             state.history = {};
-            state.wrongIds = new Set();
-            state.correctIds = new Set();
 
             qTotalDisplay.textContent = questions.length;
             renderCards(questions);
             updateCardPosition(0);
-            updateQuizUI();
+            updateUI();
         }
 
         function renderCards(questions) {
+            const letters = ['A', 'B', 'C', 'D'];
             let html = '';
             questions.forEach((q, idx) => {
-                const letter = ['A', 'B', 'C', 'D'];
-                let optsHtml = q.options.map((opt, oi) => {
-                    return `<div class="opt" data-q="${idx}" data-opt="${oi}">${letter[oi]}. ${opt}</div>`;
-                }).join('');
+                const optsHtml = q.options.map((opt, oi) =>
+                    `<div class="opt" data-q="${idx}" data-opt="${oi}">${letters[oi]}. ${opt}</div>`
+                ).join('');
                 html += `
                     <div class="quiz-card" data-index="${idx}">
                         <div class="q-meta">${q.subject} · ${q.module}</div>
                         <div class="q-module">模块：${q.module}</div>
                         <div class="q-text">${q.question}</div>
                         <div class="options">${optsHtml}</div>
-                        <div class="explanation" id="explanation-${idx}"><strong>解析：</strong>${q.explanation}</div>
+                        <div class="explanation" id="expl-${idx}"><strong>解析</strong> ${q.explanation}</div>
                     </div>
                 `;
             });
-            cardTrack.innerHTML = html;
+            track.innerHTML = html;
 
-            // 绑定选项点击事件（委托）
-            cardTrack.querySelectorAll('.opt').forEach(el => {
-                el.addEventListener('click', function(e) {
+            // 选项点击
+            track.querySelectorAll('.opt').forEach(el => {
+                el.addEventListener('click', function() {
                     const qIdx = parseInt(this.dataset.q);
                     const optIdx = parseInt(this.dataset.opt);
-                    handleOptionClick(qIdx, optIdx);
+                    if (state.answered || qIdx !== state.currentIndex) return;
+                    handleSelect(qIdx, optIdx);
                 });
             });
         }
 
-        function handleOptionClick(qIdx, optIdx) {
-            if (state.answered) return;
-            if (qIdx !== state.currentIndex) return;
-
+        function handleSelect(qIdx, optIdx) {
             const q = state.questions[qIdx];
-            const card = cardTrack.querySelector(`.quiz-card[data-index="${qIdx}"]`);
+            const card = track.querySelector(`.quiz-card[data-index="${qIdx}"]`);
             if (!card) return;
 
             const opts = card.querySelectorAll('.opt');
             const expl = card.querySelector('.explanation');
 
-            // 禁用所有选项
-            opts.forEach(o => o.classList.add('disabled'));
-
-            // 标记正确/错误
             const isCorrect = (optIdx === q.answer);
             opts.forEach((o, i) => {
+                o.classList.add('disabled');
                 if (i === q.answer) o.classList.add('correct');
                 if (i === optIdx && !isCorrect) o.classList.add('wrong');
             });
 
-            // 显示解析
             expl.classList.add('show');
-
             state.answered = true;
-            state.selectedOption = optIdx;
             state.history[q.id] = optIdx;
-            if (isCorrect) {
-                state.correctIds.add(q.id);
-            } else {
-                state.wrongIds.add(q.id);
-            }
 
-            // 更新底部按钮文案
-            updateQuizUI();
+            updateUI();
         }
 
         function updateCardPosition(index) {
-            const track = cardTrack;
-            const cardWidth = track.parentElement.clientWidth || 380;
+            const wrap = document.getElementById('trackWrap');
+            const cardWidth = wrap.clientWidth || 380;
             track.style.transform = `translateX(-${index * cardWidth}px)`;
-            qIndexDisplay.textContent = index + 1;
             state.currentIndex = index;
             state.answered = false;
-            state.selectedOption = -1;
 
-            // 重置卡片状态
-            const card = cardTrack.querySelector(`.quiz-card[data-index="${index}"]`);
-            if (card) {
-                const opts = card.querySelectorAll('.opt');
-                const expl = card.querySelector('.explanation');
-                opts.forEach(o => {
-                    o.classList.remove('correct', 'wrong', 'disabled');
-                });
-                expl.classList.remove('show');
-
-                // 如果这道题之前答过，恢复状态
-                const q = state.questions[index];
-                if (q && state.history[q.id] !== undefined) {
+            // 恢复已答状态
+            const q = state.questions[index];
+            if (q && state.history[q.id] !== undefined) {
+                const card = track.querySelector(`.quiz-card[data-index="${index}"]`);
+                if (card) {
+                    const opts = card.querySelectorAll('.opt');
+                    const expl = card.querySelector('.explanation');
                     const prevOpt = state.history[q.id];
                     const isCorrect = (prevOpt === q.answer);
                     opts.forEach((o, i) => {
+                        o.classList.add('disabled');
                         if (i === q.answer) o.classList.add('correct');
                         if (i === prevOpt && !isCorrect) o.classList.add('wrong');
-                        o.classList.add('disabled');
                     });
                     expl.classList.add('show');
                     state.answered = true;
-                    state.selectedOption = prevOpt;
                 }
             }
 
-            updateQuizUI();
+            qIndexDisplay.textContent = index + 1;
+            updateUI();
         }
 
-        function updateQuizUI() {
+        function updateUI() {
             const total = state.questions.length;
             const idx = state.currentIndex;
-            qIndexDisplay.textContent = idx + 1;
             prevBtn.disabled = (idx === 0);
-            // 下一题按钮文字
-            if (idx === total - 1) {
-                nextBtn.textContent = '📊 查看报告';
-            } else {
-                nextBtn.textContent = '下一题 →';
-            }
-            // 如果当前题已答，下一题可点；否则不可点
-            // 但为了体验，让用户必须答题才能继续，已经通过选项点击控制
-            // 下一题始终可点，但如果未答则提示
+            nextBtn.textContent = (idx === total - 1) ? '📊 查看报告' : '下一题 →';
         }
 
-        // ============================================================
+        // ================================================================
         // 导航
-        // ============================================================
-        function goToPrev() {
-            if (state.currentIndex > 0) {
-                updateCardPosition(state.currentIndex - 1);
-            }
+        // ================================================================
+        function goPrev() {
+            if (state.currentIndex > 0) updateCardPosition(state.currentIndex - 1);
         }
 
-        function goToNext() {
+        function goNext() {
             const q = state.questions[state.currentIndex];
             if (!state.answered && state.history[q.id] === undefined) {
-                // 提示用户先答题
-                const card = cardTrack.querySelector(`.quiz-card[data-index="${state.currentIndex}"]`);
+                // 闪一下提示
+                const card = track.querySelector(`.quiz-card[data-index="${state.currentIndex}"]`);
                 if (card) {
-                    const opts = card.querySelectorAll('.opt');
-                    opts.forEach(o => {
-                        o.style.transition = 'all 0.1s';
-                        o.style.borderColor = '#ff6b6b';
-                        setTimeout(() => {
-                            o.style.borderColor = '';
-                        }, 400);
-                    });
+                    card.style.transition = 'all 0.1s';
+                    card.style.backgroundColor = '#f8efed';
+                    setTimeout(() => {
+                        card.style.backgroundColor = '#ffffff';
+                    }, 300);
                 }
                 return;
             }
             if (state.currentIndex < state.questions.length - 1) {
                 updateCardPosition(state.currentIndex + 1);
             } else {
-                // 最后一题，查看报告
-                alert('🎉 诊断完成！你已完成全部20题。\n正确率：' + Math.round(state.correctIds.size / state.questions.length *
-                    100) + '%\n薄弱模块将根据错题分析生成。');
-                // 这里可以跳转到报告页
+                const total = state.questions.length;
+                const correct = Object.values(state.history).filter((v, i) => v === state.questions[i].answer).length;
+                alert(`✅ 诊断完成！\n\n共 ${total} 题，正确 ${correct} 题，正确率 ${Math.round(correct/total*100)}%\n薄弱模块将根据错题生成。`);
             }
         }
 
-        // ============================================================
+        // ================================================================
         // 事件绑定
-        // ============================================================
-        startBtn.addEventListener('click', function() {
-            const questions = SAMPLE_QUESTIONS;
-            if (questions.length === 0) {
-                alert('题库为空，请先导入题目。');
-                return;
-            }
+        // ================================================================
+        startBtn.addEventListener('click', () => {
+            if (SAMPLE_QUESTIONS.length === 0) { alert('题库为空'); return; }
             homePage.style.display = 'none';
             quizPage.classList.add('show');
-            initQuiz(questions);
+            initQuiz(SAMPLE_QUESTIONS);
         });
 
-        quizBack.addEventListener('click', function() {
+        quizBack.addEventListener('click', () => {
             quizPage.classList.remove('show');
             homePage.style.display = 'block';
         });
 
-        prevBtn.addEventListener('click', goToPrev);
-        nextBtn.addEventListener('click', goToNext);
+        prevBtn.addEventListener('click', goPrev);
+        nextBtn.addEventListener('click', goNext);
 
-        reportBtn.addEventListener('click', function() {
-            alert('📊 诊断报告功能即将上线。\n完成诊断后，将自动生成你的薄弱知识点分析。');
+        reportBtn.addEventListener('click', () => {
+            alert('📊 诊断报告即将上线\n完成诊断后，系统将自动分析你的薄弱知识点。');
         });
 
-        // ============================================================
-        // 触摸滑动（左右滑动翻题）
-        // ============================================================
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let isSwiping = false;
-        const wrap = document.getElementById('cardWrap');
+        // ================================================================
+        // 触摸滑动（左右翻题）
+        // ================================================================
+        let touchStartX = 0,
+            touchStartY = 0,
+            isSwiping = false;
+        const wrap = document.getElementById('trackWrap');
 
-        wrap.addEventListener('touchstart', function(e) {
+        wrap.addEventListener('touchstart', (e) => {
             const t = e.touches[0];
             touchStartX = t.clientX;
             touchStartY = t.clientY;
             isSwiping = false;
         }, { passive: true });
 
-        wrap.addEventListener('touchmove', function(e) {
+        wrap.addEventListener('touchmove', (e) => {
             if (e.touches.length !== 1) return;
             const t = e.touches[0];
             const dx = t.clientX - touchStartX;
@@ -909,49 +848,43 @@
             }
         }, { passive: false });
 
-        wrap.addEventListener('touchend', function(e) {
+        wrap.addEventListener('touchend', (e) => {
             if (!isSwiping) return;
             const t = e.changedTouches[0];
             const dx = t.clientX - touchStartX;
-            if (dx < -50) {
-                goToNext();
-            } else if (dx > 50) {
-                goToPrev();
-            }
+            if (dx < -50) goNext();
+            else if (dx > 50) goPrev();
         }, { passive: true });
 
-        // ============================================================
-        // 键盘支持（左右箭头）
-        // ============================================================
-        document.addEventListener('keydown', function(e) {
+        // ================================================================
+        // 键盘支持
+        // ================================================================
+        document.addEventListener('keydown', (e) => {
             if (!quizPage.classList.contains('show')) return;
-            if (e.key === 'ArrowLeft') goToPrev();
-            if (e.key === 'ArrowRight') goToNext();
+            if (e.key === 'ArrowLeft') goPrev();
+            if (e.key === 'ArrowRight') goNext();
         });
 
-        // ============================================================
-        // 窗口resize时重新定位卡片
-        // ============================================================
+        // ================================================================
+        // resize 自适应
+        // ================================================================
         let resizeTimer;
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
                 if (quizPage.classList.contains('show')) {
                     const idx = state.currentIndex || 0;
-                    const track = cardTrack;
-                    const cardWidth = track.parentElement.clientWidth || 380;
+                    const w = document.getElementById('trackWrap').clientWidth || 380;
                     track.style.transition = 'none';
-                    track.style.transform = `translateX(-${idx * cardWidth}px)`;
+                    track.style.transform = `translateX(-${idx * w}px)`;
                     requestAnimationFrame(() => {
-                        track.style.transition = 'transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                        track.style.transition = 'transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1)';
                     });
                 }
             }, 200);
         });
 
-        // 启动时检查
-        console.log('✅ 道法历史闯关已加载（浅色毛玻璃版）');
-        console.log('📚 题库共 ' + SAMPLE_QUESTIONS.length + ' 题（示例数据）');
+        console.log('✅ 道法历史闯关已加载（清晨咖啡馆风格）');
     </script>
 </body>
 </html>
