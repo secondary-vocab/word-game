@@ -16,9 +16,9 @@
             background: #ffffff;
             color: #1a1a1a;
             min-height: 100vh;
-            padding: 20px 16px 30px;
             display: flex;
             justify-content: center;
+            padding: 20px 16px 30px;
         }
 
         .app {
@@ -33,6 +33,7 @@
             align-items: center;
             padding: 4px 0 20px;
         }
+
         .logo {
             font-size: 22px;
             font-weight: 600;
@@ -42,6 +43,7 @@
             font-weight: 300;
             color: #c49a6c;
         }
+
         .user-badge {
             font-size: 13px;
             color: #999;
@@ -65,14 +67,16 @@
             background: #ffffff;
             border-radius: 16px;
             padding: 20px 0 4px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
+
         .card-title {
             font-size: 15px;
             font-weight: 500;
             color: #1a1a1a;
             padding: 0 4px 4px;
         }
+
         .card-sub {
             font-size: 13px;
             color: #999;
@@ -80,11 +84,13 @@
             border-bottom: 1px solid #f0f0f0;
         }
 
-        /* 列表 */
+        /* 列表 - 完全按参考图 */
         .path-list {
             display: flex;
             flex-direction: column;
+            padding-top: 4px;
         }
+
         .path-item {
             display: flex;
             justify-content: space-between;
@@ -92,35 +98,43 @@
             padding: 14px 4px;
             border-bottom: 1px solid #f5f5f5;
         }
+
         .path-item:last-child {
             border-bottom: none;
         }
+
         .path-name {
             font-size: 16px;
             font-weight: 400;
             color: #1a1a1a;
         }
+
         .path-right {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             font-size: 14px;
             color: #999;
         }
+
         .path-right .count {
             color: #1a1a1a;
+            font-weight: 500;
         }
+
         .path-status {
             font-size: 12px;
-            padding: 2px 12px;
+            padding: 2px 14px;
             border-radius: 30px;
             background: #f5f5f5;
-            color: #999;
+            color: #bbb;
         }
+
         .path-status.done {
             background: #f0f7f0;
             color: #5a8a5a;
         }
+
         .path-status.active {
             background: #f7f0e8;
             color: #c49a6c;
