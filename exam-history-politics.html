@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>道法历史 · 闯关</title>
     <style>
-        /* ===== 清晨咖啡馆 · 暖米白 ===== */
         * {
             margin: 0;
             padding: 0;
@@ -14,13 +13,12 @@
 
         body {
             font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-            background: #f7f2eb;
-            color: #2c241c;
+            background: #ffffff;
+            color: #1a1a1a;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 20px 16px 30px;
+            display: flex;
+            justify-content: center;
         }
 
         .app {
@@ -28,184 +26,123 @@
             width: 100%;
         }
 
-        /* ===== 顶部 ===== */
+        /* 顶部 */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 6px 0 24px 0;
+            padding: 4px 0 20px;
         }
         .logo {
             font-size: 22px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            color: #2c241c;
+            font-weight: 600;
+            color: #1a1a1a;
         }
         .logo span {
-            color: #c49a6c;
             font-weight: 300;
+            color: #c49a6c;
         }
         .user-badge {
             font-size: 13px;
-            color: #8a7a6a;
-            background: rgba(255, 255, 255, 0.6);
+            color: #999;
+            background: #f5f5f5;
             border-radius: 30px;
             padding: 6px 16px 6px 12px;
             display: flex;
             align-items: center;
             gap: 8px;
-            border: 1px solid rgba(196, 154, 108, 0.15);
         }
         .user-badge .dot {
-            display: inline-block;
             width: 8px;
             height: 8px;
             background: #c49a6c;
             border-radius: 50%;
+            display: inline-block;
         }
 
-        /* ===== 毛玻璃卡片 ===== */
+        /* 卡片 */
         .card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 24px;
-            padding: 24px 20px 20px;
-            box-shadow: 0 4px 20px rgba(180, 150, 120, 0.08);
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px 0 4px;
             margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
         }
-
         .card-title {
             font-size: 15px;
             font-weight: 500;
-            color: #2c241c;
-            margin-bottom: 4px;
+            color: #1a1a1a;
+            padding: 0 4px 4px;
         }
         .card-sub {
             font-size: 13px;
-            color: #8a7a6a;
-            margin-bottom: 18px;
+            color: #999;
+            padding: 0 4px 16px;
+            border-bottom: 1px solid #f0f0f0;
         }
 
-        /* ===== 路径列表（圆点+细线） ===== */
+        /* 列表 */
         .path-list {
             display: flex;
             flex-direction: column;
-            gap: 0;
-            padding-left: 4px;
         }
-
         .path-item {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 10px 12px 10px 0;
-            position: relative;
-        }
-
-        /* 左侧：圆点 + 细线 */
-        .path-left {
-            display: flex;
             align-items: center;
-            gap: 14px;
-            flex: 1;
-            position: relative;
+            padding: 14px 4px;
+            border-bottom: 1px solid #f5f5f5;
         }
-        .path-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            z-index: 2;
-            border: 2px solid #fff;
-            box-shadow: 0 0 0 1px rgba(196, 154, 108, 0.15);
+        .path-item:last-child {
+            border-bottom: none;
         }
-        .path-dot.done {
-            background: #c49a6c;
-        }
-        .path-dot.active {
-            background: #b8864a;
-            box-shadow: 0 0 0 3px rgba(184, 134, 74, 0.2);
-        }
-        .path-dot.pending {
-            background: #dcd3cb;
-        }
-
-        /* 细线（连接上下两个圆点） */
-        .path-line {
-            position: absolute;
-            left: 5px;
-            top: 28px;
-            width: 2px;
-            height: 28px;
-            background: #e8e0d8;
-            z-index: 1;
-        }
-        .path-item:last-child .path-line {
-            display: none;
-        }
-
         .path-name {
             font-size: 16px;
             font-weight: 400;
-            color: #2c241c;
+            color: #1a1a1a;
         }
-
         .path-right {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 13px;
-            color: #8a7a6a;
-            flex-shrink: 0;
+            font-size: 14px;
+            color: #999;
         }
         .path-right .count {
-            color: #2c241c;
-            font-weight: 500;
+            color: #1a1a1a;
         }
         .path-status {
-            font-size: 11px;
+            font-size: 12px;
             padding: 2px 12px;
             border-radius: 30px;
-            background: rgba(196, 154, 108, 0.08);
-            color: #c49a6c;
+            background: #f5f5f5;
+            color: #999;
         }
         .path-status.done {
-            background: rgba(196, 154, 108, 0.06);
-            color: #8a7a6a;
+            background: #f0f7f0;
+            color: #5a8a5a;
         }
-        .path-status.pending {
-            background: rgba(0, 0, 0, 0.03);
-            color: #dcd3cb;
-        }
-
-        /* 进行中的行轻微高亮 */
-        .path-item.active-row .path-name {
-            font-weight: 500;
-            color: #b8864a;
+        .path-status.active {
+            background: #f7f0e8;
+            color: #c49a6c;
         }
 
-        /* ===== 按钮 ===== */
+        /* 按钮 */
         .btn-primary {
             display: block;
             width: 100%;
             padding: 16px 0;
             border: none;
-            border-radius: 18px;
+            border-radius: 16px;
             background: #c49a6c;
             color: #fff;
             font-size: 17px;
             font-weight: 500;
-            letter-spacing: 0.3px;
-            transition: background 0.15s, transform 0.1s;
             cursor: pointer;
-            box-shadow: 0 4px 16px rgba(196, 154, 108, 0.2);
             text-align: center;
+            transition: background 0.15s;
         }
         .btn-primary:active {
             background: #b8864a;
-            transform: scale(0.97);
         }
 
         .btn-secondary {
@@ -213,26 +150,25 @@
             width: 100%;
             padding: 14px 0;
             border: none;
-            border-radius: 18px;
+            border-radius: 16px;
             background: transparent;
-            color: #8a7a6a;
+            color: #999;
             font-size: 15px;
             font-weight: 400;
-            transition: background 0.15s;
             cursor: pointer;
             text-align: center;
             margin-top: 8px;
-            border: 1px solid rgba(196, 154, 108, 0.12);
+            border: 1px solid #eee;
         }
         .btn-secondary:active {
-            background: rgba(196, 154, 108, 0.04);
+            background: #f9f9f9;
         }
     </style>
 </head>
 <body>
 
     <div class="app">
-        <!-- ===== 顶部 ===== -->
+        <!-- 顶部 -->
         <div class="header">
             <div class="logo">道法历史 <span>· 闯关</span></div>
             <div class="user-badge">
@@ -241,113 +177,71 @@
             </div>
         </div>
 
-        <!-- ===== 学习路径卡片 ===== -->
+        <!-- 卡片 -->
         <div class="card">
             <div class="card-title">学习路径</div>
             <div class="card-sub">已诊断 0 / 200 题</div>
 
             <div class="path-list">
-                <!-- 七上 · 已完成 -->
                 <div class="path-item">
-                    <div class="path-left">
-                        <span class="path-dot done"></span>
-                        <span class="path-name">七上</span>
-                        <span class="path-line"></span>
-                    </div>
+                    <span class="path-name">七上</span>
                     <div class="path-right">
                         <span class="path-status done">已完成</span>
                     </div>
                 </div>
-
-                <!-- 七下 · 已完成 -->
                 <div class="path-item">
-                    <div class="path-left">
-                        <span class="path-dot done"></span>
-                        <span class="path-name">七下</span>
-                        <span class="path-line"></span>
-                    </div>
+                    <span class="path-name">七下</span>
                     <div class="path-right">
                         <span class="path-status done">已完成</span>
                     </div>
                 </div>
-
-                <!-- 八上 · 已完成 -->
                 <div class="path-item">
-                    <div class="path-left">
-                        <span class="path-dot done"></span>
-                        <span class="path-name">八上</span>
-                        <span class="path-line"></span>
-                    </div>
+                    <span class="path-name">八上</span>
                     <div class="path-right">
                         <span class="count">10</span> 题
                         <span class="path-status done">已完成</span>
                     </div>
                 </div>
-
-                <!-- 八下 · 进行中（高亮） -->
-                <div class="path-item active-row">
-                    <div class="path-left">
-                        <span class="path-dot active"></span>
-                        <span class="path-name">八下</span>
-                        <span class="path-line"></span>
-                    </div>
+                <div class="path-item">
+                    <span class="path-name">八下</span>
                     <div class="path-right">
                         <span class="count">10</span> 题
-                        <span class="path-status">进行中</span>
+                        <span class="path-status active">进行中</span>
                     </div>
                 </div>
-
-                <!-- 九上 · 未开始 -->
                 <div class="path-item">
-                    <div class="path-left">
-                        <span class="path-dot pending"></span>
-                        <span class="path-name">九上</span>
-                        <span class="path-line"></span>
-                    </div>
+                    <span class="path-name">九上</span>
                     <div class="path-right">
-                        <span class="path-status pending">未开始</span>
+                        <span class="path-status">未开始</span>
                     </div>
                 </div>
-
-                <!-- 九下 · 未开始 -->
                 <div class="path-item">
-                    <div class="path-left">
-                        <span class="path-dot pending"></span>
-                        <span class="path-name">九下</span>
-                        <span class="path-line"></span>
-                    </div>
+                    <span class="path-name">九下</span>
                     <div class="path-right">
-                        <span class="path-status pending">未开始</span>
+                        <span class="path-status">未开始</span>
                     </div>
                 </div>
-
-                <!-- 中考冲刺 · 未开始（最后一项，无细线） -->
                 <div class="path-item">
-                    <div class="path-left">
-                        <span class="path-dot pending"></span>
-                        <span class="path-name">中考冲刺</span>
-                    </div>
+                    <span class="path-name">中考冲刺</span>
                     <div class="path-right">
-                        <span class="path-status pending">未开始</span>
+                        <span class="path-status">未开始</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== 按钮 ===== -->
+        <!-- 按钮 -->
         <button class="btn-primary" id="startBtn">开始诊断 · 10分钟找到薄弱点</button>
         <button class="btn-secondary" id="reportBtn">诊断报告（即将上线）</button>
     </div>
 
     <script>
-        // 简单的按钮交互反馈
         document.getElementById('startBtn').addEventListener('click', function() {
             alert('🚀 诊断功能即将上线，敬请期待！');
         });
         document.getElementById('reportBtn').addEventListener('click', function() {
             alert('📊 诊断报告功能即将上线，敬请期待！');
         });
-        console.log('✅ 道法历史 · 闯关（清晨咖啡馆 · 路径版）已加载');
     </script>
 </body>
 </html>
