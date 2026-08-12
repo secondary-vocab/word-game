@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>道法历史 · 闯关</title>
     <style>
-        /* ===== 全局重置 ===== */
+        /* ===== reset & base ===== */
         * {
             margin: 0;
             padding: 0;
@@ -13,20 +13,32 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
             background: #f7f2eb;
+            /* 清晨咖啡馆 · 暖米白 */
             color: #2c241c;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            padding: 24px 20px 40px;
-            -webkit-font-smoothing: antialiased;
+            justify-content: center;
+            padding: 20px 16px 30px;
         }
 
         .app {
             max-width: 420px;
             width: 100%;
+            margin: 0 auto;
+        }
+
+        /* ===== 文字 & 颜色 ===== */
+        .text-muted {
+            color: #8a7a6a;
+        }
+        .text-gold {
+            color: #c49a6c;
+        }
+        .text-dark {
+            color: #2c241c;
         }
 
         /* ===== 顶部 ===== */
@@ -34,45 +46,47 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 0 28px 0;
+            padding: 6px 0 24px 0;
         }
         .logo {
             font-size: 22px;
-            font-weight: 600;
+            font-weight: 500;
             letter-spacing: 0.5px;
             color: #2c241c;
         }
         .logo span {
+            color: #c49a6c;
             font-weight: 300;
-            color: #8a7a6a;
         }
-        .badge {
+        .user-badge {
             font-size: 13px;
             color: #8a7a6a;
             background: rgba(255, 255, 255, 0.6);
-            padding: 6px 16px 6px 14px;
             border-radius: 30px;
-            border: 1px solid rgba(200, 180, 165, 0.2);
+            padding: 6px 16px 6px 12px;
             display: flex;
             align-items: center;
             gap: 8px;
+            border: 1px solid rgba(196, 154, 108, 0.15);
         }
-        .badge .dot {
-            width: 7px;
-            height: 7px;
+        .user-badge .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
             background: #c49a6c;
             border-radius: 50%;
-            display: inline-block;
         }
 
         /* ===== 卡片 ===== */
         .card {
             background: #ffffff;
-            border-radius: 28px;
-            padding: 24px 24px 20px;
-            box-shadow: 0 4px 24px rgba(180, 150, 120, 0.08);
+            border-radius: 24px;
+            padding: 24px 20px 20px;
+            box-shadow: 0 4px 20px rgba(180, 150, 120, 0.06);
             margin-bottom: 20px;
+            border: 1px solid rgba(196, 154, 108, 0.06);
         }
+
         .card-title {
             font-size: 15px;
             font-weight: 500;
@@ -82,99 +96,118 @@
         .card-sub {
             font-size: 13px;
             color: #8a7a6a;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
         }
 
-        /* ===== 学习路径（极简列表） ===== */
+        /* ===== 路径列表 ===== */
+        .path-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
         .path-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(200, 180, 165, 0.15);
+            padding: 12px 14px;
+            border-radius: 14px;
+            transition: background 0.15s;
         }
-        .path-item:last-child {
-            border-bottom: none;
+        .path-item.active {
+            background: rgba(196, 154, 108, 0.06);
         }
-        .path-left {
+
+        .path-item .left {
             display: flex;
             align-items: center;
             gap: 14px;
         }
-        .path-dot {
-            width: 8px;
-            height: 8px;
+        .path-item .dot {
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             flex-shrink: 0;
-            background: #d5cdc5;
         }
-        .path-dot.done {
+        .path-item .dot.done {
             background: #c49a6c;
         }
-        .path-dot.active {
+        .path-item .dot.active {
             background: #b8864a;
-            box-shadow: 0 0 0 3px rgba(184, 134, 74, 0.12);
+            box-shadow: 0 0 0 3px rgba(184, 134, 74, 0.15);
         }
-        .path-name {
+        .path-item .dot.pending {
+            background: #dcd3cb;
+        }
+
+        .path-item .name {
             font-size: 16px;
-            font-weight: 450;
+            font-weight: 400;
             color: #2c241c;
         }
-        .path-meta {
+        .path-item .right {
             font-size: 13px;
             color: #8a7a6a;
         }
-        .path-meta strong {
+        .path-item .right .num {
             color: #2c241c;
             font-weight: 500;
         }
-        .path-tag {
+        .path-item .status {
             font-size: 11px;
+            color: #b8864a;
+            margin-left: 8px;
+        }
+        .path-item .status.done {
             color: #8a7a6a;
-            background: rgba(200, 180, 165, 0.15);
-            padding: 2px 12px;
-            border-radius: 30px;
         }
-        .path-tag.done {
-            color: #b8864a;
-            background: rgba(184, 134, 74, 0.10);
-        }
-        .path-tag.active {
-            color: #b8864a;
-            background: rgba(184, 134, 74, 0.12);
+        .path-item .status.pending {
+            color: #dcd3cb;
         }
 
         /* ===== 按钮 ===== */
-        .btn {
+        .btn-primary {
+            display: block;
             width: 100%;
-            padding: 16px;
+            padding: 16px 0;
             border: none;
-            border-radius: 20px;
+            border-radius: 18px;
+            background: #c49a6c;
+            color: #fff;
             font-size: 17px;
             font-weight: 500;
+            letter-spacing: 0.3px;
+            transition: background 0.15s, transform 0.1s;
             cursor: pointer;
-            transition: all 0.15s;
+            box-shadow: 0 4px 16px rgba(196, 154, 108, 0.2);
+            text-align: center;
+        }
+        .btn-primary:active {
             background: #b8864a;
-            color: #fff;
-            box-shadow: 0 4px 20px rgba(184, 134, 74, 0.20);
-            margin-bottom: 12px;
-        }
-        .btn:active {
             transform: scale(0.97);
-            opacity: 0.9;
-        }
-        .btn-secondary {
-            background: transparent;
-            color: #8a7a6a;
-            box-shadow: none;
-            border: 1px solid rgba(200, 180, 165, 0.25);
-            font-size: 15px;
-        }
-        .btn-secondary:active {
-            background: rgba(200, 180, 165, 0.05);
         }
 
-        /* ===== 刷题页（全屏） ===== */
+        .btn-secondary {
+            display: block;
+            width: 100%;
+            padding: 14px 0;
+            border: none;
+            border-radius: 18px;
+            background: transparent;
+            color: #8a7a6a;
+            font-size: 15px;
+            font-weight: 400;
+            transition: background 0.15s;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 8px;
+            border: 1px solid rgba(196, 154, 108, 0.12);
+        }
+        .btn-secondary:active {
+            background: rgba(196, 154, 108, 0.04);
+        }
+
+        /* ===== 刷题页 ===== */
         .quiz-page {
             display: none;
             position: fixed;
@@ -185,85 +218,92 @@
             background: #f7f2eb;
             z-index: 1000;
             flex-direction: column;
-            padding: 24px 20px 28px;
+            padding: 20px 16px 28px;
+            overflow: hidden;
         }
         .quiz-page.show {
             display: flex;
         }
 
-        .quiz-top {
+        .quiz-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 20px;
+            padding: 4px 0 16px;
             flex-shrink: 0;
         }
-        .quiz-back {
-            font-size: 26px;
+        .quiz-header .back {
+            font-size: 24px;
             cursor: pointer;
             color: #2c241c;
             width: 44px;
             height: 44px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(200, 180, 165, 0.15);
+            background: #ffffff;
+            border: 1px solid rgba(196, 154, 108, 0.08);
+            box-shadow: 0 2px 8px rgba(180, 150, 120, 0.04);
             transition: all 0.15s;
         }
-        .quiz-back:active {
+        .quiz-header .back:active {
             transform: scale(0.92);
         }
-        .quiz-progress {
+        .quiz-header .progress-text {
             font-size: 15px;
             color: #8a7a6a;
+            font-weight: 400;
         }
-        .quiz-progress strong {
+        .quiz-header .progress-text span {
             color: #2c241c;
             font-weight: 500;
         }
+        .quiz-header .placeholder {
+            width: 44px;
+        }
 
         /* 卡片滑动区 */
-        .quiz-track-wrap {
+        .quiz-card-wrap {
             flex: 1;
             position: relative;
             overflow: hidden;
             border-radius: 28px;
             touch-action: none;
         }
-        .quiz-track {
+        .quiz-card-track {
             display: flex;
             height: 100%;
-            transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+            transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
             will-change: transform;
         }
         .quiz-card {
             min-width: 100%;
             height: 100%;
+            padding: 32px 24px 24px;
             background: #ffffff;
             border-radius: 28px;
-            padding: 32px 24px 20px;
-            box-shadow: 0 4px 24px rgba(180, 150, 120, 0.06);
+            box-shadow: 0 8px 32px rgba(180, 150, 120, 0.06);
+            border: 1px solid rgba(196, 154, 108, 0.04);
             display: flex;
             flex-direction: column;
             overflow-y: auto;
         }
         .quiz-card .q-meta {
             font-size: 12px;
-            color: #b8864a;
+            color: #c49a6c;
             font-weight: 500;
             letter-spacing: 0.3px;
             margin-bottom: 4px;
         }
         .quiz-card .q-module {
             font-size: 12px;
-            color: #8a7a6a;
+            color: #dcd3cb;
             margin-bottom: 20px;
         }
         .quiz-card .q-text {
             font-size: 20px;
-            font-weight: 450;
+            font-weight: 400;
             line-height: 1.7;
             color: #2c241c;
             margin-bottom: 28px;
@@ -272,103 +312,110 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
         }
         .quiz-card .opt {
             padding: 14px 18px;
             border-radius: 14px;
-            background: #f8f5f1;
-            border: 1.5px solid transparent;
+            background: rgba(247, 242, 235, 0.4);
+            border: 1px solid rgba(196, 154, 108, 0.08);
             font-size: 16px;
             color: #2c241c;
-            transition: all 0.15s;
+            transition: all 0.12s;
             cursor: pointer;
             user-select: none;
+            font-weight: 400;
         }
         .quiz-card .opt:active {
             transform: scale(0.97);
         }
         .quiz-card .opt.correct {
-            background: #f0f5ee;
             border-color: #c49a6c;
+            background: rgba(196, 154, 108, 0.06);
         }
         .quiz-card .opt.wrong {
-            background: #f8efed;
-            border-color: #d4a09a;
+            border-color: #d98c7a;
+            background: rgba(217, 140, 122, 0.06);
         }
         .quiz-card .opt.disabled {
-            opacity: 0.5;
+            opacity: 0.6;
             pointer-events: none;
         }
         .quiz-card .explanation {
             margin-top: 4px;
             padding: 16px 18px;
             border-radius: 14px;
-            background: #f8f5f1;
+            background: rgba(247, 242, 235, 0.5);
             font-size: 14px;
             color: #5a4e44;
-            line-height: 1.6;
+            line-height: 1.7;
             display: none;
+            border-left: 3px solid #c49a6c;
         }
         .quiz-card .explanation.show {
             display: block;
         }
-        .quiz-card .explanation strong {
-            color: #2c241c;
-            font-weight: 500;
-        }
 
-        .quiz-bottom {
+        .quiz-footer {
             display: flex;
             gap: 14px;
             padding-top: 16px;
             flex-shrink: 0;
         }
-        .quiz-bottom .nav-btn {
+        .quiz-footer .nav-btn {
             flex: 1;
             padding: 14px 0;
             border-radius: 16px;
             border: none;
             font-size: 15px;
-            font-weight: 450;
-            background: rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(200, 180, 165, 0.15);
-            color: #5a4e44;
+            font-weight: 400;
+            background: #ffffff;
+            border: 1px solid rgba(196, 154, 108, 0.08);
+            color: #8a7a6a;
             cursor: pointer;
             transition: all 0.15s;
             text-align: center;
+            box-shadow: 0 2px 8px rgba(180, 150, 120, 0.02);
         }
-        .quiz-bottom .nav-btn:active {
+        .quiz-footer .nav-btn:active {
             transform: scale(0.95);
         }
-        .quiz-bottom .nav-btn:disabled {
+        .quiz-footer .nav-btn:disabled {
             opacity: 0.3;
             pointer-events: none;
         }
-        .quiz-bottom .nav-btn.primary {
-            background: #b8864a;
+        .quiz-footer .nav-btn.primary {
+            background: #c49a6c;
             color: #fff;
             border: none;
-            box-shadow: 0 4px 16px rgba(184, 134, 74, 0.15);
+            box-shadow: 0 4px 16px rgba(196, 154, 108, 0.15);
         }
-        .quiz-bottom .nav-btn.primary:active {
-            opacity: 0.9;
+        .quiz-footer .nav-btn.primary:active {
+            background: #b8864a;
         }
 
+        /* ===== 工具 ===== */
+        .mt-4 {
+            margin-top: 4px;
+        }
+        .mb-8 {
+            margin-bottom: 8px;
+        }
+        .flex-1 {
+            flex: 1;
+        }
+
+        /* ===== 滚动条隐藏 ===== */
         .quiz-card::-webkit-scrollbar {
             width: 0;
         }
 
         /* ===== 响应式 ===== */
         @media (max-width: 420px) {
-            body {
-                padding: 16px 14px 30px;
+            .path-item {
+                padding: 10px 12px;
             }
-            .card {
-                padding: 20px 18px 16px;
-                border-radius: 24px;
-            }
-            .path-name {
+            .path-item .name {
                 font-size: 15px;
             }
             .quiz-card .q-text {
@@ -378,17 +425,28 @@
                 font-size: 15px;
                 padding: 12px 16px;
             }
+            .quiz-card {
+                padding: 24px 18px 18px;
+            }
+            .btn-primary {
+                font-size: 16px;
+                padding: 15px 0;
+            }
+        }
+
+        /* ===== 初始隐藏 ===== */
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
 
-    <!-- ========== 首页 ========== -->
     <div class="app" id="homePage">
-        <!-- 顶栏 -->
+        <!-- 顶部 -->
         <div class="header">
-            <div class="logo">道法历史 <span>· 闯关</span></div>
-            <div class="badge">
+            <div class="logo">道法历史<span>· 闯关</span></div>
+            <div class="user-badge">
                 <span class="dot"></span>
                 八年级 · 诊断中
             </div>
@@ -398,40 +456,41 @@
         <div class="card">
             <div class="card-title">学习路径</div>
             <div class="card-sub">已诊断 0 / 200 题</div>
-            <div id="pathList">
-                <!-- JS 动态渲染 -->
-            </div>
-        </div>
-
-        <!-- 按钮 -->
-        <button class="btn" id="startBtn">开始诊断 · 10 分钟找到薄弱点</button>
-        <button class="btn btn-secondary" id="reportBtn">诊断报告（即将上线）</button>
-    </div>
-
-    <!-- ========== 刷题页 ========== -->
-    <div class="quiz-page" id="quizPage">
-        <div class="quiz-top">
-            <div class="quiz-back" id="quizBack">←</div>
-            <div class="quiz-progress">第 <strong id="qIndexDisplay">1</strong> / <span id="qTotalDisplay">0</span> 题</div>
-            <div style="width:44px;"></div>
-        </div>
-
-        <div class="quiz-track-wrap" id="trackWrap">
-            <div class="quiz-track" id="track">
+            <div class="path-list" id="pathList">
                 <!-- JS 动态生成 -->
             </div>
         </div>
 
-        <div class="quiz-bottom">
+        <!-- 按钮区 -->
+        <button class="btn-primary" id="startBtn">开始诊断 · 10分钟找到薄弱点</button>
+        <button class="btn-secondary" id="reportBtn">诊断报告（即将上线）</button>
+    </div>
+
+    <!-- ===== 刷题页 ===== -->
+    <div class="quiz-page" id="quizPage">
+        <div class="quiz-header">
+            <div class="back" id="quizBack">←</div>
+            <div class="progress-text">第 <span id="qIndexDisplay">1</span> / <span id="qTotalDisplay">0</span> 题</div>
+            <div class="placeholder"></div>
+        </div>
+
+        <div class="quiz-card-wrap" id="cardWrap">
+            <div class="quiz-card-track" id="cardTrack">
+                <!-- JS 动态生成 -->
+            </div>
+        </div>
+
+        <div class="quiz-footer">
             <button class="nav-btn" id="prevBtn">← 上一题</button>
             <button class="nav-btn primary" id="nextBtn">下一题 →</button>
         </div>
     </div>
 
     <script>
-        // ================================================================
-        // 示例题库（20题，八上 + 八下）
-        // ================================================================
+        // ============================================================
+        //  示例题库（20题，八上 + 八下）
+        //  正式版替换为完整题库即可
+        // ============================================================
         const SAMPLE_QUESTIONS = [{
             id: 1,
             module: '八上',
@@ -439,7 +498,7 @@
             question: '鸦片战争爆发于哪一年？',
             options: ['1838年', '1840年', '1842年', '1856年'],
             answer: 1,
-            explanation: '1840年6月，英国发动鸦片战争，中国近代史开端。'
+            explanation: '1840年6月，英国发动鸦片战争，是中国近代史的开端。'
         }, {
             id: 2,
             module: '八上',
@@ -447,7 +506,7 @@
             question: '《南京条约》中，中国被迫割让了哪个地方？',
             options: ['香港岛', '台湾岛', '澳门', '九龙半岛'],
             answer: 0,
-            explanation: '《南京条约》规定割让香港岛给英国。'
+            explanation: '《南京条约》规定中国割让香港岛给英国。'
         }, {
             id: 3,
             module: '八上',
@@ -594,20 +653,25 @@
             explanation: '宪法第三十三条第三款规定：国家尊重和保障人权。'
         }];
 
-        // ================================================================
-        // 状态
-        // ================================================================
+        // ============================================================
+        //  应用状态
+        // ============================================================
         const state = {
             questions: [],
             currentIndex: 0,
             answered: false,
-            history: {}, // questionId -> selectedOptionIndex
+            selectedOption: -1,
+            history: {}, // questionId -> selectedIndex
+            wrongIds: new Set(),
+            correctIds: new Set(),
         };
 
-        // DOM
+        // ============================================================
+        //  DOM 引用
+        // ============================================================
         const homePage = document.getElementById('homePage');
         const quizPage = document.getElementById('quizPage');
-        const track = document.getElementById('track');
+        const cardTrack = document.getElementById('cardTrack');
         const qIndexDisplay = document.getElementById('qIndexDisplay');
         const qTotalDisplay = document.getElementById('qTotalDisplay');
         const prevBtn = document.getElementById('prevBtn');
@@ -617,9 +681,9 @@
         const quizBack = document.getElementById('quizBack');
         const pathList = document.getElementById('pathList');
 
-        // ================================================================
-        // 路径渲染
-        // ================================================================
+        // ============================================================
+        //  路径渲染
+        // ============================================================
         const MODULES = ['七上', '七下', '八上', '八下', '九上', '九下', '中考冲刺'];
         const MODULE_STATUS = {
             '七上': 'done',
@@ -645,19 +709,19 @@
             MODULES.forEach(m => {
                 const status = MODULE_STATUS[m] || 'pending';
                 const count = MODULE_COUNT[m] || 0;
-                const dotClass = status === 'done' ? 'done' : status === 'active' ? 'active' : '';
-                const tagClass = status === 'done' ? 'done' : status === 'active' ? 'active' : '';
-                const tagText = status === 'done' ? '已完成' : status === 'active' ? '进行中' : '未开始';
-                const countText = count > 0 ? `${count} 题` : '';
+                const dotClass = status === 'done' ? 'done' : status === 'active' ? 'active' : 'pending';
+                const statusText = status === 'done' ? '已完成' : status === 'active' ? '进行中' : '未开始';
+                const statusClass = status === 'done' ? 'done' : status === 'active' ? '' : 'pending';
+                const activeClass = status === 'active' ? 'active' : '';
                 html += `
-                    <div class="path-item">
-                        <div class="path-left">
-                            <span class="path-dot ${dotClass}"></span>
-                            <span class="path-name">${m}</span>
+                    <div class="path-item ${activeClass}">
+                        <div class="left">
+                            <span class="dot ${dotClass}"></span>
+                            <span class="name">${m}</span>
                         </div>
-                        <div class="path-meta">
-                            ${countText ? `<strong>${countText}</strong> ` : ''}
-                            <span class="path-tag ${tagClass}">${tagText}</span>
+                        <div class="right">
+                            ${count > 0 ? `<span class="num">${count}</span> 题` : ''}
+                            <span class="status ${statusClass}">${statusText}</span>
                         </div>
                     </div>
                 `;
@@ -666,178 +730,210 @@
         }
         renderPath();
 
-        // ================================================================
-        // 刷题引擎
-        // ================================================================
+        // ============================================================
+        //  刷题引擎
+        // ============================================================
         function initQuiz(questions) {
             state.questions = questions;
             state.currentIndex = 0;
             state.answered = false;
+            state.selectedOption = -1;
             state.history = {};
+            state.wrongIds = new Set();
+            state.correctIds = new Set();
 
             qTotalDisplay.textContent = questions.length;
             renderCards(questions);
             updateCardPosition(0);
-            updateUI();
+            updateQuizUI();
         }
 
         function renderCards(questions) {
             const letters = ['A', 'B', 'C', 'D'];
             let html = '';
             questions.forEach((q, idx) => {
-                const optsHtml = q.options.map((opt, oi) =>
-                    `<div class="opt" data-q="${idx}" data-opt="${oi}">${letters[oi]}. ${opt}</div>`
-                ).join('');
+                let optsHtml = q.options.map((opt, oi) => {
+                    return `<div class="opt" data-q="${idx}" data-opt="${oi}">${letters[oi]}. ${opt}</div>`;
+                }).join('');
                 html += `
                     <div class="quiz-card" data-index="${idx}">
                         <div class="q-meta">${q.subject} · ${q.module}</div>
                         <div class="q-module">模块：${q.module}</div>
                         <div class="q-text">${q.question}</div>
                         <div class="options">${optsHtml}</div>
-                        <div class="explanation" id="expl-${idx}"><strong>解析</strong> ${q.explanation}</div>
+                        <div class="explanation" id="explanation-${idx}"><strong>解析：</strong>${q.explanation}</div>
                     </div>
                 `;
             });
-            track.innerHTML = html;
+            cardTrack.innerHTML = html;
 
-            // 选项点击
-            track.querySelectorAll('.opt').forEach(el => {
-                el.addEventListener('click', function() {
+            // 选项点击委托
+            cardTrack.querySelectorAll('.opt').forEach(el => {
+                el.addEventListener('click', function(e) {
                     const qIdx = parseInt(this.dataset.q);
                     const optIdx = parseInt(this.dataset.opt);
-                    if (state.answered || qIdx !== state.currentIndex) return;
-                    handleSelect(qIdx, optIdx);
+                    handleOptionClick(qIdx, optIdx);
                 });
             });
         }
 
-        function handleSelect(qIdx, optIdx) {
+        function handleOptionClick(qIdx, optIdx) {
+            if (state.answered) return;
+            if (qIdx !== state.currentIndex) return;
+
             const q = state.questions[qIdx];
-            const card = track.querySelector(`.quiz-card[data-index="${qIdx}"]`);
+            const card = cardTrack.querySelector(`.quiz-card[data-index="${qIdx}"]`);
             if (!card) return;
 
             const opts = card.querySelectorAll('.opt');
             const expl = card.querySelector('.explanation');
 
             const isCorrect = (optIdx === q.answer);
+
+            opts.forEach(o => o.classList.add('disabled'));
             opts.forEach((o, i) => {
-                o.classList.add('disabled');
                 if (i === q.answer) o.classList.add('correct');
                 if (i === optIdx && !isCorrect) o.classList.add('wrong');
             });
 
             expl.classList.add('show');
-            state.answered = true;
-            state.history[q.id] = optIdx;
 
-            updateUI();
+            state.answered = true;
+            state.selectedOption = optIdx;
+            state.history[q.id] = optIdx;
+            if (isCorrect) {
+                state.correctIds.add(q.id);
+            } else {
+                state.wrongIds.add(q.id);
+            }
+
+            updateQuizUI();
         }
 
         function updateCardPosition(index) {
-            const wrap = document.getElementById('trackWrap');
-            const cardWidth = wrap.clientWidth || 380;
+            const track = cardTrack;
+            const cardWidth = track.parentElement.clientWidth || 380;
             track.style.transform = `translateX(-${index * cardWidth}px)`;
+            qIndexDisplay.textContent = index + 1;
             state.currentIndex = index;
             state.answered = false;
+            state.selectedOption = -1;
 
-            // 恢复已答状态
-            const q = state.questions[index];
-            if (q && state.history[q.id] !== undefined) {
-                const card = track.querySelector(`.quiz-card[data-index="${index}"]`);
-                if (card) {
-                    const opts = card.querySelectorAll('.opt');
-                    const expl = card.querySelector('.explanation');
+            const card = cardTrack.querySelector(`.quiz-card[data-index="${index}"]`);
+            if (card) {
+                const opts = card.querySelectorAll('.opt');
+                const expl = card.querySelector('.explanation');
+                opts.forEach(o => {
+                    o.classList.remove('correct', 'wrong', 'disabled');
+                });
+                expl.classList.remove('show');
+
+                const q = state.questions[index];
+                if (q && state.history[q.id] !== undefined) {
                     const prevOpt = state.history[q.id];
                     const isCorrect = (prevOpt === q.answer);
                     opts.forEach((o, i) => {
-                        o.classList.add('disabled');
                         if (i === q.answer) o.classList.add('correct');
                         if (i === prevOpt && !isCorrect) o.classList.add('wrong');
+                        o.classList.add('disabled');
                     });
                     expl.classList.add('show');
                     state.answered = true;
+                    state.selectedOption = prevOpt;
                 }
             }
 
-            qIndexDisplay.textContent = index + 1;
-            updateUI();
+            updateQuizUI();
         }
 
-        function updateUI() {
+        function updateQuizUI() {
             const total = state.questions.length;
             const idx = state.currentIndex;
+            qIndexDisplay.textContent = idx + 1;
             prevBtn.disabled = (idx === 0);
-            nextBtn.textContent = (idx === total - 1) ? '📊 查看报告' : '下一题 →';
+
+            if (idx === total - 1) {
+                nextBtn.textContent = '📊 查看报告';
+            } else {
+                nextBtn.textContent = '下一题 →';
+            }
         }
 
-        // ================================================================
-        // 导航
-        // ================================================================
-        function goPrev() {
-            if (state.currentIndex > 0) updateCardPosition(state.currentIndex - 1);
+        // ============================================================
+        //  导航
+        // ============================================================
+        function goToPrev() {
+            if (state.currentIndex > 0) {
+                updateCardPosition(state.currentIndex - 1);
+            }
         }
 
-        function goNext() {
+        function goToNext() {
             const q = state.questions[state.currentIndex];
             if (!state.answered && state.history[q.id] === undefined) {
-                // 闪一下提示
-                const card = track.querySelector(`.quiz-card[data-index="${state.currentIndex}"]`);
+                const card = cardTrack.querySelector(`.quiz-card[data-index="${state.currentIndex}"]`);
                 if (card) {
-                    card.style.transition = 'all 0.1s';
-                    card.style.backgroundColor = '#f8efed';
-                    setTimeout(() => {
-                        card.style.backgroundColor = '#ffffff';
-                    }, 300);
+                    const opts = card.querySelectorAll('.opt');
+                    opts.forEach(o => {
+                        o.style.transition = 'all 0.1s';
+                        o.style.borderColor = '#d98c7a';
+                        setTimeout(() => { o.style.borderColor = ''; }, 400);
+                    });
                 }
                 return;
             }
+
             if (state.currentIndex < state.questions.length - 1) {
                 updateCardPosition(state.currentIndex + 1);
             } else {
                 const total = state.questions.length;
-                const correct = Object.values(state.history).filter((v, i) => v === state.questions[i].answer).length;
-                alert(`✅ 诊断完成！\n\n共 ${total} 题，正确 ${correct} 题，正确率 ${Math.round(correct/total*100)}%\n薄弱模块将根据错题生成。`);
+                const correct = state.correctIds.size;
+                const pct = Math.round((correct / total) * 100);
+                alert(`🎉 诊断完成！\n正确率：${pct}%\n薄弱模块将根据错题分析生成。`);
             }
         }
 
-        // ================================================================
-        // 事件绑定
-        // ================================================================
-        startBtn.addEventListener('click', () => {
-            if (SAMPLE_QUESTIONS.length === 0) { alert('题库为空'); return; }
+        // ============================================================
+        //  事件绑定
+        // ============================================================
+        startBtn.addEventListener('click', function() {
+            if (SAMPLE_QUESTIONS.length === 0) {
+                alert('题库为空，请先导入题目。');
+                return;
+            }
             homePage.style.display = 'none';
             quizPage.classList.add('show');
             initQuiz(SAMPLE_QUESTIONS);
         });
 
-        quizBack.addEventListener('click', () => {
+        quizBack.addEventListener('click', function() {
             quizPage.classList.remove('show');
             homePage.style.display = 'block';
         });
 
-        prevBtn.addEventListener('click', goPrev);
-        nextBtn.addEventListener('click', goNext);
+        prevBtn.addEventListener('click', goToPrev);
+        nextBtn.addEventListener('click', goToNext);
 
-        reportBtn.addEventListener('click', () => {
-            alert('📊 诊断报告即将上线\n完成诊断后，系统将自动分析你的薄弱知识点。');
+        reportBtn.addEventListener('click', function() {
+            alert('📊 诊断报告功能即将上线。\n完成诊断后，将自动生成你的薄弱知识点分析。');
         });
 
-        // ================================================================
-        // 触摸滑动（左右翻题）
-        // ================================================================
-        let touchStartX = 0,
-            touchStartY = 0,
-            isSwiping = false;
-        const wrap = document.getElementById('trackWrap');
+        // ============================================================
+        //  触摸滑动
+        // ============================================================
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isSwiping = false;
+        const wrap = document.getElementById('cardWrap');
 
-        wrap.addEventListener('touchstart', (e) => {
+        wrap.addEventListener('touchstart', function(e) {
             const t = e.touches[0];
             touchStartX = t.clientX;
             touchStartY = t.clientY;
             isSwiping = false;
         }, { passive: true });
 
-        wrap.addEventListener('touchmove', (e) => {
+        wrap.addEventListener('touchmove', function(e) {
             if (e.touches.length !== 1) return;
             const t = e.touches[0];
             const dx = t.clientX - touchStartX;
@@ -848,43 +944,45 @@
             }
         }, { passive: false });
 
-        wrap.addEventListener('touchend', (e) => {
+        wrap.addEventListener('touchend', function(e) {
             if (!isSwiping) return;
             const t = e.changedTouches[0];
             const dx = t.clientX - touchStartX;
-            if (dx < -50) goNext();
-            else if (dx > 50) goPrev();
+            if (dx < -50) goToNext();
+            else if (dx > 50) goToPrev();
         }, { passive: true });
 
-        // ================================================================
-        // 键盘支持
-        // ================================================================
-        document.addEventListener('keydown', (e) => {
+        // ============================================================
+        //  键盘支持
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
             if (!quizPage.classList.contains('show')) return;
-            if (e.key === 'ArrowLeft') goPrev();
-            if (e.key === 'ArrowRight') goNext();
+            if (e.key === 'ArrowLeft') goToPrev();
+            if (e.key === 'ArrowRight') goToNext();
         });
 
-        // ================================================================
-        // resize 自适应
-        // ================================================================
+        // ============================================================
+        //  窗口 resize 修正卡片位置
+        // ============================================================
         let resizeTimer;
-        window.addEventListener('resize', () => {
+        window.addEventListener('resize', function() {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
                 if (quizPage.classList.contains('show')) {
                     const idx = state.currentIndex || 0;
-                    const w = document.getElementById('trackWrap').clientWidth || 380;
+                    const track = cardTrack;
+                    const cardWidth = track.parentElement.clientWidth || 380;
                     track.style.transition = 'none';
-                    track.style.transform = `translateX(-${idx * w}px)`;
+                    track.style.transform = `translateX(-${idx * cardWidth}px)`;
                     requestAnimationFrame(() => {
-                        track.style.transition = 'transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1)';
+                        track.style.transition = 'transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1)';
                     });
                 }
             }, 200);
         });
 
-        console.log('✅ 道法历史闯关已加载（清晨咖啡馆风格）');
+        console.log('✅ 道法历史 · 闯关 已加载（清晨咖啡馆 · 极简版）');
+        console.log('📚 示例题库共 ' + SAMPLE_QUESTIONS.length + ' 题');
     </script>
 </body>
 </html>
