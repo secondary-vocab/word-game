@@ -18,7 +18,7 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            padding: 20px 16px 40px;
+            padding: 16px 16px 40px;
         }
 
         .app {
@@ -26,23 +26,27 @@
             width: 100%;
         }
 
-        /* ===== 日历 ===== */
+        /* ===== 整月日历 ===== */
         .calendar-section {
             background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border-radius: 20px;
             padding: 16px 16px 14px;
             margin-bottom: 16px;
             border: 1px solid rgba(255, 255, 255, 0.4);
             box-shadow: 0 2px 12px rgba(180, 150, 120, 0.06);
         }
-        .calendar-month {
-            font-size: 15px;
-            font-weight: 500;
+
+        .calendar-header {
+            display: flex;
+            justify-content: flex-start;
+            font-size: 17px;
+            font-weight: 600;
             color: #2c241c;
-            text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
+
         .calendar-week {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -52,12 +56,14 @@
             color: #8a7a6a;
             margin-bottom: 4px;
         }
+
         .calendar-days {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 4px;
             text-align: center;
         }
+
         .calendar-days .day {
             font-size: 15px;
             color: #2c241c;
@@ -70,6 +76,7 @@
             justify-content: center;
             flex-direction: column;
         }
+
         .calendar-days .day .dot {
             width: 5px;
             height: 5px;
@@ -81,6 +88,7 @@
         .calendar-days .day .dot.used {
             display: block;
         }
+
         .calendar-days .day.today {
             background: #c49a6c;
             color: #fff;
@@ -89,13 +97,17 @@
         .calendar-days .day.today .dot {
             background: #fff;
         }
+        .calendar-days .day.other-month {
+            color: #dcd3cb;
+        }
 
-        /* ===== 学科切换（带纹理） ===== */
+        /* ===== 学科切换（带纹理底纹） ===== */
         .subject-tabs {
             display: flex;
             gap: 12px;
             margin-bottom: 16px;
         }
+
         .subject-tab {
             flex: 1;
             padding: 14px 0;
@@ -106,44 +118,73 @@
             cursor: pointer;
             transition: all 0.2s;
             border: none;
-            color: #8a7a6a;
-            background-color: #e8e0d8;
-            background-image:
-                repeating-linear-gradient(45deg, transparent, transparent 20px,
-                    rgba(200, 180, 160, 0.08) 20px, rgba(200, 180, 160, 0.08) 21px),
-                repeating-linear-gradient(-45deg, transparent, transparent 20px,
-                    rgba(200, 180, 160, 0.08) 20px, rgba(200, 180, 160, 0.08) 21px),
-                radial-gradient(circle at 30% 40%, rgba(180, 150, 120, 0.05) 0%, transparent 60%),
-                radial-gradient(circle at 70% 60%, rgba(180, 150, 120, 0.05) 0%, transparent 50%);
-            background-blend-mode: overlay;
+            color: #fff;
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(200, 180, 160, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-blend-mode: overlay;
         }
-        .subject-tab::before {
-            content: "📖 ✏️ 📚 ⏰ ✅";
+
+        /* 历史按钮 - 暖色旧纸张纹理 */
+        .subject-tab.history-tab {
+            background-color: #d4c5b2;
+            background-image:
+                repeating-linear-gradient(45deg, transparent, transparent 18px,
+                    rgba(180, 150, 120, 0.10) 18px, rgba(180, 150, 120, 0.10) 19px),
+                repeating-linear-gradient(-45deg, transparent, transparent 18px,
+                    rgba(180, 150, 120, 0.08) 18px, rgba(180, 150, 120, 0.08) 19px),
+                radial-gradient(circle at 30% 40%, rgba(200, 170, 140, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 70% 60%, rgba(200, 170, 140, 0.10) 0%, transparent 50%);
+            background-blend-mode: overlay;
+        }
+        .subject-tab.history-tab::before {
+            content: "📜 🏛️ 📖 ✍️ ⏳";
             position: absolute;
-            font-size: 48px;
-            color: rgba(180, 150, 120, 0.04);
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            letter-spacing: 12px;
+            font-size: 40px;
+            color: rgba(255, 255, 255, 0.06);
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            letter-spacing: 10px;
             word-break: break-all;
             line-height: 1.6;
             pointer-events: none;
-            transform: rotate(-8deg);
+            transform: rotate(-6deg);
         }
+
+        /* 道法按钮 - 冷色书籍纹理 */
+        .subject-tab.politics-tab {
+            background-color: #c8cdd4;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 12px,
+                    rgba(160, 170, 185, 0.08) 12px, rgba(160, 170, 185, 0.08) 13px),
+                repeating-linear-gradient(90deg, transparent, transparent 12px,
+                    rgba(160, 170, 185, 0.06) 12px, rgba(160, 170, 185, 0.06) 13px),
+                radial-gradient(circle at 60% 30%, rgba(180, 190, 200, 0.12) 0%, transparent 60%);
+            background-blend-mode: overlay;
+        }
+        .subject-tab.politics-tab::before {
+            content: "⚖️ 📚 🏛️ 📜 ✅";
+            position: absolute;
+            font-size: 40px;
+            color: rgba(255, 255, 255, 0.05);
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            letter-spacing: 10px;
+            word-break: break-all;
+            line-height: 1.6;
+            pointer-events: none;
+            transform: rotate(4deg);
+        }
+
         .subject-tab.active {
-            background-color: #c49a6c;
-            color: #fff;
-            border-color: #c49a6c;
-            box-shadow: 0 2px 12px rgba(196, 154, 108, 0.25);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+            border-color: rgba(255, 255, 255, 0.4);
         }
-        .subject-tab.active::before {
-            color: rgba(255, 255, 255, 0.04);
-        }
+
         .subject-tab:active {
             transform: scale(0.96);
         }
@@ -160,6 +201,7 @@
         .card-module {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             border-radius: 16px;
             padding: 16px 12px;
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -168,12 +210,13 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 70px;
+            min-height: 72px;
             transition: transform 0.1s;
         }
         .card-module:active {
             transform: scale(0.96);
         }
+
         .card-module .label {
             font-size: 14px;
             font-weight: 500;
@@ -184,25 +227,18 @@
             color: #8a7a6a;
             margin-top: 2px;
         }
-        .card-module .highlight {
-            font-size: 22px;
-            font-weight: 600;
-            color: #c49a6c;
-        }
-        .card-module .highlight .small {
-            font-size: 14px;
-            font-weight: 400;
-            color: #8a7a6a;
-        }
 
-        /* 大模块 */
+        /* ===== 大模块（占3层） ===== */
         .card-module.large {
-            min-height: 240px;
+            min-height: 248px;
             justify-content: flex-start;
             padding-top: 20px;
             background: rgba(245, 237, 228, 0.5);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             border-color: rgba(196, 154, 108, 0.1);
         }
+
         .card-module.large .label {
             font-size: 17px;
             font-weight: 600;
@@ -238,10 +274,11 @@
             font-weight: 500;
         }
 
-        /* 小模块 */
+        /* ===== 小模块 ===== */
         .card-module.small {
-            min-height: 70px;
+            min-height: 72px;
             padding: 12px 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
         .card-module.small .label {
             font-size: 15px;
@@ -250,21 +287,16 @@
             font-size: 11px;
             color: #bbb;
         }
-        .card-module.small .status-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-right: 6px;
+
+        /* ===== 六种小模块颜色 ===== */
+        .card-module.color-blue {
+            background: rgba(238, 244, 249, 0.8);
         }
-        .card-module.small .status-dot.done {
-            background: #c49a6c;
+        .card-module.color-pink {
+            background: rgba(249, 240, 238, 0.8);
         }
-        .card-module.small .status-dot.active {
-            background: #b8864a;
-        }
-        .card-module.small .status-dot.pending {
-            background: #dcd3cb;
+        .card-module.color-green {
+            background: rgba(238, 245, 237, 0.8);
         }
 
         /* ===== 按钮 ===== */
@@ -288,6 +320,7 @@
             background: #b8864a;
             transform: scale(0.97);
         }
+
         .btn-secondary {
             display: block;
             width: 100%;
@@ -311,72 +344,89 @@
 </head>
 <body>
     <div class="app">
-        <!-- 日历 -->
+        <!-- ===== 整月日历 ===== -->
         <div class="calendar-section" id="calendarSection"></div>
 
-        <!-- 学科切换 -->
+        <!-- ===== 学科切换 ===== -->
         <div class="subject-tabs" id="subjectTabs">
-            <button class="subject-tab active" data-subject="history">历史</button>
-            <button class="subject-tab" data-subject="politics">道法</button>
+            <button class="subject-tab history-tab active" data-subject="history">历史</button>
+            <button class="subject-tab politics-tab" data-subject="politics">道法</button>
         </div>
 
-        <!-- 两列网格 -->
+        <!-- ===== 两列网格 ===== -->
         <div class="grid-container" id="gridContainer"></div>
 
-        <!-- 底部按钮 -->
+        <!-- ===== 底部按钮 ===== -->
         <button class="btn-primary" id="startBtn">开始诊断 · 10分钟找到薄弱点</button>
         <button class="btn-secondary" id="reportBtn">诊断报告（即将上线）</button>
     </div>
 
     <script>
-        // ===== 日历 =====
+        // ============================================================
+        // 1. 整月日历
+        // ============================================================
         (function renderCalendar() {
             const now = new Date();
             const year = now.getFullYear();
             const month = now.getMonth();
             const today = now.getDate();
             const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
-            const firstDayOfWeek = new Date(now);
-            firstDayOfWeek.setDate(today - now.getDay());
-            const weekDates = [];
-            for (let i = 0; i < 7; i++) {
-                const d = new Date(firstDayOfWeek);
-                d.setDate(firstDayOfWeek.getDate() + i);
-                weekDates.push(d);
-            }
+
+            // 本月第一天和最后一天
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startWeekday = firstDay.getDay(); // 0=日
+
+            // 读取使用记录
             let usedDays = {};
             try {
                 const stored = localStorage.getItem('daofa_used_days');
                 if (stored) usedDays = JSON.parse(stored);
             } catch (e) {}
+
+            // 标记今天已使用
             const todayKey = year + '-' + (month + 1) + '-' + today;
             if (!usedDays[todayKey]) {
                 usedDays[todayKey] = true;
                 localStorage.setItem('daofa_used_days', JSON.stringify(usedDays));
             }
+
             let html = '';
-            html += '<div class="calendar-month">' + year + '年 ' + (month + 1) + '月</div>';
+            html += '<div class="calendar-header">' + (month + 1) + '月</div>';
+
             html += '<div class="calendar-week">';
-            for (let i = 0; i < 7; i++) html += '<span>' + weekdays[i] + '</span>';
-            html += '</div>';
-            html += '<div class="calendar-days">';
             for (let i = 0; i < 7; i++) {
-                const d = weekDates[i];
-                const day = d.getDate();
-                const isToday = (day === today && d.getMonth() === month && d.getFullYear() === year);
-                const key = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + day;
+                html += '<span>' + weekdays[i] + '</span>';
+            }
+            html += '</div>';
+
+            html += '<div class="calendar-days">';
+            // 填充空白
+            for (let i = 0; i < startWeekday; i++) {
+                html += '<div class="day other-month"><span></span></div>';
+            }
+            // 填充日期
+            for (let d = 1; d <= daysInMonth; d++) {
+                const isToday = (d === today);
+                const key = year + '-' + (month + 1) + '-' + d;
                 const used = !!usedDays[key];
-                html += '<div class="day' + (isToday ? ' today' : '') + '">' +
-                    '<span>' + day + '</span>' +
+                const cls = isToday ? 'day today' : 'day';
+                html += '<div class="' + cls + '">' +
+                    '<span>' + d + '</span>' +
                     '<span class="dot' + (used ? ' used' : '') + '"></span>' +
                     '</div>';
             }
             html += '</div>';
+
             document.getElementById('calendarSection').innerHTML = html;
         })();
 
-        // ===== 数据 =====
+        // ============================================================
+        // 2. 数据
+        // ============================================================
         const MODULES = ['七上', '八上', '九上', '七下', '八下', '九下'];
+
         const HISTORY_STATUS = {
             '七上': { done: 0, total: 30, status: 'pending' },
             '八上': { done: 10, total: 30, status: 'done' },
@@ -385,6 +435,7 @@
             '八下': { done: 10, total: 30, status: 'active' },
             '九下': { done: 0, total: 30, status: 'pending' }
         };
+
         const POLITICS_STATUS = {
             '七上': { done: 0, total: 30, status: 'pending' },
             '八上': { done: 5, total: 30, status: 'active' },
@@ -394,55 +445,86 @@
             '九下': { done: 0, total: 30, status: 'pending' }
         };
 
+        // ============================================================
+        // 3. 渲染网格
+        // ============================================================
         function renderGrid(subject) {
             const container = document.getElementById('gridContainer');
             const data = (subject === 'history') ? HISTORY_STATUS : POLITICS_STATUS;
+
             let totalDone = 0,
                 totalAll = 0;
-            for (let key in data) { totalDone += data[key].done || 0;
-                totalAll += data[key].total || 0; }
+            for (let key in data) {
+                totalDone += data[key].done || 0;
+                totalAll += data[key].total || 0;
+            }
             const weakModule = '八下 · 法治';
+
+            // 左列顺序：学情诊断 → 七下 → 八下 → 九下
+            // 右列顺序：七上 → 八上 → 九上 → 中考冲刺
             const leftModules = ['七下', '八下', '九下'];
             const rightModules = ['七上', '八上', '九上'];
+
+            // 颜色映射
+            const colorMap = {
+                '七上': 'color-blue',
+                '七下': 'color-blue',
+                '八上': 'color-pink',
+                '八下': 'color-pink',
+                '九上': 'color-green',
+                '九下': 'color-green'
+            };
+
+            const statusMap = {
+                'done': { label: '已完成', cls: 'done' },
+                'active': { label: '进行中', cls: 'active' },
+                'pending': { label: '未开始', cls: 'pending' }
+            };
+
             let html = '';
-            // 左列 - 学情诊断
+
+            // ===== 左1：学情诊断（大） =====
             html += '<div class="card-module large" data-module="diagnosis">';
             html += '  <div class="label">📊 学情诊断</div>';
             html += '  <div class="big-number">' + totalDone + '<span class="small"> / ' + totalAll + ' 题</span></div>';
             html += '  <div class="sub-line">正确率 68%</div>';
             html += '  <div class="weak-tag">📌 薄弱：<strong>' + weakModule + '</strong></div>';
             html += '</div>';
-            // 右列 - 七上八上九上
+
+            // ===== 右1-3：七上、八上、九上 =====
             for (let i = 0; i < rightModules.length; i++) {
                 const name = rightModules[i];
                 const d = data[name] || { done: 0, total: 0, status: 'pending' };
-                const map = { 'done': { label: '已完成', cls: 'done' }, 'active': { label: '进行中', cls: 'active' },
-                    'pending': { label: '未开始', cls: 'pending' } };
-                const info = map[d.status] || map['pending'];
-                html += '<div class="card-module small" data-module="' + name + '">';
-                html += '  <div class="label"><span class="status-dot ' + info.cls + '"></span>' + name + '</div>';
+                const info = statusMap[d.status] || statusMap['pending'];
+                const colorClass = colorMap[name] || '';
+                html += '<div class="card-module small ' + colorClass + '" data-module="' + name + '">';
+                html += '  <div class="label">' + name + '</div>';
                 html += '  <div class="sub">' + (d.done > 0 ? d.done + '/' + d.total + ' 题' : info.label) + '</div>';
                 html += '</div>';
             }
-            // 左列 - 七下八下九下
+
+            // ===== 左2-4：七下、八下、九下 =====
             for (let i = 0; i < leftModules.length; i++) {
                 const name = leftModules[i];
                 const d = data[name] || { done: 0, total: 0, status: 'pending' };
-                const map = { 'done': { label: '已完成', cls: 'done' }, 'active': { label: '进行中', cls: 'active' },
-                    'pending': { label: '未开始', cls: 'pending' } };
-                const info = map[d.status] || map['pending'];
-                html += '<div class="card-module small" data-module="' + name + '">';
-                html += '  <div class="label"><span class="status-dot ' + info.cls + '"></span>' + name + '</div>';
+                const info = statusMap[d.status] || statusMap['pending'];
+                const colorClass = colorMap[name] || '';
+                html += '<div class="card-module small ' + colorClass + '" data-module="' + name + '">';
+                html += '  <div class="label">' + name + '</div>';
                 html += '  <div class="sub">' + (d.done > 0 ? d.done + '/' + d.total + ' 题' : info.label) + '</div>';
                 html += '</div>';
             }
-            // 右列 - 中考冲刺
+
+            // ===== 右4：中考冲刺（大） =====
             html += '<div class="card-module large" data-module="sprint">';
             html += '  <div class="label">🎯 中考冲刺</div>';
             html += '  <div class="big-number">' + totalDone + '<span class="small"> 题</span></div>';
             html += '  <div class="sub-line">综合复习 · 查漏补缺</div>';
             html += '</div>';
+
             container.innerHTML = html;
+
+            // 绑定点击
             container.querySelectorAll('.card-module').forEach(function(el) {
                 el.addEventListener('click', function() {
                     const m = this.dataset.module;
@@ -453,22 +535,35 @@
             });
         }
 
-        // ===== 学科切换 =====
+        // ============================================================
+        // 4. 学科切换
+        // ============================================================
         document.querySelectorAll('.subject-tab').forEach(function(tab) {
             tab.addEventListener('click', function() {
-                document.querySelectorAll('.subject-tab').forEach(function(t) { t.classList.remove('active'); });
+                document.querySelectorAll('.subject-tab').forEach(function(t) {
+                    t.classList.remove('active');
+                });
                 this.classList.add('active');
                 renderGrid(this.dataset.subject);
             });
         });
 
-        // ===== 初始化 =====
+        // ============================================================
+        // 5. 初始化
+        // ============================================================
         renderGrid('history');
 
-        // ===== 底部按钮 =====
-        document.getElementById('startBtn').addEventListener('click', function() { alert('🚀 诊断功能即将上线，敬请期待！'); });
-        document.getElementById('reportBtn').addEventListener('click', function() { alert('📊 诊断报告功能即将上线，敬请期待！'); });
-        console.log('✅ 道法历史 · 闯关（两列网格 · 新文件名）已加载');
+        // ============================================================
+        // 6. 底部按钮
+        // ============================================================
+        document.getElementById('startBtn').addEventListener('click', function() {
+            alert('🚀 诊断功能即将上线，敬请期待！');
+        });
+        document.getElementById('reportBtn').addEventListener('click', function() {
+            alert('📊 诊断报告功能即将上线，敬请期待！');
+        });
+
+        console.log('✅ 道法历史 · 闯关（全部修改完成）已加载');
     </script>
 </body>
 </html>
