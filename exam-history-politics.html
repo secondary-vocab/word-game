@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>道法历史 · 闯关</title>
     <style>
-        /* ===== 重置 & 基础 ===== */
         * {
             margin: 0;
             padding: 0;
@@ -301,19 +300,19 @@
             padding: 14px 0;
             border: none;
             border-radius: 14px;
-            background: #b0a8a0;
+            background: #999999;
             color: #fff;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
             text-align: center;
-            box-shadow: 0 2px 12px rgba(176, 168, 160, 0.20);
+            box-shadow: 0 2px 12px rgba(153, 153, 153, 0.20);
             margin-top: 10px;
             transition: background 0.15s, transform 0.1s;
             flex-shrink: 0;
         }
         .btn-primary:active {
-            background: #9a928a;
+            background: #7a7a7a;
             transform: scale(0.97);
         }
         .btn-secondary {
@@ -370,44 +369,34 @@
 <body>
     <div class="app">
 
-        <!-- ===== 日历 ===== -->
         <div class="calendar-section" id="calendarSection"></div>
 
-        <!-- ===== 学科切换 ===== -->
         <div class="subject-tabs" id="subjectTabs">
             <button class="subject-tab history-tab active" data-subject="history"><span>历史</span></button>
             <button class="subject-tab politics-tab" data-subject="politics"><span>道法</span></button>
         </div>
 
-        <!-- ===== 两列网格 ===== -->
         <div class="grid-container" id="gridContainer"></div>
 
-        <!-- ===== 底部按钮 ===== -->
         <button class="btn-primary" id="startBtn">开始诊断 · 10分钟找到薄弱点</button>
         <button class="btn-secondary" id="reportBtn">诊断报告（即将上线）</button>
 
     </div>
 
     <script>
-        // ============================================================
-        // 1. 日历
-        // ============================================================
         (function renderCalendar() {
             const now = new Date();
             const year = now.getFullYear();
             const month = now.getMonth();
             const today = now.getDate();
-
             const firstDayOfWeek = new Date(now);
             firstDayOfWeek.setDate(today - now.getDay());
-
             const weekDates = [];
             for (let i = 0; i < 7; i++) {
                 const d = new Date(firstDayOfWeek);
                 d.setDate(firstDayOfWeek.getDate() + i);
                 weekDates.push(d);
             }
-
             let usedDays = {};
             try {
                 const stored = localStorage.getItem('daofa_used_days');
@@ -418,14 +407,11 @@
                 usedDays[todayKey] = true;
                 localStorage.setItem('daofa_used_days', JSON.stringify(usedDays));
             }
-
             const weekAbbr = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
             let html = '';
             html += '<div class="calendar-header">' + year + '.' + (month + 1) + '</div>';
             html += '<div class="calendar-week">';
-            for (let i = 0; i < 7; i++) {
-                html += '<span>' + weekAbbr[i] + '</span>';
-            }
+            for (let i = 0; i < 7; i++) html += '<span>' + weekAbbr[i] + '</span>';
             html += '</div>';
             html += '<div class="calendar-days">';
             for (let i = 0; i < 7; i++) {
@@ -446,9 +432,6 @@
             document.getElementById('calendarSection').innerHTML = html;
         })();
 
-        // ============================================================
-        // 2. 数据
-        // ============================================================
         const HISTORY_STATUS = {
             '七上': { done: 0, total: 30, status: 'pending' },
             '八上': { done: 10, total: 30, status: 'done' },
@@ -467,9 +450,12 @@
         };
 
         const colorMap = {
-            '七上': 'color-blue', '七下': 'color-blue',
-            '八上': 'color-pink', '八下': 'color-pink',
-            '九上': 'color-green', '九下': 'color-green'
+            '七上': 'color-blue',
+            '七下': 'color-blue',
+            '八上': 'color-pink',
+            '八下': 'color-pink',
+            '九上': 'color-green',
+            '九下': 'color-green'
         };
         const statusMap = {
             'done': { label: '已完成' },
@@ -479,9 +465,6 @@
         const rightModules = ['七上', '八上', '九上'];
         const leftModules = ['七下', '八下', '九下'];
 
-        // ============================================================
-        // 3. 渲染网格
-        // ============================================================
         function renderGrid(subject) {
             const container = document.getElementById('gridContainer');
             const data = (subject === 'history') ? HISTORY_STATUS : POLITICS_STATUS;
@@ -576,9 +559,6 @@
             });
         }
 
-        // ============================================================
-        // 4. 学科切换
-        // ============================================================
         document.querySelectorAll('.subject-tab').forEach(function(tab) {
             tab.addEventListener('click', function() {
                 document.querySelectorAll('.subject-tab').forEach(function(t) {
@@ -589,14 +569,8 @@
             });
         });
 
-        // ============================================================
-        // 5. 初始化
-        // ============================================================
         renderGrid('history');
 
-        // ============================================================
-        // 6. 底部按钮
-        // ============================================================
         document.getElementById('startBtn').addEventListener('click', function() {
             alert('🚀 诊断功能即将上线，敬请期待！');
         });
@@ -604,7 +578,7 @@
             alert('📊 诊断报告功能即将上线，敬请期待！');
         });
 
-        console.log('✅ 道法历史 · 闯关（最终质感版）已加载');
+        console.log('✅ 道法历史 · 闯关（纯灰按钮版）已加载');
     </script>
 </body>
 </html>
