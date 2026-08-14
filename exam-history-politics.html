@@ -34,8 +34,8 @@
         .calendar-section {
             background: #ffffff;
             border-radius: 12px;
-            padding: 6px 8px 8px 8px;
-            margin-bottom: 12px;
+            padding: 6px 8px 10px 8px;
+            margin-bottom: 14px;
             flex-shrink: 0;
             border-bottom: 1px solid #f0f0f0;
         }
@@ -43,7 +43,7 @@
             font-size: 15px;
             font-weight: 600;
             color: #2c241c;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
             text-align: left;
         }
         .calendar-week {
@@ -55,7 +55,7 @@
             color: #8a7a6a;
             font-weight: 500;
             letter-spacing: 0.3px;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
         .calendar-days {
             display: grid;
@@ -120,14 +120,14 @@
             border: none;
             color: #fff;
             letter-spacing: 1px;
-            background-size: cover;
-            background-position: center;
             position: relative;
             overflow: hidden;
-            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
             height: 50px;
-            background-color: #ffffff;
+            background-color: transparent;
+            background-size: cover;
+            background-position: center;
         }
         .subject-tab::after {
             content: '';
@@ -136,7 +136,6 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.06);
             border-radius: 14px;
             z-index: 0;
         }
@@ -150,17 +149,27 @@
         .subject-tab.active {
             box-shadow: 0 0 0 2px #c49a6c, 0 2px 12px rgba(196, 154, 108, 0.20);
         }
+
+        /* 历史：暖色旧纸张质感 */
         .subject-tab.history-tab {
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMTUwIiB2aWV3Qm94PSIwIDAgNDAwIDE1MCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNlOGQ4YzAiLz48cGF0aCBkPSJNNTAgMjAgTDE1MCAyMCBMMTUwIDUwIEw1MCA1MCB6IiBmaWxsPSIjZGNjY2I0Ii8+PHBhdGggZD0iTTUwIDcwIEwxODAgNzAgTDE4MCA5MCBMNTAgOTAgeiIgZmlsbD0iI2QwYzBhOCIvPjxwYXRoIGQ9Ik01MCAxMTAgTDIwMCAxMTAgTDIwMCAxMzAgTDUwIDEzMHoiIGZpbGw9IiNjNGI0OWMiLz48L3N2Zz4=');
-            background-size: cover;
-            background-position: center;
-            background-color: #ffffff;
+            background-image:
+                repeating-linear-gradient(45deg, transparent, transparent 12px,
+                    rgba(180, 150, 120, 0.06) 12px, rgba(180, 150, 120, 0.06) 13px),
+                repeating-linear-gradient(-45deg, transparent, transparent 12px,
+                    rgba(180, 150, 120, 0.04) 12px, rgba(180, 150, 120, 0.04) 13px),
+                radial-gradient(circle at 30% 40%, #d4c4b0 0%, #b8a48a 70%, #9a8a78 100%);
+            background-blend-mode: overlay, overlay, normal;
         }
+
+        /* 道法：冷色书架质感 */
         .subject-tab.politics-tab {
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMTUwIiB2aWV3Qm94PSIwIDAgNDAwIDE1MCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiM4YzliYTgiLz48cmVjdCB4PSIzMCIgeT0iMTUiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiM3YThhOTgiLz48cmVjdCB4PSIxMjAiIHk9IjMwIiB3aWR0aD0iODAiIGhlaWdodD0iMTAwIiBmaWxsPSIjN2E4YTk4Ii8+PHJlY3QgeD0iMjEwIiB5PSIxMCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjEyMCIgZmlsbD0iIzdhOGE5OCIvPjxyZWN0IHg9IjMwMCIgeT0iMjAiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxMTAiIGZpbGw9IiM3YThhOTgiLz48L3N2Zz4=');
-            background-size: cover;
-            background-position: center;
-            background-color: #ffffff;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 14px,
+                    rgba(160, 175, 190, 0.08) 14px, rgba(160, 175, 190, 0.08) 15px),
+                repeating-linear-gradient(90deg, transparent, transparent 14px,
+                    rgba(160, 175, 190, 0.06) 14px, rgba(160, 175, 190, 0.06) 15px),
+                radial-gradient(circle at 60% 30%, #8a9aaa 0%, #6a7a8a 60%, #4d5d6d 100%);
+            background-blend-mode: overlay, overlay, normal;
         }
 
         /* ===== 两列网格 ===== */
@@ -292,19 +301,19 @@
             padding: 14px 0;
             border: none;
             border-radius: 14px;
-            background: #8a7a6a;
+            background: #b0a8a0;
             color: #fff;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
             text-align: center;
-            box-shadow: 0 2px 12px rgba(138, 122, 106, 0.15);
+            box-shadow: 0 2px 12px rgba(176, 168, 160, 0.20);
             margin-top: 10px;
             transition: background 0.15s, transform 0.1s;
             flex-shrink: 0;
         }
         .btn-primary:active {
-            background: #6b5d4e;
+            background: #9a928a;
             transform: scale(0.97);
         }
         .btn-secondary {
@@ -330,8 +339,8 @@
 
         /* ===== 响应式 ===== */
         @media (max-height: 700px) {
-            .calendar-section { padding: 4px 6px 4px 6px; margin-bottom: 8px; }
-            .calendar-header { font-size: 13px; margin-bottom: 2px; }
+            .calendar-section { padding: 4px 6px 6px 6px; margin-bottom: 10px; }
+            .calendar-header { font-size: 13px; margin-bottom: 4px; }
             .calendar-week { font-size: 9px; }
             .calendar-days .day { font-size: 12px; padding: 1px 0; }
             .calendar-days .day .dot { width: 3px; height: 3px; }
@@ -381,7 +390,7 @@
 
     <script>
         // ============================================================
-        // 1. 日历（本周 + 小圆点）
+        // 1. 日历
         // ============================================================
         (function renderCalendar() {
             const now = new Date();
@@ -471,7 +480,7 @@
         const leftModules = ['七下', '八下', '九下'];
 
         // ============================================================
-        // 3. 渲染网格（左右完全对齐）
+        // 3. 渲染网格
         // ============================================================
         function renderGrid(subject) {
             const container = document.getElementById('gridContainer');
@@ -488,7 +497,6 @@
             const leftCol = [];
             const rightCol = [];
 
-            // 左列：学情诊断（大） + 七下 + 八下 + 九下
             leftCol.push({ type: 'large', name: 'diagnosis', label: '📊 学情诊断', data: { done: totalDone, total: totalAll,
                     weak: weakModule } });
             for (let i = 0; i < leftModules.length; i++) {
@@ -497,7 +505,6 @@
                 leftCol.push({ type: 'small', name: name, data: d });
             }
 
-            // 右列：七上 + 八上 + 九上 + 中考冲刺（大）
             for (let i = 0; i < rightModules.length; i++) {
                 const name = rightModules[i];
                 const d = data[name] || { done: 0, total: 0, status: 'pending' };
@@ -597,7 +604,7 @@
             alert('📊 诊断报告功能即将上线，敬请期待！');
         });
 
-        console.log('✅ 道法历史 · 闯关（最终对齐版）已加载');
+        console.log('✅ 道法历史 · 闯关（最终质感版）已加载');
     </script>
 </body>
 </html>
