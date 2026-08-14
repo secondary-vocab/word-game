@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>道法历史 · 闯关</title>
     <style>
+        /* ===== 重置 & 基础 ===== */
         * {
             margin: 0;
             padding: 0;
@@ -18,7 +19,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 12px 12px 20px;
+            padding: 10px 12px 16px;
         }
         .app {
             max-width: 420px;
@@ -33,27 +34,28 @@
         .calendar-section {
             background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(8px);
-            border-radius: 16px;
-            padding: 10px 14px 10px;
-            margin-bottom: 10px;
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 14px;
+            padding: 8px 12px 8px;
+            margin-bottom: 8px;
             border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 2px 12px rgba(180, 150, 120, 0.06);
+            box-shadow: 0 2px 8px rgba(180, 150, 120, 0.06);
             flex-shrink: 0;
         }
         .calendar-header {
             display: flex;
             justify-content: flex-start;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             color: #2c241c;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .calendar-week {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 2px;
             text-align: center;
-            font-size: 11px;
+            font-size: 10px;
             color: #8a7a6a;
             margin-bottom: 2px;
         }
@@ -64,7 +66,7 @@
             text-align: center;
         }
         .calendar-days .day {
-            font-size: 13px;
+            font-size: 12px;
             color: #2c241c;
             padding: 2px 0;
             border-radius: 50%;
@@ -72,7 +74,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
             transition: all 0.15s;
         }
         .calendar-days .day.today {
@@ -89,11 +90,11 @@
             color: #dcd3cb;
         }
 
-        /* ===== 学科切换（深色背景） ===== */
+        /* ===== 学科切换（背景图） ===== */
         .subject-tabs {
             display: flex;
             gap: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             flex-shrink: 0;
         }
         .subject-tab {
@@ -108,33 +109,69 @@
             border: none;
             color: #fff;
             letter-spacing: 1px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+        /* 背景图调淡 */
+        .subject-tab::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 14px;
+            z-index: 0;
+        }
+        .subject-tab span {
+            position: relative;
+            z-index: 1;
         }
         .subject-tab:active {
             transform: scale(0.96);
         }
-        /* 历史：暖深灰 */
+
+        /* 历史：暖色书页图 */
         .subject-tab.history-tab {
-            background: linear-gradient(145deg, #7a6b5a, #5a4d3e);
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMTUwIiB2aWV3Qm94PSIwIDAgNDAwIDE1MCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNlOGQ4YzAiLz48cGF0aCBkPSJNNTAgMjAgTDE1MCAyMCBMMTUwIDUwIEw1MCA1MCB6IiBmaWxsPSIjZGNjY2I0Ii8+PHBhdGggZD0iTTUwIDcwIEwxODAgNzAgTDE4MCA5MCBMNTAgOTAgeiIgZmlsbD0iI2QwYzBhOCIvPjxwYXRoIGQ9Ik01MCAxMTAgTDIwMCAxMTAgTDIwMCAxMzAgTDUwIDEzMHoiIGZpbGw9IiNjNGI0OWMiLz48L3N2Zz4=');
+            background-size: cover;
+            background-position: center 30%;
         }
         .subject-tab.history-tab.active {
             box-shadow: 0 0 0 2px #c49a6c, 0 2px 12px rgba(196, 154, 108, 0.25);
         }
-        /* 道法：冷深灰 */
+
+        /* 道法：冷色书架图 */
         .subject-tab.politics-tab {
-            background: linear-gradient(145deg, #5a6a7a, #3d4d5d);
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMTUwIiB2aWV3Qm94PSIwIDAgNDAwIDE1MCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiM4YzliYTgiLz48cmVjdCB4PSIzMCIgeT0iMTUiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiM3YThhOTgiLz48cmVjdCB4PSIxMjAiIHk9IjMwIiB3aWR0aD0iODAiIGhlaWdodD0iMTAwIiBmaWxsPSIjN2E4YTk4Ii8+PHJlY3QgeD0iMjEwIiB5PSIxMCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjEyMCIgZmlsbD0iIzdhOGE5OCIvPjxyZWN0IHg9IjMwMCIgeT0iMjAiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxMTAiIGZpbGw9IiM3YThhOTgiLz48L3N2Zz4=');
+            background-size: cover;
+            background-position: center 30%;
         }
         .subject-tab.politics-tab.active {
             box-shadow: 0 0 0 2px #c49a6c, 0 2px 12px rgba(196, 154, 108, 0.25);
         }
 
-        /* ===== 两列网格 ===== */
+        /* ===== 两列网格（flex 分行） ===== */
         .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
             flex: 1;
             min-height: 0;
+        }
+        .grid-row {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+            min-height: 0;
+        }
+        .grid-row .col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         /* ===== 通用卡片 ===== */
@@ -142,7 +179,7 @@
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(4px);
             border-radius: 14px;
-            padding: 12px 10px;
+            padding: 10px 10px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 2px 8px rgba(180, 150, 120, 0.04);
             cursor: pointer;
@@ -150,6 +187,7 @@
             flex-direction: column;
             justify-content: center;
             transition: transform 0.1s;
+            flex: 1;
         }
         .card-module:active {
             transform: scale(0.96);
@@ -167,9 +205,9 @@
 
         /* ===== 大模块 ===== */
         .card-module.large {
-            grid-row: span 3;
+            flex: 3;
             justify-content: flex-start;
-            padding-top: 16px;
+            padding-top: 14px;
             background: rgba(245, 237, 228, 0.5);
             border-color: rgba(196, 154, 108, 0.1);
             min-height: 0;
@@ -180,13 +218,13 @@
             margin-bottom: 4px;
         }
         .card-module.large .big-number {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 700;
             color: #c49a6c;
             line-height: 1.2;
         }
         .card-module.large .big-number .small {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 400;
             color: #8a7a6a;
         }
@@ -196,13 +234,13 @@
             margin-top: 2px;
         }
         .card-module.large .weak-tag {
-            font-size: 12px;
+            font-size: 11px;
             color: #8a7a6a;
             background: rgba(196, 154, 108, 0.08);
-            padding: 3px 12px;
+            padding: 2px 12px;
             border-radius: 30px;
             display: inline-block;
-            margin-top: 6px;
+            margin-top: 4px;
         }
         .card-module.large .weak-tag strong {
             color: #b8864a;
@@ -211,11 +249,12 @@
 
         /* ===== 小模块 ===== */
         .card-module.small {
-            padding: 10px 8px;
+            padding: 8px 8px;
+            flex: 1;
             min-height: 0;
         }
         .card-module.small .label {
-            font-size: 14px;
+            font-size: 13px;
         }
         .card-module.small .sub {
             font-size: 10px;
@@ -237,7 +276,7 @@
         .btn-primary {
             display: block;
             width: 100%;
-            padding: 14px 0;
+            padding: 12px 0;
             border: none;
             border-radius: 16px;
             background: #c49a6c;
@@ -278,28 +317,29 @@
 
         /* ===== 响应式适配 ===== */
         @media (max-height: 700px) {
-            .calendar-section { padding: 6px 12px 6px; margin-bottom: 6px; }
-            .calendar-header { font-size: 13px; margin-bottom: 2px; }
-            .calendar-week { font-size: 10px; }
-            .calendar-days .day { font-size: 11px; padding: 1px 0; }
+            .calendar-section { padding: 4px 10px 4px; margin-bottom: 4px; }
+            .calendar-header { font-size: 12px; }
+            .calendar-week { font-size: 9px; }
+            .calendar-days .day { font-size: 10px; padding: 1px 0; }
             .subject-tab { padding: 8px 0; font-size: 14px; }
-            .card-module { padding: 8px 8px; }
-            .card-module.large { padding-top: 10px; }
+            .card-module { padding: 6px 8px; }
+            .card-module.large { padding-top: 8px; }
             .card-module.large .label { font-size: 13px; }
-            .card-module.large .big-number { font-size: 20px; }
+            .card-module.large .big-number { font-size: 18px; }
             .card-module.large .sub-line { font-size: 10px; }
             .card-module.large .weak-tag { font-size: 10px; padding: 2px 10px; }
             .card-module.small .label { font-size: 12px; }
             .btn-primary { padding: 10px 0; font-size: 14px; margin-top: 4px; }
             .btn-secondary { padding: 8px 0; font-size: 13px; }
+            .grid-row { gap: 6px; }
+            .grid-container { gap: 6px; }
         }
         @media (max-height: 600px) {
-            .calendar-days .day { font-size: 10px; }
-            .card-module.large .big-number { font-size: 17px; }
+            .calendar-days .day { font-size: 9px; }
+            .card-module.large .big-number { font-size: 15px; }
             .card-module.small .label { font-size: 11px; }
             .subject-tab { padding: 6px 0; font-size: 12px; }
-            .grid-container { gap: 6px; }
-            .card-module { padding: 6px 6px; }
+            .card-module { padding: 4px 6px; }
         }
     </style>
 </head>
@@ -311,12 +351,14 @@
 
         <!-- ===== 学科切换 ===== -->
         <div class="subject-tabs" id="subjectTabs">
-            <button class="subject-tab history-tab active" data-subject="history">历史</button>
-            <button class="subject-tab politics-tab" data-subject="politics">道法</button>
+            <button class="subject-tab history-tab active" data-subject="history"><span>历史</span></button>
+            <button class="subject-tab politics-tab" data-subject="politics"><span>道法</span></button>
         </div>
 
-        <!-- ===== 两列网格 ===== -->
-        <div class="grid-container" id="gridContainer"></div>
+        <!-- ===== 两列网格（flex 分行） ===== -->
+        <div class="grid-container" id="gridContainer">
+            <!-- JS 动态渲染 -->
+        </div>
 
         <!-- ===== 底部按钮 ===== -->
         <button class="btn-primary" id="startBtn">开始诊断 · 10分钟找到薄弱点</button>
@@ -403,9 +445,14 @@
             'active': { label: '进行中' },
             'pending': { label: '未开始' }
         };
+        // 右列顺序：七上、八上、九上
         const rightModules = ['七上', '八上', '九上'];
+        // 左列顺序：七下、八下、九下
         const leftModules = ['七下', '八下', '九下'];
 
+        // ============================================================
+        // 3. 渲染网格（flex 分行）
+        // ============================================================
         function renderGrid(subject) {
             const container = document.getElementById('gridContainer');
             const data = (subject === 'history') ? HISTORY_STATUS : POLITICS_STATUS;
@@ -418,47 +465,84 @@
             }
             const weakModule = '八下 · 法治';
 
-            let html = '';
+            // 构建左右列数据
+            const leftCol = [];
+            const rightCol = [];
 
-            // 左1：学情诊断（大）
-            html += '<div class="card-module large" data-module="diagnosis">';
-            html += '  <div class="label">📊 学情诊断</div>';
-            html += '  <div class="big-number">' + totalDone + '<span class="small"> / ' + totalAll + ' 题</span></div>';
-            html += '  <div class="sub-line">正确率 68%</div>';
-            html += '  <div class="weak-tag">📌 薄弱：<strong>' + weakModule + '</strong></div>';
-            html += '</div>';
-
-            // 右1-3：七上/八上/九上
-            for (let i = 0; i < rightModules.length; i++) {
-                const name = rightModules[i];
-                const d = data[name] || { done: 0, total: 0, status: 'pending' };
-                const info = statusMap[d.status] || statusMap['pending'];
-                html += '<div class="card-module small ' + (colorMap[name] || '') + '" data-module="' + name + '">';
-                html += '  <div class="label">' + name + '</div>';
-                html += '  <div class="sub">' + (d.done > 0 ? d.done + '/' + d.total + ' 题' : info.label) + '</div>';
-                html += '</div>';
-            }
-
-            // 左2-4：七下/八下/九下
+            // 左列：学情诊断（大） + 七下 + 八下 + 九下
+            leftCol.push({ type: 'large', name: 'diagnosis', label: '📊 学情诊断', data: { done: totalDone, total: totalAll,
+                    weak: weakModule } });
             for (let i = 0; i < leftModules.length; i++) {
                 const name = leftModules[i];
                 const d = data[name] || { done: 0, total: 0, status: 'pending' };
-                const info = statusMap[d.status] || statusMap['pending'];
-                html += '<div class="card-module small ' + (colorMap[name] || '') + '" data-module="' + name + '">';
-                html += '  <div class="label">' + name + '</div>';
-                html += '  <div class="sub">' + (d.done > 0 ? d.done + '/' + d.total + ' 题' : info.label) + '</div>';
-                html += '</div>';
+                leftCol.push({ type: 'small', name: name, data: d });
             }
 
-            // 右4：中考冲刺（大）
-            html += '<div class="card-module large" data-module="sprint">';
-            html += '  <div class="label">🎯 中考冲刺</div>';
-            html += '  <div class="big-number">' + totalDone + '<span class="small"> 题</span></div>';
-            html += '  <div class="sub-line">综合复习 · 查漏补缺</div>';
-            html += '</div>';
+            // 右列：七上 + 八上 + 九上 + 中考冲刺（大）
+            for (let i = 0; i < rightModules.length; i++) {
+                const name = rightModules[i];
+                const d = data[name] || { done: 0, total: 0, status: 'pending' };
+                rightCol.push({ type: 'small', name: name, data: d });
+            }
+            rightCol.push({ type: 'large', name: 'sprint', label: '🎯 中考冲刺', data: { done: totalDone } });
 
-            container.innerHTML = html;
+            // 渲染左列
+            let leftHtml = '';
+            for (let i = 0; i < leftCol.length; i++) {
+                const item = leftCol[i];
+                if (item.type === 'large') {
+                    leftHtml += `
+                        <div class="card-module large" data-module="${item.name}">
+                            <div class="label">${item.label}</div>
+                            <div class="big-number">${item.data.done}<span class="small"> / ${item.data.total || ''} 题</span></div>
+                            <div class="sub-line">正确率 68%</div>
+                            <div class="weak-tag">📌 薄弱：<strong>${item.data.weak || '八下·法治'}</strong></div>
+                        </div>
+                    `;
+                } else {
+                    const d = item.data;
+                    const info = statusMap[d.status] || statusMap['pending'];
+                    leftHtml += `
+                        <div class="card-module small ${colorMap[item.name] || ''}" data-module="${item.name}">
+                            <div class="label">${item.name}</div>
+                            <div class="sub">${d.done > 0 ? d.done + '/' + d.total + ' 题' : info.label}</div>
+                        </div>
+                    `;
+                }
+            }
 
+            // 渲染右列
+            let rightHtml = '';
+            for (let i = 0; i < rightCol.length; i++) {
+                const item = rightCol[i];
+                if (item.type === 'large') {
+                    rightHtml += `
+                        <div class="card-module large" data-module="${item.name}">
+                            <div class="label">${item.label}</div>
+                            <div class="big-number">${item.data.done}<span class="small"> 题</span></div>
+                            <div class="sub-line">综合复习 · 查漏补缺</div>
+                        </div>
+                    `;
+                } else {
+                    const d = item.data;
+                    const info = statusMap[d.status] || statusMap['pending'];
+                    rightHtml += `
+                        <div class="card-module small ${colorMap[item.name] || ''}" data-module="${item.name}">
+                            <div class="label">${item.name}</div>
+                            <div class="sub">${d.done > 0 ? d.done + '/' + d.total + ' 题' : info.label}</div>
+                        </div>
+                    `;
+                }
+            }
+
+            container.innerHTML = `
+                <div class="grid-row">
+                    <div class="col">${leftHtml}</div>
+                    <div class="col">${rightHtml}</div>
+                </div>
+            `;
+
+            // 绑定点击事件
             container.querySelectorAll('.card-module').forEach(function(el) {
                 el.addEventListener('click', function() {
                     const m = this.dataset.module;
@@ -470,7 +554,7 @@
         }
 
         // ============================================================
-        // 3. 学科切换
+        // 4. 学科切换
         // ============================================================
         document.querySelectorAll('.subject-tab').forEach(function(tab) {
             tab.addEventListener('click', function() {
@@ -483,12 +567,12 @@
         });
 
         // ============================================================
-        // 4. 初始化
+        // 5. 初始化
         // ============================================================
         renderGrid('history');
 
         // ============================================================
-        // 5. 底部按钮
+        // 6. 底部按钮
         // ============================================================
         document.getElementById('startBtn').addEventListener('click', function() {
             alert('🚀 诊断功能即将上线，敬请期待！');
@@ -497,7 +581,7 @@
             alert('📊 诊断报告功能即将上线，敬请期待！');
         });
 
-        console.log('✅ 道法历史 · 闯关（最终版）已加载');
+        console.log('✅ 道法历史 · 闯关（最终版 · flex布局）已加载');
     </script>
 </body>
 </html>
