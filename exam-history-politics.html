@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>道法历史 · 闯关</title>
     <style>
+        /* ===== 重置 & 基础 ===== */
         * {
             margin: 0;
             padding: 0;
@@ -100,78 +101,83 @@
             color: #dcd3cb;
         }
 
-        /* ===== 学科切换 ===== */
-        .subject-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 12px;
-            flex-shrink: 0;
-        }
-        .subject-tab {
-            flex: 1;
-            padding: 12px 0;
+        /* ===== 学科品牌标识（书架背景 + 不可点击） ===== */
+        .brand-section {
+            background:
+                linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, transparent 40%, transparent 60%, rgba(0, 0, 0, 0.03) 100%),
+                repeating-linear-gradient(90deg,
+                    #c0392b 0%, #c0392b 12px,
+                    #d4a373 12px, #d4a373 18px,
+                    #2c3e50 18px, #2c3e50 30px,
+                    #7f8c8d 30px, #7f8c8d 36px,
+                    #b85c3a 36px, #b85c3a 48px,
+                    #34495e 48px, #34495e 60px,
+                    #c0392b 60px, #c0392b 72px,
+                    #8e735b 72px, #8e735b 78px,
+                    #2c3e50 78px, #2c3e50 90px,
+                    #d4a373 90px, #d4a373 96px,
+                    #5d6d7e 96px, #5d6d7e 108px,
+                    #b85c3a 108px, #b85c3a 114px,
+                    #34495e 114px, #34495e 126px,
+                    #c0392b 126px, #c0392b 132px,
+                    #7f8c8d 132px, #7f8c8d 138px,
+                    #2c3e50 138px, #2c3e50 150px,
+                    #d4a373 150px, #d4a373 156px,
+                    #5d6d7e 156px, #5d6d7e 168px
+                );
+            background-size: 100% 100%, 168px 100%;
+            background-position: center;
             border-radius: 14px;
-            font-size: 16px;
-            font-weight: 500;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            color: #fff;
-            letter-spacing: 1px;
+            padding: 20px 16px;
+            margin-bottom: 14px;
+            flex-shrink: 0;
             position: relative;
             overflow: hidden;
-            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            height: 50px;
-            background-color: transparent;
-            background-size: cover;
-            background-position: center;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        .subject-tab::after {
+        .brand-section::after {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
+            background: rgba(255, 255, 255, 0.12);
             border-radius: 14px;
-            z-index: 0;
+            pointer-events: none;
         }
-        .subject-tab span {
+        .brand-text {
+            font-size: 22px;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
             position: relative;
             z-index: 1;
+            letter-spacing: 2px;
         }
-        .subject-tab:active {
-            transform: scale(0.96);
+        .brand-text .history {
+            color: #f5cba7;
         }
-        .subject-tab.active {
-            box-shadow: 0 0 0 2px #c49a6c, 0 2px 12px rgba(196, 154, 108, 0.20);
+        .brand-text .politics {
+            color: #aed6f1;
         }
-
-        /* 历史：暖色旧纸张质感 */
-        .subject-tab.history-tab {
-            background-image:
-                repeating-linear-gradient(45deg, transparent, transparent 12px,
-                    rgba(180, 150, 120, 0.06) 12px, rgba(180, 150, 120, 0.06) 13px),
-                repeating-linear-gradient(-45deg, transparent, transparent 12px,
-                    rgba(180, 150, 120, 0.04) 12px, rgba(180, 150, 120, 0.04) 13px),
-                radial-gradient(circle at 30% 40%, #d4c4b0 0%, #b8a48a 70%, #9a8a78 100%);
-            background-blend-mode: overlay, overlay, normal;
+        .brand-sub {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            letter-spacing: 1px;
         }
-
-        /* 道法：冷色书架质感 */
-        .subject-tab.politics-tab {
-            background-image:
-                repeating-linear-gradient(0deg, transparent, transparent 14px,
-                    rgba(160, 175, 190, 0.08) 14px, rgba(160, 175, 190, 0.08) 15px),
-                repeating-linear-gradient(90deg, transparent, transparent 14px,
-                    rgba(160, 175, 190, 0.06) 14px, rgba(160, 175, 190, 0.06) 15px),
-                radial-gradient(circle at 60% 30%, #8a9aaa 0%, #6a7a8a 60%, #4d5d6d 100%);
-            background-blend-mode: overlay, overlay, normal;
+        .brand-sub span {
+            display: inline-block;
+            margin: 0 4px;
         }
 
-        /* ===== 两列网格（flex-column 均分） ===== */
+        /* ===== 两列网格（flex均分） ===== */
         .grid-row {
             display: flex;
             gap: 12px;
@@ -293,19 +299,19 @@
             padding: 14px 0;
             border: none;
             border-radius: 14px;
-            background: #999999;
+            background: #6a7a8a;
             color: #fff;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
             text-align: center;
-            box-shadow: 0 2px 12px rgba(153, 153, 153, 0.20);
+            box-shadow: 0 2px 12px rgba(106, 122, 138, 0.20);
             margin-top: 10px;
             transition: background 0.15s, transform 0.1s;
             flex-shrink: 0;
         }
         .btn-primary:active {
-            background: #7a7a7a;
+            background: #4d5d6d;
             transform: scale(0.97);
         }
         .btn-secondary {
@@ -336,7 +342,9 @@
             .calendar-week { font-size: 9px; }
             .calendar-days .day { font-size: 12px; padding: 1px 0; }
             .calendar-days .day .dot { width: 3px; height: 3px; }
-            .subject-tab { height: 40px; font-size: 14px; padding: 8px 0; }
+            .brand-section { height: 56px; padding: 14px 14px; margin-bottom: 10px; }
+            .brand-text { font-size: 18px; }
+            .brand-sub { font-size: 10px; }
             .card-module { padding: 6px 8px; }
             .card-module.large { padding-top: 8px; }
             .card-module.large .label { font-size: 13px; }
@@ -351,7 +359,9 @@
         }
         @media (max-height: 600px) {
             .calendar-days .day { font-size: 10px; }
-            .subject-tab { height: 34px; font-size: 12px; }
+            .brand-section { height: 46px; padding: 10px 12px; }
+            .brand-text { font-size: 15px; }
+            .brand-sub { font-size: 9px; }
             .card-module.large .big-number { font-size: 15px; }
             .card-module.small .label { font-size: 11px; }
             .btn-primary { padding: 8px 0; font-size: 13px; }
@@ -361,24 +371,35 @@
 <body>
     <div class="app">
 
+        <!-- ===== 日历 ===== -->
         <div class="calendar-section" id="calendarSection"></div>
 
-        <div class="subject-tabs" id="subjectTabs">
-            <button class="subject-tab history-tab active" data-subject="history"><span>历史</span></button>
-            <button class="subject-tab politics-tab" data-subject="politics"><span>道法</span></button>
+        <!-- ===== 品牌标识（书架背景） ===== -->
+        <div class="brand-section">
+            <div class="brand-text">
+                <span class="history">历史</span> · <span class="politics">道法</span>
+            </div>
+            <div class="brand-sub">
+                <span>📖</span> 双科闯关
+            </div>
         </div>
 
+        <!-- ===== 两列网格 ===== -->
         <div class="grid-row" id="gridContainer">
             <div class="col" id="leftCol"></div>
             <div class="col" id="rightCol"></div>
         </div>
 
+        <!-- ===== 底部按钮 ===== -->
         <button class="btn-primary" id="startBtn">开始诊断 · 10分钟找到薄弱点</button>
         <button class="btn-secondary" id="reportBtn">诊断报告（即将上线）</button>
 
     </div>
 
     <script>
+        // ============================================================
+        // 1. 日历
+        // ============================================================
         (function renderCalendar() {
             const now = new Date();
             const year = now.getFullYear();
@@ -427,6 +448,9 @@
             document.getElementById('calendarSection').innerHTML = html;
         })();
 
+        // ============================================================
+        // 2. 数据
+        // ============================================================
         const HISTORY_STATUS = {
             '七上': { done: 0, total: 30, status: 'pending' },
             '八上': { done: 10, total: 30, status: 'done' },
@@ -460,6 +484,9 @@
         const rightModules = ['七上', '八上', '九上'];
         const leftModules = ['七下', '八下', '九下'];
 
+        // ============================================================
+        // 3. 渲染网格
+        // ============================================================
         function renderGrid(subject) {
             const leftCol = document.getElementById('leftCol');
             const rightCol = document.getElementById('rightCol');
@@ -530,18 +557,14 @@
             });
         }
 
-        document.querySelectorAll('.subject-tab').forEach(function(tab) {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.subject-tab').forEach(function(t) {
-                    t.classList.remove('active');
-                });
-                this.classList.add('active');
-                renderGrid(this.dataset.subject);
-            });
-        });
-
+        // ============================================================
+        // 4. 初始化（默认显示历史数据）
+        // ============================================================
         renderGrid('history');
 
+        // ============================================================
+        // 5. 底部按钮
+        // ============================================================
         document.getElementById('startBtn').addEventListener('click', function() {
             alert('🚀 诊断功能即将上线，敬请期待！');
         });
@@ -549,7 +572,7 @@
             alert('📊 诊断报告功能即将上线，敬请期待！');
         });
 
-        console.log('✅ 道法历史 · 闯关（flex均分版）已加载');
+        console.log('✅ 道法历史 · 闯关（书架品牌版）已加载');
     </script>
 </body>
 </html>
