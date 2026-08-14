@@ -19,7 +19,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px 12px 16px;
+            padding: 8px 12px 12px;
         }
         .app {
             max-width: 420px;
@@ -30,77 +30,72 @@
             flex-direction: column;
         }
 
-        /* ===== 日历（压缩版） ===== */
+        /* ===== 日历（一行） ===== */
         .calendar-section {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-radius: 14px;
-            padding: 8px 12px 8px;
-            margin-bottom: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 2px 8px rgba(180, 150, 120, 0.06);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(6px);
+            border-radius: 12px;
+            padding: 4px 10px 4px;
+            margin-bottom: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 1px 6px rgba(180, 150, 120, 0.05);
             flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            height: 44px;
+            overflow: hidden;
         }
         .calendar-header {
-            display: flex;
-            justify-content: flex-start;
             font-size: 14px;
             font-weight: 600;
             color: #2c241c;
-            margin-bottom: 2px;
+            flex-shrink: 0;
+            white-space: nowrap;
         }
         .calendar-week {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
+            display: flex;
             gap: 2px;
-            text-align: center;
-            font-size: 10px;
-            color: #8a7a6a;
-            margin-bottom: 2px;
+            flex: 1;
+            justify-content: space-around;
         }
-        .calendar-days {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
-            text-align: center;
-        }
-        .calendar-days .day {
+        .calendar-week .day {
             font-size: 12px;
             color: #2c241c;
-            padding: 2px 0;
+            text-align: center;
+            padding: 2px 4px;
             border-radius: 50%;
+            min-width: 28px;
             aspect-ratio: 1/1;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.15s;
         }
-        .calendar-days .day.today {
+        .calendar-week .day.today {
             background: #c49a6c;
             color: #fff;
             font-weight: 600;
         }
-        .calendar-days .day.used {
+        .calendar-week .day.used {
             border: 2px solid #c49a6c;
-            border-radius: 50%;
             background: rgba(196, 154, 108, 0.10);
         }
-        .calendar-days .day.other-month {
+        .calendar-week .day.other-month {
             color: #dcd3cb;
         }
 
         /* ===== 学科切换（背景图） ===== */
         .subject-tabs {
             display: flex;
-            gap: 10px;
-            margin-bottom: 8px;
+            gap: 8px;
+            margin-bottom: 6px;
             flex-shrink: 0;
         }
         .subject-tab {
             flex: 1;
-            padding: 12px 0;
-            border-radius: 14px;
+            padding: 10px 0;
+            border-radius: 12px;
             font-size: 16px;
             font-weight: 500;
             text-align: center;
@@ -113,16 +108,20 @@
             background-position: center;
             position: relative;
             overflow: hidden;
-            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            height: 48px;
+            background-color: #f7f2eb;
         }
-        /* 背景图调淡 */
         .subject-tab::after {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.15);
-            border-radius: 14px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.10);
+            border-radius: 12px;
             z-index: 0;
         }
         .subject-tab span {
@@ -132,38 +131,36 @@
         .subject-tab:active {
             transform: scale(0.96);
         }
+        .subject-tab.active {
+            box-shadow: 0 0 0 2px #c49a6c, 0 2px 8px rgba(196, 154, 108, 0.20);
+        }
 
         /* 历史：暖色书页图 */
         .subject-tab.history-tab {
             background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMTUwIiB2aWV3Qm94PSIwIDAgNDAwIDE1MCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiNlOGQ4YzAiLz48cGF0aCBkPSJNNTAgMjAgTDE1MCAyMCBMMTUwIDUwIEw1MCA1MCB6IiBmaWxsPSIjZGNjY2I0Ii8+PHBhdGggZD0iTTUwIDcwIEwxODAgNzAgTDE4MCA5MCBMNTAgOTAgeiIgZmlsbD0iI2QwYzBhOCIvPjxwYXRoIGQ9Ik01MCAxMTAgTDIwMCAxMTAgTDIwMCAxMzAgTDUwIDEzMHoiIGZpbGw9IiNjNGI0OWMiLz48L3N2Zz4=');
-            background-size: cover;
-            background-position: center 30%;
+            background-size: 100% 100%;
+            background-position: center;
+            background-color: transparent;
         }
-        .subject-tab.history-tab.active {
-            box-shadow: 0 0 0 2px #c49a6c, 0 2px 12px rgba(196, 154, 108, 0.25);
-        }
-
         /* 道法：冷色书架图 */
         .subject-tab.politics-tab {
             background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMTUwIiB2aWV3Qm94PSIwIDAgNDAwIDE1MCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIxNTAiIGZpbGw9IiM4YzliYTgiLz48cmVjdCB4PSIzMCIgeT0iMTUiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiM3YThhOTgiLz48cmVjdCB4PSIxMjAiIHk9IjMwIiB3aWR0aD0iODAiIGhlaWdodD0iMTAwIiBmaWxsPSIjN2E4YTk4Ii8+PHJlY3QgeD0iMjEwIiB5PSIxMCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjEyMCIgZmlsbD0iIzdhOGE5OCIvPjxyZWN0IHg9IjMwMCIgeT0iMjAiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxMTAiIGZpbGw9IiM3YThhOTgiLz48L3N2Zz4=');
-            background-size: cover;
-            background-position: center 30%;
-        }
-        .subject-tab.politics-tab.active {
-            box-shadow: 0 0 0 2px #c49a6c, 0 2px 12px rgba(196, 154, 108, 0.25);
+            background-size: 100% 100%;
+            background-position: center;
+            background-color: transparent;
         }
 
         /* ===== 两列网格（flex 分行） ===== */
         .grid-container {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             flex: 1;
             min-height: 0;
         }
         .grid-row {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex: 1;
             min-height: 0;
         }
@@ -171,23 +168,24 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         /* ===== 通用卡片 ===== */
         .card-module {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(4px);
-            border-radius: 14px;
-            padding: 10px 10px;
+            border-radius: 12px;
+            padding: 8px 8px;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 2px 8px rgba(180, 150, 120, 0.04);
+            box-shadow: 0 1px 6px rgba(180, 150, 120, 0.04);
             cursor: pointer;
             display: flex;
             flex-direction: column;
             justify-content: center;
             transition: transform 0.1s;
             flex: 1;
+            min-height: 0;
         }
         .card-module:active {
             transform: scale(0.96);
@@ -203,33 +201,33 @@
             margin-top: 1px;
         }
 
-        /* ===== 大模块 ===== */
+        /* ===== 大模块（占3格） ===== */
         .card-module.large {
             flex: 3;
             justify-content: flex-start;
-            padding-top: 14px;
+            padding-top: 10px;
             background: rgba(245, 237, 228, 0.5);
-            border-color: rgba(196, 154, 108, 0.1);
+            border-color: rgba(196, 154, 108, 0.08);
             min-height: 0;
         }
         .card-module.large .label {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .card-module.large .big-number {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
             color: #c49a6c;
             line-height: 1.2;
         }
         .card-module.large .big-number .small {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 400;
             color: #8a7a6a;
         }
         .card-module.large .sub-line {
-            font-size: 12px;
+            font-size: 11px;
             color: #8a7a6a;
             margin-top: 2px;
         }
@@ -237,7 +235,7 @@
             font-size: 11px;
             color: #8a7a6a;
             background: rgba(196, 154, 108, 0.08);
-            padding: 2px 12px;
+            padding: 2px 10px;
             border-radius: 30px;
             display: inline-block;
             margin-top: 4px;
@@ -247,9 +245,9 @@
             font-weight: 500;
         }
 
-        /* ===== 小模块 ===== */
+        /* ===== 小模块（占1格） ===== */
         .card-module.small {
-            padding: 8px 8px;
+            padding: 6px 8px;
             flex: 1;
             min-height: 0;
         }
@@ -278,20 +276,20 @@
             width: 100%;
             padding: 12px 0;
             border: none;
-            border-radius: 16px;
-            background: #c49a6c;
+            border-radius: 14px;
+            background: #8a7a6a;
             color: #fff;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
             text-align: center;
-            box-shadow: 0 4px 16px rgba(196, 154, 108, 0.2);
-            margin-top: 8px;
+            box-shadow: 0 2px 12px rgba(138, 122, 106, 0.20);
+            margin-top: 6px;
             transition: background 0.15s, transform 0.1s;
             flex-shrink: 0;
         }
         .btn-primary:active {
-            background: #b8864a;
+            background: #6b5d4e;
             transform: scale(0.97);
         }
         .btn-secondary {
@@ -299,7 +297,7 @@
             width: 100%;
             padding: 10px 0;
             border: none;
-            border-radius: 16px;
+            border-radius: 14px;
             background: transparent;
             color: #8a7a6a;
             font-size: 14px;
@@ -307,46 +305,47 @@
             cursor: pointer;
             text-align: center;
             margin-top: 4px;
-            border: 1px solid rgba(196, 154, 108, 0.12);
+            border: 1px solid rgba(138, 122, 106, 0.20);
             transition: background 0.15s;
             flex-shrink: 0;
         }
         .btn-secondary:active {
-            background: rgba(196, 154, 108, 0.04);
+            background: rgba(138, 122, 106, 0.06);
         }
 
         /* ===== 响应式适配 ===== */
         @media (max-height: 700px) {
-            .calendar-section { padding: 4px 10px 4px; margin-bottom: 4px; }
+            .calendar-section { height: 38px; padding: 2px 8px; gap: 4px; }
             .calendar-header { font-size: 12px; }
-            .calendar-week { font-size: 9px; }
-            .calendar-days .day { font-size: 10px; padding: 1px 0; }
-            .subject-tab { padding: 8px 0; font-size: 14px; }
-            .card-module { padding: 6px 8px; }
-            .card-module.large { padding-top: 8px; }
-            .card-module.large .label { font-size: 13px; }
+            .calendar-week .day { font-size: 10px; min-width: 22px; }
+            .subject-tab { height: 40px; font-size: 14px; padding: 6px 0; }
+            .card-module { padding: 4px 6px; }
+            .card-module.large { padding-top: 6px; }
+            .card-module.large .label { font-size: 12px; }
             .card-module.large .big-number { font-size: 18px; }
             .card-module.large .sub-line { font-size: 10px; }
-            .card-module.large .weak-tag { font-size: 10px; padding: 2px 10px; }
+            .card-module.large .weak-tag { font-size: 10px; padding: 2px 8px; }
             .card-module.small .label { font-size: 12px; }
             .btn-primary { padding: 10px 0; font-size: 14px; margin-top: 4px; }
             .btn-secondary { padding: 8px 0; font-size: 13px; }
-            .grid-row { gap: 6px; }
-            .grid-container { gap: 6px; }
+            .grid-row { gap: 4px; }
+            .grid-container { gap: 4px; }
+            .grid-row .col { gap: 4px; }
         }
         @media (max-height: 600px) {
-            .calendar-days .day { font-size: 9px; }
+            .calendar-section { height: 32px; }
+            .calendar-week .day { font-size: 9px; min-width: 18px; }
+            .subject-tab { height: 34px; font-size: 12px; }
             .card-module.large .big-number { font-size: 15px; }
             .card-module.small .label { font-size: 11px; }
-            .subject-tab { padding: 6px 0; font-size: 12px; }
-            .card-module { padding: 4px 6px; }
+            .btn-primary { padding: 8px 0; font-size: 13px; }
         }
     </style>
 </head>
 <body>
     <div class="app">
 
-        <!-- ===== 日历 ===== -->
+        <!-- ===== 日历（一行） ===== -->
         <div class="calendar-section" id="calendarSection"></div>
 
         <!-- ===== 学科切换 ===== -->
@@ -355,10 +354,8 @@
             <button class="subject-tab politics-tab" data-subject="politics"><span>道法</span></button>
         </div>
 
-        <!-- ===== 两列网格（flex 分行） ===== -->
-        <div class="grid-container" id="gridContainer">
-            <!-- JS 动态渲染 -->
-        </div>
+        <!-- ===== 两列网格 ===== -->
+        <div class="grid-container" id="gridContainer"></div>
 
         <!-- ===== 底部按钮 ===== -->
         <button class="btn-primary" id="startBtn">开始诊断 · 10分钟找到薄弱点</button>
@@ -368,19 +365,23 @@
 
     <script>
         // ============================================================
-        // 1. 日历
+        // 1. 日历（本周7天）
         // ============================================================
         (function renderCalendar() {
             const now = new Date();
             const year = now.getFullYear();
             const month = now.getMonth();
             const today = now.getDate();
-            const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
 
-            const firstDay = new Date(year, month, 1);
-            const lastDay = new Date(year, month + 1, 0);
-            const daysInMonth = lastDay.getDate();
-            const startWeekday = firstDay.getDay();
+            const firstDayOfWeek = new Date(now);
+            firstDayOfWeek.setDate(today - now.getDay());
+
+            const weekDates = [];
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(firstDayOfWeek);
+                d.setDate(firstDayOfWeek.getDate() + i);
+                weekDates.push(d);
+            }
 
             let usedDays = {};
             try {
@@ -393,23 +394,20 @@
                 localStorage.setItem('daofa_used_days', JSON.stringify(usedDays));
             }
 
+            const monthNames = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
             let html = '';
-            html += '<div class="calendar-header">' + year + '.' + (month + 1) + '</div>';
+            html += '<span class="calendar-header">' + year + '.' + monthNames[month] + '</span>';
             html += '<div class="calendar-week">';
-            for (let i = 0; i < 7; i++) html += '<span>' + weekdays[i] + '</span>';
-            html += '</div>';
-            html += '<div class="calendar-days">';
-            for (let i = 0; i < startWeekday; i++) {
-                html += '<div class="day other-month"><span></span></div>';
-            }
-            for (let d = 1; d <= daysInMonth; d++) {
-                const isToday = (d === today);
-                const key = year + '-' + (month + 1) + '-' + d;
+            for (let i = 0; i < 7; i++) {
+                const d = weekDates[i];
+                const day = d.getDate();
+                const isToday = (day === today && d.getMonth() === month && d.getFullYear() === year);
+                const key = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + day;
                 const used = !!usedDays[key];
                 let cls = 'day';
                 if (isToday) cls += ' today';
                 else if (used) cls += ' used';
-                html += '<div class="' + cls + '"><span>' + d + '</span></div>';
+                html += '<div class="' + cls + '">' + day + '</div>';
             }
             html += '</div>';
             document.getElementById('calendarSection').innerHTML = html;
@@ -445,13 +443,11 @@
             'active': { label: '进行中' },
             'pending': { label: '未开始' }
         };
-        // 右列顺序：七上、八上、九上
         const rightModules = ['七上', '八上', '九上'];
-        // 左列顺序：七下、八下、九下
         const leftModules = ['七下', '八下', '九下'];
 
         // ============================================================
-        // 3. 渲染网格（flex 分行）
+        // 3. 渲染网格
         // ============================================================
         function renderGrid(subject) {
             const container = document.getElementById('gridContainer');
@@ -465,11 +461,9 @@
             }
             const weakModule = '八下 · 法治';
 
-            // 构建左右列数据
             const leftCol = [];
             const rightCol = [];
 
-            // 左列：学情诊断（大） + 七下 + 八下 + 九下
             leftCol.push({ type: 'large', name: 'diagnosis', label: '📊 学情诊断', data: { done: totalDone, total: totalAll,
                     weak: weakModule } });
             for (let i = 0; i < leftModules.length; i++) {
@@ -478,7 +472,6 @@
                 leftCol.push({ type: 'small', name: name, data: d });
             }
 
-            // 右列：七上 + 八上 + 九上 + 中考冲刺（大）
             for (let i = 0; i < rightModules.length; i++) {
                 const name = rightModules[i];
                 const d = data[name] || { done: 0, total: 0, status: 'pending' };
@@ -486,7 +479,6 @@
             }
             rightCol.push({ type: 'large', name: 'sprint', label: '🎯 中考冲刺', data: { done: totalDone } });
 
-            // 渲染左列
             let leftHtml = '';
             for (let i = 0; i < leftCol.length; i++) {
                 const item = leftCol[i];
@@ -511,7 +503,6 @@
                 }
             }
 
-            // 渲染右列
             let rightHtml = '';
             for (let i = 0; i < rightCol.length; i++) {
                 const item = rightCol[i];
@@ -542,7 +533,6 @@
                 </div>
             `;
 
-            // 绑定点击事件
             container.querySelectorAll('.card-module').forEach(function(el) {
                 el.addEventListener('click', function() {
                     const m = this.dataset.module;
@@ -581,7 +571,7 @@
             alert('📊 诊断报告功能即将上线，敬请期待！');
         });
 
-        console.log('✅ 道法历史 · 闯关（最终版 · flex布局）已加载');
+        console.log('✅ 道法历史 · 闯关（最终版）已加载');
     </script>
 </body>
 </html>
