@@ -26,186 +26,276 @@
             width: 100%;
         }
 
-        /* ===== 顶部：日期 ===== */
-        .date-bar {
-            font-size: 14px;
-            color: #8a7a6a;
-            padding-bottom: 12px;
-            letter-spacing: 0.3px;
-        }
-        .date-bar span {
-            font-weight: 500;
-            color: #2c241c;
-        }
-
-        /* ===== 标题区 ===== */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 18px;
-        }
-        .logo {
-            font-size: 22px;
-            font-weight: 600;
-            color: #2c241c;
-        }
-        .logo span {
-            font-weight: 300;
-            color: #c49a6c;
-        }
-        .user-badge {
-            font-size: 13px;
-            color: #8a7a6a;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 30px;
-            padding: 6px 16px 6px 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid rgba(196, 154, 108, 0.15);
-        }
-        .user-badge .dot {
-            width: 8px;
-            height: 8px;
-            background: #c49a6c;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        /* ===== 学科切换 ===== */
-        .subject-tabs {
-            display: flex;
-            gap: 12px;
-            padding-bottom: 18px;
-        }
-        .subject-tab {
-            padding: 8px 24px;
-            border-radius: 30px;
-            font-size: 15px;
-            font-weight: 500;
-            color: #8a7a6a;
-            background: rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(196, 154, 108, 0.1);
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-            flex: 1;
-        }
-        .subject-tab.active {
-            background: #c49a6c;
-            color: #fff;
-            border-color: #c49a6c;
-            box-shadow: 0 2px 12px rgba(196, 154, 108, 0.25);
-        }
-        .subject-tab:active {
-            transform: scale(0.96);
-        }
-
-        /* ===== 学情诊断卡 ===== */
-        .card {
+        /* ===== 日期 + 本周日历 ===== */
+        .calendar-section {
             background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border-radius: 20px;
-            padding: 20px 20px 16px;
-            margin-bottom: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 2px 16px rgba(180, 150, 120, 0.06);
+            padding: 16px 16px 14px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 2px 12px rgba(180, 150, 120, 0.06);
         }
 
-        .card-title {
+        .calendar-month {
             font-size: 15px;
             font-weight: 500;
             color: #2c241c;
-            margin-bottom: 4px;
+            text-align: center;
+            margin-bottom: 8px;
         }
-        .card-sub {
+
+        .calendar-week {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            text-align: center;
             font-size: 13px;
             color: #8a7a6a;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
-        .diagnosis-stats {
-            display: flex;
-            gap: 24px;
-            padding-top: 4px;
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            text-align: center;
         }
-        .diagnosis-stats .stat-item {
+
+        .calendar-days .day {
+            font-size: 15px;
+            color: #2c241c;
+            padding: 4px 0;
+            border-radius: 50%;
+            transition: all 0.15s;
+            position: relative;
+            aspect-ratio: 1/1;
             display: flex;
+            align-items: center;
+            justify-content: center;
             flex-direction: column;
         }
-        .diagnosis-stats .stat-number {
-            font-size: 22px;
+
+        .calendar-days .day .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #c49a6c;
+            margin-top: 2px;
+            display: none;
+        }
+        .calendar-days .day .dot.used {
+            display: block;
+        }
+
+        .calendar-days .day.today {
+            background: #c49a6c;
+            color: #fff;
             font-weight: 600;
+        }
+        .calendar-days .day.today .dot {
+            background: #fff;
+        }
+        .calendar-days .day.other-month {
+            color: #dcd3cb;
+        }
+
+        /* ===== 学科切换（带纹理底纹） ===== */
+        .subject-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .subject-tab {
+            flex: 1;
+            padding: 14px 0;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            color: #8a7a6a;
+            background-color: #e8e0d8;
+            background-image:
+                repeating-linear-gradient(45deg, transparent, transparent 20px,
+                    rgba(200, 180, 160, 0.08) 20px, rgba(200, 180, 160, 0.08) 21px),
+                repeating-linear-gradient(-45deg, transparent, transparent 20px,
+                    rgba(200, 180, 160, 0.08) 20px, rgba(200, 180, 160, 0.08) 21px),
+                radial-gradient(circle at 30% 40%, rgba(180, 150, 120, 0.05) 0%, transparent 60%),
+                radial-gradient(circle at 70% 60%, rgba(180, 150, 120, 0.05) 0%, transparent 50%);
+            background-blend-mode: overlay;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(200, 180, 160, 0.15);
+        }
+
+        /* 额外的极淡图标水印 */
+        .subject-tab::before {
+            content: "📖 ✏️ 📚 ⏰ ✅";
+            position: absolute;
+            font-size: 48px;
+            color: rgba(180, 150, 120, 0.04);
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            letter-spacing: 12px;
+            word-break: break-all;
+            line-height: 1.6;
+            pointer-events: none;
+            transform: rotate(-8deg);
+        }
+
+        .subject-tab.active {
+            background-color: #c49a6c;
+            color: #fff;
+            border-color: #c49a6c;
+            box-shadow: 0 2px 12px rgba(196, 154, 108, 0.25);
+        }
+        .subject-tab.active::before {
+            color: rgba(255, 255, 255, 0.04);
+        }
+
+        .subject-tab:active {
+            transform: scale(0.96);
+        }
+
+        /* ===== 两列网格 ===== */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        /* ===== 通用卡片 ===== */
+        .card-module {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border-radius: 16px;
+            padding: 16px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 8px rgba(180, 150, 120, 0.04);
+            transition: transform 0.1s, box-shadow 0.15s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 70px;
+        }
+        .card-module:active {
+            transform: scale(0.96);
+        }
+
+        .card-module .label {
+            font-size: 14px;
+            font-weight: 500;
             color: #2c241c;
         }
-        .diagnosis-stats .stat-number .small {
+        .card-module .sub {
+            font-size: 12px;
+            color: #8a7a6a;
+            margin-top: 2px;
+        }
+        .card-module .highlight {
+            font-size: 22px;
+            font-weight: 600;
+            color: #c49a6c;
+        }
+        .card-module .highlight .small {
             font-size: 14px;
             font-weight: 400;
             color: #8a7a6a;
         }
-        .diagnosis-stats .stat-label {
-            font-size: 12px;
+
+        /* ===== 大模块（占3层） ===== */
+        .card-module.large {
+            min-height: 240px;
+            justify-content: flex-start;
+            padding-top: 20px;
+            background: rgba(245, 237, 228, 0.5);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border-color: rgba(196, 154, 108, 0.1);
+        }
+
+        .card-module.large .label {
+            font-size: 17px;
+            font-weight: 600;
+            color: #2c241c;
+            margin-bottom: 6px;
+        }
+
+        .card-module.large .big-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #c49a6c;
+            line-height: 1.2;
+        }
+        .card-module.large .big-number .small {
+            font-size: 16px;
+            font-weight: 400;
             color: #8a7a6a;
         }
-        .weak-tag {
-            margin-top: 10px;
+        .card-module.large .sub-line {
+            font-size: 13px;
+            color: #8a7a6a;
+            margin-top: 4px;
+        }
+        .card-module.large .weak-tag {
             font-size: 13px;
             color: #8a7a6a;
             background: rgba(196, 154, 108, 0.08);
-            padding: 6px 14px;
+            padding: 4px 14px;
             border-radius: 30px;
             display: inline-block;
+            margin-top: 8px;
         }
-        .weak-tag strong {
+        .card-module.large .weak-tag strong {
             color: #b8864a;
             font-weight: 500;
         }
 
-        /* ===== 模块列表 ===== */
-        .module-list {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            padding: 4px 0;
+        /* ===== 小模块 ===== */
+        .card-module.small {
+            min-height: 70px;
+            padding: 12px 10px;
         }
-        .module-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 16px;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: background 0.15s;
+        .card-module.small .label {
+            font-size: 15px;
         }
-        .module-item.active {
-            background: rgba(196, 154, 108, 0.06);
-            border-color: rgba(196, 154, 108, 0.15);
-        }
-        .module-name {
-            font-size: 16px;
-            font-weight: 400;
-            color: #2c241c;
-        }
-        .module-status {
-            font-size: 12px;
-            padding: 2px 14px;
-            border-radius: 30px;
-            background: rgba(0, 0, 0, 0.04);
+        .card-module.small .sub {
+            font-size: 11px;
             color: #bbb;
         }
-        .module-status.done {
-            background: rgba(196, 154, 108, 0.08);
-            color: #c49a6c;
+        .card-module.small .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
         }
-        .module-status.active {
-            background: rgba(196, 154, 108, 0.12);
-            color: #b8864a;
+        .card-module.small .status-dot.done {
+            background: #c49a6c;
         }
-        .module-status .count {
-            color: #2c241c;
-            font-weight: 500;
+        .card-module.small .status-dot.active {
+            background: #b8864a;
+        }
+        .card-module.small .status-dot.pending {
+            background: #dcd3cb;
+        }
+
+        /* ===== 模块内容切换 ===== */
+        .module-content {
+            display: block;
+        }
+        .module-content.hidden {
+            display: none;
         }
 
         /* ===== 按钮 ===== */
@@ -223,7 +313,7 @@
             text-align: center;
             transition: background 0.15s, transform 0.1s;
             box-shadow: 0 4px 16px rgba(196, 154, 108, 0.2);
-            margin-top: 8px;
+            margin-top: 4px;
         }
         .btn-primary:active {
             background: #b8864a;
@@ -249,70 +339,29 @@
         .btn-secondary:active {
             background: rgba(196, 154, 108, 0.04);
         }
-
-        /* ===== 模块内容切换（默认历史） ===== */
-        .module-content {
-            display: block;
-        }
-        .module-content.hidden {
-            display: none;
-        }
     </style>
 </head>
 <body>
 
     <div class="app">
 
-        <!-- ===== 顶部：日期 ===== -->
-        <div class="date-bar" id="dateDisplay"></div>
-
-        <!-- ===== 标题区 ===== -->
-        <div class="header">
-            <div class="logo">道法历史 <span>· 闯关</span></div>
-            <div class="user-badge">
-                <span class="dot"></span>
-                八年级 · 诊断中
-            </div>
+        <!-- ===== 日历区 ===== -->
+        <div class="calendar-section" id="calendarSection">
+            <!-- JS 渲染 -->
         </div>
 
         <!-- ===== 学科切换 ===== -->
         <div class="subject-tabs" id="subjectTabs">
-            <div class="subject-tab active" data-subject="history">历史</div>
-            <div class="subject-tab" data-subject="politics">道法</div>
+            <button class="subject-tab active" data-subject="history">历史</button>
+            <button class="subject-tab" data-subject="politics">道法</button>
         </div>
 
-        <!-- ===== 学情诊断卡 ===== -->
-        <div class="card">
-            <div class="card-title">学情诊断</div>
-            <div class="card-sub">已诊断 <strong id="totalDone">0</strong> / 200 题</div>
-            <div class="diagnosis-stats">
-                <div class="stat-item">
-                    <span class="stat-number" id="accuracyDisplay">0<span class="small">%</span></span>
-                    <span class="stat-label">正确率</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="weakCount">0</span>
-                    <span class="stat-label">薄弱知识点</span>
-                </div>
-            </div>
-            <div class="weak-tag">📌 当前薄弱：<strong id="weakModule">八下 · 法治</strong></div>
+        <!-- ===== 两列网格 ===== -->
+        <div class="grid-container" id="gridContainer">
+            <!-- JS 渲染 -->
         </div>
 
-        <!-- ===== 历史模块列表 ===== -->
-        <div class="module-content" id="historyModules">
-            <div class="module-list" id="historyList">
-                <!-- JS 动态生成 -->
-            </div>
-        </div>
-
-        <!-- ===== 道法模块列表 ===== -->
-        <div class="module-content hidden" id="politicsModules">
-            <div class="module-list" id="politicsList">
-                <!-- JS 动态生成 -->
-            </div>
-        </div>
-
-        <!-- ===== 按钮 ===== -->
+        <!-- ===== 底部按钮 ===== -->
         <button class="btn-primary" id="startBtn">开始诊断 · 10分钟找到薄弱点</button>
         <button class="btn-secondary" id="reportBtn">诊断报告（即将上线）</button>
 
@@ -320,113 +369,209 @@
 
     <script>
         // ============================================================
-        // 1. 显示当前日期
+        // 1. 日历 + 本周 + 打卡标记
         // ============================================================
-        (function showDate() {
+        (function renderCalendar() {
             const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+            const today = now.getDate();
             const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
-            const month = now.getMonth() + 1;
-            const day = now.getDate();
-            const wd = weekdays[now.getDay()];
-            document.getElementById('dateDisplay').innerHTML =
-                '📅 <span>' + month + '月' + day + '日</span> · 周' + wd;
+
+            // 本周日（周日为第一天）
+            const firstDayOfWeek = new Date(now);
+            firstDayOfWeek.setDate(today - now.getDay());
+
+            // 获取本周所有日期
+            const weekDates = [];
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(firstDayOfWeek);
+                d.setDate(firstDayOfWeek.getDate() + i);
+                weekDates.push(d);
+            }
+
+            // 读取使用记录（本地存储）
+            let usedDays = {};
+            try {
+                const stored = localStorage.getItem('daofa_used_days');
+                if (stored) usedDays = JSON.parse(stored);
+            } catch (e) {}
+
+            // 标记今天已使用
+            const todayKey = year + '-' + (month + 1) + '-' + today;
+            if (!usedDays[todayKey]) {
+                usedDays[todayKey] = true;
+                localStorage.setItem('daofa_used_days', JSON.stringify(usedDays));
+            }
+
+            // 渲染
+            const container = document.getElementById('calendarSection');
+            let html = '';
+            html += '<div class="calendar-month">' + year + '年 ' + (month + 1) + '月</div>';
+
+            html += '<div class="calendar-week">';
+            for (let i = 0; i < 7; i++) {
+                html += '<span>' + weekdays[i] + '</span>';
+            }
+            html += '</div>';
+
+            html += '<div class="calendar-days">';
+            for (let i = 0; i < 7; i++) {
+                const d = weekDates[i];
+                const day = d.getDate();
+                const isToday = (day === today && d.getMonth() === month && d.getFullYear() === year);
+                const key = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + day;
+                const used = !!usedDays[key];
+                const cls = isToday ? 'day today' : 'day';
+                html += '<div class="' + cls + '">' +
+                    '<span>' + day + '</span>' +
+                    '<span class="dot' + (used ? ' used' : '') + '"></span>' +
+                    '</div>';
+            }
+            html += '</div>';
+
+            container.innerHTML = html;
         })();
 
         // ============================================================
-        // 2. 模块数据
+        // 2. 数据
         // ============================================================
-        const MODULES = ['七上', '七下', '八上', '八下', '九上', '九下', '中考冲刺'];
+        const MODULES = ['七上', '八上', '九上', '七下', '八下', '九下'];
 
-        // 模拟状态：每个模块的完成题数，-1 表示未开始
-        // 实际使用时替换为真实数据
         const HISTORY_STATUS = {
-            '七上': { done: 0, total: 30, status: 'done' },
-            '七下': { done: 0, total: 30, status: 'done' },
+            '七上': { done: 0, total: 30, status: 'pending' },
             '八上': { done: 10, total: 30, status: 'done' },
-            '八下': { done: 10, total: 30, status: 'active' },
             '九上': { done: 0, total: 30, status: 'pending' },
-            '九下': { done: 0, total: 30, status: 'pending' },
-            '中考冲刺': { done: 0, total: 30, status: 'pending' }
+            '七下': { done: 0, total: 30, status: 'pending' },
+            '八下': { done: 10, total: 30, status: 'active' },
+            '九下': { done: 0, total: 30, status: 'pending' }
         };
+
         const POLITICS_STATUS = {
             '七上': { done: 0, total: 30, status: 'pending' },
-            '七下': { done: 0, total: 30, status: 'pending' },
             '八上': { done: 5, total: 30, status: 'active' },
-            '八下': { done: 0, total: 30, status: 'pending' },
             '九上': { done: 0, total: 30, status: 'pending' },
-            '九下': { done: 0, total: 30, status: 'pending' },
-            '中考冲刺': { done: 0, total: 30, status: 'pending' }
+            '七下': { done: 0, total: 30, status: 'pending' },
+            '八下': { done: 0, total: 30, status: 'pending' },
+            '九下': { done: 0, total: 30, status: 'pending' }
         };
 
         // ============================================================
-        // 3. 渲染模块列表
+        // 3. 渲染网格
         // ============================================================
-        function renderModules(containerId, statusData) {
-            const container = document.getElementById(containerId);
+        function renderGrid(subject) {
+            const container = document.getElementById('gridContainer');
+            const statusData = (subject === 'history') ? HISTORY_STATUS : POLITICS_STATUS;
+
+            // 计算总进度（仅示例，实际可合并）
+            let totalDone = 0;
+            let totalAll = 0;
+            for (let key in statusData) {
+                totalDone += statusData[key].done || 0;
+                totalAll += statusData[key].total || 0;
+            }
+            const weakModule = '八下 · 法治';
+
+            // 按照布局顺序：
+            // 左列：学情诊断(大) → 七下 → 八下 → 九下
+            // 右列：七上 → 八上 → 九上 → 中考冲刺(大)
+            const leftModules = ['七下', '八下', '九下'];
+            const rightModules = ['七上', '八上', '九上'];
+
             let html = '';
-            MODULES.forEach(function(name) {
+
+            // 左列 - 学情诊断（大）
+            html += '<div class="card-module large" data-module="diagnosis">';
+            html += '  <div class="label">📊 学情诊断</div>';
+            html += '  <div class="big-number">' + totalDone + '<span class="small"> / ' + totalAll + ' 题</span></div>';
+            html += '  <div class="sub-line">正确率 68%</div>';
+            html += '  <div class="weak-tag">📌 薄弱：<strong>' + weakModule + '</strong></div>';
+            html += '</div>';
+
+            // 右列 - 七上、八上、九上
+            for (let i = 0; i < rightModules.length; i++) {
+                const name = rightModules[i];
                 const data = statusData[name] || { done: 0, total: 0, status: 'pending' };
                 const statusMap = {
                     'done': { label: '已完成', cls: 'done' },
                     'active': { label: '进行中', cls: 'active' },
-                    'pending': { label: '未开始', cls: '' }
+                    'pending': { label: '未开始', cls: 'pending' }
                 };
                 const info = statusMap[data.status] || statusMap['pending'];
-                const isActive = (data.status === 'active');
-                let rightHtml = '<span class="module-status ' + info.cls + '">';
+                html += '<div class="card-module small" data-module="' + name + '">';
+                html += '  <div class="label"><span class="status-dot ' + info.cls + '"></span>' + name + '</div>';
                 if (data.done > 0) {
-                    rightHtml += '<span class="count">' + data.done + '</span> 题 · ';
+                    html += '  <div class="sub">' + data.done + '/' + data.total + ' 题</div>';
+                } else {
+                    html += '  <div class="sub">' + info.label + '</div>';
                 }
-                rightHtml += info.label + '</span>';
-                html += '<div class="module-item' + (isActive ? ' active' : '') + '">' +
-                    '<span class="module-name">' + name + '</span>' +
-                    '<div class="module-right">' + rightHtml + '</div>' +
-                    '</div>';
-            });
+                html += '</div>';
+            }
+
+            // 左列 - 七下、八下、九下（接在学情诊断后面）
+            for (let i = 0; i < leftModules.length; i++) {
+                const name = leftModules[i];
+                const data = statusData[name] || { done: 0, total: 0, status: 'pending' };
+                const statusMap = {
+                    'done': { label: '已完成', cls: 'done' },
+                    'active': { label: '进行中', cls: 'active' },
+                    'pending': { label: '未开始', cls: 'pending' }
+                };
+                const info = statusMap[data.status] || statusMap['pending'];
+                html += '<div class="card-module small" data-module="' + name + '">';
+                html += '  <div class="label"><span class="status-dot ' + info.cls + '"></span>' + name + '</div>';
+                if (data.done > 0) {
+                    html += '  <div class="sub">' + data.done + '/' + data.total + ' 题</div>';
+                } else {
+                    html += '  <div class="sub">' + info.label + '</div>';
+                }
+                html += '</div>';
+            }
+
+            // 右列 - 中考冲刺（大）
+            html += '<div class="card-module large" data-module="sprint">';
+            html += '  <div class="label">🎯 中考冲刺</div>';
+            html += '  <div class="big-number">' + totalDone + '<span class="small"> 题</span></div>';
+            html += '  <div class="sub-line">综合复习 · 查漏补缺</div>';
+            html += '</div>';
+
             container.innerHTML = html;
+
+            // 绑定点击事件
+            container.querySelectorAll('.card-module').forEach(function(el) {
+                el.addEventListener('click', function() {
+                    const module = this.dataset.module;
+                    if (module === 'diagnosis') {
+                        alert('📊 学情诊断详情即将上线');
+                    } else if (module === 'sprint') {
+                        alert('🎯 中考冲刺模块即将上线');
+                    } else {
+                        alert('📚 进入 ' + module + ' 刷题（示例功能）');
+                    }
+                });
+            });
         }
 
-        renderModules('historyList', HISTORY_STATUS);
-        renderModules('politicsList', POLITICS_STATUS);
-
         // ============================================================
-        // 4. 学情诊断数据（模拟，实际使用时替换）
+        // 4. 学科切换
         // ============================================================
-        // 目前只显示历史的进度，后续可合并两科
-        let totalDone = 20;
-        let totalAll = 200;
-        let accuracy = 68;
-        let weakModule = '八下 · 法治';
+        let currentSubject = 'history';
 
-        document.getElementById('totalDone').textContent = totalDone;
-        document.getElementById('accuracyDisplay').innerHTML = accuracy + '<span class="small">%</span>';
-        document.getElementById('weakModule').textContent = weakModule;
-        // 薄弱知识点数量暂定
-        document.getElementById('weakCount').textContent = '3';
-
-        // ============================================================
-        // 5. 学科切换
-        // ============================================================
-        var tabs = document.querySelectorAll('.subject-tab');
-        var historyContent = document.getElementById('historyModules');
-        var politicsContent = document.getElementById('politicsModules');
-
-        tabs.forEach(function(tab) {
+        document.querySelectorAll('.subject-tab').forEach(function(tab) {
             tab.addEventListener('click', function() {
-                // 切换高亮
-                tabs.forEach(function(t) { t.classList.remove('active'); });
+                document.querySelectorAll('.subject-tab').forEach(function(t) {
+                    t.classList.remove('active');
+                });
                 this.classList.add('active');
-
-                var subject = this.dataset.subject;
-                if (subject === 'history') {
-                    historyContent.classList.remove('hidden');
-                    politicsContent.classList.add('hidden');
-                } else {
-                    historyContent.classList.add('hidden');
-                    politicsContent.classList.remove('hidden');
-                }
+                currentSubject = this.dataset.subject;
+                renderGrid(currentSubject);
             });
         });
+
+        // ============================================================
+        // 5. 初始化
+        // ============================================================
+        renderGrid('history');
 
         // ============================================================
         // 6. 按钮事件
@@ -438,7 +583,7 @@
             alert('📊 诊断报告功能即将上线，敬请期待！');
         });
 
-        console.log('✅ 道法历史 · 闯关（暖米白 · 完整版）已加载');
+        console.log('✅ 道法历史 · 闯关（两列网格 · 纹理版）已加载');
     </script>
 </body>
 </html>
