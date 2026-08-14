@@ -171,14 +171,7 @@
             background-blend-mode: overlay, overlay, normal;
         }
 
-        /* ===== 两列网格 ===== */
-        .grid-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            flex: 1;
-            min-height: 0;
-        }
+        /* ===== 两列网格（flex-column 均分） ===== */
         .grid-row {
             display: flex;
             gap: 12px;
@@ -224,7 +217,7 @@
             margin-top: 2px;
         }
 
-        /* ===== 大模块（占3格） ===== */
+        /* ===== 大模块（占3份） ===== */
         .card-module.large {
             flex: 3;
             justify-content: flex-start;
@@ -268,7 +261,7 @@
             font-weight: 500;
         }
 
-        /* ===== 小模块（占1格） ===== */
+        /* ===== 小模块（占1份） ===== */
         .card-module.small {
             padding: 8px 12px;
             flex: 1;
@@ -353,7 +346,6 @@
             .card-module.small .label { font-size: 12px; }
             .btn-primary { padding: 10px 0; font-size: 14px; margin-top: 6px; }
             .btn-secondary { padding: 8px 0; font-size: 13px; }
-            .grid-container { gap: 8px; }
             .grid-row { gap: 8px; }
             .grid-row .col { gap: 8px; }
         }
@@ -376,7 +368,10 @@
             <button class="subject-tab politics-tab" data-subject="politics"><span>道法</span></button>
         </div>
 
-        <div class="grid-container" id="gridContainer"></div>
+        <div class="grid-row" id="gridContainer">
+            <div class="col" id="leftCol"></div>
+            <div class="col" id="rightCol"></div>
+        </div>
 
         <button class="btn-primary" id="startBtn">开始诊断 · 10分钟找到薄弱点</button>
         <button class="btn-secondary" id="reportBtn">诊断报告（即将上线）</button>
@@ -466,7 +461,8 @@
         const leftModules = ['七下', '八下', '九下'];
 
         function renderGrid(subject) {
-            const container = document.getElementById('gridContainer');
+            const leftCol = document.getElementById('leftCol');
+            const rightCol = document.getElementById('rightCol');
             const data = (subject === 'history') ? HISTORY_STATUS : POLITICS_STATUS;
 
             let totalDone = 0,
@@ -477,79 +473,54 @@
             }
             const weakModule = '八下 · 法治';
 
-            const leftCol = [];
-            const rightCol = [];
-
-            leftCol.push({ type: 'large', name: 'diagnosis', label: '📊 学情诊断', data: { done: totalDone, total: totalAll,
-                    weak: weakModule } });
+            // 左列：大 + 3小
+            let leftHtml = '';
+            leftHtml += `
+                <div class="card-module large" data-module="diagnosis">
+                    <div class="label">📊 学情诊断</div>
+                    <div class="big-number">${totalDone}<span class="small"> / ${totalAll} 题</span></div>
+                    <div class="sub-line">正确率 68%</div>
+                    <div class="weak-tag">📌 薄弱：<strong>${weakModule}</strong></div>
+                </div>
+            `;
             for (let i = 0; i < leftModules.length; i++) {
                 const name = leftModules[i];
                 const d = data[name] || { done: 0, total: 0, status: 'pending' };
-                leftCol.push({ type: 'small', name: name, data: d });
+                const info = statusMap[d.status] || statusMap['pending'];
+                leftHtml += `
+                    <div class="card-module small ${colorMap[name] || ''}" data-module="${name}">
+                        <div class="label">${name}</div>
+                        <div class="sub">${d.done > 0 ? d.done + '/' + d.total + ' 题' : info.label}</div>
+                    </div>
+                `;
             }
 
+            // 右列：3小 + 大
+            let rightHtml = '';
             for (let i = 0; i < rightModules.length; i++) {
                 const name = rightModules[i];
                 const d = data[name] || { done: 0, total: 0, status: 'pending' };
-                rightCol.push({ type: 'small', name: name, data: d });
+                const info = statusMap[d.status] || statusMap['pending'];
+                rightHtml += `
+                    <div class="card-module small ${colorMap[name] || ''}" data-module="${name}">
+                        <div class="label">${name}</div>
+                        <div class="sub">${d.done > 0 ? d.done + '/' + d.total + ' 题' : info.label}</div>
+                    </div>
+                `;
             }
-            rightCol.push({ type: 'large', name: 'sprint', label: '🎯 中考冲刺', data: { done: totalDone } });
-
-            let leftHtml = '';
-            for (let i = 0; i < leftCol.length; i++) {
-                const item = leftCol[i];
-                if (item.type === 'large') {
-                    leftHtml += `
-                        <div class="card-module large" data-module="${item.name}">
-                            <div class="label">${item.label}</div>
-                            <div class="big-number">${item.data.done}<span class="small"> / ${item.data.total || ''} 题</span></div>
-                            <div class="sub-line">正确率 68%</div>
-                            <div class="weak-tag">📌 薄弱：<strong>${item.data.weak || '八下·法治'}</strong></div>
-                        </div>
-                    `;
-                } else {
-                    const d = item.data;
-                    const info = statusMap[d.status] || statusMap['pending'];
-                    leftHtml += `
-                        <div class="card-module small ${colorMap[item.name] || ''}" data-module="${item.name}">
-                            <div class="label">${item.name}</div>
-                            <div class="sub">${d.done > 0 ? d.done + '/' + d.total + ' 题' : info.label}</div>
-                        </div>
-                    `;
-                }
-            }
-
-            let rightHtml = '';
-            for (let i = 0; i < rightCol.length; i++) {
-                const item = rightCol[i];
-                if (item.type === 'large') {
-                    rightHtml += `
-                        <div class="card-module large" data-module="${item.name}">
-                            <div class="label">${item.label}</div>
-                            <div class="big-number">${item.data.done}<span class="small"> 题</span></div>
-                            <div class="sub-line">综合复习 · 查漏补缺</div>
-                        </div>
-                    `;
-                } else {
-                    const d = item.data;
-                    const info = statusMap[d.status] || statusMap['pending'];
-                    rightHtml += `
-                        <div class="card-module small ${colorMap[item.name] || ''}" data-module="${item.name}">
-                            <div class="label">${item.name}</div>
-                            <div class="sub">${d.done > 0 ? d.done + '/' + d.total + ' 题' : info.label}</div>
-                        </div>
-                    `;
-                }
-            }
-
-            container.innerHTML = `
-                <div class="grid-row">
-                    <div class="col">${leftHtml}</div>
-                    <div class="col">${rightHtml}</div>
+            rightHtml += `
+                <div class="card-module large" data-module="sprint">
+                    <div class="label">🎯 中考冲刺</div>
+                    <div class="big-number">${totalDone}<span class="small"> 题</span></div>
+                    <div class="sub-line">综合复习 · 查漏补缺</div>
                 </div>
             `;
 
-            container.querySelectorAll('.card-module').forEach(function(el) {
+            leftCol.innerHTML = leftHtml;
+            rightCol.innerHTML = rightHtml;
+
+            // 绑定点击
+            document.querySelectorAll('.card-module').forEach(function(el) {
                 el.addEventListener('click', function() {
                     const m = this.dataset.module;
                     if (m === 'diagnosis') alert('📊 学情诊断详情即将上线');
@@ -578,7 +549,7 @@
             alert('📊 诊断报告功能即将上线，敬请期待！');
         });
 
-        console.log('✅ 道法历史 · 闯关（纯灰按钮版）已加载');
+        console.log('✅ 道法历史 · 闯关（flex均分版）已加载');
     </script>
 </body>
 </html>
