@@ -101,7 +101,7 @@
             color: #dcd3cb;
         }
 
-        /* ===== 品牌区（抽象水彩风格） ===== */
+        /* ===== 品牌区（深色书架虚化） ===== */
         .brand-section {
             border-radius: 14px;
             padding: 20px 18px;
@@ -116,7 +116,8 @@
             background: #1a1a2e;
             /* 基底深色 */
         }
-        /* 抽象水彩层 - 分散的色块 + 留白 */
+
+        /* 深色书架虚化背景 */
         .brand-section::before {
             content: '';
             position: absolute;
@@ -125,21 +126,41 @@
             right: 0;
             bottom: 0;
             background:
-                /* 深蓝紫晕染 */
-                radial-gradient(ellipse at 15% 20%, rgba(70, 50, 120, 0.6) 0%, transparent 45%),
-                radial-gradient(ellipse at 85% 70%, rgba(100, 60, 140, 0.4) 0%, transparent 40%),
-                /* 暖色跳跃 */
-                radial-gradient(ellipse at 25% 75%, rgba(220, 160, 80, 0.3) 0%, transparent 30%),
-                radial-gradient(ellipse at 70% 15%, rgba(200, 130, 70, 0.25) 0%, transparent 35%),
-                /* 冷色点缀 */
-                radial-gradient(ellipse at 50% 50%, rgba(80, 160, 200, 0.15) 0%, transparent 50%),
-                /* 留白区域 - 通过不覆盖这些区域来实现 */
-                radial-gradient(ellipse at 5% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 10%),
-                radial-gradient(ellipse at 95% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 12%);
+                /* 书脊色块模拟 */
+                linear-gradient(90deg,
+                    #4a2c1a 0%, #4a2c1a 4%,
+                    #3a2a1a 4%, #3a2a1a 8%,
+                    #5a3a2a 8%, #5a3a2a 12%,
+                    #2a3a4a 12%, #2a3a4a 16%,
+                    #4a3a2a 16%, #4a3a2a 20%,
+                    #3a2a3a 20%, #3a2a3a 24%,
+                    #5a4a3a 24%, #5a4a3a 28%,
+                    #2a4a3a 28%, #2a4a3a 32%,
+                    #3a3a4a 32%, #3a3a4a 36%,
+                    #4a2a2a 36%, #4a2a2a 40%,
+                    #2a2a3a 40%, #2a2a3a 44%,
+                    #3a4a2a 44%, #3a4a2a 48%,
+                    #4a3a2a 48%, #4a3a2a 52%,
+                    #3a2a4a 52%, #3a2a4a 56%,
+                    #2a3a4a 56%, #2a3a4a 60%,
+                    #4a2a3a 60%, #4a2a3a 64%,
+                    #3a4a3a 64%, #3a4a3a 68%,
+                    #2a2a2a 68%, #2a2a2a 72%,
+                    #4a3a3a 72%, #4a3a3a 76%,
+                    #3a2a2a 76%, #3a2a2a 80%,
+                    #2a3a3a 80%, #2a3a3a 84%,
+                    #4a4a2a 84%, #4a4a2a 88%,
+                    #3a3a2a 88%, #3a3a2a 92%,
+                    #2a4a4a 92%, #2a4a4a 96%,
+                    #4a2a4a 96%, #4a2a4a 100%
+                );
+            opacity: 0.3;
+            filter: blur(6px);
             pointer-events: none;
             z-index: 0;
         }
-        /* 水彩笔触纹理 */
+
+        /* 深色叠加层 */
         .brand-section::after {
             content: '';
             position: absolute;
@@ -147,23 +168,16 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background:
-                /* 水彩流淌感 */
-                repeating-linear-gradient(55deg, transparent, transparent 20px,
-                    rgba(255, 255, 255, 0.02) 20px, rgba(255, 255, 255, 0.02) 21px),
-                repeating-linear-gradient(-35deg, transparent, transparent 30px,
-                    rgba(255, 255, 255, 0.015) 30px, rgba(255, 255, 255, 0.015) 31px),
-                /* 纸张纹理 */
-                repeating-linear-gradient(0deg, transparent, transparent 2px,
-                    rgba(255, 255, 255, 0.005) 2px, rgba(255, 255, 255, 0.005) 3px);
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.1) 100%);
             pointer-events: none;
             z-index: 0;
         }
+
         .brand-text {
             font-size: 22px;
             font-weight: 600;
             color: #fff;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
             position: relative;
             z-index: 1;
             letter-spacing: 2px;
@@ -298,19 +312,19 @@
             padding: 14px 0;
             border: none;
             border-radius: 14px;
-            background: #6a8aaa;
+            background: #5a6a7a;
             color: #fff;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
             text-align: center;
-            box-shadow: 0 2px 12px rgba(106, 138, 170, 0.25);
+            box-shadow: 0 2px 12px rgba(90, 106, 122, 0.25);
             margin-top: 10px;
             transition: background 0.15s, transform 0.1s;
             flex-shrink: 0;
         }
         .btn-primary:active {
-            background: #4d6a8a;
+            background: #3d4d5d;
             transform: scale(0.97);
         }
         .btn-secondary {
@@ -636,7 +650,7 @@
             alert('📊 诊断报告功能即将上线，敬请期待！');
         });
 
-        console.log('✅ 道法历史 · 闯关（抽象水彩版）已加载');
+        console.log('✅ 道法历史 · 闯关（深色书架虚化版）已加载');
     </script>
 </body>
 </html>
