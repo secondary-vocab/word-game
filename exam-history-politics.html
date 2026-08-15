@@ -589,14 +589,22 @@
 
             container.innerHTML = html;
 
-            container.querySelectorAll('.card-module').forEach(function(el) {
-                el.addEventListener('click', function() {
-                    const m = this.dataset.module;
-                    if (m === 'diagnosis') alert('📊 学情诊断详情即将上线');
-                    else if (m === 'sprint') alert('🎯 中考冲刺模块即将上线');
-                    else alert('📚 进入 ' + m + ' 刷题（示例功能）');
-                });
-            });
+container.querySelectorAll('.card-module').forEach(function(el) {
+    el.addEventListener('click', function() {
+        const m = this.dataset.module;
+        if (m === 'diagnosis') {
+            alert('📊 学情诊断详情即将上线');
+            return;
+        }
+        if (m === 'sprint') {
+            alert('🎯 中考冲刺模块即将上线');
+            return;
+        }
+        document.getElementById('pageSecondary').style.display = 'flex';
+        document.getElementById('moduleTitle').textContent = m;
+        window.selectedModule = m;
+    });
+});
         }
 
         // ============================================================
