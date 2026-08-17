@@ -32,7 +32,6 @@
         /* ===== 日历 ===== */
         .calendar-section {
             background: #ffffff;
-            border-radius: 12px;
             padding: 6px 8px 8px 8px;
             margin-bottom: 12px;
             flex-shrink: 0;
@@ -40,7 +39,7 @@
         }
         .calendar-header {
             font-size: 15px;
-            font-weight: 500;
+            font-weight: 400;
             color: #2c241c;
             margin-bottom: 8px;
             text-align: left;
@@ -102,7 +101,7 @@
             color: #dcd3cb;
         }
 
-        /* ===== 品牌区（首页） ===== */
+        /* ===== 品牌区（首页 - 书籍纹理背景） ===== */
         .brand-section {
             border-radius: 14px;
             padding: 20px 18px;
@@ -124,6 +123,7 @@
             right: 0;
             bottom: 0;
             background:
+                /* 书脊纹理 */
                 linear-gradient(90deg,
                     #4a2c1a 0%, #4a2c1a 4%,
                     #3a2a1a 4%, #3a2a1a 8%,
@@ -151,8 +151,8 @@
                     #2a4a4a 92%, #2a4a4a 96%,
                     #4a2a4a 96%, #4a2a4a 100%
                 );
-            opacity: 0.3;
-            filter: blur(6px);
+            opacity: 0.35;
+            filter: blur(4px);
             pointer-events: none;
             z-index: 0;
         }
@@ -163,13 +163,13 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.1) 100%);
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.05) 100%);
             pointer-events: none;
             z-index: 0;
         }
         .brand-text {
             font-size: 22px;
-            font-weight: 500;
+            font-weight: 400;
             color: #fff;
             text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
             position: relative;
@@ -224,7 +224,7 @@
         }
         .card-module .label {
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 400;
             color: #2c241c;
         }
         .card-module .sub {
@@ -243,12 +243,12 @@
         }
         .card-module.large .label {
             font-size: 15px;
-            font-weight: 500;
+            font-weight: 400;
             margin-bottom: 4px;
         }
         .card-module.large .big-number {
             font-size: 24px;
-            font-weight: 500;
+            font-weight: 400;
             color: #c49a6c;
             line-height: 1.2;
         }
@@ -283,7 +283,7 @@
         }
         .card-module.small .label {
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 400;
         }
         .card-module.small .sub {
             font-size: 11px;
@@ -301,26 +301,26 @@
             background: #eef5ed;
         }
 
-        /* ===== 底部按钮 ===== */
+        /* ===== 底部按钮 - 金色 ===== */
         .btn-primary {
             display: block;
             width: 100%;
             padding: 14px 0;
             border: none;
             border-radius: 14px;
-            background: #5a6a7a;
+            background: #c49a6c;
             color: #fff;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
             text-align: center;
-            box-shadow: 0 2px 12px rgba(90, 106, 122, 0.25);
+            box-shadow: 0 2px 12px rgba(196, 154, 108, 0.25);
             margin-top: 10px;
             transition: background 0.15s, transform 0.1s;
             flex-shrink: 0;
         }
         .btn-primary:active {
-            background: #3d4d5d;
+            background: #b8864a;
             transform: scale(0.97);
         }
         .btn-secondary {
@@ -345,7 +345,7 @@
         }
 
         /* ============================================================
-           第2页 - PlanBingo风格
+           第2页 - PlanBingo风格 + 卡片左对齐
            ============================================================ */
         .page-secondary {
             display: none;
@@ -400,23 +400,27 @@
             width: 40px;
         }
 
-        /* 历史/道法卡片 - 无边框，浅阴影，大卡片 */
+        /* 历史/道法卡片 - 大字左对齐，进度右下角 */
         .subject-cards-row {
             display: flex;
             gap: 16px;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
             flex-shrink: 0;
         }
         .subject-card {
             flex: 1;
-            padding: 20px 0 14px 0;
+            padding: 18px 18px 14px 18px;
             border-radius: 16px;
-            text-align: center;
             cursor: pointer;
             transition: all 0.15s;
             background: #ffffff;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
             border: none;
+            position: relative;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .subject-card:active {
             transform: scale(0.96);
@@ -431,34 +435,37 @@
             background: #f0f4f8;
         }
         .subject-card .name {
-            font-size: 22px;
-            font-weight: 400;
+            font-size: 26px;
+            font-weight: 300;
             color: #2c241c;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            line-height: 1.2;
         }
         .subject-card .progress {
-            font-size: 15px;
+            font-size: 13px;
             color: #8a7a6a;
-            margin-top: 6px;
             font-weight: 400;
+            text-align: right;
+            margin-top: 8px;
+            letter-spacing: 0.3px;
         }
         .subject-card .progress .num {
             font-weight: 500;
             color: #c49a6c;
         }
 
-        /* 学习计划 - 留白加大 */
+        /* 学习计划 */
         .plan-title {
             font-size: 20px;
-            font-weight: 400;
+            font-weight: 300;
             color: #2c241c;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             flex-shrink: 0;
             padding-top: 2px;
             letter-spacing: 0.5px;
         }
 
-        /* 七上 - 小字，无底色，靠下 */
+        /* 七上 - 小字 */
         .module-label {
             font-size: 13px;
             font-weight: 400;
@@ -468,7 +475,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* 单元列表 - 无边框，浅背景 */
+        /* 单元列表 */
         .unit-list {
             display: flex;
             flex-direction: column;
@@ -548,9 +555,9 @@
             .btn-secondary { padding: 8px 0; font-size: 13px; }
             .grid-container { gap: 8px; }
             .page-secondary-header .back { font-size: 28px; }
-            .subject-card .name { font-size: 18px; }
-            .subject-card .progress { font-size: 13px; }
-            .subject-card { padding: 14px 0 10px 0; }
+            .subject-card .name { font-size: 20px; }
+            .subject-card .progress { font-size: 12px; }
+            .subject-card { padding: 14px 14px 10px 14px; min-height: 64px; }
             .plan-title { font-size: 17px; }
             .module-label { font-size: 12px; margin-bottom: 12px; }
             .unit-item { padding: 10px 14px; }
@@ -567,9 +574,9 @@
             .card-module.small .label { font-size: 11px; }
             .btn-primary { padding: 8px 0; font-size: 13px; }
             .page-secondary-header .back { font-size: 24px; }
-            .subject-card .name { font-size: 16px; }
-            .subject-card .progress { font-size: 12px; }
-            .subject-card { padding: 10px 0 6px 0; }
+            .subject-card .name { font-size: 17px; }
+            .subject-card .progress { font-size: 11px; }
+            .subject-card { padding: 10px 12px 8px 12px; min-height: 54px; }
             .plan-title { font-size: 15px; }
             .module-label { font-size: 11px; margin-bottom: 10px; }
             .unit-item { padding: 8px 12px; }
@@ -914,7 +921,7 @@
         // ============================================================
         renderGrid();
 
-        console.log('✅ 道法历史 · 闯关（PlanBingo轻版）已加载');
+        console.log('✅ 道法历史 · 闯关（大改版）已加载');
     </script>
 </body>
 </html>
