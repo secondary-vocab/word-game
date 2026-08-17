@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>道法历史 · 闯关</title>
     <style>
-        /* ===== 重置 & 基础 ===== */
         * {
             margin: 0;
             padding: 0;
@@ -338,7 +337,7 @@
         }
 
         /* ============================================================
-           第2页：学科选择 & 单元列表
+           第2页
            ============================================================ */
         .page-secondary {
             display: none;
@@ -349,19 +348,27 @@
             height: 100%;
             background: #ffffff;
             z-index: 1000;
-            padding: 20px 16px 30px;
+            padding: 12px 16px 20px;
             flex-direction: column;
             overflow-y: auto;
+            align-items: center;
         }
         .page-secondary.show {
             display: flex;
+        }
+        .page-secondary-inner {
+            max-width: 420px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .page-secondary-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 4px 0 16px;
+            padding: 4px 0 12px;
             flex-shrink: 0;
         }
         .page-secondary-header .back {
@@ -381,16 +388,16 @@
             width: 40px;
         }
 
-        /* 学科卡片（二选一） */
+        /* 学科卡片 */
         .subject-cards {
             display: flex;
             gap: 16px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             flex-shrink: 0;
         }
         .subject-card {
             flex: 1;
-            padding: 20px 0;
+            padding: 18px 0;
             border-radius: 16px;
             text-align: center;
             cursor: pointer;
@@ -407,17 +414,17 @@
             box-shadow: 0 4px 16px rgba(196, 154, 108, 0.12);
         }
         .subject-card .icon {
-            font-size: 28px;
+            font-size: 26px;
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
         .subject-card .name {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 500;
             color: #2c241c;
         }
         .subject-card .sub {
-            font-size: 13px;
+            font-size: 12px;
             color: #8a7a6a;
             margin-top: 2px;
         }
@@ -428,6 +435,7 @@
             flex-direction: column;
             gap: 8px;
             flex: 1;
+            overflow-y: auto;
         }
         .unit-item {
             display: flex;
@@ -444,9 +452,28 @@
             background: #f0ede8;
         }
         .unit-item .name {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 500;
             color: #2c241c;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .unit-item .name .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .unit-item .name .dot.done {
+            background: #c49a6c;
+        }
+        .unit-item .name .dot.active {
+            background: #b8864a;
+        }
+        .unit-item .name .dot.pending {
+            background: #dcd3cb;
         }
         .unit-item .progress {
             font-size: 13px;
@@ -456,21 +483,20 @@
             color: #c49a6c;
             font-weight: 500;
         }
-        .unit-item .status-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-right: 8px;
+
+        /* 底部进度总览 */
+        .unit-footer {
+            padding: 14px 0 8px;
+            border-top: 1px solid #f0f0f0;
+            margin-top: 8px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #8a7a6a;
         }
-        .unit-item .status-dot.done {
-            background: #c49a6c;
-        }
-        .unit-item .status-dot.active {
-            background: #b8864a;
-        }
-        .unit-item .status-dot.pending {
-            background: #dcd3cb;
+        .unit-footer .total strong {
+            color: #2c241c;
         }
 
         /* ===== 响应式 ===== */
@@ -543,10 +569,10 @@
                 font-size: 17px;
             }
             .subject-card {
-                padding: 14px 0;
+                padding: 12px 0;
             }
             .subject-card .icon {
-                font-size: 22px;
+                font-size: 20px;
             }
             .subject-card .name {
                 font-size: 15px;
@@ -589,10 +615,10 @@
                 font-size: 15px;
             }
             .subject-card {
-                padding: 10px 0;
+                padding: 8px 0;
             }
             .subject-card .icon {
-                font-size: 18px;
+                font-size: 16px;
             }
             .subject-card .name {
                 font-size: 13px;
@@ -632,29 +658,38 @@
 
         <!-- ===== 第2页 ===== -->
         <div class="page-secondary" id="pageSecondary">
-            <div class="page-secondary-header">
-                <button class="back" id="backToHome">←</button>
-                <span class="title" id="pageTitle">七上</span>
-                <span class="placeholder"></span>
-            </div>
+            <div class="page-secondary-inner">
+                <!-- 日历 -->
+                <div class="calendar-section" id="calendarSection2"></div>
 
-            <!-- 学科卡片 -->
-            <div class="subject-cards" id="subjectCards">
-                <div class="subject-card active" data-subject="history">
-                    <span class="icon">📜</span>
-                    <div class="name">历史</div>
-                    <div class="sub">4个单元 · 20题</div>
+                <div class="page-secondary-header">
+                    <button class="back" id="backToHome">←</button>
+                    <span class="title" id="pageTitle">七上</span>
+                    <span class="placeholder"></span>
                 </div>
-                <div class="subject-card" data-subject="politics">
-                    <span class="icon">⚖️</span>
-                    <div class="name">道法</div>
-                    <div class="sub">4个单元 · 20题</div>
-                </div>
-            </div>
 
-            <!-- 单元列表 -->
-            <div class="unit-list" id="unitList">
-                <!-- 由 JS 动态生成 -->
+                <!-- 学科卡片 -->
+                <div class="subject-cards" id="subjectCards">
+                    <div class="subject-card active" data-subject="history">
+                        <span class="icon">📜</span>
+                        <div class="name">历史</div>
+                        <div class="sub">4个单元 · 20题</div>
+                    </div>
+                    <div class="subject-card" data-subject="politics">
+                        <span class="icon">⚖️</span>
+                        <div class="name">道法</div>
+                        <div class="sub">4个单元 · 20题</div>
+                    </div>
+                </div>
+
+                <!-- 单元列表 -->
+                <div class="unit-list" id="unitList"></div>
+
+                <!-- 底部进度 -->
+                <div class="unit-footer" id="unitFooter">
+                    <span class="total">已完成 <strong id="totalDone">0</strong> / <span id="totalUnits">24</span> 题</span>
+                    <span id="statusLabel">未开始</span>
+                </div>
             </div>
         </div>
 
@@ -662,9 +697,9 @@
 
     <script>
         // ============================================================
-        // 1. 日历
+        // 1. 日历（首页 & 第2页共用）
         // ============================================================
-        (function renderCalendar() {
+        function renderCalendar(containerId) {
             const now = new Date();
             const year = now.getFullYear();
             const month = now.getMonth();
@@ -709,8 +744,11 @@
                     '</div>';
             }
             html += '</div>';
-            document.getElementById('calendarSection').innerHTML = html;
-        })();
+            document.getElementById(containerId).innerHTML = html;
+        }
+
+        renderCalendar('calendarSection');
+        renderCalendar('calendarSection2');
 
         // ============================================================
         // 2. 首页数据
@@ -827,23 +865,20 @@
                         alert('🎯 中考冲刺模块即将上线');
                         return;
                     }
-                    // 打开第2页
                     openSecondary(m);
                 });
             });
         }
 
         // ============================================================
-        // 4. 第2页：单元数据
+        // 4. 第2页：单元数据（七上）
         // ============================================================
-        // 七上历史单元（2024版）
         const UNITS_HISTORY = [
             { id: 'h1', name: '第一单元：史前时期', total: 8, done: 3 },
             { id: 'h2', name: '第二单元：夏商周时期', total: 6, done: 0 },
             { id: 'h3', name: '第三单元：秦汉时期', total: 7, done: 0 },
             { id: 'h4', name: '第四单元：三国两晋南北朝时期', total: 7, done: 0 }
         ];
-        // 七上道法单元（2024版）
         const UNITS_POLITICS = [
             { id: 'p1', name: '第一单元：少年有梦', total: 6, done: 0 },
             { id: 'p2', name: '第二单元：成长的时空', total: 6, done: 0 },
@@ -858,7 +893,6 @@
             currentModule = moduleName;
             document.getElementById('pageTitle').textContent = moduleName;
             document.getElementById('pageSecondary').classList.add('show');
-            // 默认选中历史
             currentSubject = 'history';
             updateSubjectCards();
             renderUnits();
@@ -882,21 +916,33 @@
         function renderUnits() {
             const container = document.getElementById('unitList');
             const units = (currentSubject === 'history') ? UNITS_HISTORY : UNITS_POLITICS;
+            let totalDone = 0,
+                totalAll = 0;
             let html = '';
             units.forEach(function(u) {
                 const status = u.done >= u.total ? 'done' : (u.done > 0 ? 'active' : 'pending');
-                const statusLabel = status === 'done' ? '已完成' : (status === 'active' ? '进行中' : '未开始');
                 const dotClass = status;
+                totalDone += u.done;
+                totalAll += u.total;
                 html += `
                         <div class="unit-item" data-unit="${u.id}">
-                            <span class="name"><span class="status-dot ${dotClass}"></span>${u.name}</span>
+                            <span class="name">
+                                <span class="dot ${dotClass}"></span>
+                                ${u.name}
+                            </span>
                             <span class="progress"><span class="done">${u.done}</span> / ${u.total} 题</span>
                         </div>
                     `;
             });
             container.innerHTML = html;
 
-            // 绑定点击事件
+            document.getElementById('totalDone').textContent = totalDone;
+            document.getElementById('totalUnits').textContent = totalAll;
+            const statusLabel = document.getElementById('statusLabel');
+            if (totalDone === 0) statusLabel.textContent = '未开始';
+            else if (totalDone >= totalAll) statusLabel.textContent = '已完成';
+            else statusLabel.textContent = '进行中';
+
             container.querySelectorAll('.unit-item').forEach(function(el) {
                 el.addEventListener('click', function() {
                     const unitId = this.dataset.unit;
@@ -908,12 +954,10 @@
         }
 
         // ============================================================
-        // 5. 第2页事件绑定
+        // 5. 第2页事件
         // ============================================================
-        // 返回首页
         document.getElementById('backToHome').addEventListener('click', closeSecondary);
 
-        // 学科切换
         document.querySelectorAll('.subject-card').forEach(function(card) {
             card.addEventListener('click', function() {
                 const subject = this.dataset.subject;
@@ -939,7 +983,7 @@
         // ============================================================
         renderGrid('history');
 
-        console.log('✅ 道法历史 · 闯关（第2页 · 单元列表版）已加载');
+        console.log('✅ 道法历史 · 闯关（第2页完整版）已加载');
     </script>
 </body>
 </html>
