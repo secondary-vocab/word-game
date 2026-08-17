@@ -1136,6 +1136,13 @@
         renderGrid();
 
         console.log('✅ 道法历史 · 闯关（压缩版）已加载');
+    // 加载题库
+fetch('https://secondary-vocab.github.io/word-game/questions.json')
+  .then(r => r.json())
+  .then(data => {
+    console.log('✅ 题库加载成功！共 ' + data.questions.length + ' 题');
+  })
+  .catch(e => console.log('❌ 加载失败：', e));
     </script>
 </body>
 </html>
