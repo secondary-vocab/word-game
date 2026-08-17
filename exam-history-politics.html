@@ -29,7 +29,7 @@
             flex-direction: column;
         }
 
-        /* ===== 日历 ===== */
+        /* ===== 日历（首页 - 本周） ===== */
         .calendar-section {
             background: #ffffff;
             border-radius: 12px;
@@ -100,7 +100,78 @@
             color: #dcd3cb;
         }
 
-        /* ===== 品牌区 ===== */
+        /* ===== 整月日历（第2页用） ===== */
+        .calendar-full {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 6px 8px 8px 8px;
+            margin-bottom: 12px;
+            flex-shrink: 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .calendar-full .header {
+            font-size: 15px;
+            font-weight: 600;
+            color: #2c241c;
+            margin-bottom: 6px;
+            text-align: left;
+        }
+        .calendar-full .week {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            text-align: center;
+            font-size: 10px;
+            color: #8a7a6a;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            margin-bottom: 2px;
+        }
+        .calendar-full .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            text-align: center;
+        }
+        .calendar-full .days .day {
+            font-size: 13px;
+            color: #2c241c;
+            padding: 2px 0;
+            border-radius: 50%;
+            aspect-ratio: 1/1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+            gap: 1px;
+        }
+        .calendar-full .days .day .dot {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: #c49a6c;
+            display: none;
+        }
+        .calendar-full .days .day .dot.used {
+            display: block;
+        }
+        .calendar-full .days .day.today {
+            background: #c49a6c;
+            color: #fff;
+            font-weight: 600;
+        }
+        .calendar-full .days .day.today .dot {
+            background: #fff;
+        }
+        .calendar-full .days .day.used-date .dot {
+            display: block;
+        }
+        .calendar-full .days .day.other-month {
+            color: #dcd3cb;
+        }
+
+        /* ===== 品牌区（首页） ===== */
         .brand-section {
             border-radius: 14px;
             padding: 20px 18px;
@@ -368,16 +439,32 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 4px 0 12px;
+            padding: 0 0 10px 0;
             flex-shrink: 0;
         }
         .page-secondary-header .back {
-            font-size: 24px;
-            color: #2c241c;
+            font-size: 28px;
+            font-weight: 700;
+            color: #4a6a8a;
             cursor: pointer;
-            padding: 4px 8px 4px 0;
+            padding: 4px 12px 4px 0;
             background: none;
             border: none;
+            line-height: 1;
+        }
+        .page-secondary-header .title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .page-secondary-header .title-badge {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            background: #c49a6c;
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
         }
         .page-secondary-header .title {
             font-size: 20px;
@@ -385,19 +472,19 @@
             color: #2c241c;
         }
         .page-secondary-header .placeholder {
-            width: 40px;
+            width: 52px;
         }
 
         /* 学科卡片 */
         .subject-cards {
             display: flex;
             gap: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             flex-shrink: 0;
         }
         .subject-card {
             flex: 1;
-            padding: 18px 0;
+            padding: 16px 0;
             border-radius: 16px;
             text-align: center;
             cursor: pointer;
@@ -413,13 +500,26 @@
             border-color: #c49a6c;
             box-shadow: 0 4px 16px rgba(196, 154, 108, 0.12);
         }
+        /* 学科底色区分 */
+        .subject-card[data-subject="history"] {
+            background: #faf6f0;
+        }
+        .subject-card[data-subject="history"].active {
+            background: #faf6f0;
+        }
+        .subject-card[data-subject="politics"] {
+            background: #f0f4f8;
+        }
+        .subject-card[data-subject="politics"].active {
+            background: #f0f4f8;
+        }
         .subject-card .icon {
-            font-size: 26px;
+            font-size: 24px;
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .subject-card .name {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 500;
             color: #2c241c;
         }
@@ -441,7 +541,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 16px;
+            padding: 12px 16px;
             border-radius: 12px;
             background: #faf8f6;
             border: 1px solid #f0f0f0;
@@ -481,14 +581,14 @@
         }
         .unit-item .progress .done {
             color: #c49a6c;
-            font-weight: 500;
+            font-weight: 600;
         }
 
-        /* 底部进度总览 */
+        /* 底部进度 */
         .unit-footer {
-            padding: 14px 0 8px;
+            padding: 12px 0 6px;
             border-top: 1px solid #f0f0f0;
-            margin-top: 8px;
+            margin-top: 6px;
             flex-shrink: 0;
             display: flex;
             justify-content: space-between;
@@ -497,138 +597,76 @@
         }
         .unit-footer .total strong {
             color: #2c241c;
+            font-weight: 600;
+        }
+        .unit-footer .status-badge {
+            font-size: 12px;
+            padding: 2px 14px;
+            border-radius: 30px;
+            background: #f0f0f0;
+            color: #8a7a6a;
+        }
+        .unit-footer .status-badge.done {
+            background: rgba(196, 154, 108, 0.12);
+            color: #c49a6c;
+        }
+        .unit-footer .status-badge.active {
+            background: rgba(196, 154, 108, 0.08);
+            color: #b8864a;
         }
 
         /* ===== 响应式 ===== */
         @media (max-height: 700px) {
-            .calendar-section {
-                padding: 4px 6px 6px 6px;
-                margin-bottom: 10px;
-            }
-            .calendar-header {
-                font-size: 13px;
-                margin-bottom: 4px;
-            }
-            .calendar-week {
-                font-size: 9px;
-            }
-            .calendar-days .day {
-                font-size: 12px;
-                padding: 1px 0;
-            }
-            .calendar-days .day .dot {
-                width: 3px;
-                height: 3px;
-            }
-            .brand-section {
-                height: 56px;
-                padding: 14px 14px;
-                margin-bottom: 10px;
-            }
-            .brand-text {
-                font-size: 18px;
-            }
-            .brand-sub {
-                font-size: 10px;
-            }
-            .card-module {
-                padding: 6px 8px;
-            }
-            .card-module.large {
-                padding-top: 8px;
-            }
-            .card-module.large .label {
-                font-size: 13px;
-            }
-            .card-module.large .big-number {
-                font-size: 18px;
-            }
-            .card-module.large .sub-line {
-                font-size: 10px;
-            }
-            .card-module.large .weak-tag {
-                font-size: 10px;
-                padding: 2px 10px;
-            }
-            .card-module.small .label {
-                font-size: 12px;
-            }
-            .btn-primary {
-                padding: 10px 0;
-                font-size: 14px;
-                margin-top: 6px;
-            }
-            .btn-secondary {
-                padding: 8px 0;
-                font-size: 13px;
-            }
-            .grid-container {
-                gap: 8px;
-            }
-            .page-secondary-header .title {
-                font-size: 17px;
-            }
-            .subject-card {
-                padding: 12px 0;
-            }
-            .subject-card .icon {
-                font-size: 20px;
-            }
-            .subject-card .name {
-                font-size: 15px;
-            }
-            .unit-item {
-                padding: 10px 14px;
-            }
-            .unit-item .name {
-                font-size: 13px;
-            }
-            .unit-item .progress {
-                font-size: 12px;
-            }
+            .calendar-section { padding: 4px 6px 6px 6px; margin-bottom: 10px; }
+            .calendar-header { font-size: 13px; margin-bottom: 4px; }
+            .calendar-week { font-size: 9px; }
+            .calendar-days .day { font-size: 12px; padding: 1px 0; }
+            .calendar-days .day .dot { width: 3px; height: 3px; }
+            .calendar-full { padding: 4px 6px 6px 6px; margin-bottom: 8px; }
+            .calendar-full .header { font-size: 13px; margin-bottom: 4px; }
+            .calendar-full .week { font-size: 9px; }
+            .calendar-full .days .day { font-size: 11px; padding: 1px 0; }
+            .brand-section { height: 56px; padding: 14px 14px; margin-bottom: 10px; }
+            .brand-text { font-size: 18px; }
+            .brand-sub { font-size: 10px; }
+            .card-module { padding: 6px 8px; }
+            .card-module.large { padding-top: 8px; }
+            .card-module.large .label { font-size: 13px; }
+            .card-module.large .big-number { font-size: 18px; }
+            .card-module.large .sub-line { font-size: 10px; }
+            .card-module.large .weak-tag { font-size: 10px; padding: 2px 10px; }
+            .card-module.small .label { font-size: 12px; }
+            .btn-primary { padding: 10px 0; font-size: 14px; margin-top: 6px; }
+            .btn-secondary { padding: 8px 0; font-size: 13px; }
+            .grid-container { gap: 8px; }
+            .page-secondary-header .back { font-size: 24px; }
+            .page-secondary-header .title-badge { font-size: 11px; padding: 2px 10px; }
+            .page-secondary-header .title { font-size: 17px; }
+            .subject-card { padding: 12px 0; }
+            .subject-card .icon { font-size: 20px; }
+            .subject-card .name { font-size: 14px; }
+            .unit-item { padding: 10px 14px; }
+            .unit-item .name { font-size: 13px; }
+            .unit-item .progress { font-size: 12px; }
+            .unit-footer { font-size: 13px; padding: 8px 0 4px; }
         }
         @media (max-height: 600px) {
-            .calendar-days .day {
-                font-size: 10px;
-            }
-            .brand-section {
-                height: 46px;
-                padding: 10px 12px;
-            }
-            .brand-text {
-                font-size: 15px;
-            }
-            .brand-sub {
-                font-size: 9px;
-            }
-            .card-module.large .big-number {
-                font-size: 15px;
-            }
-            .card-module.small .label {
-                font-size: 11px;
-            }
-            .btn-primary {
-                padding: 8px 0;
-                font-size: 13px;
-            }
-            .page-secondary-header .title {
-                font-size: 15px;
-            }
-            .subject-card {
-                padding: 8px 0;
-            }
-            .subject-card .icon {
-                font-size: 16px;
-            }
-            .subject-card .name {
-                font-size: 13px;
-            }
-            .unit-item {
-                padding: 8px 12px;
-            }
-            .unit-item .name {
-                font-size: 12px;
-            }
+            .calendar-days .day { font-size: 10px; }
+            .calendar-full .days .day { font-size: 10px; }
+            .brand-section { height: 46px; padding: 10px 12px; }
+            .brand-text { font-size: 15px; }
+            .brand-sub { font-size: 9px; }
+            .card-module.large .big-number { font-size: 15px; }
+            .card-module.small .label { font-size: 11px; }
+            .btn-primary { padding: 8px 0; font-size: 13px; }
+            .page-secondary-header .back { font-size: 20px; }
+            .page-secondary-header .title-badge { font-size: 10px; padding: 2px 8px; }
+            .page-secondary-header .title { font-size: 15px; }
+            .subject-card { padding: 8px 0; }
+            .subject-card .icon { font-size: 16px; }
+            .subject-card .name { font-size: 12px; }
+            .unit-item { padding: 8px 12px; }
+            .unit-item .name { font-size: 12px; }
         }
     </style>
 </head>
@@ -637,21 +675,14 @@
 
         <!-- ===== 首页 ===== -->
         <div id="homePage">
-            <!-- 日历 -->
             <div class="calendar-section" id="calendarSection"></div>
-
-            <!-- 品牌区 -->
             <div class="brand-section">
                 <div class="brand-text">
                     <span class="history">历史</span> · <span class="politics">道法</span>
                 </div>
                 <div class="brand-sub">✦ 双科闯关</div>
             </div>
-
-            <!-- 网格 -->
             <div class="grid-container" id="gridContainer"></div>
-
-            <!-- 底部按钮 -->
             <button class="btn-primary" id="startBtn">开始诊断 · 10分钟找到薄弱点</button>
             <button class="btn-secondary" id="reportBtn">诊断报告（即将上线）</button>
         </div>
@@ -659,16 +690,19 @@
         <!-- ===== 第2页 ===== -->
         <div class="page-secondary" id="pageSecondary">
             <div class="page-secondary-inner">
-                <!-- 日历 -->
-                <div class="calendar-section" id="calendarSection2"></div>
+
+                <!-- 整月日历 -->
+                <div class="calendar-full" id="calendarFull"></div>
 
                 <div class="page-secondary-header">
                     <button class="back" id="backToHome">←</button>
-                    <span class="title" id="pageTitle">七上</span>
+                    <div class="title-wrap">
+                        <span class="title-badge">📚</span>
+                        <span class="title" id="pageTitle">七上</span>
+                    </div>
                     <span class="placeholder"></span>
                 </div>
 
-                <!-- 学科卡片 -->
                 <div class="subject-cards" id="subjectCards">
                     <div class="subject-card active" data-subject="history">
                         <span class="icon">📜</span>
@@ -682,13 +716,11 @@
                     </div>
                 </div>
 
-                <!-- 单元列表 -->
                 <div class="unit-list" id="unitList"></div>
 
-                <!-- 底部进度 -->
                 <div class="unit-footer" id="unitFooter">
                     <span class="total">已完成 <strong id="totalDone">0</strong> / <span id="totalUnits">24</span> 题</span>
-                    <span id="statusLabel">未开始</span>
+                    <span class="status-badge" id="statusLabel">未开始</span>
                 </div>
             </div>
         </div>
@@ -697,7 +729,7 @@
 
     <script>
         // ============================================================
-        // 1. 日历（首页 & 第2页共用）
+        // 1. 日历（首页 - 本周）
         // ============================================================
         function renderCalendar(containerId) {
             const now = new Date();
@@ -746,12 +778,57 @@
             html += '</div>';
             document.getElementById(containerId).innerHTML = html;
         }
-
         renderCalendar('calendarSection');
-        renderCalendar('calendarSection2');
 
         // ============================================================
-        // 2. 首页数据
+        // 2. 整月日历（第2页）
+        // ============================================================
+        function renderFullCalendar(containerId) {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+            const today = now.getDate();
+            const weekAbbr = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+
+            const firstDayOfMonth = new Date(year, month, 1);
+            const lastDayOfMonth = new Date(year, month + 1, 0);
+            const daysInMonth = lastDayOfMonth.getDate();
+            const startWeekday = firstDayOfMonth.getDay();
+
+            let usedDays = {};
+            try {
+                const stored = localStorage.getItem('daofa_used_days');
+                if (stored) usedDays = JSON.parse(stored);
+            } catch (e) {}
+
+            let html = '';
+            html += '<div class="header">' + year + '.' + (month + 1) + '</div>';
+            html += '<div class="week">';
+            for (let i = 0; i < 7; i++) html += '<span>' + weekAbbr[i] + '</span>';
+            html += '</div>';
+            html += '<div class="days">';
+            for (let i = 0; i < startWeekday; i++) {
+                html += '<div class="day other-month"><span></span></div>';
+            }
+            for (let d = 1; d <= daysInMonth; d++) {
+                const isToday = (d === today);
+                const key = year + '-' + (month + 1) + '-' + d;
+                const used = !!usedDays[key];
+                let cls = 'day';
+                if (isToday) cls += ' today';
+                if (used) cls += ' used-date';
+                html += '<div class="' + cls + '">' +
+                    '<span>' + d + '</span>' +
+                    '<span class="dot' + (used ? ' used' : '') + '"></span>' +
+                    '</div>';
+            }
+            html += '</div>';
+            document.getElementById(containerId).innerHTML = html;
+        }
+        renderFullCalendar('calendarFull');
+
+        // ============================================================
+        // 3. 首页数据
         // ============================================================
         const HISTORY_STATUS = {
             '七上': { done: 0, total: 30, status: 'pending' },
@@ -785,7 +862,7 @@
         };
 
         // ============================================================
-        // 3. 首页渲染
+        // 4. 首页渲染
         // ============================================================
         function renderGrid(subject) {
             const container = document.getElementById('gridContainer');
@@ -871,7 +948,7 @@
         }
 
         // ============================================================
-        // 4. 第2页：单元数据（七上）
+        // 5. 第2页：单元数据（七上）
         // ============================================================
         const UNITS_HISTORY = [
             { id: 'h1', name: '第一单元：史前时期', total: 8, done: 3 },
@@ -896,6 +973,8 @@
             currentSubject = 'history';
             updateSubjectCards();
             renderUnits();
+            // 刷新整月日历（记录使用）
+            renderFullCalendar('calendarFull');
         }
 
         function closeSecondary() {
@@ -939,9 +1018,16 @@
             document.getElementById('totalDone').textContent = totalDone;
             document.getElementById('totalUnits').textContent = totalAll;
             const statusLabel = document.getElementById('statusLabel');
-            if (totalDone === 0) statusLabel.textContent = '未开始';
-            else if (totalDone >= totalAll) statusLabel.textContent = '已完成';
-            else statusLabel.textContent = '进行中';
+            if (totalDone === 0) {
+                statusLabel.textContent = '未开始';
+                statusLabel.className = 'status-badge';
+            } else if (totalDone >= totalAll) {
+                statusLabel.textContent = '已完成';
+                statusLabel.className = 'status-badge done';
+            } else {
+                statusLabel.textContent = '进行中';
+                statusLabel.className = 'status-badge active';
+            }
 
             container.querySelectorAll('.unit-item').forEach(function(el) {
                 el.addEventListener('click', function() {
@@ -954,7 +1040,7 @@
         }
 
         // ============================================================
-        // 5. 第2页事件
+        // 6. 第2页事件
         // ============================================================
         document.getElementById('backToHome').addEventListener('click', closeSecondary);
 
@@ -969,7 +1055,7 @@
         });
 
         // ============================================================
-        // 6. 首页底部按钮
+        // 7. 首页底部按钮
         // ============================================================
         document.getElementById('startBtn').addEventListener('click', function() {
             alert('🚀 诊断功能即将上线，敬请期待！');
@@ -979,11 +1065,11 @@
         });
 
         // ============================================================
-        // 7. 初始化
+        // 8. 初始化
         // ============================================================
         renderGrid('history');
 
-        console.log('✅ 道法历史 · 闯关（第2页完整版）已加载');
+        console.log('✅ 道法历史 · 闯关（第2页整月日历版）已加载');
     </script>
 </body>
 </html>
