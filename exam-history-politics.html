@@ -101,63 +101,37 @@
             color: #dcd3cb;
         }
 
-        /* ===== 品牌区（首页 - 报纸底纹，透明度35%） ===== */
+        /* ===== 品牌区（上下分段 · 几何纹理） ===== */
         .brand-section {
             border-radius: 14px;
-            padding: 20px 18px;
+            padding: 0;
             margin-bottom: 14px;
             flex-shrink: 0;
             position: relative;
             overflow: hidden;
-            height: 70px;
+            height: 80px;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            border: 1px solid #e8e0d8;
+            background: #f5f2ed;
+        }
+        /* 上段：留白区域 */
+        .brand-top {
+            flex: 1;
+            padding: 12px 18px 6px 18px;
+            display: flex;
+            align-items: flex-start;
             justify-content: space-between;
-            background: #e0d8ce;
-            border: 1px solid #d5cdc2;
-        }
-        /* 报纸排版底纹 - 透明度35% */
-        .brand-section::before {
-            content: 'The world is a book, and those who do not travel read only one page. Education is the most powerful weapon. History is a pact between the dead, the living, and the yet unborn. Justice is the constant and perpetual will to render to every man his due. Knowledge is power. Learning is a treasure that will follow its owner everywhere. Democracy is the government of the people. Liberty without obedience is license. The only thing necessary for the triumph of evil is for good men to do nothing.';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            font-family: "Times New Roman", serif;
-            font-size: 14px;
-            color: rgba(0, 0, 0, 0.35);
-            line-height: 1.5;
-            letter-spacing: 0.5px;
-            word-break: break-all;
-            pointer-events: none;
-            z-index: 0;
-            transform: rotate(-2deg) scale(1.05);
-            text-align: justify;
-            padding: 10px;
-        }
-        .brand-section::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
-        .brand-text {
-            font-size: 22px;
-            font-weight: 400;
-            color: #2c241c;
             position: relative;
             z-index: 1;
-            letter-spacing: 2px;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 4px 16px 4px 12px;
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(4px);
+        }
+        .brand-text {
+            font-size: 20px;
+            font-weight: 400;
+            color: #2c241c;
+            letter-spacing: 2px;
         }
         .brand-text .history {
             color: #b8864a;
@@ -167,15 +141,67 @@
         }
         .brand-sub {
             font-size: 12px;
-            color: #5a4e44;
+            color: #8a7a6a;
+            font-weight: 300;
+            letter-spacing: 1px;
+            padding-top: 4px;
+        }
+
+        /* 下段：几何纹理 + 数字 */
+        .brand-bottom {
+            flex: 1.2;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            padding: 0 18px 10px 18px;
+        }
+        /* 极浅几何纹理 - 网格 + 斜线 */
+        .brand-bottom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                /* 细密网格 */
+                linear-gradient(0deg, rgba(0, 0, 0, 0.03) 0px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.03) 0px, transparent 1px);
+            background-size: 16px 16px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .brand-bottom::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                /* 极浅斜线 */
+                repeating-linear-gradient(45deg, transparent, transparent 12px,
+                    rgba(0, 0, 0, 0.02) 12px, rgba(0, 0, 0, 0.02) 13px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .brand-number {
+            font-size: 18px;
+            font-weight: 300;
+            color: #b8a48a;
             position: relative;
             z-index: 1;
             letter-spacing: 1px;
-            font-weight: 300;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 4px 14px;
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 2px 14px;
+            border-radius: 30px;
             backdrop-filter: blur(4px);
+        }
+        .brand-number strong {
+            font-weight: 500;
+            color: #8a7a6a;
         }
 
         /* ===== 首页网格 ===== */
@@ -521,9 +547,12 @@
             .calendar-week { font-size: 9px; }
             .calendar-days .day { font-size: 12px; padding: 1px 0; }
             .calendar-days .day .dot { width: 3px; height: 3px; }
-            .brand-section { height: 56px; padding: 14px 14px; margin-bottom: 10px; }
-            .brand-text { font-size: 18px; padding: 2px 12px; }
-            .brand-sub { font-size: 10px; padding: 2px 12px; }
+            .brand-section { height: 66px; margin-bottom: 10px; }
+            .brand-top { padding: 8px 14px 4px 14px; }
+            .brand-text { font-size: 17px; }
+            .brand-sub { font-size: 10px; }
+            .brand-bottom { padding: 0 14px 6px 14px; }
+            .brand-number { font-size: 15px; padding: 2px 12px; }
             .card-module { padding: 6px 8px; }
             .card-module.large { padding-top: 8px; }
             .card-module.large .label { font-size: 13px; }
@@ -548,9 +577,12 @@
         }
         @media (max-height: 600px) {
             .calendar-days .day { font-size: 10px; }
-            .brand-section { height: 46px; padding: 10px 12px; }
-            .brand-text { font-size: 15px; padding: 2px 10px; }
-            .brand-sub { font-size: 9px; padding: 2px 10px; }
+            .brand-section { height: 56px; }
+            .brand-top { padding: 6px 12px 2px 12px; }
+            .brand-text { font-size: 15px; }
+            .brand-sub { font-size: 9px; }
+            .brand-bottom { padding: 0 12px 4px 12px; }
+            .brand-number { font-size: 13px; padding: 2px 10px; }
             .card-module.large .big-number { font-size: 15px; }
             .card-module.small .label { font-size: 11px; }
             .btn-primary { padding: 8px 0; font-size: 13px; }
@@ -574,10 +606,15 @@
         <div id="homePage">
             <div class="calendar-section" id="calendarSection"></div>
             <div class="brand-section">
-                <div class="brand-text">
-                    <span class="history">历史</span> · <span class="politics">道法</span>
+                <div class="brand-top">
+                    <div class="brand-text">
+                        <span class="history">历史</span> · <span class="politics">道法</span>
+                    </div>
+                    <div class="brand-sub">✦ 双科闯关</div>
                 </div>
-                <div class="brand-sub">✦ 双科闯关</div>
+                <div class="brand-bottom">
+                    <div class="brand-number"><strong>1万+</strong> 精选题库</div>
+                </div>
             </div>
             <div class="grid-container" id="gridContainer"></div>
             <button class="btn-primary" id="startBtn">开始诊断 · 10分钟找到薄弱点</button>
@@ -903,7 +940,7 @@
         // ============================================================
         renderGrid();
 
-        console.log('✅ 道法历史 · 闯关（报纸深纹版）已加载');
+        console.log('✅ 道法历史 · 闯关（几何纹理版）已加载');
     </script>
 </body>
 </html>
