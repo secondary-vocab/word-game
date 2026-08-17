@@ -422,6 +422,27 @@
 
         <!-- ===== 两列网格 ===== -->
         <div class="grid-container" id="gridContainer">
+            <!-- ===== 第2页：学科选择 ===== -->
+<div class="page-secondary" id="pageSecondary" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#ffffff; z-index:1000; padding:20px 16px 30px; flex-direction:column; align-items:center; justify-content:center;">
+    <div style="width:100%; max-width:420px; display:flex; flex-direction:column; align-items:center; gap:20px;">
+
+        <!-- 返回按钮 -->
+        <div style="width:100%; display:flex; justify-content:flex-start;">
+            <button id="backToHome" style="background:none; border:none; font-size:24px; color:#2c241c; cursor:pointer; padding:4px 0;">←</button>
+        </div>
+
+        <!-- 模块名称 -->
+        <div style="font-size:24px; font-weight:600; color:#2c241c;" id="moduleTitle">七上</div>
+
+        <!-- 学科选择 -->
+        <div style="display:flex; gap:16px; width:100%; margin-top:10px;">
+            <button class="subject-choice" data-subject="history" style="flex:1; padding:20px 0; border-radius:16px; border:none; font-size:20px; font-weight:500; color:#fff; background:#8a7a6a; cursor:pointer;">历史</button>
+            <button class="subject-choice" data-subject="politics" style="flex:1; padding:20px 0; border-radius:16px; border:none; font-size:20px; font-weight:500; color:#fff; background:#5a6a7a; cursor:pointer;">道法</button>
+        </div>
+
+        <div style="font-size:14px; color:#8a7a6a; margin-top:10px;">选择学科开始刷题</div>
+    </div>
+</div>
             <!-- 由 JS 生成 -->
         </div>
 
