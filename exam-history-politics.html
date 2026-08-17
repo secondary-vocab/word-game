@@ -101,48 +101,76 @@
             color: #dcd3cb;
         }
 
-        /* ===== 品牌区（中灰色） ===== */
+        /* ===== 品牌区 ===== */
         .brand-section {
-            background: #7a7a7a;
             border-radius: 14px;
             padding: 20px 18px;
             margin-bottom: 14px;
             flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
             height: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            position: relative;
-            overflow: hidden;
+            background: #1a1a2e;
         }
-        /* 极简装饰：极淡的几何线条 */
         .brand-section::before {
             content: '';
             position: absolute;
-            top: -20%;
-            right: -5%;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.04);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                linear-gradient(90deg,
+                    #4a2c1a 0%, #4a2c1a 4%,
+                    #3a2a1a 4%, #3a2a1a 8%,
+                    #5a3a2a 8%, #5a3a2a 12%,
+                    #2a3a4a 12%, #2a3a4a 16%,
+                    #4a3a2a 16%, #4a3a2a 20%,
+                    #3a2a3a 20%, #3a2a3a 24%,
+                    #5a4a3a 24%, #5a4a3a 28%,
+                    #2a4a3a 28%, #2a4a3a 32%,
+                    #3a3a4a 32%, #3a3a4a 36%,
+                    #4a2a2a 36%, #4a2a2a 40%,
+                    #2a2a3a 40%, #2a2a3a 44%,
+                    #3a4a2a 44%, #3a4a2a 48%,
+                    #4a3a2a 48%, #4a3a2a 52%,
+                    #3a2a4a 52%, #3a2a4a 56%,
+                    #2a3a4a 56%, #2a3a4a 60%,
+                    #4a2a3a 60%, #4a2a3a 64%,
+                    #3a4a3a 64%, #3a4a3a 68%,
+                    #2a2a2a 68%, #2a2a2a 72%,
+                    #4a3a3a 72%, #4a3a3a 76%,
+                    #3a2a2a 76%, #3a2a2a 80%,
+                    #2a3a3a 80%, #2a3a3a 84%,
+                    #4a4a2a 84%, #4a4a2a 88%,
+                    #3a3a2a 88%, #3a3a2a 92%,
+                    #2a4a4a 92%, #2a4a4a 96%,
+                    #4a2a4a 96%, #4a2a4a 100%
+                );
+            opacity: 0.3;
+            filter: blur(6px);
             pointer-events: none;
+            z-index: 0;
         }
         .brand-section::after {
             content: '';
             position: absolute;
-            bottom: -10%;
-            left: 10%;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.03);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.1) 100%);
             pointer-events: none;
+            z-index: 0;
         }
         .brand-text {
             font-size: 22px;
             font-weight: 600;
             color: #fff;
-            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
             position: relative;
             z-index: 1;
             letter-spacing: 2px;
@@ -156,12 +184,13 @@
         .brand-sub {
             font-size: 12px;
             color: rgba(255, 255, 255, 0.5);
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
             position: relative;
             z-index: 1;
             letter-spacing: 1px;
         }
 
-        /* ===== 两列网格（Grid固定行高） ===== */
+        /* ===== 两列网格 ===== */
         .grid-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -171,7 +200,6 @@
             min-height: 0;
         }
 
-        /* ===== 卡片 ===== */
         .card-module {
             background: #ffffff;
             border-radius: 14px;
@@ -203,7 +231,6 @@
             margin-top: 2px;
         }
 
-        /* ===== 大模块（跨3行） ===== */
         .card-module.large {
             grid-row: span 3;
             justify-content: flex-start;
@@ -246,7 +273,6 @@
             font-weight: 500;
         }
 
-        /* ===== 小模块（占1行） ===== */
         .card-module.small {
             padding: 8px 12px;
         }
@@ -258,7 +284,6 @@
             color: #bbb;
         }
 
-        /* 小模块颜色 */
         .card-module.color-blue {
             background: #eef4f9;
         }
@@ -276,19 +301,19 @@
             padding: 14px 0;
             border: none;
             border-radius: 14px;
-            background: #4a6a7a;
+            background: #5a6a7a;
             color: #fff;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
             text-align: center;
-            box-shadow: 0 2px 12px rgba(74, 106, 122, 0.25);
+            box-shadow: 0 2px 12px rgba(90, 106, 122, 0.25);
             margin-top: 10px;
             transition: background 0.15s, transform 0.1s;
             flex-shrink: 0;
         }
         .btn-primary:active {
-            background: #3a5a6a;
+            background: #3d4d5d;
             transform: scale(0.97);
         }
         .btn-secondary {
@@ -310,6 +335,82 @@
         }
         .btn-secondary:active {
             background: rgba(138, 122, 106, 0.04);
+        }
+
+        /* ===== 第2页：学科选择 ===== */
+        .page-secondary {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            z-index: 1000;
+            padding: 20px 16px 30px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .page-secondary-inner {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .page-secondary-back {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+        }
+        .page-secondary-back button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #2c241c;
+            cursor: pointer;
+            padding: 4px 0;
+        }
+        .page-secondary-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c241c;
+        }
+        .page-secondary-choices {
+            display: flex;
+            gap: 16px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .page-secondary-choices button {
+            flex: 1;
+            padding: 20px 0;
+            border-radius: 16px;
+            border: none;
+            font-size: 20px;
+            font-weight: 500;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .page-secondary-choices .btn-history {
+            background: #8a7a6a;
+        }
+        .page-secondary-choices .btn-history:active {
+            background: #6b5d4e;
+        }
+        .page-secondary-choices .btn-politics {
+            background: #5a6a7a;
+        }
+        .page-secondary-choices .btn-politics:active {
+            background: #3d4d5d;
+        }
+        .page-secondary-hint {
+            font-size: 14px;
+            color: #8a7a6a;
+            margin-top: 10px;
         }
 
         /* ===== 响应式 ===== */
@@ -378,6 +479,13 @@
             .grid-container {
                 gap: 8px;
             }
+            .page-secondary-title {
+                font-size: 20px;
+            }
+            .page-secondary-choices button {
+                padding: 16px 0;
+                font-size: 17px;
+            }
         }
         @media (max-height: 600px) {
             .calendar-days .day {
@@ -403,6 +511,13 @@
                 padding: 8px 0;
                 font-size: 13px;
             }
+            .page-secondary-title {
+                font-size: 17px;
+            }
+            .page-secondary-choices button {
+                padding: 12px 0;
+                font-size: 15px;
+            }
         }
     </style>
 </head>
@@ -422,28 +537,22 @@
 
         <!-- ===== 两列网格 ===== -->
         <div class="grid-container" id="gridContainer">
-            <!-- ===== 第2页：学科选择 ===== -->
-<div class="page-secondary" id="pageSecondary" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#ffffff; z-index:1000; padding:20px 16px 30px; flex-direction:column; align-items:center; justify-content:center;">
-    <div style="width:100%; max-width:420px; display:flex; flex-direction:column; align-items:center; gap:20px;">
-
-        <!-- 返回按钮 -->
-        <div style="width:100%; display:flex; justify-content:flex-start;">
-            <button id="backToHome" style="background:none; border:none; font-size:24px; color:#2c241c; cursor:pointer; padding:4px 0;">←</button>
-        </div>
-
-        <!-- 模块名称 -->
-        <div style="font-size:24px; font-weight:600; color:#2c241c;" id="moduleTitle">七上</div>
-
-        <!-- 学科选择 -->
-        <div style="display:flex; gap:16px; width:100%; margin-top:10px;">
-            <button class="subject-choice" data-subject="history" style="flex:1; padding:20px 0; border-radius:16px; border:none; font-size:20px; font-weight:500; color:#fff; background:#8a7a6a; cursor:pointer;">历史</button>
-            <button class="subject-choice" data-subject="politics" style="flex:1; padding:20px 0; border-radius:16px; border:none; font-size:20px; font-weight:500; color:#fff; background:#5a6a7a; cursor:pointer;">道法</button>
-        </div>
-
-        <div style="font-size:14px; color:#8a7a6a; margin-top:10px;">选择学科开始刷题</div>
-    </div>
-</div>
             <!-- 由 JS 生成 -->
+        </div>
+
+        <!-- ===== 第2页：学科选择 ===== -->
+        <div class="page-secondary" id="pageSecondary">
+            <div class="page-secondary-inner">
+                <div class="page-secondary-back">
+                    <button id="backToHome">←</button>
+                </div>
+                <div class="page-secondary-title" id="moduleTitle">七上</div>
+                <div class="page-secondary-choices">
+                    <button class="btn-history subject-choice" data-subject="history">历史</button>
+                    <button class="btn-politics subject-choice" data-subject="politics">道法</button>
+                </div>
+                <div class="page-secondary-hint">选择学科开始刷题</div>
+            </div>
         </div>
 
         <!-- ===== 底部按钮 ===== -->
@@ -539,7 +648,7 @@
         };
 
         // ============================================================
-        // 3. 渲染网格（Grid固定行列）
+        // 3. 渲染网格
         // ============================================================
         function renderGrid(subject) {
             const container = document.getElementById('gridContainer');
@@ -610,31 +719,50 @@
 
             container.innerHTML = html;
 
-container.querySelectorAll('.card-module').forEach(function(el) {
-    el.addEventListener('click', function() {
-        const m = this.dataset.module;
-        if (m === 'diagnosis') {
-            alert('📊 学情诊断详情即将上线');
-            return;
-        }
-        if (m === 'sprint') {
-            alert('🎯 中考冲刺模块即将上线');
-            return;
-        }
-        document.getElementById('pageSecondary').style.display = 'flex';
-        document.getElementById('moduleTitle').textContent = m;
-        window.selectedModule = m;
-    });
-});
+            container.querySelectorAll('.card-module').forEach(function(el) {
+                el.addEventListener('click', function() {
+                    const m = this.dataset.module;
+                    if (m === 'diagnosis') {
+                        alert('📊 学情诊断详情即将上线');
+                        return;
+                    }
+                    if (m === 'sprint') {
+                        alert('🎯 中考冲刺模块即将上线');
+                        return;
+                    }
+                    // 打开第2页
+                    document.getElementById('pageSecondary').style.display = 'flex';
+                    document.getElementById('moduleTitle').textContent = m;
+                    window.selectedModule = m;
+                });
+            });
         }
 
         // ============================================================
-        // 4. 初始化
+        // 4. 学科选择事件
+        // ============================================================
+        document.querySelectorAll('.subject-choice').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const subject = this.dataset.subject;
+                const module = window.selectedModule || '七上';
+                alert('📚 进入 ' + module + ' · ' + (subject === 'history' ? '历史' : '道法') + ' 刷题（示例）');
+            });
+        });
+
+        // ============================================================
+        // 5. 返回首页
+        // ============================================================
+        document.getElementById('backToHome').addEventListener('click', function() {
+            document.getElementById('pageSecondary').style.display = 'none';
+        });
+
+        // ============================================================
+        // 6. 初始化
         // ============================================================
         renderGrid('history');
 
         // ============================================================
-        // 5. 底部按钮
+        // 7. 底部按钮
         // ============================================================
         document.getElementById('startBtn').addEventListener('click', function() {
             alert('🚀 诊断功能即将上线，敬请期待！');
@@ -643,7 +771,7 @@ container.querySelectorAll('.card-module').forEach(function(el) {
             alert('📊 诊断报告功能即将上线，敬请期待！');
         });
 
-        console.log('✅ 道法历史 · 闯关（中灰品牌区 + 墨蓝按钮）已加载');
+        console.log('✅ 道法历史 · 闯关（完整版 · 含第2页）已加载');
     </script>
 </body>
 </html>
