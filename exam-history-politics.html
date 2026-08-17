@@ -101,7 +101,7 @@
             color: #dcd3cb;
         }
 
-        /* ===== 品牌区（首页 - 报纸底纹） ===== */
+        /* ===== 品牌区（首页 - 报纸底纹，透明度35%） ===== */
         .brand-section {
             border-radius: 14px;
             padding: 20px 18px;
@@ -113,28 +113,28 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #f7f4f0;
-            border: 1px solid #f0ede8;
+            background: #e0d8ce;
+            border: 1px solid #d5cdc2;
         }
-        /* 报纸排版底纹 */
+        /* 报纸排版底纹 - 透明度35% */
         .brand-section::before {
             content: 'The world is a book, and those who do not travel read only one page. Education is the most powerful weapon. History is a pact between the dead, the living, and the yet unborn. Justice is the constant and perpetual will to render to every man his due. Knowledge is power. Learning is a treasure that will follow its owner everywhere. Democracy is the government of the people. Liberty without obedience is license. The only thing necessary for the triumph of evil is for good men to do nothing.';
             position: absolute;
-            top: -8px;
+            top: -10px;
             left: -10px;
             right: -10px;
-            bottom: -8px;
+            bottom: -10px;
             font-family: "Times New Roman", serif;
-            font-size: 11px;
-            color: rgba(0, 0, 0, 0.04);
-            line-height: 1.4;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.35);
+            line-height: 1.5;
             letter-spacing: 0.5px;
             word-break: break-all;
             pointer-events: none;
             z-index: 0;
             transform: rotate(-2deg) scale(1.05);
             text-align: justify;
-            padding: 8px;
+            padding: 10px;
         }
         .brand-section::after {
             content: '';
@@ -154,7 +154,7 @@
             position: relative;
             z-index: 1;
             letter-spacing: 2px;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.6);
             padding: 4px 16px 4px 12px;
             border-radius: 8px;
             backdrop-filter: blur(4px);
@@ -167,12 +167,12 @@
         }
         .brand-sub {
             font-size: 12px;
-            color: #8a7a6a;
+            color: #5a4e44;
             position: relative;
             z-index: 1;
             letter-spacing: 1px;
             font-weight: 300;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.6);
             padding: 4px 14px;
             border-radius: 8px;
             backdrop-filter: blur(4px);
@@ -221,7 +221,7 @@
             grid-row: span 3;
             justify-content: flex-start;
             padding-top: 14px;
-            background: #faf8f6;
+            background: #f5f2ed;
             border-color: #e8e0d8;
         }
         .card-module.large .label {
@@ -232,7 +232,7 @@
         .card-module.large .big-number {
             font-size: 24px;
             font-weight: 400;
-            color: #c49a6c;
+            color: #b8a48a;
             line-height: 1.2;
         }
         .card-module.large .big-number .small {
@@ -329,7 +329,7 @@
         }
 
         /* ============================================================
-           第2页 - PlanBingo风格
+           第2页
            ============================================================ */
         .page-secondary {
             display: none;
@@ -386,7 +386,7 @@
 
         .subject-cards-row {
             display: flex;
-            gap: 16px;
+            gap: 28px;
             margin-bottom: 20px;
             flex-shrink: 0;
         }
@@ -419,7 +419,7 @@
         }
         .subject-card .name {
             font-size: 26px;
-            font-weight: 300;
+            font-weight: 600;
             color: #2c241c;
             letter-spacing: 2px;
             line-height: 1.2;
@@ -439,7 +439,7 @@
 
         .plan-title {
             font-size: 20px;
-            font-weight: 300;
+            font-weight: 500;
             color: #2c241c;
             margin-bottom: 2px;
             flex-shrink: 0;
@@ -459,7 +459,7 @@
         .unit-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 14px;
             flex: 1;
             overflow-y: auto;
             padding-top: 2px;
@@ -468,7 +468,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 18px;
+            padding: 16px 20px;
             border-radius: 14px;
             background: #faf8f6;
             border: none;
@@ -480,7 +480,7 @@
             background: #f0ede8;
         }
         .unit-item .name {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 400;
             color: #2c241c;
             display: flex;
@@ -540,10 +540,11 @@
             .subject-card { padding: 14px 14px 10px 14px; min-height: 64px; }
             .plan-title { font-size: 17px; }
             .module-label { font-size: 12px; margin-bottom: 12px; }
-            .unit-item { padding: 10px 14px; }
-            .unit-item .name { font-size: 13px; }
+            .unit-item { padding: 12px 16px; }
+            .unit-item .name { font-size: 14px; }
             .unit-item .progress { font-size: 12px; }
-            .unit-list { gap: 8px; }
+            .unit-list { gap: 10px; }
+            .subject-cards-row { gap: 20px; }
         }
         @media (max-height: 600px) {
             .calendar-days .day { font-size: 10px; }
@@ -559,9 +560,10 @@
             .subject-card { padding: 10px 12px 8px 12px; min-height: 54px; }
             .plan-title { font-size: 15px; }
             .module-label { font-size: 11px; margin-bottom: 10px; }
-            .unit-item { padding: 8px 12px; }
-            .unit-item .name { font-size: 12px; }
-            .unit-list { gap: 6px; }
+            .unit-item { padding: 10px 14px; }
+            .unit-item .name { font-size: 13px; }
+            .unit-list { gap: 8px; }
+            .subject-cards-row { gap: 16px; }
         }
     </style>
 </head>
@@ -901,7 +903,7 @@
         // ============================================================
         renderGrid();
 
-        console.log('✅ 道法历史 · 闯关（报纸底纹版）已加载');
+        console.log('✅ 道法历史 · 闯关（报纸深纹版）已加载');
     </script>
 </body>
 </html>
