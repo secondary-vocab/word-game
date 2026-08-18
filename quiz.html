@@ -12,7 +12,7 @@
         }
         body {
             font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-            background: #f7f2eb;
+            background: #ede8e0;
             color: #2c241c;
             min-height: 100vh;
             display: flex;
@@ -28,15 +28,15 @@
             display: flex;
             flex-direction: column;
             background: #ffffff;
-            border-radius: 24px;
-            padding: 20px 18px 24px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            border-radius: 28px;
+            padding: 24px 20px 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
         }
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 12px;
+            padding-bottom: 14px;
             border-bottom: 1px solid #f0ede8;
             flex-shrink: 0;
         }
@@ -52,6 +52,9 @@
             transform: scaleX(1.4);
             padding: 0 4px 0 0;
         }
+        .header .back:active {
+            opacity: 0.6;
+        }
         .header .progress {
             font-size: 14px;
             color: #8a7a6a;
@@ -61,41 +64,43 @@
             color: #2c241c;
             font-weight: 500;
         }
+
         .question-area {
             flex: 1;
             display: flex;
             flex-direction: column;
-            padding: 16px 0 12px;
+            padding: 18px 0 12px;
             overflow-y: auto;
         }
         .question-area .meta {
             font-size: 12px;
             color: #b8a48a;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             letter-spacing: 0.3px;
         }
         .question-area .q {
             font-size: 20px;
             font-weight: 500;
             color: #2c241c;
-            line-height: 1.6;
-            margin-bottom: 18px;
+            line-height: 1.7;
+            margin-bottom: 20px;
         }
         .question-area .options {
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
         }
         .question-area .options .opt {
-            padding: 14px 16px;
-            border-radius: 14px;
+            padding: 16px 18px;
+            border-radius: 16px;
             border: 1.5px solid #f0ede8;
             background: #faf8f6;
             font-size: 16px;
             color: #2c241c;
             cursor: pointer;
             transition: all 0.15s;
+            user-select: none;
         }
         .question-area .options .opt:active {
             transform: scale(0.97);
@@ -103,76 +108,32 @@
         .question-area .options .opt.correct {
             border-color: #5a8a5a;
             background: #eef5ed;
+            transform: scale(1.01);
         }
         .question-area .options .opt.wrong {
             border-color: #c45a4a;
             background: #f5eeed;
+            transform: scale(1.01);
         }
         .question-area .options .opt.disabled {
             pointer-events: none;
-            opacity: 0.7;
+            opacity: 0.6;
         }
         .question-area .explanation {
-            padding: 14px 16px;
-            border-radius: 14px;
+            padding: 16px 18px;
+            border-radius: 16px;
             background: #f5f2ed;
             font-size: 14px;
             color: #5a4e44;
-            line-height: 1.7;
+            line-height: 1.8;
             display: none;
-            border-left: 3px solid #c49a6c;
+            border-left: 4px solid #c49a6c;
+            margin-top: 4px;
         }
         .question-area .explanation.show {
             display: block;
         }
-        .footer {
-            display: flex;
-            gap: 12px;
-            flex-shrink: 0;
-            padding-top: 12px;
-            border-top: 1px solid #f0ede8;
-        }
-        .footer button {
-            flex: 1;
-            padding: 14px 0;
-            border: none;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-        .footer .btn-prev {
-            background: transparent;
-            color: #8a7a6a;
-            border: 1px solid #e8e0d8;
-        }
-        .footer .btn-prev:active {
-            background: #f5f2ed;
-        }
-        .footer .btn-prev:disabled {
-            opacity: 0.3;
-            pointer-events: none;
-        }
-        .footer .btn-next {
-            background: #c49a6c;
-            color: #fff;
-        }
-        .footer .btn-next:active {
-            background: #b8864a;
-        }
-        .footer .btn-next:disabled {
-            opacity: 0.4;
-            pointer-events: none;
-        }
-        .footer .btn-finish {
-            background: #4a6a8a;
-            color: #fff;
-        }
-        .footer .btn-finish:active {
-            background: #3a5a7a;
-        }
-        .empty-state {
+        .question-area .empty-state {
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -183,32 +144,73 @@
             text-align: center;
             padding: 20px;
         }
-        .empty-state .icon {
+        .question-area .empty-state .icon {
             font-size: 48px;
             margin-bottom: 12px;
         }
 
-        /* 调试面板 */
-        .debug-panel {
-            background: #f5f2ed;
-            border-radius: 12px;
-            padding: 12px 16px;
-            margin-bottom: 12px;
-            font-size: 13px;
-            border-left: 3px solid #c49a6c;
-        }
-        .debug-panel .row {
+        .footer {
             display: flex;
-            gap: 12px;
-            padding: 2px 0;
+            gap: 10px;
+            flex-shrink: 0;
+            padding-top: 14px;
+            border-top: 1px solid #f0ede8;
+            flex-wrap: wrap;
         }
-        .debug-panel .label {
-            color: #8a7a6a;
-            min-width: 100px;
-        }
-        .debug-panel .value {
-            color: #2c241c;
+        .footer button {
+            padding: 14px 0;
+            border: none;
+            border-radius: 14px;
+            font-size: 15px;
             font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            flex: 1;
+            min-width: 60px;
+        }
+        .footer button:active {
+            transform: scale(0.96);
+        }
+        .footer .btn-prev {
+            background: transparent;
+            color: #8a7a6a;
+            border: 1px solid #e8e0d8;
+        }
+        .footer .btn-prev:disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .footer .btn-next {
+            background: #c49a6c;
+            color: #fff;
+        }
+        .footer .btn-next:disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .footer .btn-finish {
+            background: #4a6a8a;
+            color: #fff;
+        }
+        .footer .btn-wrong {
+            background: transparent;
+            color: #4a6a8a;
+            border: 1px solid #4a6a8a;
+            flex: 0.7;
+        }
+        .footer .btn-wrong.active {
+            background: #4a6a8a;
+            color: #fff;
+        }
+        .footer .btn-clear-wrong {
+            background: transparent;
+            color: #c45a4a;
+            border: 1px solid #c45a4a;
+            flex: 0.7;
+            font-size: 13px;
+        }
+        .footer .btn-clear-wrong:active {
+            background: rgba(196, 90, 74, 0.08);
         }
     </style>
 </head>
@@ -218,14 +220,6 @@
         <div class="header">
             <button class="back" onclick="window.history.back()">❮</button>
             <span class="progress">第 <span id="currentNum">1</span> / <span id="totalNum">0</span> 题</span>
-        </div>
-
-        <!-- 调试面板 -->
-        <div class="debug-panel" id="debugPanel">
-            <div class="row"><span class="label">URL module:</span><span class="value" id="debugModule">-</span></div>
-            <div class="row"><span class="label">URL subject:</span><span class="value" id="debugSubject">-</span></div>
-            <div class="row"><span class="label">题库第1题 module:</span><span class="value" id="debugQModule">-</span></div>
-            <div class="row"><span class="label">题库第1题 subject:</span><span class="value" id="debugQSubject">-</span></div>
         </div>
 
         <div class="question-area" id="questionArea">
@@ -240,9 +234,10 @@
             </div>
         </div>
 
-        <div class="footer">
-            <button class="btn-prev" id="prevBtn" disabled>← 上一题</button>
+        <div class="footer" id="footer">
+            <button class="btn-prev" id="prevBtn" disabled>←</button>
             <button class="btn-next" id="nextBtn">下一题 →</button>
+            <button class="btn-wrong" id="wrongBtn">📒 错题</button>
         </div>
     </div>
 
@@ -254,14 +249,15 @@
         const moduleFilter = urlParams.get('module') || null;
         const subjectFilter = urlParams.get('subject') || null;
 
-        // 显示 URL 参数
-        document.getElementById('debugModule').textContent = moduleFilter || '(无)';
-        document.getElementById('debugSubject').textContent = subjectFilter || '(无)';
-
+        let allQuestionsData = [];
         let questions = [];
         let currentIndex = 0;
         let answered = false;
+        let currentQuestionId = null;
+        let isWrongMode = false;
+        let wrongQuestions = [];
 
+        // DOM 引用
         const questionText = document.getElementById('questionText');
         const questionMeta = document.getElementById('questionMeta');
         const optionsContainer = document.getElementById('optionsContainer');
@@ -271,6 +267,58 @@
         const totalNum = document.getElementById('totalNum');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
+        const wrongBtn = document.getElementById('wrongBtn');
+
+        // ============================================================
+        // 错题本数据管理
+        // ============================================================
+        function getWrongQuestions() {
+            try {
+                const data = localStorage.getItem('wrongQuestions');
+                return data ? JSON.parse(data) : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveWrongQuestions(data) {
+            localStorage.setItem('wrongQuestions', JSON.stringify(data));
+        }
+
+        function addWrongQuestion(q, userAnswer) {
+            const wrongList = getWrongQuestions();
+            // 检查是否已存在
+            const exists = wrongList.some(item => item.id === q.id);
+            if (!exists) {
+                wrongList.push({
+                    id: q.id,
+                    module: q.module,
+                    subject: q.subject,
+                    unit: q.unit,
+                    question: q.question,
+                    options: q.options,
+                    answer: q.answer,
+                    userAnswer: userAnswer,
+                    explanation: q.explanation
+                });
+                saveWrongQuestions(wrongList);
+            }
+        }
+
+        function removeWrongQuestion(id) {
+            let wrongList = getWrongQuestions();
+            wrongList = wrongList.filter(item => item.id !== id);
+            saveWrongQuestions(wrongList);
+        }
+
+        function clearAllWrongQuestions() {
+            if (confirm('确定要清空所有错题吗？')) {
+                saveWrongQuestions([]);
+                if (isWrongMode) {
+                    loadWrongQuestions();
+                }
+            }
+        }
 
         // ============================================================
         // 加载题库
@@ -284,32 +332,8 @@
                     return response.json();
                 })
                 .then(data => {
-                    // 显示题库第一题的数据
-                    if (data.questions && data.questions.length > 0) {
-                        document.getElementById('debugQModule').textContent = data.questions[0].module || '(无)';
-                        document.getElementById('debugQSubject').textContent = data.questions[0].subject || '(无)';
-                    }
-
-                    let allQuestions = data.questions || [];
-
-                    if (moduleFilter) {
-                        allQuestions = allQuestions.filter(q => q.module === moduleFilter);
-                    }
-                    if (subjectFilter) {
-                        allQuestions = allQuestions.filter(q => q.subject === subjectFilter);
-                    }
-
-                    questions = allQuestions;
-
-                    if (questions.length === 0) {
-                        emptyState.style.display = 'flex';
-                        totalNum.textContent = '0';
-                        return;
-                    }
-
-                    emptyState.style.display = 'none';
-                    totalNum.textContent = questions.length;
-                    renderQuestion(0);
+                    allQuestionsData = data.questions || [];
+                    loadNormalQuestions();
                 })
                 .catch(error => {
                     console.error('题库加载失败:', error);
@@ -318,11 +342,74 @@
                 });
         }
 
+        function loadNormalQuestions() {
+            let filtered = allQuestionsData;
+            if (moduleFilter) {
+                filtered = filtered.filter(q => q.module === moduleFilter);
+            }
+            if (subjectFilter) {
+                filtered = filtered.filter(q => q.subject === subjectFilter);
+            }
+            questions = filtered;
+            isWrongMode = false;
+            wrongBtn.textContent = '📒 错题';
+            wrongBtn.classList.remove('active');
+            renderList();
+        }
+
+        function loadWrongQuestions() {
+            const wrongList = getWrongQuestions();
+            if (wrongList.length === 0) {
+                alert('🎉 错题本为空！你还没有做错的题目。');
+                return;
+            }
+            // 从 allQuestionsData 中匹配错题
+            const matched = [];
+            wrongList.forEach(w => {
+                const found = allQuestionsData.find(q => q.id === w.id);
+                if (found) {
+                    matched.push(found);
+                }
+            });
+            if (matched.length === 0) {
+                alert('错题数据已失效，请重新刷题。');
+                return;
+            }
+            questions = matched;
+            isWrongMode = true;
+            wrongBtn.textContent = '📖 全部';
+            wrongBtn.classList.add('active');
+            renderList();
+        }
+
+        function renderList() {
+            if (questions.length === 0) {
+                emptyState.style.display = 'flex';
+                totalNum.textContent = '0';
+                if (isWrongMode) {
+                    emptyState.querySelector('.icon').textContent = '🎉';
+                    emptyState.querySelector('div:first-of-type').textContent = '错题本已清空！';
+                    emptyState.querySelector('div:last-of-type').textContent = '继续刷题，错题会自动收录。';
+                } else {
+                    emptyState.querySelector('.icon').textContent = '📭';
+                    emptyState.querySelector('div:first-of-type').textContent = '当前没有匹配的题目';
+                    emptyState.querySelector('div:last-of-type').textContent = '请尝试其他年级或学科';
+                }
+                return;
+            }
+            emptyState.style.display = 'none';
+            totalNum.textContent = questions.length;
+            currentIndex = 0;
+            renderQuestion(0);
+        }
+
         // ============================================================
         // 渲染题目
         // ============================================================
         function renderQuestion(index) {
+            if (!questions.length) return;
             const q = questions[index];
+            currentQuestionId = q.id;
             currentNum.textContent = index + 1;
             questionText.textContent = q.question;
             questionMeta.textContent = q.module + ' · ' + q.subject + ' · ' + q.unit;
@@ -372,6 +459,14 @@
                 if (i === selected && !isCorrect) o.classList.add('wrong');
             });
 
+            // 记录错题
+            if (!isCorrect) {
+                addWrongQuestion(q, selected);
+            } else {
+                // 如果答对了，从错题本中移除
+                removeWrongQuestion(q.id);
+            }
+
             explanationBox.textContent = (isCorrect ? '✅ 回答正确！' : '❌ 回答错误') + ' 解析：' + q.explanation;
             explanationBox.style.display = 'block';
             explanationBox.classList.add('show');
@@ -403,10 +498,17 @@
                 currentIndex++;
                 renderQuestion(currentIndex);
             } else {
-                alert('🎉 恭喜完成全部 ' + questions.length + ' 题！\n诊断报告功能即将上线。');
+                alert('🎉 恭喜完成全部 ' + questions.length + ' 题！');
+                // 如果是在错题模式，可以自动切回正常模式
+                if (isWrongMode) {
+                    loadNormalQuestions();
+                }
             }
         }
 
+        // ============================================================
+        // 事件绑定
+        // ============================================================
         document.addEventListener('keydown', function(e) {
             if (e.key === 'ArrowLeft') goToPrev();
             if (e.key === 'ArrowRight') goToNext();
@@ -415,11 +517,19 @@
         prevBtn.addEventListener('click', goToPrev);
         nextBtn.addEventListener('click', goToNext);
 
+        wrongBtn.addEventListener('click', function() {
+            if (isWrongMode) {
+                loadNormalQuestions();
+            } else {
+                loadWrongQuestions();
+            }
+        });
+
         // ============================================================
         // 启动
         // ============================================================
         loadQuestions();
-        console.log('✅ 刷题页面已加载，正在读取 questions.json...');
+        console.log('✅ 刷题页面已加载（含错题本）');
     </script>
 
 </body>
