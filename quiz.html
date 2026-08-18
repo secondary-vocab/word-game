@@ -201,16 +201,6 @@
             background: #4a6a8a;
             color: #fff;
         }
-        .footer .btn-clear-wrong {
-            background: transparent;
-            color: #c45a4a;
-            border: 1px solid #c45a4a;
-            flex: 0.7;
-            font-size: 13px;
-        }
-        .footer .btn-clear-wrong:active {
-            background: rgba(196, 90, 74, 0.08);
-        }
     </style>
 </head>
 <body>
@@ -255,8 +245,6 @@
         let answered = false;
         let currentQuestionId = null;
         let isWrongMode = false;
-        let wrongQuestions = [];
-        // 记录从错题本返回时的位置
         let returnIndex = 0;
 
         const questionText = document.getElementById('questionText');
@@ -348,7 +336,6 @@
             isWrongMode = false;
             wrongBtn.textContent = '📒 错题';
             wrongBtn.classList.remove('active');
-            // 如果是从错题本返回，使用保存的位置
             if (returnIndex > 0 && returnIndex < questions.length) {
                 currentIndex = returnIndex;
             } else {
@@ -363,9 +350,7 @@
                 alert('🎉 错题本为空！你还没有做错的题目。');
                 return;
             }
-            // 保存当前刷题位置（以便返回时恢复）
             returnIndex = currentIndex;
-
             const matched = [];
             wrongList.forEach(w => {
                 const found = allQuestionsData.find(q => q.id === w.id);
@@ -414,7 +399,6 @@
         function renderQuestion(index) {
             if (!questions.length) return;
             const q = questions[index];
-            currentQuestionId = q.id;
             currentNum.textContent = index + 1;
             questionText.textContent = q.question;
             questionMeta.textContent = q.module + ' · ' + q.subject + ' · ' + q.unit;
@@ -503,7 +487,6 @@
             } else {
                 alert('🎉 恭喜完成全部 ' + questions.length + ' 题！');
                 if (isWrongMode) {
-                    // 从错题本返回时，恢复位置
                     loadNormalQuestions();
                 }
             }
