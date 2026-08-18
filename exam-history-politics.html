@@ -1135,6 +1135,15 @@
         renderGrid();
 
         console.log('✅ 道法历史 · 闯关（完整版）已加载');
+    // 手动测试 fetch 是否能读取 questions.json
+fetch('https://secondary-vocab.github.io/word-game/questions.json')
+  .then(response => response.json())
+  .then(data => {
+    console.log('✅ 手动测试成功！共 ' + data.questions.length + ' 题');
+  })
+  .catch(error => {
+    console.error('❌ 手动测试失败：', error);
+  });
     </script>
 </body>
 </html>
