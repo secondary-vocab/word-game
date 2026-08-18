@@ -115,7 +115,6 @@
             border: 1px solid #e8e0d8;
             background: #f5f0e8;
         }
-        /* 加深的纹理线条 */
         .brand-section::before {
             content: '';
             position: absolute;
@@ -138,7 +137,7 @@
             flex: 1;
             padding: 12px 18px 6px 18px;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: space-between;
             position: relative;
             z-index: 1;
@@ -162,7 +161,7 @@
             color: #8a7a6a;
             font-weight: 300;
             letter-spacing: 1px;
-            padding: 0;
+            padding-top: 2px;
         }
         .brand-bottom {
             flex: 1.2;
@@ -261,7 +260,7 @@
             grid-row: span 3;
             justify-content: flex-start;
             padding-top: 14px;
-            background: #faf0d8;
+            background: #f0ecf5;
             border-color: #e8e0d8;
         }
         .card-module.large .label {
@@ -369,7 +368,7 @@
         }
 
         /* ============================================================
-           第2页
+           第2页（修正版）
            ============================================================ */
         .page-secondary {
             display: none;
@@ -457,6 +456,11 @@
         .subject-card[data-subject="politics"] {
             background: #f0f4f8;
         }
+        .subject-card .icon {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 2px;
+        }
         .subject-card .name {
             font-size: 22px;
             font-weight: 600;
@@ -499,7 +503,7 @@
         .unit-list {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 8px;
             flex: 1;
             overflow-y: auto;
             padding-top: 2px;
@@ -509,7 +513,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 6px 14px;
+            padding: 10px 16px;
             border-radius: 12px;
             background: #faf8f6;
             border: none;
@@ -517,13 +521,13 @@
             transition: background 0.15s;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
             flex: 0 0 auto;
-            min-height: 36px;
+            min-height: 48px;
         }
         .unit-item:active {
             background: #f0ede8;
         }
         .unit-item .name {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 400;
             color: #2c241c;
             display: flex;
@@ -557,42 +561,50 @@
             font-weight: 500;
         }
 
-        /* ===== 学习成果模块（调高） ===== */
+        .unit-item.summary {
+            background: #f0ece6;
+            border: 1px solid #e8e0d8;
+        }
+        .unit-item.summary .name {
+            font-weight: 500;
+        }
+
+        /* ===== 学习成果模块 ===== */
         .result-section {
             flex-shrink: 0;
-            padding-top: 12px;
+            padding-top: 16px;
             border-top: 1px solid #f0ede8;
-            margin-top: 6px;
-            padding-bottom: 10px;
+            margin-top: 8px;
+            padding-bottom: 16px;
         }
         .result-title {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 500;
             color: #2c241c;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             letter-spacing: 0.5px;
         }
         .result-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4px 16px;
+            gap: 6px 20px;
         }
         .result-row {
             display: flex;
             align-items: center;
-            gap: 4px;
-            font-size: 11px;
+            gap: 6px;
+            font-size: 12px;
             color: #8a7a6a;
         }
         .result-row .unit-name {
-            font-size: 10px;
+            font-size: 11px;
             color: #8a7a6a;
             flex-shrink: 0;
-            min-width: 28px;
+            min-width: 32px;
         }
         .result-row .bar-wrap {
             flex: 1;
-            height: 4px;
+            height: 5px;
             background: #f0ede8;
             border-radius: 4px;
             overflow: hidden;
@@ -604,10 +616,10 @@
             transition: width 0.3s;
         }
         .result-row .percent {
-            font-size: 10px;
+            font-size: 11px;
             color: #b8a48a;
             flex-shrink: 0;
-            min-width: 24px;
+            min-width: 28px;
             text-align: right;
         }
 
@@ -640,15 +652,15 @@
             .subject-card { padding: 8px 12px 6px 12px; min-height: 52px; }
             .plan-title { font-size: 16px; }
             .module-label { font-size: 11px; margin-bottom: 8px; }
-            .unit-item { padding: 4px 12px; min-height: 30px; }
-            .unit-item .name { font-size: 12px; }
+            .unit-item { padding: 8px 14px; min-height: 40px; }
+            .unit-item .name { font-size: 13px; }
             .unit-item .progress { font-size: 11px; }
-            .unit-list { gap: 4px; }
+            .unit-list { gap: 6px; }
             .subject-cards-row { gap: 20px; margin-bottom: 10px; }
-            .result-section { padding-top: 8px; padding-bottom: 6px; }
-            .result-title { font-size: 12px; }
-            .result-row { font-size: 10px; }
-            .result-row .bar-wrap { height: 3px; }
+            .result-section { padding-top: 12px; padding-bottom: 10px; }
+            .result-title { font-size: 13px; }
+            .result-row { font-size: 11px; }
+            .result-row .bar-wrap { height: 4px; }
         }
         @media (max-height: 600px) {
             .calendar-days .day { font-size: 10px; }
@@ -667,12 +679,14 @@
             .subject-card { padding: 6px 10px 4px 10px; min-height: 44px; }
             .plan-title { font-size: 14px; }
             .module-label { font-size: 10px; margin-bottom: 6px; }
-            .unit-item { padding: 3px 10px; min-height: 26px; }
-            .unit-item .name { font-size: 11px; }
-            .unit-list { gap: 3px; }
+            .unit-item { padding: 6px 12px; min-height: 34px; }
+            .unit-item .name { font-size: 12px; }
+            .unit-list { gap: 4px; }
             .subject-cards-row { gap: 16px; margin-bottom: 8px; }
-            .result-section { padding-top: 6px; padding-bottom: 4px; }
-            .result-title { font-size: 11px; }
+            .result-section { padding-top: 8px; padding-bottom: 6px; }
+            .result-title { font-size: 12px; }
+            .result-row { font-size: 10px; }
+            .result-row .bar-wrap { height: 3px; }
         }
     </style>
 </head>
@@ -708,10 +722,12 @@
                 </div>
                 <div class="subject-cards-row" id="subjectCardsRow">
                     <div class="subject-card active" data-subject="history">
+                        <span class="icon">📜</span>
                         <div class="name">历史</div>
                         <div class="progress">已刷 <span class="num" id="histProgress">0</span> / 0 题</div>
                     </div>
                     <div class="subject-card" data-subject="politics">
+                        <span class="icon">⚖️</span>
                         <div class="name">道法</div>
                         <div class="progress">已刷 <span class="num" id="poliProgress">0</span> / 0 题</div>
                     </div>
@@ -903,7 +919,7 @@
         }
 
         // ============================================================
-        // 4. 所有年级单元数据（添加 unit 简短字段）
+        // 4. 所有年级单元数据
         // ============================================================
         var ALL_UNITS = {
             '七上': {
@@ -1051,7 +1067,6 @@
             var container = document.getElementById('unitList2');
             var html = '';
 
-            // 计算汇总进度
             var totalDone = 0,
                 totalAll = 0;
             units.forEach(function(u) {
@@ -1061,15 +1076,13 @@
 
             var subjectName = currentSubject === 'history' ? '历史' : '道法';
 
-            // 全册汇总（样式同普通单元）
             html += `
-                <div class="unit-item summary" data-module="${currentModule}" data-subject="${currentSubject}" style="background:#f5f2ed;border:1px solid #e8e0d8;">
-                    <span class="name" style="font-weight:500;">📚 ${currentModule}${subjectName} · 全册汇总</span>
+                <div class="unit-item summary" data-module="${currentModule}" data-subject="${currentSubject}">
+                    <span class="name">📚 ${currentModule}${subjectName} · 全册汇总</span>
                     <span class="progress"><span class="done">${totalDone}</span> / ${totalAll} 题</span>
                 </div>
             `;
 
-            // 单元列表
             units.forEach(function(u) {
                 var status = u.done >= u.total ? 'done' : (u.done > 0 ? 'active' : 'pending');
                 var dotClass = status;
@@ -1086,7 +1099,6 @@
             });
             container.innerHTML = html;
 
-            // 绑定点击事件 - 汇总
             container.querySelector('.summary').addEventListener('click', function() {
                 var module = this.dataset.module;
                 var subject = this.dataset.subject;
@@ -1094,7 +1106,6 @@
                 window.location.href = 'quiz.html?module=' + encodeURIComponent(module) + '&subject=' + encodeURIComponent(subjectName2);
             });
 
-            // 绑定点击事件 - 单元（带 unit 参数）
             container.querySelectorAll('.unit-item:not(.summary)').forEach(function(el) {
                 el.addEventListener('click', function() {
                     var module = this.dataset.module;
@@ -1110,7 +1121,7 @@
         }
 
         // ============================================================
-        // 6. 学习成果（2排，高度增加）
+        // 6. 学习成果
         // ============================================================
         function renderResults(units) {
             var grid = document.getElementById('resultGrid');
