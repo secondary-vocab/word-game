@@ -221,7 +221,7 @@
 
     <script>
         // ============================================================
-        // 题库直接写在代码里（暂时不依赖 questions.json）
+        // 测试题库（直接内嵌）
         // ============================================================
         const QUESTIONS = [
             {
@@ -243,97 +243,13 @@
                 "options": ["北京西南周口店", "陕西西安半坡", "浙江余姚河姆渡", "河南安阳殷墟"],
                 "answer": 0,
                 "explanation": "北京人遗址位于北京西南周口店龙骨山上。"
-            },
-            {
-                "id": 3,
-                "module": "七上",
-                "subject": "历史",
-                "unit": "夏商周时期",
-                "question": "夏朝的建立者是？",
-                "options": ["禹", "启", "桀", "汤"],
-                "answer": 0,
-                "explanation": "约公元前2070年，禹建立夏朝，是中国历史上第一个王朝。"
-            },
-            {
-                "id": 4,
-                "module": "七上",
-                "subject": "历史",
-                "unit": "夏商周时期",
-                "question": "西周实行分封制的目的是？",
-                "options": ["发展农业生产", "巩固周朝统治", "推行法治", "促进商业发展"],
-                "answer": 1,
-                "explanation": "西周实行分封制的目的是为了巩固周王朝的统治。"
-            },
-            {
-                "id": 5,
-                "module": "七上",
-                "subject": "历史",
-                "unit": "秦汉时期",
-                "question": "秦统一六国是在哪一年？",
-                "options": ["公元前230年", "公元前221年", "公元前210年", "公元前207年"],
-                "answer": 1,
-                "explanation": "公元前221年，秦王嬴政灭六国，建立了中国历史上第一个统一的多民族的中央集权国家。"
-            },
-            {
-                "id": 6,
-                "module": "七上",
-                "subject": "历史",
-                "unit": "秦汉时期",
-                "question": "汉武帝采纳谁的建议实行了\"罢黜百家，独尊儒术\"？",
-                "options": ["董仲舒", "主父偃", "卫青", "霍去病"],
-                "answer": 0,
-                "explanation": "汉武帝采纳董仲舒的建议，实行\"罢黜百家，独尊儒术\"，使儒学成为中国封建社会的正统思想。"
-            },
-            {
-                "id": 7,
-                "module": "七上",
-                "subject": "历史",
-                "unit": "三国两晋南北朝时期",
-                "question": "官渡之战的交战双方是？",
-                "options": ["曹操与袁绍", "曹操与孙权", "刘备与曹操", "孙权与刘备"],
-                "answer": 0,
-                "explanation": "官渡之战中，曹操以少胜多，击败了袁绍，为统一北方奠定了基础。"
-            },
-            {
-                "id": 8,
-                "module": "七上",
-                "subject": "历史",
-                "unit": "三国两晋南北朝时期",
-                "question": "赤壁之战的交战双方是？",
-                "options": ["曹操与孙权、刘备联军", "曹操与袁绍", "孙权与刘备", "曹操与孙权"],
-                "answer": 0,
-                "explanation": "赤壁之战中，孙刘联军以少胜多，击败了曹操，为三国鼎立局面的形成奠定了基础。"
-            },
-            {
-                "id": 9,
-                "module": "七上",
-                "subject": "道法",
-                "unit": "少年有梦",
-                "question": "少年的梦想应该与什么紧密相连？",
-                "options": ["个人喜好", "时代脉搏", "家庭期望", "朋友选择"],
-                "answer": 1,
-                "explanation": "少年的梦想应该与时代脉搏紧密相连，与中国梦密不可分。"
-            },
-            {
-                "id": 10,
-                "module": "七上",
-                "subject": "道法",
-                "unit": "成长的时空",
-                "question": "处理冲突的基本策略是？",
-                "options": ["保持冷静、沟通协商", "争吵对抗", "逃避问题", "求助于第三方"],
-                "answer": 0,
-                "explanation": "处理冲突的基本策略是保持冷静、沟通协商。"
             }
         ];
 
         // ============================================================
-        // 从URL获取参数
+        // 直接显示所有题目（忽略 URL 参数）
         // ============================================================
-        const urlParams = new URLSearchParams(window.location.search);
-        const moduleFilter = urlParams.get('module') || null;
-        const subjectFilter = urlParams.get('subject') || null;
-
-        let filteredQuestions = [];
+        let questions = QUESTIONS;
         let currentIndex = 0;
         let answered = false;
 
@@ -347,40 +263,19 @@
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
 
-        // ============================================================
-        // 加载题库（直接从代码中读取）
-        // ============================================================
         function loadQuestions() {
-            filteredQuestions = QUESTIONS;
-            if (moduleFilter) {
-                filteredQuestions = filteredQuestions.filter(q => q.module === moduleFilter);
-            }
-            if (subjectFilter) {
-                filteredQuestions = filteredQuestions.filter(q => q.subject === subjectFilter);
-            }
-
-            if (filteredQuestions.length === 0) {
-                document.getElementById('questionArea').querySelector('.meta').style.display = 'none';
-                document.getElementById('questionArea').querySelector('.q').style.display = 'none';
-                document.getElementById('optionsContainer').style.display = 'none';
-                document.getElementById('explanationBox').style.display = 'none';
+            if (questions.length === 0) {
                 emptyState.style.display = 'flex';
                 totalNum.textContent = '0';
                 return;
             }
-
             emptyState.style.display = 'none';
-            document.getElementById('questionArea').querySelector('.meta').style.display = 'block';
-            document.getElementById('questionArea').querySelector('.q').style.display = 'block';
-            document.getElementById('optionsContainer').style.display = 'flex';
-            document.getElementById('explanationBox').style.display = 'none';
-            totalNum.textContent = filteredQuestions.length;
+            totalNum.textContent = questions.length;
             renderQuestion(0);
         }
 
         function renderQuestion(index) {
-            if (!filteredQuestions.length) return;
-            const q = filteredQuestions[index];
+            const q = questions[index];
             currentNum.textContent = index + 1;
             questionText.textContent = q.question;
             questionMeta.textContent = q.module + ' · ' + q.subject + ' · ' + q.unit;
@@ -406,7 +301,7 @@
             });
 
             prevBtn.disabled = (index === 0);
-            if (index === filteredQuestions.length - 1) {
+            if (index === questions.length - 1) {
                 nextBtn.textContent = '📊 查看报告';
                 nextBtn.className = 'btn-finish';
             } else {
@@ -417,7 +312,7 @@
 
         function handleAnswer(selected) {
             if (answered) return;
-            const q = filteredQuestions[currentIndex];
+            const q = questions[currentIndex];
             const opts = document.querySelectorAll('.opt');
             const isCorrect = (selected === q.answer);
 
@@ -451,11 +346,11 @@
                 });
                 return;
             }
-            if (currentIndex < filteredQuestions.length - 1) {
+            if (currentIndex < questions.length - 1) {
                 currentIndex++;
                 renderQuestion(currentIndex);
             } else {
-                alert('🎉 恭喜完成全部 ' + filteredQuestions.length + ' 题！\n诊断报告功能即将上线。');
+                alert('🎉 恭喜完成全部 ' + questions.length + ' 题！\n诊断报告功能即将上线。');
             }
         }
 
@@ -467,8 +362,11 @@
         prevBtn.addEventListener('click', goToPrev);
         nextBtn.addEventListener('click', goToNext);
 
+        // ============================================================
+        // 启动
+        // ============================================================
         loadQuestions();
-        console.log('✅ 刷题页面已加载，模块筛选：', moduleFilter, '学科筛选：', subjectFilter);
+        console.log('✅ 刷题页面已加载，共 ' + questions.length + ' 题');
     </script>
 
 </body>
