@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>刷题 · 道法历史</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: #f7f2eb;
+            color: #2c241c;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .app {
+            max-width: 420px;
+            width: 100%;
+            height: 100vh;
+            max-height: 780px;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 20px 18px 24px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+        }
+
+        /* 顶部 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0ede8;
+            flex-shrink: 0;
+        }
+        .header .back {
+            font-size: 28px;
+            font-weight: 700;
+            color: #4a6a8a;
+            cursor: pointer;
+            background: none;
+            border: none;
+            line-height: 0.8;
+            font-family: "Times New Roman", serif;
+            transform: scaleX(1.4);
+            padding: 0 4px 0 0;
+        }
+        .header .progress {
+            font-size: 14px;
+            color: #8a7a6a;
+            font-weight: 400;
+        }
+        .header .progress span {
+            color: #2c241c;
+            font-weight: 500;
+        }
+
+        /* 题目卡片 */
+        .question-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 16px 0 12px;
+            overflow-y: auto;
+        }
+        .question-area .meta {
+            font-size: 12px;
+            color: #b8a48a;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+        .question-area .q {
+            font-size: 20px;
+            font-weight: 500;
+            color: #2c241c;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+        .question-area .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .question-area .options .opt {
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1.5px solid #f0ede8;
+            background: #faf8f6;
+            font-size: 16px;
+            color: #2c241c;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .question-area .options .opt:active {
+            transform: scale(0.97);
+        }
+        .question-area .options .opt.correct {
+            border-color: #5a8a5a;
+            background: #eef5ed;
+        }
+        .question-area .options .opt.wrong {
+            border-color: #c45a4a;
+            background: #f5eeed;
+        }
+        .question-area .options .opt.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        .question-area .explanation {
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: #f5f2ed;
+            font-size: 14px;
+            color: #5a4e44;
+            line-height: 1.7;
+            display: none;
+            border-left: 3px solid #c49a6c;
+        }
+        .question-area .explanation.show {
+            display: block;
+        }
+
+        /* 底部 */
+        .footer {
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+            padding-top: 12px;
+            border-top: 1px solid #f0ede8;
+        }
+        .footer button {
+            flex: 1;
+            padding: 14px 0;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .footer .btn-prev {
+            background: transparent;
+            color: #8a7a6a;
+            border: 1px solid #e8e0d8;
+        }
+        .footer .btn-prev:active {
+            background: #f5f2ed;
+        }
+        .footer .btn-prev:disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .footer .btn-next {
+            background: #c49a6c;
+            color: #fff;
+        }
+        .footer .btn-next:active {
+            background: #b8864a;
+        }
+        .footer .btn-next:disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .footer .btn-finish {
+            background: #4a6a8a;
+            color: #fff;
+        }
+        .footer .btn-finish:active {
+            background: #3a5a7a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app">
+        <div class="header">
+            <button class="back" onclick="window.history.back()">❮</button>
+            <span class="progress">第 <span id="currentNum">1</span> / <span id="totalNum">0</span> 题</span>
+        </div>
+
+        <div class="question-area" id="questionArea">
+            <div class="meta" id="questionMeta">七上 · 历史 · 史前时期</div>
+            <div class="q" id="questionText">加载题目中...</div>
+            <div class="options" id="optionsContainer"></div>
+            <div class="explanation" id="explanationBox"></div>
+        </div>
+
+        <div class="footer">
+            <button class="btn-prev" id="prevBtn" disabled>← 上一题</button>
+            <button class="btn-next" id="nextBtn">下一题 →</button>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // 从 GitHub 加载题库（复用已验证的路径）
+        // ============================================================
+        let questions = [];
+        let currentIndex = 0;
+        let answered = false;
+
+        const questionText = document.getElementById('questionText');
+        const questionMeta = document.getElementById('questionMeta');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const explanationBox = document.getElementById('explanationBox');
+        const currentNum = document.getElementById('currentNum');
+        const totalNum = document.getElementById('totalNum');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function loadQuestions() {
+            fetch('https://secondary-vocab.github.io/word-game/questions.json')
+                .then(r => r.json())
+                .then(data => {
+                    questions = data.questions;
+                    totalNum.textContent = questions.length;
+                    renderQuestion(0);
+                })
+                .catch(e => {
+                    questionText.textContent = '❌ 题库加载失败，请检查网络或重新加载。';
+                    console.error('题库加载失败：', e);
+                });
+        }
+
+        function renderQuestion(index) {
+            if (!questions.length) return;
+            const q = questions[index];
+            currentNum.textContent = index + 1;
+            questionText.textContent = q.question;
+            questionMeta.textContent = q.module + ' · ' + q.subject + ' · ' + q.unit;
+
+            // 渲染选项
+            const letters = ['A', 'B', 'C', 'D'];
+            let html = '';
+            q.options.forEach((opt, i) => {
+                html += `<div class="opt" data-index="${i}">${letters[i]}. ${opt}</div>`;
+            });
+            optionsContainer.innerHTML = html;
+
+            // 重置状态
+            answered = false;
+            explanationBox.classList.remove('show');
+            explanationBox.textContent = '';
+
+            // 绑定点击事件
+            document.querySelectorAll('.opt').forEach(el => {
+                el.addEventListener('click', function() {
+                    if (answered) return;
+                    const selected = parseInt(this.dataset.index);
+                    handleAnswer(selected);
+                });
+            });
+
+            // 更新按钮
+            prevBtn.disabled = (index === 0);
+            if (index === questions.length - 1) {
+                nextBtn.textContent = '📊 查看报告';
+                nextBtn.className = 'btn-finish';
+            } else {
+                nextBtn.textContent = '下一题 →';
+                nextBtn.className = 'btn-next';
+            }
+        }
+
+        function handleAnswer(selected) {
+            if (answered) return;
+            const q = questions[currentIndex];
+            const opts = document.querySelectorAll('.opt');
+            const isCorrect = (selected === q.answer);
+
+            // 禁用所有选项
+            opts.forEach(o => o.classList.add('disabled'));
+
+            // 标记正确/错误
+            opts.forEach((o, i) => {
+                if (i === q.answer) o.classList.add('correct');
+                if (i === selected && !isCorrect) o.classList.add('wrong');
+            });
+
+            // 显示解析
+            explanationBox.textContent = '✅ ' + (isCorrect ? '回答正确！' : '❌ 回答错误') + ' 解析：' + q.explanation;
+            explanationBox.classList.add('show');
+
+            answered = true;
+        }
+
+        function goToPrev() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion(currentIndex);
+            }
+        }
+
+        function goToNext() {
+            // 如果当前题没答，提示用户
+            if (!answered) {
+                const q = questions[currentIndex];
+                if (q) {
+                    const opts = document.querySelectorAll('.opt');
+                    opts.forEach(o => {
+                        o.style.transition = 'all 0.1s';
+                        o.style.borderColor = '#c45a4a';
+                        setTimeout(() => { o.style.borderColor = ''; }, 400);
+                    });
+                }
+                return;
+            }
+
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
+                renderQuestion(currentIndex);
+            } else {
+                alert('🎉 恭喜完成全部 ' + questions.length + ' 题！\n诊断报告功能即将上线。');
+            }
+        }
+
+        // ============================================================
+        // 键盘支持（左右方向键）
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') goToPrev();
+            if (e.key === 'ArrowRight') goToNext();
+        });
+
+        // ============================================================
+        // 按钮绑定
+        // ============================================================
+        prevBtn.addEventListener('click', goToPrev);
+        nextBtn.addEventListener('click', goToNext);
+
+        // ============================================================
+        // 启动
+        // ============================================================
+        loadQuestions();
+        console.log('✅ 刷题页面已加载，等待题库...');
+    </script>
+
+</body>
+</html>
