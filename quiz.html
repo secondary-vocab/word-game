@@ -218,18 +218,35 @@
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
 
+        // 从URL获取参数
+const urlParams = new URLSearchParams(window.location.search);
+const moduleFilter = urlParams.get('module');
+const subjectFilter = urlParams.get('subject');
+const isSprint = urlParams.get('sprint') === 'true';
         function loadQuestions() {
             fetch('https://secondary-vocab.github.io/word-game/questions.json')
-                .then(r => r.json())
-                .then(data => {
-                    questions = data.questions;
-                    totalNum.textContent = questions.length;
-                    renderQuestion(0);
-                })
-                .catch(e => {
-                    questionText.textContent = '❌ 题库加载失败，请检查网络或重新加载。';
-                    console.error('题库加载失败：', e);
-                });
+        .then(r => r.json())
+        .then(data => {
+            let allQuestions = data.questions;
+            // 根据URL参数筛选
+            if (moduleFilter) {
+                allQuestions = allQuestions.filter(q => q.module === moduleFilter);
+            }
+            if (subjectFilter) {
+                allQuestions = allQuestions.filter(q => q.subject === subjectFilter);
+            }
+            questions = allQuestions;
+            totalNum.textContent = questions.length;
+            if (questions.length === 0) {
+                questionText.textContent = '当前没有匹配的题目。';
+                return;
+            }
+            renderQuestion(0);
+        })
+        .catch(e => {
+            questionText.textContent = '❌ 题库加载失败，请检查网络。';
+            console.error('题库加载失败：', e);
+        });
         }
 
         function renderQuestion(index) {
