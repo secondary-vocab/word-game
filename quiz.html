@@ -33,7 +33,6 @@
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
         }
 
-        /* 顶部 */
         .header {
             display: flex;
             justify-content: space-between;
@@ -64,7 +63,6 @@
             font-weight: 500;
         }
 
-        /* 题目卡片 */
         .question-area {
             flex: 1;
             display: flex;
@@ -130,7 +128,6 @@
             display: block;
         }
 
-        /* 底部 */
         .footer {
             display: flex;
             gap: 12px;
@@ -178,6 +175,22 @@
         .footer .btn-finish:active {
             background: #3a5a7a;
         }
+
+        .empty-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #8a7a6a;
+            font-size: 16px;
+            text-align: center;
+            padding: 20px;
+        }
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
     </style>
 </head>
 <body>
@@ -193,6 +206,11 @@
             <div class="q" id="questionText">加载题目中...</div>
             <div class="options" id="optionsContainer"></div>
             <div class="explanation" id="explanationBox"></div>
+            <div class="empty-state" id="emptyState" style="display:none;">
+                <div class="icon">📭</div>
+                <div>当前没有匹配的题目</div>
+                <div style="font-size:14px;margin-top:8px;color:#bbb;">请尝试其他年级或学科</div>
+            </div>
         </div>
 
         <div class="footer">
@@ -203,9 +221,15 @@
 
     <script>
         // ============================================================
-        // 从 GitHub 加载题库（复用已验证的路径）
+        // 从URL获取参数
         // ============================================================
-        let questions = [];
+        const urlParams = new URLSearchParams(window.location.search);
+        const moduleFilter = urlParams.get('module') || null;
+        const subjectFilter = urlParams.get('subject') || null;
+        const isSprint = urlParams.get('sprint') === 'true';
+
+        let allQuestions = [];
+        let filteredQuestions = [];
         let currentIndex = 0;
         let answered = false;
 
@@ -213,50 +237,62 @@
         const questionMeta = document.getElementById('questionMeta');
         const optionsContainer = document.getElementById('optionsContainer');
         const explanationBox = document.getElementById('explanationBox');
+        const emptyState = document.getElementById('emptyState');
         const currentNum = document.getElementById('currentNum');
         const totalNum = document.getElementById('totalNum');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
 
-        // 从URL获取参数
-const urlParams = new URLSearchParams(window.location.search);
-const moduleFilter = urlParams.get('module');
-const subjectFilter = urlParams.get('subject');
-const isSprint = urlParams.get('sprint') === 'true';
+        // ============================================================
+        // 加载题库
+        // ============================================================
         function loadQuestions() {
             fetch('https://secondary-vocab.github.io/word-game/questions.json')
-        .then(r => r.json())
-        .then(data => {
-            let allQuestions = data.questions;
-            // 根据URL参数筛选
-            if (moduleFilter) {
-                allQuestions = allQuestions.filter(q => q.module === moduleFilter);
-            }
-            if (subjectFilter) {
-                allQuestions = allQuestions.filter(q => q.subject === subjectFilter);
-            }
-            questions = allQuestions;
-            totalNum.textContent = questions.length;
-            if (questions.length === 0) {
-                questionText.textContent = '当前没有匹配的题目。';
-                return;
-            }
-            renderQuestion(0);
-        })
-        .catch(e => {
-            questionText.textContent = '❌ 题库加载失败，请检查网络。';
-            console.error('题库加载失败：', e);
-        });
+                .then(r => r.json())
+                .then(data => {
+                    allQuestions = data.questions || [];
+                    // 筛选
+                    filteredQuestions = allQuestions;
+                    if (moduleFilter) {
+                        filteredQuestions = filteredQuestions.filter(q => q.module === moduleFilter);
+                    }
+                    if (subjectFilter) {
+                        filteredQuestions = filteredQuestions.filter(q => q.subject === subjectFilter);
+                    }
+                    // 显示
+                    if (filteredQuestions.length === 0) {
+                        document.getElementById('questionArea').querySelector('.meta').style.display = 'none';
+                        document.getElementById('questionArea').querySelector('.q').style.display = 'none';
+                        document.getElementById('optionsContainer').style.display = 'none';
+                        document.getElementById('explanationBox').style.display = 'none';
+                        emptyState.style.display = 'flex';
+                        totalNum.textContent = '0';
+                        return;
+                    }
+                    emptyState.style.display = 'none';
+                    document.getElementById('questionArea').querySelector('.meta').style.display = 'block';
+                    document.getElementById('questionArea').querySelector('.q').style.display = 'block';
+                    document.getElementById('optionsContainer').style.display = 'flex';
+                    document.getElementById('explanationBox').style.display = 'none';
+                    totalNum.textContent = filteredQuestions.length;
+                    renderQuestion(0);
+                })
+                .catch(e => {
+                    questionText.textContent = '❌ 题库加载失败，请检查网络。';
+                    console.error('题库加载失败：', e);
+                });
         }
 
+        // ============================================================
+        // 渲染题目
+        // ============================================================
         function renderQuestion(index) {
-            if (!questions.length) return;
-            const q = questions[index];
+            if (!filteredQuestions.length) return;
+            const q = filteredQuestions[index];
             currentNum.textContent = index + 1;
             questionText.textContent = q.question;
             questionMeta.textContent = q.module + ' · ' + q.subject + ' · ' + q.unit;
 
-            // 渲染选项
             const letters = ['A', 'B', 'C', 'D'];
             let html = '';
             q.options.forEach((opt, i) => {
@@ -264,12 +300,11 @@ const isSprint = urlParams.get('sprint') === 'true';
             });
             optionsContainer.innerHTML = html;
 
-            // 重置状态
             answered = false;
             explanationBox.classList.remove('show');
+            explanationBox.style.display = 'none';
             explanationBox.textContent = '';
 
-            // 绑定点击事件
             document.querySelectorAll('.opt').forEach(el => {
                 el.addEventListener('click', function() {
                     if (answered) return;
@@ -278,9 +313,8 @@ const isSprint = urlParams.get('sprint') === 'true';
                 });
             });
 
-            // 更新按钮
             prevBtn.disabled = (index === 0);
-            if (index === questions.length - 1) {
+            if (index === filteredQuestions.length - 1) {
                 nextBtn.textContent = '📊 查看报告';
                 nextBtn.className = 'btn-finish';
             } else {
@@ -289,28 +323,31 @@ const isSprint = urlParams.get('sprint') === 'true';
             }
         }
 
+        // ============================================================
+        // 处理答题
+        // ============================================================
         function handleAnswer(selected) {
             if (answered) return;
-            const q = questions[currentIndex];
+            const q = filteredQuestions[currentIndex];
             const opts = document.querySelectorAll('.opt');
             const isCorrect = (selected === q.answer);
 
-            // 禁用所有选项
             opts.forEach(o => o.classList.add('disabled'));
-
-            // 标记正确/错误
             opts.forEach((o, i) => {
                 if (i === q.answer) o.classList.add('correct');
                 if (i === selected && !isCorrect) o.classList.add('wrong');
             });
 
-            // 显示解析
-            explanationBox.textContent = '✅ ' + (isCorrect ? '回答正确！' : '❌ 回答错误') + ' 解析：' + q.explanation;
+            explanationBox.textContent = (isCorrect ? '✅ 回答正确！' : '❌ 回答错误') + ' 解析：' + q.explanation;
+            explanationBox.style.display = 'block';
             explanationBox.classList.add('show');
 
             answered = true;
         }
 
+        // ============================================================
+        // 导航
+        // ============================================================
         function goToPrev() {
             if (currentIndex > 0) {
                 currentIndex--;
@@ -319,39 +356,31 @@ const isSprint = urlParams.get('sprint') === 'true';
         }
 
         function goToNext() {
-            // 如果当前题没答，提示用户
             if (!answered) {
-                const q = questions[currentIndex];
-                if (q) {
-                    const opts = document.querySelectorAll('.opt');
-                    opts.forEach(o => {
-                        o.style.transition = 'all 0.1s';
-                        o.style.borderColor = '#c45a4a';
-                        setTimeout(() => { o.style.borderColor = ''; }, 400);
-                    });
-                }
+                const opts = document.querySelectorAll('.opt');
+                opts.forEach(o => {
+                    o.style.transition = 'all 0.1s';
+                    o.style.borderColor = '#c45a4a';
+                    setTimeout(() => { o.style.borderColor = ''; }, 400);
+                });
                 return;
             }
-
-            if (currentIndex < questions.length - 1) {
+            if (currentIndex < filteredQuestions.length - 1) {
                 currentIndex++;
                 renderQuestion(currentIndex);
             } else {
-                alert('🎉 恭喜完成全部 ' + questions.length + ' 题！\n诊断报告功能即将上线。');
+                alert('🎉 恭喜完成全部 ' + filteredQuestions.length + ' 题！\n诊断报告功能即将上线。');
             }
         }
 
         // ============================================================
-        // 键盘支持（左右方向键）
+        // 键盘支持
         // ============================================================
         document.addEventListener('keydown', function(e) {
             if (e.key === 'ArrowLeft') goToPrev();
             if (e.key === 'ArrowRight') goToNext();
         });
 
-        // ============================================================
-        // 按钮绑定
-        // ============================================================
         prevBtn.addEventListener('click', goToPrev);
         nextBtn.addEventListener('click', goToNext);
 
@@ -359,7 +388,7 @@ const isSprint = urlParams.get('sprint') === 'true';
         // 启动
         // ============================================================
         loadQuestions();
-        console.log('✅ 刷题页面已加载，等待题库...');
+        console.log('✅ 刷题页面已加载，模块筛选：', moduleFilter, '学科筛选：', subjectFilter);
     </script>
 
 </body>
