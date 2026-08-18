@@ -239,7 +239,7 @@
         const nextBtn = document.getElementById('nextBtn');
 
         // ============================================================
-        // 从 questions.json 加载题库（外部读取）
+        // 加载题库（和 exam-history-politics.html 里成功运行的代码一致）
         // ============================================================
         function loadQuestions() {
             fetch('https://secondary-vocab.github.io/word-game/questions.json')
@@ -274,7 +274,7 @@
                 })
                 .catch(error => {
                     console.error('题库加载失败:', error);
-                    questionText.textContent = '❌ 题库加载失败，请检查网络或刷新重试。';
+                    questionText.textContent = '❌ 题库加载失败，请检查网络。';
                     questionText.style.color = '#c45a4a';
                 });
         }
