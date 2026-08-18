@@ -29,7 +29,7 @@
             flex-direction: column;
         }
 
-        /* ===== 日历（压缩高度） ===== */
+        /* ===== 日历 ===== */
         .calendar-section {
             background: #ffffff;
             padding: 4px 8px 6px 8px;
@@ -404,7 +404,6 @@
             width: 40px;
         }
 
-        /* 历史/道法卡片 - 高度调低 */
         .subject-cards-row {
             display: flex;
             gap: 32px;
@@ -896,7 +895,7 @@
                         return;
                     }
                     if (m === 'sprint') {
-                        alert('🎯 中考冲刺模块即将上线');
+                        window.location.href = 'quiz.html?sprint=true';
                         return;
                     }
                     openSecondary(m);
@@ -992,7 +991,6 @@
             }
         };
 
-        // 九下、中考冲刺暂用空数据
         ALL_UNITS['九下'] = { history: [], politics: [] };
         ALL_UNITS['中考冲刺'] = { history: [], politics: [] };
 
@@ -1070,16 +1068,17 @@
             });
             container.innerHTML = html;
 
-            renderResults(units);
-            updateProgress();
-
+            // 绑定点击事件 - 跳转到刷题页面
             container.querySelectorAll('.unit-item').forEach(function(el) {
                 el.addEventListener('click', function() {
-                    var subjectName = currentSubject === 'history' ? '历史' : '道法';
-                    alert('📚 进入 ' + currentModule + ' · ' + subjectName + ' · ' + this.querySelector('.name')
-                        .textContent.trim() + ' 刷题（示例）');
+                    var subject = currentSubject;
+                    var module = currentModule;
+                    window.location.href = 'quiz.html?module=' + encodeURIComponent(module) + '&subject=' + encodeURIComponent(subject);
                 });
             });
+
+            renderResults(units);
+            updateProgress();
         }
 
         // ============================================================
@@ -1135,14 +1134,7 @@
         // ============================================================
         renderGrid();
 
-        console.log('✅ 道法历史 · 闯关（压缩版）已加载');
-    // 加载题库
-fetch('https://secondary-vocab.github.io/word-game/questions.json')
-  .then(r => r.json())
-  .then(data => {
-    console.log('✅ 题库加载成功！共 ' + data.questions.length + ' 题');
-  })
-  .catch(e => console.log('❌ 加载失败：', e));
+        console.log('✅ 道法历史 · 闯关（完整版）已加载');
     </script>
 </body>
 </html>
