@@ -32,7 +32,6 @@
             padding: 20px 18px 24px;
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
         }
-
         .header {
             display: flex;
             justify-content: space-between;
@@ -62,7 +61,6 @@
             color: #2c241c;
             font-weight: 500;
         }
-
         .question-area {
             flex: 1;
             display: flex;
@@ -127,7 +125,6 @@
         .question-area .explanation.show {
             display: block;
         }
-
         .footer {
             display: flex;
             gap: 12px;
@@ -175,7 +172,6 @@
         .footer .btn-finish:active {
             background: #3a5a7a;
         }
-
         .empty-state {
             flex: 1;
             display: flex;
@@ -221,35 +217,14 @@
 
     <script>
         // ============================================================
-        // 测试题库（直接内嵌）
+        // 从 URL 获取筛选参数
         // ============================================================
-        const QUESTIONS = [
-            {
-                "id": 1,
-                "module": "七上",
-                "subject": "历史",
-                "unit": "史前时期",
-                "question": "我国最早的人类是？",
-                "options": ["元谋人", "北京人", "山顶洞人", "蓝田人"],
-                "answer": 0,
-                "explanation": "元谋人是我国最早的人类，距今约170万年。"
-            },
-            {
-                "id": 2,
-                "module": "七上",
-                "subject": "历史",
-                "unit": "史前时期",
-                "question": "北京人遗址位于哪个地区？",
-                "options": ["北京西南周口店", "陕西西安半坡", "浙江余姚河姆渡", "河南安阳殷墟"],
-                "answer": 0,
-                "explanation": "北京人遗址位于北京西南周口店龙骨山上。"
-            }
-        ];
+        const urlParams = new URLSearchParams(window.location.search);
+        const moduleFilter = urlParams.get('module') || null;
+        const subjectFilter = urlParams.get('subject') || null;
+        const isSprint = urlParams.get('sprint') === 'true';
 
-        // ============================================================
-        // 直接显示所有题目（忽略 URL 参数）
-        // ============================================================
-        let questions = QUESTIONS;
+        let questions = [];
         let currentIndex = 0;
         let answered = false;
 
@@ -263,17 +238,50 @@
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
 
+        // ============================================================
+        // 从 questions.json 加载题库（外部读取）
+        // ============================================================
         function loadQuestions() {
-            if (questions.length === 0) {
-                emptyState.style.display = 'flex';
-                totalNum.textContent = '0';
-                return;
-            }
-            emptyState.style.display = 'none';
-            totalNum.textContent = questions.length;
-            renderQuestion(0);
+            fetch('https://secondary-vocab.github.io/word-game/questions.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('网络响应失败，状态码：' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    let allQuestions = data.questions || [];
+
+                    // 根据 URL 参数筛选
+                    if (moduleFilter) {
+                        allQuestions = allQuestions.filter(q => q.module === moduleFilter);
+                    }
+                    if (subjectFilter) {
+                        allQuestions = allQuestions.filter(q => q.subject === subjectFilter);
+                    }
+
+                    questions = allQuestions;
+
+                    if (questions.length === 0) {
+                        emptyState.style.display = 'flex';
+                        totalNum.textContent = '0';
+                        return;
+                    }
+
+                    emptyState.style.display = 'none';
+                    totalNum.textContent = questions.length;
+                    renderQuestion(0);
+                })
+                .catch(error => {
+                    console.error('题库加载失败:', error);
+                    questionText.textContent = '❌ 题库加载失败，请检查网络或刷新重试。';
+                    questionText.style.color = '#c45a4a';
+                });
         }
 
+        // ============================================================
+        // 渲染题目
+        // ============================================================
         function renderQuestion(index) {
             const q = questions[index];
             currentNum.textContent = index + 1;
@@ -310,6 +318,9 @@
             }
         }
 
+        // ============================================================
+        // 处理答题
+        // ============================================================
         function handleAnswer(selected) {
             if (answered) return;
             const q = questions[currentIndex];
@@ -329,6 +340,9 @@
             answered = true;
         }
 
+        // ============================================================
+        // 导航
+        // ============================================================
         function goToPrev() {
             if (currentIndex > 0) {
                 currentIndex--;
@@ -366,7 +380,7 @@
         // 启动
         // ============================================================
         loadQuestions();
-        console.log('✅ 刷题页面已加载，共 ' + questions.length + ' 题');
+        console.log('✅ 刷题页面已加载，正在读取 questions.json...');
     </script>
 
 </body>
