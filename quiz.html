@@ -166,18 +166,17 @@
             cursor: pointer;
             transition: all 0.15s;
             flex: 1;
-            min-width: 60px;
+            min-width: 56px;
         }
         .footer button:active {
             transform: scale(0.96);
         }
         .footer .btn-prev {
-            background: transparent;
-            color: #8a7a6a;
-            border: 1px solid #e8e0d8;
+            background: #c49a6c;
+            color: #fff;
         }
         .footer .btn-prev:disabled {
-            opacity: 0.3;
+            opacity: 0.35;
             pointer-events: none;
         }
         .footer .btn-next {
@@ -185,7 +184,7 @@
             color: #fff;
         }
         .footer .btn-next:disabled {
-            opacity: 0.4;
+            opacity: 0.35;
             pointer-events: none;
         }
         .footer .btn-finish {
@@ -248,6 +247,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const moduleFilter = urlParams.get('module') || null;
         const subjectFilter = urlParams.get('subject') || null;
+        const unitFilter = urlParams.get('unit') || null;
 
         let allQuestionsData = [];
         let questions = [];
@@ -256,8 +256,9 @@
         let currentQuestionId = null;
         let isWrongMode = false;
         let wrongQuestions = [];
+        // 记录从错题本返回时的位置
+        let returnIndex = 0;
 
-        // DOM 引用
         const questionText = document.getElementById('questionText');
         const questionMeta = document.getElementById('questionMeta');
         const optionsContainer = document.getElementById('optionsContainer');
@@ -270,7 +271,7 @@
         const wrongBtn = document.getElementById('wrongBtn');
 
         // ============================================================
-        // 错题本数据管理
+        // 错题本
         // ============================================================
         function getWrongQuestions() {
             try {
@@ -287,7 +288,6 @@
 
         function addWrongQuestion(q, userAnswer) {
             const wrongList = getWrongQuestions();
-            // 检查是否已存在
             const exists = wrongList.some(item => item.id === q.id);
             if (!exists) {
                 wrongList.push({
@@ -309,15 +309,6 @@
             let wrongList = getWrongQuestions();
             wrongList = wrongList.filter(item => item.id !== id);
             saveWrongQuestions(wrongList);
-        }
-
-        function clearAllWrongQuestions() {
-            if (confirm('确定要清空所有错题吗？')) {
-                saveWrongQuestions([]);
-                if (isWrongMode) {
-                    loadWrongQuestions();
-                }
-            }
         }
 
         // ============================================================
@@ -350,10 +341,19 @@
             if (subjectFilter) {
                 filtered = filtered.filter(q => q.subject === subjectFilter);
             }
+            if (unitFilter) {
+                filtered = filtered.filter(q => q.unit === unitFilter);
+            }
             questions = filtered;
             isWrongMode = false;
             wrongBtn.textContent = '📒 错题';
             wrongBtn.classList.remove('active');
+            // 如果是从错题本返回，使用保存的位置
+            if (returnIndex > 0 && returnIndex < questions.length) {
+                currentIndex = returnIndex;
+            } else {
+                currentIndex = 0;
+            }
             renderList();
         }
 
@@ -363,7 +363,9 @@
                 alert('🎉 错题本为空！你还没有做错的题目。');
                 return;
             }
-            // 从 allQuestionsData 中匹配错题
+            // 保存当前刷题位置（以便返回时恢复）
+            returnIndex = currentIndex;
+
             const matched = [];
             wrongList.forEach(w => {
                 const found = allQuestionsData.find(q => q.id === w.id);
@@ -379,6 +381,7 @@
             isWrongMode = true;
             wrongBtn.textContent = '📖 全部';
             wrongBtn.classList.add('active');
+            currentIndex = 0;
             renderList();
         }
 
@@ -399,12 +402,14 @@
             }
             emptyState.style.display = 'none';
             totalNum.textContent = questions.length;
-            currentIndex = 0;
-            renderQuestion(0);
+            if (currentIndex >= questions.length) {
+                currentIndex = 0;
+            }
+            renderQuestion(currentIndex);
         }
 
         // ============================================================
-        // 渲染题目
+        // 渲染
         // ============================================================
         function renderQuestion(index) {
             if (!questions.length) return;
@@ -445,7 +450,7 @@
         }
 
         // ============================================================
-        // 处理答题
+        // 答题
         // ============================================================
         function handleAnswer(selected) {
             if (answered) return;
@@ -459,11 +464,9 @@
                 if (i === selected && !isCorrect) o.classList.add('wrong');
             });
 
-            // 记录错题
             if (!isCorrect) {
                 addWrongQuestion(q, selected);
             } else {
-                // 如果答对了，从错题本中移除
                 removeWrongQuestion(q.id);
             }
 
@@ -499,15 +502,15 @@
                 renderQuestion(currentIndex);
             } else {
                 alert('🎉 恭喜完成全部 ' + questions.length + ' 题！');
-                // 如果是在错题模式，可以自动切回正常模式
                 if (isWrongMode) {
+                    // 从错题本返回时，恢复位置
                     loadNormalQuestions();
                 }
             }
         }
 
         // ============================================================
-        // 事件绑定
+        // 事件
         // ============================================================
         document.addEventListener('keydown', function(e) {
             if (e.key === 'ArrowLeft') goToPrev();
@@ -529,7 +532,7 @@
         // 启动
         // ============================================================
         loadQuestions();
-        console.log('✅ 刷题页面已加载（含错题本）');
+        console.log('✅ 刷题页面已加载（含错题本 + 单元筛选）');
     </script>
 
 </body>
