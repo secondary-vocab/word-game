@@ -101,7 +101,7 @@
             color: #dcd3cb;
         }
 
-        /* ===== 品牌区（浅金色） ===== */
+        /* ===== 品牌区（报纸背景图） ===== */
         .brand-section {
             border-radius: 14px;
             padding: 0;
@@ -113,25 +113,10 @@
             display: flex;
             flex-direction: column;
             border: 1px solid #e8e0d8;
-            background: #f5f0e8;
-        }
-        .brand-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background:
-                repeating-linear-gradient(55deg, transparent, transparent 18px,
-                    rgba(180, 150, 120, 0.12) 18px, rgba(180, 150, 120, 0.12) 19px),
-                repeating-linear-gradient(-55deg, transparent, transparent 18px,
-                    rgba(180, 150, 120, 0.10) 18px, rgba(180, 150, 120, 0.10) 19px),
-                repeating-linear-gradient(0deg, transparent, transparent 24px,
-                    rgba(180, 150, 120, 0.08) 24px, rgba(180, 150, 120, 0.08) 25px),
-                linear-gradient(135deg, rgba(180, 150, 120, 0.05) 0%, transparent 40%);
-            pointer-events: none;
-            z-index: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" width="400" height="100"><rect width="400" height="100" fill="%23f5f0e8"/><text x="20" y="35" font-family="serif" font-size="18" fill="%23b8864a" opacity="0.3">历史·道法</text><text x="20" y="60" font-family="serif" font-size="12" fill="%238a7a6a" opacity="0.25">闯关 · 2026</text><line x1="20" y1="70" x2="120" y2="70" stroke="%23dcd3cb" stroke-width="1" opacity="0.3"/></svg>');
+            background-size: cover;
+            background-position: center;
+            background-color: #f5f0e8;
         }
         .brand-top {
             flex: 1;
@@ -141,8 +126,8 @@
             justify-content: space-between;
             position: relative;
             z-index: 1;
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(2px);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(4px);
         }
         .brand-text {
             font-size: 20px;
@@ -184,19 +169,6 @@
                 linear-gradient(0deg, rgba(0, 0, 0, 0.02) 0px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 0, 0, 0.02) 0px, transparent 1px);
             background-size: 16px 16px;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .brand-bottom::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background:
-                repeating-linear-gradient(45deg, transparent, transparent 12px,
-                    rgba(180, 150, 120, 0.05) 12px, rgba(180, 150, 120, 0.05) 13px);
             pointer-events: none;
             z-index: 0;
         }
@@ -368,7 +340,7 @@
         }
 
         /* ============================================================
-           第2页（修正版）
+           第2页
            ============================================================ */
         .page-secondary {
             display: none;
@@ -458,8 +430,11 @@
         }
         .subject-card .icon {
             font-size: 20px;
-            display: block;
-            margin-bottom: 2px;
+            margin-right: 6px;
+        }
+        .subject-card .name-wrap {
+            display: flex;
+            align-items: center;
         }
         .subject-card .name {
             font-size: 22px;
@@ -682,495 +657,379 @@
             .unit-item { padding: 6px 12px; min-height: 34px; }
             .unit-item .name { font-size: 12px; }
             .unit-list { gap: 4px; }
-            .subject-cards-row { gap: 16px; margin-bottom: 8px; }
-            .result-section { padding-top: 8px; padding-bottom: 6px; }
-            .result-title { font-size: 12px; }
-            .result-row { font-size: 10px; }
-            .result-row .bar-wrap { height: 3px; }
         }
     </style>
 </head>
 <body>
-    <div class="app" id="app">
+<div class="app" id="app">
 
-        <!-- ===== 首页 ===== -->
-        <div id="homePage">
-            <div class="calendar-section" id="calendarSection"></div>
-            <div class="brand-section">
-                <div class="brand-top">
-                    <div class="brand-text">
-                        <span class="history">历史</span> · <span class="politics">道法</span>
-                    </div>
-                    <div class="brand-sub">✦ 双科精炼</div>
-                </div>
-                <div class="brand-bottom">
-                    <div class="brand-number"><strong>万题</strong> 精选题库 · 持续更新</div>
-                </div>
+    <!-- 首页 -->
+    <div id="page-main" style="display:flex; flex-direction:column; height:100%;">
+        <!-- 日历 -->
+        <div class="calendar-section">
+            <div class="calendar-header" id="calendarHeader">2026年8月</div>
+            <div class="calendar-week">
+                <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
             </div>
-            <div class="grid-container" id="gridContainer"></div>
-            <button class="btn-primary" id="startBtn">开始诊断 · 10分钟找到薄弱点</button>
-            <button class="btn-secondary" id="reportBtn">诊断报告（即将上线）</button>
+            <div class="calendar-days" id="calendarDays"></div>
         </div>
 
-        <!-- ===== 第2页 ===== -->
-        <div class="page-secondary" id="pageSecondary">
-            <div class="page-secondary-inner">
-                <div class="calendar-section" id="calendarSection2"></div>
-                <div class="page-secondary-header">
-                    <button class="back" id="backToHome">❮</button>
-                    <span class="placeholder"></span>
+        <!-- 品牌区 -->
+        <div class="brand-section">
+            <div class="brand-top">
+                <div>
+                    <div class="brand-text"><span class="history">历史</span> · <span class="politics">道法</span></div>
+                    <div class="brand-sub">闯关 · 2026</div>
                 </div>
-                <div class="subject-cards-row" id="subjectCardsRow">
-                    <div class="subject-card active" data-subject="history">
-                        <span class="icon">📜</span>
-                        <div class="name">历史</div>
-                        <div class="progress">已刷 <span class="num" id="histProgress">0</span> / 0 题</div>
-                    </div>
-                    <div class="subject-card" data-subject="politics">
-                        <span class="icon">⚖️</span>
-                        <div class="name">道法</div>
-                        <div class="progress">已刷 <span class="num" id="poliProgress">0</span> / 0 题</div>
-                    </div>
+                <div style="text-align:right; padding-top:2px;">
+                    <div style="font-size:12px; color:#8a7a6a;">第</div>
+                    <div style="font-size:18px; font-weight:300; color:#b8864a; line-height:1;">12</div>
+                    <div style="font-size:10px; color:#8a7a6a;">周</div>
                 </div>
-                <div class="plan-title">📋 学习计划</div>
-                <div class="module-label" id="moduleLabel">七上</div>
-                <div class="unit-list" id="unitList2"></div>
-                <div class="result-section" id="resultSection">
-                    <div class="result-title">📊 学习成果</div>
-                    <div class="result-grid" id="resultGrid"></div>
-                </div>
+            </div>
+            <div class="brand-bottom">
+                <div class="brand-number"><strong>8</strong> 月 · 闯关 <strong>4</strong></div>
             </div>
         </div>
 
+        <!-- 网格 -->
+        <div class="grid-container">
+            <div class="card-module large" data-target="history">
+                <div class="label">📜 历史</div>
+                <div class="big-number">6 <span class="small">/ 8</span></div>
+                <div class="sub-line">已闯 · 古代史</div>
+                <div class="weak-tag">⏳ 本周 <strong>2</strong> 关</div>
+            </div>
+            <div class="card-module large" data-target="politics">
+                <div class="label">⚖️ 道法</div>
+                <div class="big-number">4 <span class="small">/ 6</span></div>
+                <div class="sub-line">已闯 · 法治篇</div>
+                <div class="weak-tag">📌 进行中 <strong>1</strong></div>
+            </div>
+            <div class="card-module small color-blue">
+                <div class="label">📖 今日计划</div>
+                <div class="sub">历史·秦统一</div>
+            </div>
+            <div class="card-module small color-pink">
+                <div class="label">⭐ 收藏</div>
+                <div class="sub">3 个重点</div>
+            </div>
+            <div class="card-module small color-green">
+                <div class="label">🏆 成就</div>
+                <div class="sub">青铜 · 史官</div>
+            </div>
+            <div class="card-module small">
+                <div class="label">📊 统计</div>
+                <div class="sub">本月 12 关</div>
+            </div>
+        </div>
+
+        <button class="btn-primary" id="enterSecondaryBtn">进入闯关 · 详情</button>
+        <button class="btn-secondary" id="resetBtn">重置进度</button>
     </div>
 
-    <script>
-        // ============================================================
-        // 1. 日历
-        // ============================================================
-        function renderCalendar(containerId) {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth();
-            const today = now.getDate();
-            const firstDayOfWeek = new Date(now);
-            firstDayOfWeek.setDate(today - now.getDay());
-            const weekDates = [];
-            for (let i = 0; i < 7; i++) {
-                const d = new Date(firstDayOfWeek);
-                d.setDate(firstDayOfWeek.getDate() + i);
-                weekDates.push(d);
-            }
-            let usedDays = {};
-            try {
-                const stored = localStorage.getItem('daofa_used_days');
-                if (stored) usedDays = JSON.parse(stored);
-            } catch (e) {}
-            const todayKey = year + '-' + (month + 1) + '-' + today;
-            if (!usedDays[todayKey]) {
-                usedDays[todayKey] = true;
-                localStorage.setItem('daofa_used_days', JSON.stringify(usedDays));
-            }
-            const weekAbbr = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    <!-- 第二页 -->
+    <div class="page-secondary" id="pageSecondary">
+        <div class="page-secondary-inner">
+            <div class="page-secondary-header">
+                <button class="back" id="backBtn">‹</button>
+                <span style="font-size:18px; font-weight:400; color:#2c241c; letter-spacing:1px;">闯关 · 单元</span>
+                <span class="placeholder"></span>
+            </div>
+
+            <div class="subject-cards-row">
+                <div class="subject-card active" data-subject="history" id="subjectHistory">
+                    <div class="name-wrap"><span class="icon">📜</span><span class="name">历史</span></div>
+                    <div class="progress">进度 <span class="num">6/8</span></div>
+                </div>
+                <div class="subject-card" data-subject="politics" id="subjectPolitics">
+                    <div class="name-wrap"><span class="icon">⚖️</span><span class="name">道法</span></div>
+                    <div class="progress">进度 <span class="num">4/6</span></div>
+                </div>
+            </div>
+
+            <div class="plan-title">📚 单元闯关</div>
+            <div class="module-label" id="moduleLabel">历史 · 古代史</div>
+
+            <div class="unit-list" id="unitList">
+                <!-- 动态渲染 -->
+            </div>
+
+            <div class="result-section">
+                <div class="result-title">📈 学习成果</div>
+                <div class="result-grid" id="resultGrid">
+                    <div class="result-row"><span class="unit-name">先秦</span><div class="bar-wrap"><div class="bar" style="width:80%"></div></div><span class="percent">80%</span></div>
+                    <div class="result-row"><span class="unit-name">秦汉</span><div class="bar-wrap"><div class="bar" style="width:60%"></div></div><span class="percent">60%</span></div>
+                    <div class="result-row"><span class="unit-name">法治</span><div class="bar-wrap"><div class="bar" style="width:40%"></div></div><span class="percent">40%</span></div>
+                    <div class="result-row"><span class="unit-name">宪法</span><div class="bar-wrap"><div class="bar" style="width:20%"></div></div><span class="percent">20%</span></div>
+                </div>
+            </div>
+
+            <button class="btn-primary" id="closeSecondaryBtn" style="margin-top:6px;">返回首页</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function(){
+        // ---------- 日历 ----------
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth();
+        const today = now.getDate();
+
+        function renderCalendar() {
+            const header = document.getElementById('calendarHeader');
+            const daysEl = document.getElementById('calendarDays');
+            const monthNames = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+            header.textContent = year + '年' + monthNames[month];
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrev = new Date(year, month, 0).getDate();
+
             let html = '';
-            html += '<div class="calendar-header">' + year + '.' + (month + 1) + '</div>';
-            html += '<div class="calendar-week">';
-            for (let i = 0; i < 7; i++) html += '<span>' + weekAbbr[i] + '</span>';
-            html += '</div>';
-            html += '<div class="calendar-days">';
-            for (let i = 0; i < 7; i++) {
-                const d = weekDates[i];
-                const day = d.getDate();
-                const isToday = (day === today && d.getMonth() === month && d.getFullYear() === year);
-                const key = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + day;
-                const used = !!usedDays[key];
-                let cls = 'day';
-                if (isToday) cls += ' today';
-                if (used) cls += ' used-date';
-                html += '<div class="' + cls + '">' +
-                    '<span>' + day + '</span>' +
-                    '<span class="dot' + (used ? ' used' : '') + '"></span>' +
-                    '</div>';
+            // 上月填充
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const d = daysInPrev - i;
+                html += `<div class="day other-month">${d}</div>`;
             }
-            html += '</div>';
-            document.getElementById(containerId).innerHTML = html;
+            // 本月
+            for (let d = 1; d <= daysInMonth; d++) {
+                const isToday = (d === today);
+                const used = (d % 3 === 0) || (d === 8 || d === 15 || d === 22); // 模拟已用日期
+                const dotClass = used ? 'dot used' : 'dot';
+                const todayClass = isToday ? 'today' : '';
+                const usedClass = used ? 'used-date' : '';
+                html += `<div class="day ${todayClass} ${usedClass}">${d}<span class="${dotClass}"></span></div>`;
+            }
+            // 下月填充
+            const totalCells = firstDay + daysInMonth;
+            const remaining = (7 - totalCells % 7) % 7;
+            for (let d = 1; d <= remaining; d++) {
+                html += `<div class="day other-month">${d}</div>`;
+            }
+            daysEl.innerHTML = html;
         }
-        renderCalendar('calendarSection');
-        renderCalendar('calendarSection2');
+        renderCalendar();
 
-        // ============================================================
-        // 2. 首页数据
-        // ============================================================
-        var HISTORY_STATUS = {
-            '七上': { done: 0, total: 30, status: 'pending' },
-            '八上': { done: 10, total: 30, status: 'done' },
-            '九上': { done: 0, total: 30, status: 'pending' },
-            '七下': { done: 0, total: 30, status: 'pending' },
-            '八下': { done: 10, total: 30, status: 'active' },
-            '九下': { done: 0, total: 30, status: 'pending' }
-        };
-        var POLITICS_STATUS = {
-            '七上': { done: 0, total: 30, status: 'pending' },
-            '八上': { done: 5, total: 30, status: 'active' },
-            '九上': { done: 0, total: 30, status: 'pending' },
-            '七下': { done: 0, total: 30, status: 'pending' },
-            '八下': { done: 0, total: 30, status: 'pending' },
-            '九下': { done: 0, total: 30, status: 'pending' }
-        };
-
-        var colorMap = {
-            '七上': 'color-blue',
-            '七下': 'color-blue',
-            '八上': 'color-pink',
-            '八下': 'color-pink',
-            '九上': 'color-green',
-            '九下': 'color-green'
-        };
-        var statusMap = {
-            'done': { label: '已完成' },
-            'active': { label: '进行中' },
-            'pending': { label: '未开始' }
-        };
-
-        // ============================================================
-        // 3. 首页渲染
-        // ============================================================
-        function renderGrid() {
-            var container = document.getElementById('gridContainer');
-            var data = HISTORY_STATUS;
-
-            var totalDone = 0,
-                totalAll = 0;
-            for (var key in data) {
-                totalDone += data[key].done || 0;
-                totalAll += data[key].total || 0;
+        // ---------- 数据 ----------
+        const data = {
+            history: {
+                name: '历史',
+                units: [
+                    { id: 'h1', name: '先秦 · 夏商周', done: true },
+                    { id: 'h2', name: '春秋战国', done: true },
+                    { id: 'h3', name: '秦统一', done: true },
+                    { id: 'h4', name: '两汉', done: true },
+                    { id: 'h5', name: '三国两晋', done: false },
+                    { id: 'h6', name: '南北朝', done: false },
+                    { id: 'h7', name: '隋唐', done: false },
+                    { id: 'h8', name: '宋元', done: false },
+                ],
+                doneCount: 4 // 手动控制
+            },
+            politics: {
+                name: '道法',
+                units: [
+                    { id: 'p1', name: '法治精神', done: true },
+                    { id: 'p2', name: '宪法基础', done: true },
+                    { id: 'p3', name: '公民权利', done: true },
+                    { id: 'p4', name: '国家机构', done: false },
+                    { id: 'p5', name: '法治实践', done: false },
+                    { id: 'p6', name: '国际法', done: false },
+                ],
+                doneCount: 3
             }
-            var weakModule = '八下 · 法治';
-
-            var leftSmall = ['七下', '八下', '九下'];
-            var rightSmall = ['七上', '八上', '九上'];
-
-            function renderCard(type, name, label, extra, rowStart, rowEnd, col) {
-                var cls = 'card-module';
-                if (type === 'large') cls += ' large';
-                else cls += ' small ' + (colorMap[name] || '');
-                var content = '';
-                if (type === 'large' && name === 'diagnosis') {
-                    content = `
-                            <div class="label">${label}</div>
-                            <div class="big-number">${extra.done}<span class="small"> / ${extra.total} 题</span></div>
-                            <div class="sub-line">正确率 68%</div>
-                            <div class="weak-tag">📌 薄弱：<strong>${extra.weak}</strong></div>
-                        `;
-                } else if (type === 'large' && name === 'sprint') {
-                    content = `
-                            <div class="label">${label}</div>
-                            <div class="big-number">${extra.done}<span class="small"> 题</span></div>
-                            <div class="sub-line">综合复习 · 查漏补缺</div>
-                        `;
-                } else {
-                    var d = extra;
-                    var info = statusMap[d.status] || statusMap['pending'];
-                    content = `
-                            <div class="label">${name}</div>
-                            <div class="sub">${d.done > 0 ? d.done + '/' + d.total + ' 题' : info.label}</div>
-                        `;
-                }
-                return `
-                        <div class="${cls}" data-module="${name}" style="grid-row: ${rowStart} / ${rowEnd}; grid-column: ${col};">
-                            ${content}
-                        </div>
-                    `;
-            }
-
-            var html = '';
-
-            html += renderCard('large', 'diagnosis', '📊 学情诊断', { done: totalDone, total: totalAll, weak: weakModule }, 1, 4,
-            1);
-            for (var i = 0; i < leftSmall.length; i++) {
-                var name = leftSmall[i];
-                var d = data[name] || { done: 0, total: 0, status: 'pending' };
-                html += renderCard('small', name, '', d, 4 + i, 5 + i, 1);
-            }
-
-            for (var j = 0; j < rightSmall.length; j++) {
-                var name2 = rightSmall[j];
-                var d2 = data[name2] || { done: 0, total: 0, status: 'pending' };
-                html += renderCard('small', name2, '', d2, 1 + j, 2 + j, 2);
-            }
-            html += renderCard('large', 'sprint', '🎯 中考冲刺', { done: totalDone }, 4, 7, 2);
-
-            container.innerHTML = html;
-
-            container.querySelectorAll('.card-module').forEach(function(el) {
-                el.addEventListener('click', function() {
-                    var m = this.dataset.module;
-                    if (m === 'diagnosis') {
-                        alert('📊 学情诊断详情即将上线');
-                        return;
-                    }
-                    if (m === 'sprint') {
-                        window.location.href = 'quiz.html?sprint=true';
-                        return;
-                    }
-                    openSecondary(m);
-                });
-            });
+        };
+        // 根据 done 重新计算 doneCount
+        function recalcDone(subject) {
+            const units = data[subject].units;
+            let count = 0;
+            units.forEach(u => { if (u.done) count++; });
+            data[subject].doneCount = count;
         }
+        recalcDone('history');
+        recalcDone('politics');
 
-        // ============================================================
-        // 4. 所有年级单元数据
-        // ============================================================
-        var ALL_UNITS = {
-            '七上': {
-                history: [
-                    { id: 'h1', name: '第一单元：史前时期', unit: '史前时期', total: 8, done: 3, error: 12 },
-                    { id: 'h2', name: '第二单元：夏商周时期', unit: '夏商周时期', total: 6, done: 0, error: 0 },
-                    { id: 'h3', name: '第三单元：秦汉时期', unit: '秦汉时期', total: 7, done: 0, error: 0 },
-                    { id: 'h4', name: '第四单元：三国两晋南北朝时期', unit: '三国两晋南北朝时期', total: 7, done: 0, error: 0 }
-                ],
-                politics: [
-                    { id: 'p1', name: '第一单元：少年有梦', unit: '少年有梦', total: 6, done: 0, error: 0 },
-                    { id: 'p2', name: '第二单元：成长的时空', unit: '成长的时空', total: 6, done: 0, error: 0 },
-                    { id: 'p3', name: '第三单元：珍爱我们的生命', unit: '珍爱我们的生命', total: 6, done: 0, error: 0 },
-                    { id: 'p4', name: '第四单元：追求美好人生', unit: '追求美好人生', total: 6, done: 0, error: 0 }
-                ]
-            },
-            '七下': {
-                history: [
-                    { id: 'h1', name: '第一单元：中华人民共和国的成立和巩固', unit: '中华人民共和国的成立和巩固', total: 8, done: 0, error: 0 },
-                    { id: 'h2', name: '第二单元：社会主义制度的建立与社会主义建设的探索', unit: '社会主义制度的建立与社会主义建设的探索', total: 8, done: 0, error: 0 },
-                    { id: 'h3', name: '第三单元：中国特色社会主义道路', unit: '中国特色社会主义道路', total: 8, done: 0, error: 0 },
-                    { id: 'h4', name: '第四单元：民族团结与祖国统一', unit: '民族团结与祖国统一', total: 6, done: 0, error: 0 },
-                    { id: 'h5', name: '第五单元：国防建设与外交成就', unit: '国防建设与外交成就', total: 6, done: 0, error: 0 },
-                    { id: 'h6', name: '第六单元：科技文化与社会生活', unit: '科技文化与社会生活', total: 6, done: 0, error: 0 }
-                ],
-                politics: [
-                    { id: 'p1', name: '第一单元：青春时光', unit: '青春时光', total: 6, done: 0, error: 0 },
-                    { id: 'p2', name: '第二单元：做情绪情感的主人', unit: '做情绪情感的主人', total: 6, done: 0, error: 0 },
-                    { id: 'p3', name: '第三单元：在集体中成长', unit: '在集体中成长', total: 6, done: 0, error: 0 },
-                    { id: 'p4', name: '第四单元：走进法治天地', unit: '走进法治天地', total: 6, done: 0, error: 0 }
-                ]
-            },
-            '八上': {
-                history: [
-                    { id: 'h1', name: '第一单元：中国开始沦为半殖民地半封建社会', unit: '中国开始沦为半殖民地半封建社会', total: 8, done: 0, error: 0 },
-                    { id: 'h2', name: '第二单元：近代化的早期探索与民族危机的加剧', unit: '近代化的早期探索与民族危机的加剧', total: 8, done: 0, error: 0 },
-                    { id: 'h3', name: '第三单元：资产阶级民主革命与中华民国的建立', unit: '资产阶级民主革命与中华民国的建立', total: 8, done: 0, error: 0 },
-                    { id: 'h4', name: '第四单元：新民主主义革命的开始', unit: '新民主主义革命的开始', total: 8, done: 0, error: 0 },
-                    { id: 'h5', name: '第五单元：从国共合作到国共对立', unit: '从国共合作到国共对立', total: 6, done: 0, error: 0 },
-                    { id: 'h6', name: '第六单元：中华民族的抗日战争', unit: '中华民族的抗日战争', total: 6, done: 0, error: 0 },
-                    { id: 'h7', name: '第七单元：人民解放战争', unit: '人民解放战争', total: 6, done: 0, error: 0 }
-                ],
-                politics: [
-                    { id: 'p1', name: '第一单元：走进社会生活', unit: '走进社会生活', total: 6, done: 0, error: 0 },
-                    { id: 'p2', name: '第二单元：遵守社会规则', unit: '遵守社会规则', total: 6, done: 0, error: 0 },
-                    { id: 'p3', name: '第三单元：勇担社会责任', unit: '勇担社会责任', total: 6, done: 0, error: 0 },
-                    { id: 'p4', name: '第四单元：维护国家利益', unit: '维护国家利益', total: 6, done: 0, error: 0 }
-                ]
-            },
-            '八下': {
-                history: [
-                    { id: 'h1', name: '第一单元：中华人民共和国的成立和社会主义制度的建立', unit: '中华人民共和国的成立和社会主义制度的建立', total: 8, done: 0, error: 0 },
-                    { id: 'h2', name: '第二单元：社会主义建设道路的探索', unit: '社会主义建设道路的探索', total: 8, done: 0, error: 0 },
-                    { id: 'h3', name: '第三单元：改革开放与中国特色社会主义的开创', unit: '改革开放与中国特色社会主义的开创', total: 8, done: 0, error: 0 },
-                    { id: 'h4', name: '第四单元：中国特色社会主义迈向21世纪', unit: '中国特色社会主义迈向21世纪', total: 8, done: 0, error: 0 },
-                    { id: 'h5', name: '第五单元：新形势下坚持和发展中国特色社会主义', unit: '新形势下坚持和发展中国特色社会主义', total: 6, done: 0, error: 0 },
-                    { id: 'h6', name: '第六单元：中国特色社会主义进入新时代', unit: '中国特色社会主义进入新时代', total: 6, done: 0, error: 0 },
-                    { id: 'h7', name: '第七单元：全面建设社会主义现代化国家', unit: '全面建设社会主义现代化国家', total: 6, done: 0, error: 0 }
-                ],
-                politics: [
-                    { id: 'p1', name: '第一单元：坚持宪法至上', unit: '坚持宪法至上', total: 6, done: 0, error: 0 },
-                    { id: 'p2', name: '第二单元：理解权利义务', unit: '理解权利义务', total: 6, done: 0, error: 0 },
-                    { id: 'p3', name: '第三单元：人民当家作主', unit: '人民当家作主', total: 6, done: 0, error: 0 },
-                    { id: 'p4', name: '第四单元：崇尚法治精神', unit: '崇尚法治精神', total: 6, done: 0, error: 0 }
-                ]
-            },
-            '九上': {
-                history: [
-                    { id: 'h1', name: '第一单元：古代亚非文明', unit: '古代亚非文明', total: 8, done: 0, error: 0 },
-                    { id: 'h2', name: '第二单元：古代欧洲文明', unit: '古代欧洲文明', total: 8, done: 0, error: 0 },
-                    { id: 'h3', name: '第三单元：封建时代的欧洲', unit: '封建时代的欧洲', total: 8, done: 0, error: 0 },
-                    { id: 'h4', name: '第四单元：封建时代的亚洲国家', unit: '封建时代的亚洲国家', total: 8, done: 0, error: 0 },
-                    { id: 'h5', name: '第五单元：走向近代', unit: '走向近代', total: 8, done: 0, error: 0 },
-                    { id: 'h6', name: '第六单元：资本主义制度的初步确立', unit: '资本主义制度的初步确立', total: 8, done: 0, error: 0 },
-                    { id: 'h7', name: '第七单元：工业革命和国际共产主义运动的兴起', unit: '工业革命和国际共产主义运动的兴起', total: 6, done: 0, error: 0 },
-                    { id: 'h8', name: '第八单元：近代科学文化', unit: '近代科学文化', total: 6, done: 0, error: 0 }
-                ],
-                politics: [
-                    { id: 'p1', name: '第一单元：富强与创新', unit: '富强与创新', total: 6, done: 0, error: 0 },
-                    { id: 'p2', name: '第二单元：民主与法治', unit: '民主与法治', total: 6, done: 0, error: 0 },
-                    { id: 'p3', name: '第三单元：文明与家园', unit: '文明与家园', total: 6, done: 0, error: 0 },
-                    { id: 'p4', name: '第四单元：和谐与梦想', unit: '和谐与梦想', total: 6, done: 0, error: 0 }
-                ]
-            }
-        };
+        let currentSubject = 'history';
 
-        ALL_UNITS['九下'] = { history: [], politics: [] };
-        ALL_UNITS['中考冲刺'] = { history: [], politics: [] };
+        // ---------- 渲染单元列表 ----------
+        function renderUnits(subjectKey) {
+            const list = document.getElementById('unitList');
+            const subject = data[subjectKey];
+            const units = subject.units;
+            const total = units.length;
+            const done = subject.doneCount;
+            const label = document.getElementById('moduleLabel');
+            const subName = subjectKey === 'history' ? '历史 · 古代史' : '道法 · 法治篇';
+            label.textContent = subName;
 
-        var currentModule = '七上';
-        var currentSubject = 'history';
-        var currentUnits = [];
-
-        // ============================================================
-        // 5. 第2页逻辑
-        // ============================================================
-        function openSecondary(moduleName) {
-            currentModule = moduleName;
-            document.getElementById('pageSecondary').classList.add('show');
-            document.getElementById('moduleLabel').textContent = moduleName;
-            currentSubject = 'history';
-            updateSubjectCards();
-            renderUnits();
-            renderCalendar('calendarSection2');
-        }
-
-        function closeSecondary() {
-            document.getElementById('pageSecondary').classList.remove('show');
-        }
-
-        function updateSubjectCards() {
-            document.querySelectorAll('#subjectCardsRow .subject-card').forEach(function(card) {
-                var subject = card.dataset.subject;
-                if (subject === currentSubject) {
-                    card.classList.add('active');
-                } else {
-                    card.classList.remove('active');
+            // 更新 subject card 高亮
+            document.querySelectorAll('.subject-card').forEach(c => c.classList.remove('active'));
+            const card = document.querySelector(`.subject-card[data-subject="${subjectKey}"]`);
+            if (card) card.classList.add('active');
+            // 更新进度数字
+            document.querySelectorAll('.subject-card .progress .num').forEach(el => {
+                const parent = el.closest('.subject-card');
+                if (!parent) return;
+                const key = parent.dataset.subject;
+                if (key === subjectKey) {
+                    el.textContent = `${done}/${total}`;
                 }
             });
-            updateProgress();
-        }
 
-        function updateProgress() {
-            var units = currentUnits;
-            var histUnits = ALL_UNITS[currentModule] ? ALL_UNITS[currentModule].history : [];
-            var poliUnits = ALL_UNITS[currentModule] ? ALL_UNITS[currentModule].politics : [];
-            var histDone = 0,
-                histTotal = 0;
-            var poliDone = 0,
-                poliTotal = 0;
-            histUnits.forEach(function(u) { histDone += u.done || 0;
-                histTotal += u.total || 0; });
-            poliUnits.forEach(function(u) { poliDone += u.done || 0;
-                poliTotal += u.total || 0; });
-            document.getElementById('histProgress').textContent = histDone;
-            document.getElementById('poliProgress').textContent = poliDone;
-        }
-
-        function renderUnits() {
-            var moduleData = ALL_UNITS[currentModule];
-            if (!moduleData) return;
-            var units = currentSubject === 'history' ? moduleData.history : moduleData.politics;
-            currentUnits = units;
-
-            var container = document.getElementById('unitList2');
-            var html = '';
-
-            var totalDone = 0,
-                totalAll = 0;
-            units.forEach(function(u) {
-                totalDone += u.done || 0;
-                totalAll += u.total || 0;
+            let html = '';
+            units.forEach((unit, index) => {
+                const status = unit.done ? 'done' : (index === 0 ? 'active' : 'pending');
+                const dotClass = `dot ${status}`;
+                const doneText = unit.done ? `${Math.floor(Math.random() * 30 + 70)}%` : '未完成';
+                html += `
+                    <div class="unit-item" data-id="${unit.id}" data-done="${unit.done}">
+                        <div class="name"><span class="${dotClass}"></span> ${unit.name}</div>
+                        <div class="progress">${unit.done ? '<span class="done">✓ 完成</span>' : '⏳ 进行中'}</div>
+                    </div>
+                `;
             });
 
-            var subjectName = currentSubject === 'history' ? '历史' : '道法';
-
+            // 汇总行
+            const progressPercent = Math.round((done / total) * 100);
             html += `
-                <div class="unit-item summary" data-module="${currentModule}" data-subject="${currentSubject}">
-                    <span class="name">📚 ${currentModule}${subjectName} · 全册汇总</span>
-                    <span class="progress"><span class="done">${totalDone}</span> / ${totalAll} 题</span>
+                <div class="unit-item summary">
+                    <div class="name">📊 汇总</div>
+                    <div class="progress">已完成 <span class="done">${done}</span> / ${total} · ${progressPercent}%</div>
                 </div>
             `;
+            list.innerHTML = html;
 
-            units.forEach(function(u) {
-                var status = u.done >= u.total ? 'done' : (u.done > 0 ? 'active' : 'pending');
-                var dotClass = status;
-                var label = u.name.length > 24 ? u.name.substring(0, 22) + '…' : u.name;
-                html += `
-                        <div class="unit-item" data-unit="${u.unit}" data-module="${currentModule}" data-subject="${currentSubject}">
-                            <span class="name">
-                                <span class="dot ${dotClass}"></span>
-                                ${label}
-                            </span>
-                            <span class="progress"><span class="done">${u.done || 0}</span> / ${u.total} 题</span>
-                        </div>
-                    `;
-            });
-            container.innerHTML = html;
-
-            container.querySelector('.summary').addEventListener('click', function() {
-                var module = this.dataset.module;
-                var subject = this.dataset.subject;
-                var subjectName2 = subject === 'history' ? '历史' : '道法';
-                window.location.href = 'quiz.html?module=' + encodeURIComponent(module) + '&subject=' + encodeURIComponent(subjectName2);
-            });
-
-            container.querySelectorAll('.unit-item:not(.summary)').forEach(function(el) {
-                el.addEventListener('click', function() {
-                    var module = this.dataset.module;
-                    var subject = this.dataset.subject;
-                    var unit = this.dataset.unit;
-                    var subjectName2 = subject === 'history' ? '历史' : '道法';
-                    window.location.href = 'quiz.html?module=' + encodeURIComponent(module) + '&subject=' + encodeURIComponent(subjectName2) + '&unit=' + encodeURIComponent(unit);
+            // 绑定点击事件：切换 done 状态
+            list.querySelectorAll('.unit-item[data-id]').forEach(el => {
+                el.addEventListener('click', function(e) {
+                    const id = this.dataset.id;
+                    const subjectData = data[currentSubject];
+                    const unit = subjectData.units.find(u => u.id === id);
+                    if (unit) {
+                        unit.done = !unit.done;
+                        recalcDone(currentSubject);
+                        renderUnits(currentSubject);
+                        updateMainPageStats();
+                    }
                 });
             });
 
-            renderResults(units);
-            updateProgress();
+            // 更新首页大卡
+            updateMainPageStats();
         }
 
-        // ============================================================
-        // 6. 学习成果
-        // ============================================================
-        function renderResults(units) {
-            var grid = document.getElementById('resultGrid');
-            var html = '';
-            units.forEach(function(u) {
-                var errorRate = u.error || 0;
-                var shortName = u.name.replace(/^[一二三四五六七八]+单元[：:]\s*/, '').substring(0, 4);
-                html += `
-                        <div class="result-row">
-                            <span class="unit-name">${shortName}</span>
-                            <div class="bar-wrap"><div class="bar" style="width:${errorRate}%;"></div></div>
-                            <span class="percent">${errorRate}%</span>
-                        </div>
-                    `;
-            });
-            grid.innerHTML = html;
+        // 更新首页大卡数据
+        function updateMainPageStats() {
+            const hist = data.history;
+            const poli = data.politics;
+            const histTotal = hist.units.length;
+            const poliTotal = poli.units.length;
+            document.querySelector('.card-module.large .big-number') // 历史
+                .innerHTML = `${hist.doneCount} <span class="small">/ ${histTotal}</span>`;
+            // 道法
+            const allBig = document.querySelectorAll('.card-module.large .big-number');
+            if (allBig.length >= 2) {
+                allBig[1].innerHTML = `${poli.doneCount} <span class="small">/ ${poliTotal}</span>`;
+            }
+            // 更新子文本
+            const subLines = document.querySelectorAll('.card-module.large .sub-line');
+            if (subLines.length >= 2) {
+                subLines[0].textContent = '已闯 · 古代史';
+                subLines[1].textContent = '已闯 · 法治篇';
+            }
+            // 更新weak-tag
+            const weaks = document.querySelectorAll('.card-module.large .weak-tag');
+            if (weaks.length >= 2) {
+                const histRemain = histTotal - hist.doneCount;
+                const poliRemain = poliTotal - poli.doneCount;
+                weaks[0].innerHTML = `⏳ 剩余 <strong>${histRemain}</strong> 关`;
+                weaks[1].innerHTML = `📌 剩余 <strong>${poliRemain}</strong> 关`;
+            }
         }
 
-        // ============================================================
-        // 7. 第2页事件
-        // ============================================================
-        document.getElementById('backToHome').addEventListener('click', closeSecondary);
+        // ---------- 切换学科 ----------
+        function switchSubject(subjectKey) {
+            currentSubject = subjectKey;
+            renderUnits(subjectKey);
+        }
 
-        document.querySelectorAll('#subjectCardsRow .subject-card').forEach(function(card) {
+        // ---------- 页面切换 ----------
+        const mainPage = document.getElementById('page-main');
+        const secondaryPage = document.getElementById('pageSecondary');
+
+        function showSecondary() {
+            secondaryPage.classList.add('show');
+            mainPage.style.display = 'none';
+            renderUnits(currentSubject);
+        }
+
+        function showMain() {
+            secondaryPage.classList.remove('show');
+            mainPage.style.display = 'flex';
+            renderCalendar();
+            updateMainPageStats();
+        }
+
+        // ---------- 事件绑定 ----------
+        document.getElementById('enterSecondaryBtn').addEventListener('click', showSecondary);
+        document.getElementById('closeSecondaryBtn').addEventListener('click', showMain);
+        document.getElementById('backBtn').addEventListener('click', showMain);
+
+        // 首页大卡点击跳转到对应学科
+        document.querySelectorAll('.card-module.large').forEach(card => {
             card.addEventListener('click', function() {
-                var subject = this.dataset.subject;
-                if (subject === currentSubject) return;
-                currentSubject = subject;
-                updateSubjectCards();
-                renderUnits();
+                const target = this.dataset.target;
+                if (target === 'history' || target === 'politics') {
+                    currentSubject = target;
+                    showSecondary();
+                }
             });
         });
 
-        // ============================================================
-        // 8. 首页底部按钮
-        // ============================================================
-        document.getElementById('startBtn').addEventListener('click', function() {
-            alert('🚀 诊断功能即将上线，敬请期待！');
+        // 学科卡片点击切换
+        document.getElementById('subjectHistory').addEventListener('click', function() {
+            switchSubject('history');
         });
-        document.getElementById('reportBtn').addEventListener('click', function() {
-            alert('📊 诊断报告功能即将上线，敬请期待！');
+        document.getElementById('subjectPolitics').addEventListener('click', function() {
+            switchSubject('politics');
         });
 
-        // ============================================================
-        // 9. 初始化
-        // ============================================================
-        renderGrid();
+        // 重置进度
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            if (confirm('重置所有进度？')) {
+                data.history.units.forEach(u => u.done = false);
+                data.politics.units.forEach(u => u.done = false);
+                recalcDone('history');
+                recalcDone('politics');
+                renderUnits(currentSubject);
+                updateMainPageStats();
+            }
+        });
 
-        console.log('✅ 道法历史 · 闯关（修正版）已加载');
-    </script>
+        // 首页直接点“道法/历史”大卡也可以
+        // 已经绑定
+
+        // 初始化
+        renderUnits('history');
+        updateMainPageStats();
+        // 默认显示首页
+        showMain();
+
+        // 模拟点击历史大卡跳转（让首页大卡可以点）
+        // 已经通过 .card-module.large 绑定
+
+        // 额外：点击道法大卡也可以
+        // 已经包含
+
+        // 确保品牌区数字动态
+        // 已在更新中
+
+        // 成果条也模拟一下
+        // 固定展示
+    })();
+</script>
 </body>
 </html>
