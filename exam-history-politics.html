@@ -1169,6 +1169,15 @@
         // 9. 初始化
         // ============================================================
         renderGrid();
+        // 从刷题页返回时自动打开对应的年级页面
+var returnModule = sessionStorage.getItem('returnToModule');
+if (returnModule) {
+    // 清除标记，防止刷新后重复跳转
+    sessionStorage.removeItem('returnToModule');
+    setTimeout(function() {
+        openSecondary(returnModule);
+    }, 100);
+}
  
         console.log('✅ 道法历史 · 闯关（修正版）已加载');
     </script>
