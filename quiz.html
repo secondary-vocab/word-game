@@ -348,9 +348,12 @@
         // 返回按钮：跳回第2页
         // ============================================================
         backBtn.addEventListener('click', function() {
-            var module = moduleFilter || '七上';
-            window.location.href = 'exam-history-politics.html?module=' + encodeURIComponent(module);
-        });
+    var module = moduleFilter || '七上';
+    // 用 sessionStorage 记录要返回的模块
+    sessionStorage.setItem('returnToModule', module);
+    // 不带参数跳转，让首页先加载
+    window.location.href = 'exam-history-politics.html';
+});;
 
         // ============================================================
         // 错题本
