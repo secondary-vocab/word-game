@@ -207,7 +207,7 @@
 
     <div class="app">
         <div class="header">
-            <button class="back" onclick="window.history.back()">❮</button>
+            <button class="back" id="backBtn">❮</button>
             <span class="progress">第 <span id="currentNum">1</span> / <span id="totalNum">0</span> 题</span>
         </div>
 
@@ -238,6 +238,15 @@
         const moduleFilter = urlParams.get('module') || null;
         const subjectFilter = urlParams.get('subject') || null;
         const unitFilter = urlParams.get('unit') || null;
+        const sprintFilter = urlParams.get('sprint') === 'true';
+
+        // 单元文件名映射
+        const unitFileMap = {
+            '史前时期': 'q_七上_史前时期.json',
+            '夏商周时期': 'q_七上_夏商周时期.json',
+            '秦汉时期': 'q_七上_秦汉时期.json',
+            '三国两晋南北朝时期': 'q_七上_三国两晋南北朝.json'
+        };
 
         let allQuestionsData = [];
         let questions = [];
@@ -257,6 +266,15 @@
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const wrongBtn = document.getElementById('wrongBtn');
+        const backBtn = document.getElementById('backBtn');
+
+        // ============================================================
+        // 返回按钮：跳回第2页
+        // ============================================================
+        backBtn.addEventListener('click', function() {
+            var module = moduleFilter || '七上';
+            window.location.href = 'exam-history-politics.html?module=' + encodeURIComponent(module);
+        });
 
         // ============================================================
         // 错题本
@@ -300,13 +318,35 @@
         }
 
         // ============================================================
-        // 加载题库
+        // 根据当前单元加载对应的 JSON 文件
         // ============================================================
         function loadQuestions() {
-            fetch('https://secondary-vocab.github.io/word-game/questions.json')
+            // 确定要加载的文件名
+            let fileName = null;
+            if (unitFilter && unitFileMap[unitFilter]) {
+                fileName = unitFileMap[unitFilter];
+            } else if (moduleFilter === '七上' && subjectFilter === '历史') {
+                // 如果没指定单元，默认加载史前时期（演示用）
+                fileName = 'q_七上_史前时期.json';
+            } else {
+                // 如果没有匹配的文件，尝试从单元名称推断
+                if (unitFilter && unitFileMap[unitFilter]) {
+                    fileName = unitFileMap[unitFilter];
+                } else {
+                    // 默认尝试加载第一个文件
+                    fileName = 'q_七上_史前时期.json';
+                }
+            }
+
+            if (!fileName) {
+                questionText.textContent = '❌ 未找到对应的题库文件。';
+                return;
+            }
+
+            fetch('https://secondary-vocab.github.io/word-game/questions/' + fileName)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('网络响应失败，状态码：' + response.status);
+                        throw new Error('文件加载失败，状态码：' + response.status);
                     }
                     return response.json();
                 })
@@ -316,22 +356,13 @@
                 })
                 .catch(error => {
                     console.error('题库加载失败:', error);
-                    questionText.textContent = '❌ 题库加载失败，请检查网络。';
+                    questionText.textContent = '❌ 题库加载失败，请检查网络或文件是否存在。';
                     questionText.style.color = '#c45a4a';
                 });
         }
 
         function loadNormalQuestions() {
             let filtered = allQuestionsData;
-            if (moduleFilter) {
-                filtered = filtered.filter(q => q.module === moduleFilter);
-            }
-            if (subjectFilter) {
-                filtered = filtered.filter(q => q.subject === subjectFilter);
-            }
-            if (unitFilter) {
-                filtered = filtered.filter(q => q.unit === unitFilter);
-            }
             questions = filtered;
             isWrongMode = false;
             wrongBtn.textContent = '📒 错题';
@@ -515,7 +546,7 @@
         // 启动
         // ============================================================
         loadQuestions();
-        console.log('✅ 刷题页面已加载（含错题本 + 单元筛选）');
+        console.log('✅ 刷题页面已加载（按单元动态读取）');
     </script>
 
 </body>
