@@ -430,20 +430,20 @@
             flex-shrink: 0;
         }
         .subject-card {
-            flex: 1;
-            padding: 12px 16px 10px 16px;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: all 0.15s;
-            background: #ffffff;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-            border: none;
-            position: relative;
-            min-height: 64px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+    flex: 1;
+    padding: 6px 12px 4px 12px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: #ffffff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    border: none;
+    position: relative;
+    min-height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
         .subject-card:active {
             transform: scale(0.96);
         }
@@ -462,7 +462,7 @@
             margin-bottom: 2px;
         }
         .subject-card .name {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 600;
             color: #2c241c;
             letter-spacing: 2px;
@@ -920,89 +920,106 @@
         // 4. 所有年级单元数据
         // ============================================================
         var ALL_UNITS = {
-            '七上': {
-                history: [
-                    { id: 'h1', name: '第一单元：史前时期', unit: '史前时期', total: 28, done: 0, error: 12 },
-                    { id: 'h2', name: '第二单元：夏商周时期', unit: '夏商周时期', total: 204, done: 0, error: 0 },
-                    { id: 'h3', name: '第三单元：秦汉时期', unit: '秦汉时期', total: 119, done: 0, error: 0 },
-                    { id: 'h4', name: '第四单元：三国两晋南北朝时期', unit: '三国两晋南北朝时期', total: 71, done: 0, error: 0 }
-                ],
-                politics: [
-                    { id: 'p1', name: '第一单元：少年有梦', unit: '少年有梦', total: 6, done: 0, error: 0 },
-                    { id: 'p2', name: '第二单元：成长的时空', unit: '成长的时空', total: 6, done: 0, error: 0 },
-                    { id: 'p3', name: '第三单元：珍爱我们的生命', unit: '珍爱我们的生命', total: 6, done: 0, error: 0 },
-                    { id: 'p4', name: '第四单元：追求美好人生', unit: '追求美好人生', total: 6, done: 0, error: 0 }
-                ]
-            },
-            '七下': {
-                history: [
-                    { id: 'h1', name: '第一单元：中华人民共和国的成立和巩固', unit: '中华人民共和国的成立和巩固', total: 8, done: 0, error: 0 },
-                    { id: 'h2', name: '第二单元：社会主义制度的建立与社会主义建设的探索', unit: '社会主义制度的建立与社会主义建设的探索', total: 8, done: 0, error: 0 },
-                    { id: 'h3', name: '第三单元：中国特色社会主义道路', unit: '中国特色社会主义道路', total: 8, done: 0, error: 0 },
-                    { id: 'h4', name: '第四单元：民族团结与祖国统一', unit: '民族团结与祖国统一', total: 6, done: 0, error: 0 },
-                    { id: 'h5', name: '第五单元：国防建设与外交成就', unit: '国防建设与外交成就', total: 6, done: 0, error: 0 },
-                    { id: 'h6', name: '第六单元：科技文化与社会生活', unit: '科技文化与社会生活', total: 6, done: 0, error: 0 }
-                ],
-                politics: [
-                    { id: 'p1', name: '第一单元：青春时光', unit: '青春时光', total: 6, done: 0, error: 0 },
-                    { id: 'p2', name: '第二单元：做情绪情感的主人', unit: '做情绪情感的主人', total: 6, done: 0, error: 0 },
-                    { id: 'p3', name: '第三单元：在集体中成长', unit: '在集体中成长', total: 6, done: 0, error: 0 },
-                    { id: 'p4', name: '第四单元：走进法治天地', unit: '走进法治天地', total: 6, done: 0, error: 0 }
-                ]
-            },
-            '八上': {
-                history: [
-                    { id: 'h1', name: '第一单元：中国开始沦为半殖民地半封建社会', unit: '中国开始沦为半殖民地半封建社会', total: 8, done: 0, error: 0 },
-                    { id: 'h2', name: '第二单元：近代化的早期探索与民族危机的加剧', unit: '近代化的早期探索与民族危机的加剧', total: 8, done: 0, error: 0 },
-                    { id: 'h3', name: '第三单元：资产阶级民主革命与中华民国的建立', unit: '资产阶级民主革命与中华民国的建立', total: 8, done: 0, error: 0 },
-                    { id: 'h4', name: '第四单元：新民主主义革命的开始', unit: '新民主主义革命的开始', total: 8, done: 0, error: 0 },
-                    { id: 'h5', name: '第五单元：从国共合作到国共对立', unit: '从国共合作到国共对立', total: 6, done: 0, error: 0 },
-                    { id: 'h6', name: '第六单元：中华民族的抗日战争', unit: '中华民族的抗日战争', total: 6, done: 0, error: 0 },
-                    { id: 'h7', name: '第七单元：人民解放战争', unit: '人民解放战争', total: 6, done: 0, error: 0 }
-                ],
-                politics: [
-                    { id: 'p1', name: '第一单元：走进社会生活', unit: '走进社会生活', total: 6, done: 0, error: 0 },
-                    { id: 'p2', name: '第二单元：遵守社会规则', unit: '遵守社会规则', total: 6, done: 0, error: 0 },
-                    { id: 'p3', name: '第三单元：勇担社会责任', unit: '勇担社会责任', total: 6, done: 0, error: 0 },
-                    { id: 'p4', name: '第四单元：维护国家利益', unit: '维护国家利益', total: 6, done: 0, error: 0 }
-                ]
-            },
-            '八下': {
-                history: [
-                    { id: 'h1', name: '第一单元：中华人民共和国的成立和社会主义制度的建立', unit: '中华人民共和国的成立和社会主义制度的建立', total: 8, done: 0, error: 0 },
-                    { id: 'h2', name: '第二单元：社会主义建设道路的探索', unit: '社会主义建设道路的探索', total: 8, done: 0, error: 0 },
-                    { id: 'h3', name: '第三单元：改革开放与中国特色社会主义的开创', unit: '改革开放与中国特色社会主义的开创', total: 8, done: 0, error: 0 },
-                    { id: 'h4', name: '第四单元：中国特色社会主义迈向21世纪', unit: '中国特色社会主义迈向21世纪', total: 8, done: 0, error: 0 },
-                    { id: 'h5', name: '第五单元：新形势下坚持和发展中国特色社会主义', unit: '新形势下坚持和发展中国特色社会主义', total: 6, done: 0, error: 0 },
-                    { id: 'h6', name: '第六单元：中国特色社会主义进入新时代', unit: '中国特色社会主义进入新时代', total: 6, done: 0, error: 0 },
-                    { id: 'h7', name: '第七单元：全面建设社会主义现代化国家', unit: '全面建设社会主义现代化国家', total: 6, done: 0, error: 0 }
-                ],
-                politics: [
-                    { id: 'p1', name: '第一单元：坚持宪法至上', unit: '坚持宪法至上', total: 6, done: 0, error: 0 },
-                    { id: 'p2', name: '第二单元：理解权利义务', unit: '理解权利义务', total: 6, done: 0, error: 0 },
-                    { id: 'p3', name: '第三单元：人民当家作主', unit: '人民当家作主', total: 6, done: 0, error: 0 },
-                    { id: 'p4', name: '第四单元：崇尚法治精神', unit: '崇尚法治精神', total: 6, done: 0, error: 0 }
-                ]
-            },
-            '九上': {
-                history: [
-                    { id: 'h1', name: '第一单元：古代亚非文明', unit: '古代亚非文明', total: 8, done: 0, error: 0 },
-                    { id: 'h2', name: '第二单元：古代欧洲文明', unit: '古代欧洲文明', total: 8, done: 0, error: 0 },
-                    { id: 'h3', name: '第三单元：封建时代的欧洲', unit: '封建时代的欧洲', total: 8, done: 0, error: 0 },
-                    { id: 'h4', name: '第四单元：封建时代的亚洲国家', unit: '封建时代的亚洲国家', total: 8, done: 0, error: 0 },
-                    { id: 'h5', name: '第五单元：走向近代', unit: '走向近代', total: 8, done: 0, error: 0 },
-                    { id: 'h6', name: '第六单元：资本主义制度的初步确立', unit: '资本主义制度的初步确立', total: 8, done: 0, error: 0 },
-                    { id: 'h7', name: '第七单元：工业革命和国际共产主义运动的兴起', unit: '工业革命和国际共产主义运动的兴起', total: 6, done: 0, error: 0 },
-                    { id: 'h8', name: '第八单元：近代科学文化', unit: '近代科学文化', total: 6, done: 0, error: 0 }
-                ],
-                politics: [
-                    { id: 'p1', name: '第一单元：富强与创新', unit: '富强与创新', total: 6, done: 0, error: 0 },
-                    { id: 'p2', name: '第二单元：民主与法治', unit: '民主与法治', total: 6, done: 0, error: 0 },
-                    { id: 'p3', name: '第三单元：文明与家园', unit: '文明与家园', total: 6, done: 0, error: 0 },
-                    { id: 'p4', name: '第四单元：和谐与梦想', unit: '和谐与梦想', total: 6, done: 0, error: 0 }
-                ]
-            }
-        };
+    // ===== 七上（正确，不动） =====
+    '七上': {
+        history: [
+            { id: 'h1', name: '第一单元：史前时期', unit: '史前时期', total: 28, done: 0, error: 0 },
+            { id: 'h2', name: '第二单元：夏商周时期', unit: '夏商周时期', total: 204, done: 0, error: 0 },
+            { id: 'h3', name: '第三单元：秦汉时期', unit: '秦汉时期', total: 119, done: 0, error: 0 },
+            { id: 'h4', name: '第四单元：三国两晋南北朝时期', unit: '三国两晋南北朝时期', total: 71, done: 0, error: 0 }
+        ],
+        politics: [
+            { id: 'p1', name: '第一单元：少年有梦', unit: '少年有梦', total: 0, done: 0, error: 0 },
+            { id: 'p2', name: '第二单元：成长的时空', unit: '成长的时空', total: 0, done: 0, error: 0 },
+            { id: 'p3', name: '第三单元：珍爱我们的生命', unit: '珍爱我们的生命', total: 0, done: 0, error: 0 },
+            { id: 'p4', name: '第四单元：追求美好人生', unit: '追求美好人生', total: 0, done: 0, error: 0 }
+        ]
+    },
+    // ===== 七下（历史3个单元，道法4个单元·2026新版） =====
+    '七下': {
+        history: [
+            { id: 'h1', name: '第一单元：隋唐时期——繁荣与开放的时代', unit: '隋唐时期', total: 0, done: 0, error: 0 },
+            { id: 'h2', name: '第二单元：辽宋夏金元时期——民族关系发展和社会变化', unit: '辽宋夏金元时期', total: 0, done: 0, error: 0 },
+            { id: 'h3', name: '第三单元：明清时期（至鸦片战争前）——统一多民族封建国家的巩固与发展', unit: '明清时期', total: 0, done: 0, error: 0 }
+        ],
+        politics: [
+            { id: 'p1', name: '第一单元：珍惜青春时光', unit: '珍惜青春时光', total: 0, done: 0, error: 0 },
+            { id: 'p2', name: '第二单元：焕发青春活力', unit: '焕发青春活力', total: 0, done: 0, error: 0 },
+            { id: 'p3', name: '第三单元：传承中华优秀传统文化', unit: '传承中华优秀传统文化', total: 0, done: 0, error: 0 },
+            { id: 'p4', name: '第四单元：生活在法治社会', unit: '生活在法治社会', total: 0, done: 0, error: 0 }
+        ]
+    },
+    // ===== 八上（历史7个单元，道法4个单元） =====
+    '八上': {
+        history: [
+            { id: 'h1', name: '第一单元：中国开始沦为半殖民地半封建社会', unit: '中国开始沦为半殖民地半封建社会', total: 0, done: 0, error: 0 },
+            { id: 'h2', name: '第二单元：早期现代化的初步探索和民族危机加剧', unit: '早期现代化的初步探索和民族危机加剧', total: 0, done: 0, error: 0 },
+            { id: 'h3', name: '第三单元：资产阶级民主革命与中华民国的建立', unit: '资产阶级民主革命与中华民国的建立', total: 0, done: 0, error: 0 },
+            { id: 'h4', name: '第四单元：新民主主义革命的兴起', unit: '新民主主义革命的兴起', total: 0, done: 0, error: 0 },
+            { id: 'h5', name: '第五单元：从国共合作到农村革命根据地的建立', unit: '从国共合作到农村革命根据地的建立', total: 0, done: 0, error: 0 },
+            { id: 'h6', name: '第六单元：中华民族的抗日战争', unit: '中华民族的抗日战争', total: 0, done: 0, error: 0 },
+            { id: 'h7', name: '第七单元：人民解放战争', unit: '人民解放战争', total: 0, done: 0, error: 0 }
+        ],
+        politics: [
+            { id: 'p1', name: '第一单元：走进社会生活', unit: '走进社会生活', total: 0, done: 0, error: 0 },
+            { id: 'p2', name: '第二单元：维护社会秩序', unit: '维护社会秩序', total: 0, done: 0, error: 0 },
+            { id: 'p3', name: '第三单元：勇担社会责任', unit: '勇担社会责任', total: 0, done: 0, error: 0 },
+            { id: 'p4', name: '第四单元：维护国家利益', unit: '维护国家利益', total: 0, done: 0, error: 0 }
+        ]
+    },
+    // ===== 八下（历史7个单元·2026新版，道法4个单元） =====
+    '八下': {
+        history: [
+            { id: 'h1', name: '第一单元：中华人民共和国成立和社会主义制度建立', unit: '中华人民共和国成立和社会主义制度建立', total: 0, done: 0, error: 0 },
+            { id: 'h2', name: '第二单元：社会主义建设道路的探索', unit: '社会主义建设道路的探索', total: 0, done: 0, error: 0 },
+            { id: 'h3', name: '第三单元：改革开放与中国特色社会主义的开创', unit: '改革开放与中国特色社会主义的开创', total: 0, done: 0, error: 0 },
+            { id: 'h4', name: '第四单元：中国特色社会主义迈向21世纪', unit: '中国特色社会主义迈向21世纪', total: 0, done: 0, error: 0 },
+            { id: 'h5', name: '第五单元：在新形势下坚持和发展中国特色社会主义', unit: '在新形势下坚持和发展中国特色社会主义', total: 0, done: 0, error: 0 },
+            { id: 'h6', name: '第六单元：中国特色社会主义进入新时代', unit: '中国特色社会主义进入新时代', total: 0, done: 0, error: 0 },
+            { id: 'h7', name: '第七单元：全面建设社会主义现代化国家', unit: '全面建设社会主义现代化国家', total: 0, done: 0, error: 0 }
+        ],
+        politics: [
+            { id: 'p1', name: '第一单元：坚持宪法至上', unit: '坚持宪法至上', total: 0, done: 0, error: 0 },
+            { id: 'p2', name: '第二单元：理解权利义务', unit: '理解权利义务', total: 0, done: 0, error: 0 },
+            { id: 'p3', name: '第三单元：人民当家作主', unit: '人民当家作主', total: 0, done: 0, error: 0 },
+            { id: 'p4', name: '第四单元：崇尚法治精神', unit: '崇尚法治精神', total: 0, done: 0, error: 0 }
+        ]
+    },
+    // ===== 九上（历史7个单元，道法4个单元） =====
+    '九上': {
+        history: [
+            { id: 'h1', name: '第一单元：文明的产生和古代亚非文明', unit: '文明的产生和古代亚非文明', total: 0, done: 0, error: 0 },
+            { id: 'h2', name: '第二单元：古代欧洲文明', unit: '古代欧洲文明', total: 0, done: 0, error: 0 },
+            { id: 'h3', name: '第三单元：封建时代的欧洲', unit: '封建时代的欧洲', total: 0, done: 0, error: 0 },
+            { id: 'h4', name: '第四单元：封建时代的亚洲国家', unit: '封建时代的亚洲国家', total: 0, done: 0, error: 0 },
+            { id: 'h5', name: '第五单元：走向近代', unit: '走向近代', total: 0, done: 0, error: 0 },
+            { id: 'h6', name: '第六单元：资本主义制度的初步确立', unit: '资本主义制度的初步确立', total: 0, done: 0, error: 0 },
+            { id: 'h7', name: '第七单元：工业革命和国际共产主义运动的兴起', unit: '工业革命和国际共产主义运动的兴起', total: 0, done: 0, error: 0 }
+        ],
+        politics: [
+            { id: 'p1', name: '第一单元：富强与创新', unit: '富强与创新', total: 0, done: 0, error: 0 },
+            { id: 'p2', name: '第二单元：民主与法治', unit: '民主与法治', total: 0, done: 0, error: 0 },
+            { id: 'p3', name: '第三单元：文明与家园', unit: '文明与家园', total: 0, done: 0, error: 0 },
+            { id: 'p4', name: '第四单元：和谐与梦想', unit: '和谐与梦想', total: 0, done: 0, error: 0 }
+        ]
+    },
+    // ===== 九下（历史6个单元，道法3个单元） =====
+    '九下': {
+        history: [
+            { id: 'h1', name: '第一单元：殖民地人民的反抗与资本主义制度的扩展', unit: '殖民地人民的反抗与资本主义制度的扩展', total: 0, done: 0, error: 0 },
+            { id: 'h2', name: '第二单元：第二次工业革命和近代科学文化', unit: '第二次工业革命和近代科学文化', total: 0, done: 0, error: 0 },
+            { id: 'h3', name: '第三单元：第一次世界大战和战后初期的世界', unit: '第一次世界大战和战后初期的世界', total: 0, done: 0, error: 0 },
+            { id: 'h4', name: '第四单元：经济大危机和第二次世界大战', unit: '经济大危机和第二次世界大战', total: 0, done: 0, error: 0 },
+            { id: 'h5', name: '第五单元：二战后的世界变化', unit: '二战后的世界变化', total: 0, done: 0, error: 0 },
+            { id: 'h6', name: '第六单元：走向和平发展的世界', unit: '走向和平发展的世界', total: 0, done: 0, error: 0 }
+        ],
+        politics: [
+            { id: 'p1', name: '第一单元：我们共同的世界', unit: '我们共同的世界', total: 0, done: 0, error: 0 },
+            { id: 'p2', name: '第二单元：世界舞台上的中国', unit: '世界舞台上的中国', total: 0, done: 0, error: 0 },
+            { id: 'p3', name: '第三单元：走向未来的少年', unit: '走向未来的少年', total: 0, done: 0, error: 0 }
+        ]
+    }
+};
 
         ALL_UNITS['九下'] = { history: [], politics: [] };
         ALL_UNITS['中考冲刺'] = { history: [], politics: [] };
