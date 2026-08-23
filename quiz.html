@@ -403,7 +403,8 @@
     let fileName = null;
 
     // 1. 先尝试根据 unitFilter 精确匹配
-    if (unitFilter && unitFileMap[unitFilter]) {
+    console.log('🔍 当前 unitFilter:', unitFilter);
+            if (unitFilter && unitFileMap[unitFilter]) {
         fileName = unitFileMap[unitFilter];
     } else {
         // 2. 如果匹配不上，直接报错并退出，不加载任何默认数据
