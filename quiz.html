@@ -405,7 +405,9 @@
                 fileName = unitFileMap[unitFilter];
             } else if (moduleFilter === '七上' && subjectFilter === '历史') {
                 // 如果没指定单元，默认加载史前时期
-                fileName = 'q_七上_史前时期.json';
+                console.warn('⚠️ 未找到单元映射，unitFilter:', unitFilter);
+document.getElementById('questionText').textContent = '❌ 未找到对应单元的题库，请检查单元名称是否正确。';
+return;
             } else {
                 // 如果没有匹配的文件，尝试从单元名称推断
                 if (unitFilter && unitFileMap[unitFilter]) {
