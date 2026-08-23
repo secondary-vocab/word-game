@@ -400,44 +400,20 @@
         // 根据当前单元加载对应的 JSON 文件
         // ============================================================
         function loadQuestions() {
-    let fileName = null;
-
-    // 1. 先尝试根据 unitFilter 精确匹配
-    console.log('🔍 当前 unitFilter:', unitFilter);
+            let fileName = null;
             if (unitFilter && unitFileMap[unitFilter]) {
-        fileName = unitFileMap[unitFilter];
-    } else {
-        // 2. 如果匹配不上，直接报错并退出，不加载任何默认数据
-        console.error('❌ 未找到单元映射，unitFilter:', unitFilter);
-        document.getElementById('questionText').textContent = '❌ 未找到对应单元的题库，请检查单元名称是否正确。';
-        return;
-    }
-
-    // 3. 如果 fileName 仍然为空，报错退出
-    if (!fileName) {
-        console.error('❌ fileName 为空，无法加载题库');
-        document.getElementById('questionText').textContent = '❌ 加载失败，请检查配置。';
-        return;
-    }
-
-    // 4. 加载对应的 JSON 文件
-    fetch('https://secondary-vocab.github.io/word-game/questions/' + fileName)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('文件加载失败，状态码：' + response.status);
+                fileName = unitFileMap[unitFilter];
+            } else if (moduleFilter === '七上' && subjectFilter === '历史') {
+                // 如果没指定单元，默认加载史前时期
+                fileName = 'q_七上_史前时期.json';
+            } else {
+                // 如果没有匹配的文件，尝试从单元名称推断
+                if (unitFilter && unitFileMap[unitFilter]) {
+                    fileName = unitFileMap[unitFilter];
+                } else {
+                    fileName = 'q_七上_史前时期.json';
+                }
             }
-            return response.json();
-        })
-        .then(data => {
-            allQuestionsData = data.questions || [];
-            loadNormalQuestions();
-        })
-        .catch(error => {
-            console.error('题库加载失败:', error);
-            questionText.textContent = '❌ 题库加载失败，请检查网络或文件是否存在。';
-            questionText.style.color = '#c45a4a';
-        });
-}
 
             if (!fileName) {
                 questionText.textContent = '❌ 未找到对应的题库文件。';
