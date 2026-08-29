@@ -505,6 +505,10 @@
         // 渲染
         // ============================================================
         function renderQuestion(index) {
+            if (!questions.length) return;
+            const q = questions[index];
+            currentNum.textContent = index + 1;
+            questionText.textContent = q.question;
             // 显示题目配图
 var imageContainer = document.getElementById('questionImage');
 if (!imageContainer) {
@@ -519,28 +523,6 @@ if (q.image) {
     imageContainer.innerHTML = '<img src="' + q.image + '" style="max-width:100%; max-height:200px; border-radius:8px; border:1px solid #f0ede8;" alt="题目配图" />';
     imageContainer.style.display = 'block';
 } else {
-    imageContainer.style.display = 'none';
-}
-            if (!questions.length) return;
-            const q = questions[index];
-            currentNum.textContent = index + 1;
-            questionText.textContent = q.question;
-            // 显示题目配图
-// 显示题目配图（修正版）
-var imageContainer = document.getElementById('questionImage');
-if (!imageContainer) {
-    imageContainer = document.createElement('div');
-    imageContainer.id = 'questionImage';
-    imageContainer.style.cssText = 'margin-bottom: 12px; text-align: center;';
-    // 插入到 optionsContainer 前面（不是 questionText 前面）
-    var parent = optionsContainer.parentNode;
-    parent.insertBefore(imageContainer, optionsContainer);
-}
-if (q.image) {
-    imageContainer.innerHTML = '<img src="' + q.image + '" style="max-width:100%; max-height:200px; border-radius:8px; border:1px solid #f0ede8;" alt="题目配图" />';
-    imageContainer.style.display = 'block';
-} else {
-    imageContainer.innerHTML = '';
     imageContainer.style.display = 'none';
 }
             questionMeta.textContent = q.module + ' · ' + q.subject + ' · ' + q.unit;
