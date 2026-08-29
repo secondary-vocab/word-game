@@ -516,8 +516,8 @@ if (!imageContainer) {
     imageContainer.id = 'questionImage';
     imageContainer.style.cssText = 'margin-bottom: 12px; text-align: center;';
     // 插入到 questionText 前面
-    var parent = questionText.parentNode;
-    parent.insertBefore(imageContainer, questionText);
+    var parent = optionsContainer.parentNode;
+parent.insertBefore(imageContainer, optionsContainer);
 }
 if (q.image) {
     imageContainer.innerHTML = '<img src="' + q.image + '" style="max-width:100%; max-height:200px; border-radius:8px; border:1px solid #f0ede8;" alt="题目配图" />';
