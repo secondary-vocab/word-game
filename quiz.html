@@ -326,6 +326,10 @@
 
         let allQuestionsData = [];
         let questions = [];
+        var currentModule = '';
+var currentSubject = '';
+var currentUnit = '';
+var wrongList = [];
         let currentIndex = 0;
         let answered = false;
         let currentQuestionId = null;
@@ -399,6 +403,20 @@
         // ============================================================
         // 根据当前单元加载对应的 JSON 文件
         // ============================================================
+        function saveProgress() {
+    var data = {
+        level: (currentModule || '') + '-' + (currentSubject || '') + '-' + (currentUnit || ''),
+        index: currentIndex || 0,
+        wrong: wrongList || []
+    };
+    try { localStorage.setItem('studyProgress', JSON.stringify(data)); } catch(e) {}
+}
+function loadProgress() {
+    try {
+        var raw = localStorage.getItem('studyProgress');
+        return raw ? JSON.parse(raw) : null;
+    } catch(e) { return null; }
+}
         function loadQuestions() {
                 var urlParams = new URLSearchParams(window.location.search);
     var isSprint = urlParams.get('sprint') === 'true';
@@ -589,6 +607,8 @@ if (q.image) {
             });
 
             if (!isCorrect) {
+                wrongList.push(q.id);
+saveProgress();
                 addWrongQuestion(q, selected);
             } else {
                 removeWrongQuestion(q.id);
@@ -646,6 +666,13 @@ if (q.image) {
         wrongBtn.addEventListener('click', function() {
             if (isWrongMode) {
                 loadNormalQuestions();
+                var saved = loadProgress();
+if (saved) {
+    var curLevel = (moduleFilter || '') + '-' + (subjectFilter || '') + '-' + (unitFilter || '');
+    if (saved.level === curLevel && saved.index < questions.length) {
+        currentIndex = saved.index;
+    }
+}
             } else {
                 loadWrongQuestions();
             }
