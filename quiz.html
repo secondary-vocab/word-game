@@ -438,6 +438,8 @@
                     loadNormalQuestions();
                     // 恢复进度
 var saved = restoreProgress();
+                    console.log('保存的进度:', localStorage.getItem('daofa_progress'));
+console.log('当前 URL 参数:', window.location.search);
 if (saved && saved.module === moduleFilter && saved.subject === subjectFilter && saved.unit === unitFilter) {
     if (saved.currentIndex < questions.length) {
         currentIndex = saved.currentIndex;
