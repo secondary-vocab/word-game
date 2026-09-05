@@ -436,6 +436,13 @@
                 .then(data => {
                     allQuestionsData = data.questions || [];
                     loadNormalQuestions();
+                    // 恢复进度
+var saved = restoreProgress();
+if (saved && saved.module === moduleFilter && saved.subject === subjectFilter && saved.unit === unitFilter) {
+    if (saved.currentIndex < questions.length) {
+        currentIndex = saved.currentIndex;
+    }
+}
                 })
                 .catch(error => {
                     console.error('题库加载失败:', error);
@@ -561,6 +568,7 @@ if (q.image) {
                 nextBtn.textContent = '下一题 →';
                 nextBtn.className = 'btn-next';
             }
+        saveProgress();
         }
 
         // ============================================================
@@ -686,6 +694,39 @@ if (q.image) {
         console.error('中考冲刺加载失败:', e);
         questionText.textContent = '❌ 题库加载失败，请检查网络。';
     });
+}
+   // ===== 保存刷题进度 =====
+function saveProgress() {
+    if (!questions || questions.length === 0) return;
+    var q = questions[currentIndex];
+    if (!q) return;
+    var data = {
+        module: q.module || '',
+        subject: q.subject || '',
+        unit: q.unit || '',
+        currentIndex: currentIndex,
+        total: questions.length,
+        timestamp: Date.now()
+    };
+    try {
+        localStorage.setItem('daofa_progress', JSON.stringify(data));
+    } catch (e) {}
+} 
+    // ===== 恢复刷题进度 =====
+function restoreProgress() {
+    try {
+        var raw = localStorage.getItem('daofa_progress');
+        if (!raw) return null;
+        var data = JSON.parse(raw);
+        // 检查是否过期（超过24小时）
+        if (Date.now() - data.timestamp > 24 * 60 * 60 * 1000) {
+            localStorage.removeItem('daofa_progress');
+            return null;
+        }
+        return data;
+    } catch (e) {
+        return null;
+    }
 }
     </script>
 
