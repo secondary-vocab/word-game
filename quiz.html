@@ -538,6 +538,7 @@ if (saved && saved.module === moduleFilter && saved.subject === subjectFilter &&
         // 渲染
         // ============================================================
         function renderQuestion(index) {
+            alert('renderQuestion执行了');
             if (!questions.length) return;
             const q = questions[index];
             currentNum.textContent = index + 1;
