@@ -677,6 +677,7 @@ if (saved && saved.file === window.currentQuestionsFile) {
 }
 alert('恢复检查: ' + (localStorage.getItem('daofa_progress') || '无数据'));
                 var saved = loadProgress();
+                alert('保存的数据: ' + localStorage.getItem('daofa_progress'));
 if (saved) {
     var curLevel = (moduleFilter || '') + '-' + (subjectFilter || '') + '-' + (unitFilter || '');
     if (saved.level === curLevel && saved.index < questions.length) {
