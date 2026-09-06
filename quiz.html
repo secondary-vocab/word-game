@@ -669,11 +669,17 @@ saveProgress();
                 loadNormalQuestions();
                 // 恢复进度
 alert('保存的文件: ' + (saved ? saved.file : '无') + '\n当前文件: ' + window.currentQuestionsFile);
-                var saved = loadProgress();
+               var saved = loadProgress();
+alert('saved数据: ' + (saved ? JSON.stringify(saved) : '无数据'));
 if (saved && saved.file === window.currentQuestionsFile) {
     if (saved.currentIndex < questions.length) {
         currentIndex = saved.currentIndex;
+        alert('恢复索引: ' + currentIndex);
+    } else {
+        alert('索引超出范围: ' + saved.currentIndex + ' >= ' + questions.length);
     }
+} else {
+    alert('条件不匹配\n保存文件: ' + (saved ? saved.file : '无') + '\n当前文件: ' + window.currentQuestionsFile);
 }
                 var saved = loadProgress();
 if (saved) {
