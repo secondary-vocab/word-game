@@ -418,7 +418,6 @@ function loadProgress() {
     } catch(e) { return null; }
 }
         function loadQuestions() {
-            alert('加载的文件: ' + (window.currentQuestionsFile || '未设置'));
                 var urlParams = new URLSearchParams(window.location.search);
     var isSprint = urlParams.get('sprint') === 'true';
     if (isSprint) {
@@ -470,6 +469,7 @@ if (saved && saved.module === moduleFilter && saved.subject === subjectFilter &&
                     console.error('题库加载失败:', error);
                     questionText.textContent = '❌ 题库加载失败，请检查网络或文件是否存在。';
                     questionText.style.color = '#c45a4a';
+                    alert('本地存储: ' + localStorage.getItem('daofa_progress'));
                 });
         }
 
@@ -490,7 +490,6 @@ if (saved && saved.module === moduleFilter && saved.subject === subjectFilter &&
         function loadWrongQuestions() {
             const wrongList = getWrongQuestions();
             if (wrongList.length === 0) {
-                alert('🎉 错题本为空！你还没有做错的题目。');
                 return;
             }
             returnIndex = currentIndex;
@@ -502,7 +501,6 @@ if (saved && saved.module === moduleFilter && saved.subject === subjectFilter &&
                 }
             });
             if (matched.length === 0) {
-                alert('错题数据已失效，请重新刷题。');
                 return;
             }
             questions = matched;
@@ -647,7 +645,6 @@ saveProgress();
                 currentIndex++;
                 renderQuestion(currentIndex);
             } else {
-                alert('🎉 恭喜完成全部 ' + questions.length + ' 题！');
                 if (isWrongMode) {
                     loadNormalQuestions();
                 }
@@ -675,9 +672,7 @@ if (saved && saved.file === window.currentQuestionsFile) {
         currentIndex = saved.currentIndex;
     }
 }
-alert('恢复检查: ' + (localStorage.getItem('daofa_progress') || '无数据'));
                 var saved = loadProgress();
-                alert('保存的数据: ' + localStorage.getItem('daofa_progress'));
 if (saved) {
     var curLevel = (moduleFilter || '') + '-' + (subjectFilter || '') + '-' + (unitFilter || '');
     if (saved.level === curLevel && saved.index < questions.length) {
