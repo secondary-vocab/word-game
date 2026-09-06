@@ -439,6 +439,8 @@ function loadProgress() {
                     fileName = 'q_七上_史前时期.json';
                 }
             }
+            window.currentQuestionsFile = fileName;
+alert('加载的文件: ' + fileName);
 
             if (!fileName) {
                 questionText.textContent = '❌ 未找到对应的题库文件。';
