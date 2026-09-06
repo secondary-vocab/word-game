@@ -668,6 +668,14 @@ saveProgress();
         wrongBtn.addEventListener('click', function() {
             if (isWrongMode) {
                 loadNormalQuestions();
+                // 恢复进度
+var saved = loadProgress();
+if (saved && saved.file === window.currentQuestionsFile) {
+    if (saved.currentIndex < questions.length) {
+        currentIndex = saved.currentIndex;
+    }
+}
+alert('恢复检查: ' + (localStorage.getItem('daofa_progress') || '无数据'));
                 var saved = loadProgress();
 if (saved) {
     var curLevel = (moduleFilter || '') + '-' + (subjectFilter || '') + '-' + (unitFilter || '');
