@@ -539,6 +539,7 @@ if (saved && saved.module === moduleFilter && saved.subject === subjectFilter &&
         // 渲染
         // ============================================================
         function renderQuestion(index) {
+           saveProgress(); 
             alert('renderQuestion执行了');
             if (!questions.length) return;
             const q = questions[index];
