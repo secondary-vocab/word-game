@@ -418,6 +418,7 @@ function loadProgress() {
     } catch(e) { return null; }
 }
         function loadQuestions() {
+            alert('加载的文件: ' + (window.currentQuestionsFile || '未设置'));
                 var urlParams = new URLSearchParams(window.location.search);
     var isSprint = urlParams.get('sprint') === 'true';
     if (isSprint) {
