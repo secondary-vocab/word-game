@@ -668,7 +668,8 @@ saveProgress();
             if (isWrongMode) {
                 loadNormalQuestions();
                 // 恢复进度
-var saved = loadProgress();
+alert('保存的文件: ' + (saved ? saved.file : '无') + '\n当前文件: ' + window.currentQuestionsFile);
+                var saved = loadProgress();
 if (saved && saved.file === window.currentQuestionsFile) {
     if (saved.currentIndex < questions.length) {
         currentIndex = saved.currentIndex;
