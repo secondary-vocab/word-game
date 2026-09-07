@@ -438,7 +438,6 @@ function loadProgress() {
                     fileName = 'q_七上_史前时期.json';
                 }
             }
-            window.currentQuestionsFile = fileName;
 
             if (!fileName) {
                 questionText.textContent = '❌ 未找到对应的题库文件。';
@@ -469,11 +468,9 @@ if (saved && saved.module === moduleFilter && saved.subject === subjectFilter &&
                     console.error('题库加载失败:', error);
                     questionText.textContent = '❌ 题库加载失败，请检查网络或文件是否存在。';
                     questionText.style.color = '#c45a4a';
-                    alert('本地存储: ' + localStorage.getItem('daofa_progress'));
                 });
         }
 
-        alert('加载完成，当前索引：' + currentIndex);
         function loadNormalQuestions() {
             let filtered = allQuestionsData;
             questions = filtered;
@@ -491,6 +488,7 @@ if (saved && saved.module === moduleFilter && saved.subject === subjectFilter &&
         function loadWrongQuestions() {
             const wrongList = getWrongQuestions();
             if (wrongList.length === 0) {
+                alert('🎉 错题本为空！你还没有做错的题目。');
                 return;
             }
             returnIndex = currentIndex;
@@ -502,6 +500,7 @@ if (saved && saved.module === moduleFilter && saved.subject === subjectFilter &&
                 }
             });
             if (matched.length === 0) {
+                alert('错题数据已失效，请重新刷题。');
                 return;
             }
             questions = matched;
@@ -539,8 +538,6 @@ if (saved && saved.module === moduleFilter && saved.subject === subjectFilter &&
         // 渲染
         // ============================================================
         function renderQuestion(index) {
-           saveProgress(); 
-            alert('renderQuestion执行了');
             if (!questions.length) return;
             const q = questions[index];
             currentNum.textContent = index + 1;
@@ -648,6 +645,7 @@ saveProgress();
                 currentIndex++;
                 renderQuestion(currentIndex);
             } else {
+                alert('🎉 恭喜完成全部 ' + questions.length + ' 题！');
                 if (isWrongMode) {
                     loadNormalQuestions();
                 }
@@ -668,21 +666,7 @@ saveProgress();
         wrongBtn.addEventListener('click', function() {
             if (isWrongMode) {
                 loadNormalQuestions();
-                // 恢复进度
-alert('保存的文件: ' + (saved ? saved.file : '无') + '\n当前文件: ' + window.currentQuestionsFile);
-               var saved = loadProgress();
-alert('saved数据: ' + (saved ? JSON.stringify(saved) : '无数据'));
-if (saved && saved.file === window.currentQuestionsFile) {
-    if (saved.currentIndex < questions.length) {
-        currentIndex = saved.currentIndex;
-        alert('恢复索引: ' + currentIndex);
-    } else {
-        alert('索引超出范围: ' + saved.currentIndex + ' >= ' + questions.length);
-    }
-} else {
-    alert('条件不匹配\n保存文件: ' + (saved ? saved.file : '无') + '\n当前文件: ' + window.currentQuestionsFile);
-}
-                alert('最终saved内容: ' + JSON.stringify(saved));
+                var saved = loadProgress();
 if (saved) {
     var curLevel = (moduleFilter || '') + '-' + (subjectFilter || '') + '-' + (unitFilter || '');
     if (saved.level === curLevel && saved.index < questions.length) {
