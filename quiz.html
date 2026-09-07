@@ -671,13 +671,6 @@ saveProgress();
         wrongBtn.addEventListener('click', function() {
             if (isWrongMode) {
                 loadNormalQuestions();
-                var saved = loadProgress();
-if (saved) {
-    var curLevel = (moduleFilter || '') + '-' + (subjectFilter || '') + '-' + (unitFilter || '');
-    if (saved.level === curLevel && saved.index < questions.length) {
-        currentIndex = saved.index;
-    }
-}
             } else {
                 loadWrongQuestions();
             }
