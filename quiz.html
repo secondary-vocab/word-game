@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>刷题 · 道法历史</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
             background: #ede8e0;
@@ -52,9 +48,7 @@
             transform: scaleX(1.4);
             padding: 0 4px 0 0;
         }
-        .header .back:active {
-            opacity: 0.6;
-        }
+        .header .back:active { opacity: 0.6; }
         .header .progress {
             font-size: 14px;
             color: #8a7a6a;
@@ -64,7 +58,6 @@
             color: #2c241c;
             font-weight: 500;
         }
-
         .question-area {
             flex: 1;
             display: flex;
@@ -102,9 +95,7 @@
             transition: all 0.15s;
             user-select: none;
         }
-        .question-area .options .opt:active {
-            transform: scale(0.97);
-        }
+        .question-area .options .opt:active { transform: scale(0.97); }
         .question-area .options .opt.correct {
             border-color: #5a8a5a;
             background: #eef5ed;
@@ -130,9 +121,7 @@
             border-left: 4px solid #c49a6c;
             margin-top: 4px;
         }
-        .question-area .explanation.show {
-            display: block;
-        }
+        .question-area .explanation.show { display: block; }
         .question-area .empty-state {
             flex: 1;
             display: flex;
@@ -144,11 +133,7 @@
             text-align: center;
             padding: 20px;
         }
-        .question-area .empty-state .icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-        }
-
+        .question-area .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
         .footer {
             display: flex;
             gap: 10px;
@@ -168,9 +153,7 @@
             flex: 1;
             min-width: 56px;
         }
-        .footer button:active {
-            transform: scale(0.96);
-        }
+        .footer button:active { transform: scale(0.96); }
         .footer .btn-prev {
             background: #c49a6c;
             color: #fff;
@@ -220,7 +203,6 @@
         <button class="back" id="backBtn">❮</button>
         <span class="progress">第 <span id="currentNum">1</span> / <span id="totalNum">0</span> 题</span>
     </div>
-
     <div class="question-area" id="questionArea">
         <div class="meta" id="questionMeta">七上 · 历史 · 史前时期</div>
         <div class="q" id="questionText">加载题目中...</div>
@@ -233,7 +215,6 @@
             <div style="font-size:14px;margin-top:8px;color:#bbb;">请尝试其他年级或学科</div>
         </div>
     </div>
-
     <div class="footer" id="footer">
         <button class="btn-prev" id="prevBtn" disabled>←</button>
         <button class="btn-next" id="nextBtn">下一题 →</button>
@@ -242,548 +223,603 @@
 </div>
 
 <script>
-    (function() {
-        // ============================================================
-        // 从 URL 获取筛选参数
-        // ============================================================
-        const urlParams = new URLSearchParams(window.location.search);
-        const moduleFilter = urlParams.get('module') || null;
-        const subjectFilter = urlParams.get('subject') || null;
-        const unitFilter = urlParams.get('unit') || null;
-        const sprintFilter = urlParams.get('sprint') === 'true';
+(function() {
+    // ============================================================
+    // URL 参数
+    // ============================================================
+    const urlParams = new URLSearchParams(window.location.search);
+    const moduleFilter = urlParams.get('module') || null;
+    const subjectFilter = urlParams.get('subject') || null;
+    const unitFilter = urlParams.get('unit') || null;
+    const sprintFilter = urlParams.get('sprint') === 'true';
 
-        // ============================================================
-        // 单元文件名映射（保持原样）
-        // ============================================================
-        const unitFileMap = {
-            '史前时期': 'q_七上_史前时期.json',
-            '夏商周时期': 'q_七上_夏商周时期.json',
-            '秦汉时期': 'q_七上_秦汉时期.json',
-            '三国两晋南北朝时期': 'q_七上_三国两晋南北朝时期.json',
-            '隋唐时期': 'q_七下_隋唐时期.json',
-            '辽宋夏金元时期': 'q_七下_辽宋夏金元时期.json',
-            '明清时期': 'q_七下_明清时期.json',
-            '中国开始沦为半殖民地半封建社会': 'q_八上_中国开始沦为半殖民地半封建社会.json',
-            '早期现代化的初步探索和民族危机加剧': 'q_八上_早期现代化的初步探索和民族危机加剧.json',
-            '资产阶级民主革命与中华民国的建立': 'q_八上_资产阶级民主革命与中华民国的建立.json',
-            '新民主主义革命的开始': 'q_八上_新民主主义革命的开始.json',
-            '从国共合作到农村革命根据地的建立': 'q_八上_从国共合作到农村革命根据地的建立.json',
-            '中华民族的抗日战争': 'q_八上_中华民族的抗日战争.json',
-            '人民解放战争': 'q_八上_人民解放战争.json',
-            '中华人民共和国的成立和社会主义制度的建立': 'q_八下_中华人民共和国的成立和社会主义制度的建立.json',
-            '社会主义建设道路的探索': 'q_八下_社会主义建设道路的探索.json',
-            '改革开放与中国特色社会主义的开创': 'q_八下_改革开放与中国特色社会主义的开创.json',
-            '中国特色社会主义迈向21世纪': 'q_八下_中国特色社会主义迈向21世纪.json',
-            '新形势下坚持和发展中国特色社会主义': 'q_八下_新形势下坚持和发展中国特色社会主义.json',
-            '中国特色社会主义进入新时代': 'q_八下_中国特色社会主义进入新时代.json',
-            '全面建设社会主义现代化国家': 'q_八下_全面建设社会主义现代化国家.json',
-            '文明的产生和古代亚非文明': 'q_九上_文明的产生和古代亚非文明.json',
-            '古代欧洲文明': 'q_九上_古代欧洲文明.json',
-            '封建时代的欧洲': 'q_九上_封建时代的欧洲.json',
-            '封建时代的亚洲国家': 'q_九上_封建时代的亚洲国家.json',
-            '走向近代': 'q_九上_走向近代.json',
-            '资本主义制度的初步确立': 'q_九上_资本主义制度的初步确立.json',
-            '工业革命和国际共产主义运动的兴起': 'q_九上_工业革命和国际共产主义运动的兴起.json',
-            '殖民地人民的反抗与资本主义制度的扩展': 'q_九下_殖民地人民的反抗与资本主义制度的扩展.json',
-            '第二次工业革命和近代科学文化': 'q_九下_第二次工业革命和近代科学文化.json',
-            '第一次世界大战和战后初期的世界': 'q_九下_第一次世界大战和战后初期的世界.json',
-            '经济大危机和第二次世界大战': 'q_九下_经济大危机和第二次世界大战.json',
-            '二战后的世界变化': 'q_九下_二战后的世界变化.json',
-            '走向和平发展的世界': 'q_九下_走向和平发展的世界.json',
-            '少年有梦': 'q_七上道法_少年有梦.json',
-            '成长的时空': 'q_七上道法_成长的时空.json',
-            '珍爱我们的生命': 'q_七上道法_珍爱我们的生命.json',
-            '追求美好人生': 'q_七上道法_追求美好人生.json',
-            '珍惜青春时光': 'q_七下道法_珍惜青春时光.json',
-            '焕发青春活力': 'q_七下道法_焕发青春活力.json',
-            '传承中华优秀传统文化': 'q_七下道法_传承中华优秀传统文化.json',
-            '生活在法治社会': 'q_七下道法_生活在法治社会.json',
-            '走进社会生活': 'q_八上道法_走进社会生活.json',
-            '维护社会秩序': 'q_八上道法_维护社会秩序.json',
-            '勇担社会责任': 'q_八上道法_勇担社会责任.json',
-            '维护国家利益': 'q_八上道法_维护国家利益.json',
-            '坚持宪法至上': 'q_八下道法_坚持宪法至上.json',
-            '理解权利义务': 'q_八下道法_理解权利义务.json',
-            '人民当家作主': 'q_八下道法_人民当家作主.json',
-            '崇尚法治精神': 'q_八下道法_崇尚法治精神.json',
-            '富强与创新': 'q_九上道法_富强与创新.json',
-            '民主与法治': 'q_九上道法_民主与法治.json',
-            '文明与家园': 'q_九上道法_文明与家园.json',
-            '和谐与梦想': 'q_九上道法_和谐与梦想.json',
-            '我们共同的世界': 'q_九下道法_我们共同的世界.json',
-            '世界舞台上的中国': 'q_九下道法_世界舞台上的中国.json',
-            '走向未来的少年': 'q_九下道法_走向未来的少年.json'
-        };
+    // ============================================================
+    // 单元文件名映射
+    // ============================================================
+    const unitFileMap = {
+        '史前时期': 'q_七上_史前时期.json',
+        '夏商周时期': 'q_七上_夏商周时期.json',
+        '秦汉时期': 'q_七上_秦汉时期.json',
+        '三国两晋南北朝时期': 'q_七上_三国两晋南北朝时期.json',
+        '隋唐时期': 'q_七下_隋唐时期.json',
+        '辽宋夏金元时期': 'q_七下_辽宋夏金元时期.json',
+        '明清时期': 'q_七下_明清时期.json',
+        '中国开始沦为半殖民地半封建社会': 'q_八上_中国开始沦为半殖民地半封建社会.json',
+        '早期现代化的初步探索和民族危机加剧': 'q_八上_早期现代化的初步探索和民族危机加剧.json',
+        '资产阶级民主革命与中华民国的建立': 'q_八上_资产阶级民主革命与中华民国的建立.json',
+        '新民主主义革命的开始': 'q_八上_新民主主义革命的开始.json',
+        '从国共合作到农村革命根据地的建立': 'q_八上_从国共合作到农村革命根据地的建立.json',
+        '中华民族的抗日战争': 'q_八上_中华民族的抗日战争.json',
+        '人民解放战争': 'q_八上_人民解放战争.json',
+        '中华人民共和国的成立和社会主义制度的建立': 'q_八下_中华人民共和国的成立和社会主义制度的建立.json',
+        '社会主义建设道路的探索': 'q_八下_社会主义建设道路的探索.json',
+        '改革开放与中国特色社会主义的开创': 'q_八下_改革开放与中国特色社会主义的开创.json',
+        '中国特色社会主义迈向21世纪': 'q_八下_中国特色社会主义迈向21世纪.json',
+        '新形势下坚持和发展中国特色社会主义': 'q_八下_新形势下坚持和发展中国特色社会主义.json',
+        '中国特色社会主义进入新时代': 'q_八下_中国特色社会主义进入新时代.json',
+        '全面建设社会主义现代化国家': 'q_八下_全面建设社会主义现代化国家.json',
+        '文明的产生和古代亚非文明': 'q_九上_文明的产生和古代亚非文明.json',
+        '古代欧洲文明': 'q_九上_古代欧洲文明.json',
+        '封建时代的欧洲': 'q_九上_封建时代的欧洲.json',
+        '封建时代的亚洲国家': 'q_九上_封建时代的亚洲国家.json',
+        '走向近代': 'q_九上_走向近代.json',
+        '资本主义制度的初步确立': 'q_九上_资本主义制度的初步确立.json',
+        '工业革命和国际共产主义运动的兴起': 'q_九上_工业革命和国际共产主义运动的兴起.json',
+        '殖民地人民的反抗与资本主义制度的扩展': 'q_九下_殖民地人民的反抗与资本主义制度的扩展.json',
+        '第二次工业革命和近代科学文化': 'q_九下_第二次工业革命和近代科学文化.json',
+        '第一次世界大战和战后初期的世界': 'q_九下_第一次世界大战和战后初期的世界.json',
+        '经济大危机和第二次世界大战': 'q_九下_经济大危机和第二次世界大战.json',
+        '二战后的世界变化': 'q_九下_二战后的世界变化.json',
+        '走向和平发展的世界': 'q_九下_走向和平发展的世界.json',
+        '少年有梦': 'q_七上道法_少年有梦.json',
+        '成长的时空': 'q_七上道法_成长的时空.json',
+        '珍爱我们的生命': 'q_七上道法_珍爱我们的生命.json',
+        '追求美好人生': 'q_七上道法_追求美好人生.json',
+        '珍惜青春时光': 'q_七下道法_珍惜青春时光.json',
+        '焕发青春活力': 'q_七下道法_焕发青春活力.json',
+        '传承中华优秀传统文化': 'q_七下道法_传承中华优秀传统文化.json',
+        '生活在法治社会': 'q_七下道法_生活在法治社会.json',
+        '走进社会生活': 'q_八上道法_走进社会生活.json',
+        '维护社会秩序': 'q_八上道法_维护社会秩序.json',
+        '勇担社会责任': 'q_八上道法_勇担社会责任.json',
+        '维护国家利益': 'q_八上道法_维护国家利益.json',
+        '坚持宪法至上': 'q_八下道法_坚持宪法至上.json',
+        '理解权利义务': 'q_八下道法_理解权利义务.json',
+        '人民当家作主': 'q_八下道法_人民当家作主.json',
+        '崇尚法治精神': 'q_八下道法_崇尚法治精神.json',
+        '富强与创新': 'q_九上道法_富强与创新.json',
+        '民主与法治': 'q_九上道法_民主与法治.json',
+        '文明与家园': 'q_九上道法_文明与家园.json',
+        '和谐与梦想': 'q_九上道法_和谐与梦想.json',
+        '我们共同的世界': 'q_九下道法_我们共同的世界.json',
+        '世界舞台上的中国': 'q_九下道法_世界舞台上的中国.json',
+        '走向未来的少年': 'q_九下道法_走向未来的少年.json'
+    };
 
-        let allQuestionsData = [];
-        let questions = [];
-        let currentIndex = 0;
-        let answered = false;
-        let currentQuestionId = null;
-        let isWrongMode = false;
-        let returnIndex = 0;
-        let currentQuestionsFile = null;
+    let allQuestionsData = [];
+    let questions = [];
+    let currentIndex = 0;
+    let answered = false;
+    let isWrongMode = false;
+    let returnIndex = 0;           // 记录从正常模式切到错题模式时的正常索引
+    let currentQuestionsFile = null;
 
-        const questionText = document.getElementById('questionText');
-        const questionMeta = document.getElementById('questionMeta');
-        const optionsContainer = document.getElementById('optionsContainer');
-        const explanationBox = document.getElementById('explanationBox');
-        const emptyState = document.getElementById('emptyState');
-        const currentNum = document.getElementById('currentNum');
-        const totalNum = document.getElementById('totalNum');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const wrongBtn = document.getElementById('wrongBtn');
-        const backBtn = document.getElementById('backBtn');
+    // DOM 引用
+    const questionText = document.getElementById('questionText');
+    const questionMeta = document.getElementById('questionMeta');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const explanationBox = document.getElementById('explanationBox');
+    const emptyState = document.getElementById('emptyState');
+    const currentNum = document.getElementById('currentNum');
+    const totalNum = document.getElementById('totalNum');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const wrongBtn = document.getElementById('wrongBtn');
+    const backBtn = document.getElementById('backBtn');
 
-        // ============================================================
-        // 返回按钮：跳回第2页
-        // ============================================================
-        backBtn.addEventListener('click', function() {
-            var module = moduleFilter || '七上';
-            window.location.href = 'exam-history-politics.html?module=' + encodeURIComponent(module);
-        });
+    // ============================================================
+    // 返回
+    // ============================================================
+    backBtn.addEventListener('click', function() {
+        var module = moduleFilter || '七上';
+        window.location.href = 'exam-history-politics.html?module=' + encodeURIComponent(module);
+    });
 
-        // ============================================================
-        // 错题本（localStorage）保持不变
-        // ============================================================
-        function getWrongQuestions() {
-            try {
-                const data = localStorage.getItem('wrongQuestions');
-                return data ? JSON.parse(data) : [];
-            } catch (e) {
-                return [];
-            }
+    // ============================================================
+    // 错题本 (localStorage)
+    // ============================================================
+    function getWrongQuestions() {
+        try {
+            const data = localStorage.getItem('wrongQuestions');
+            return data ? JSON.parse(data) : [];
+        } catch (e) {
+            return [];
         }
-
-        function saveWrongQuestions(data) {
-            localStorage.setItem('wrongQuestions', JSON.stringify(data));
-        }
-
-        function addWrongQuestion(q, userAnswer) {
-            const wrongList = getWrongQuestions();
-            const exists = wrongList.some(item => item.id === q.id);
-            if (!exists) {
-                wrongList.push({
-                    id: q.id,
-                    module: q.module,
-                    subject: q.subject,
-                    unit: q.unit,
-                    question: q.question,
-                    options: q.options,
-                    answer: q.answer,
-                    userAnswer: userAnswer,
-                    explanation: q.explanation
-                });
-                saveWrongQuestions(wrongList);
-            }
-        }
-
-        function removeWrongQuestion(id) {
-            let wrongList = getWrongQuestions();
-            wrongList = wrongList.filter(item => item.id !== id);
+    }
+    function saveWrongQuestions(data) {
+        localStorage.setItem('wrongQuestions', JSON.stringify(data));
+    }
+    function addWrongQuestion(q, userAnswer) {
+        const wrongList = getWrongQuestions();
+        const exists = wrongList.some(item => item.id === q.id);
+        if (!exists) {
+            wrongList.push({
+                id: q.id,
+                module: q.module,
+                subject: q.subject,
+                unit: q.unit,
+                question: q.question,
+                options: q.options,
+                answer: q.answer,
+                userAnswer: userAnswer,
+                explanation: q.explanation
+            });
             saveWrongQuestions(wrongList);
         }
+    }
+    function removeWrongQuestion(id) {
+        let wrongList = getWrongQuestions();
+        wrongList = wrongList.filter(item => item.id !== id);
+        saveWrongQuestions(wrongList);
+    }
 
-        // ============================================================
-        // 记忆功能：保存进度（增强版）
-        // ============================================================
-        function saveProgress() {
-            if (!questions || questions.length === 0) return;
-            var q = questions[currentIndex];
-            if (!q) return;
-            var data = {
-                module: q.module || moduleFilter || '',
-                subject: q.subject || subjectFilter || '',
-                unit: q.unit || unitFilter || '',
-                currentIndex: currentIndex,
-                file: currentQuestionsFile || '',
-                // 关键：记录当前模式
-                mode: isWrongMode ? 'wrong' : 'normal',
-                // 错题模式下，保存当前错题列表的ID集合（用于验证一致性）
-                wrongIds: isWrongMode ? getWrongQuestions().map(w => w.id) : [],
-                timestamp: Date.now()
-            };
-            try {
-                localStorage.setItem('daofa_progress', JSON.stringify(data));
-            } catch (e) {}
-        }
+    // ============================================================
+    // 进度存储：正常模式和错题模式分开
+    // ============================================================
+    function saveProgress() {
+        if (!questions || questions.length === 0) return;
+        var q = questions[currentIndex];
+        if (!q) return;
+        var data = {
+            module: q.module || moduleFilter || '',
+            subject: q.subject || subjectFilter || '',
+            unit: q.unit || unitFilter || '',
+            currentIndex: currentIndex,
+            file: currentQuestionsFile || '',
+            timestamp: Date.now()
+        };
+        try {
+            if (isWrongMode) {
+                localStorage.setItem('daofa_progress_wrong', JSON.stringify(data));
+            } else {
+                localStorage.setItem('daofa_progress_normal', JSON.stringify(data));
+            }
+        } catch (e) {}
+    }
 
-        // ============================================================
-        // 记忆功能：加载进度
-        // ============================================================
-        function loadProgress() {
-            try {
-                var raw = localStorage.getItem('daofa_progress');
-                if (!raw) return null;
-                var data = JSON.parse(raw);
-                // 超过24小时视为过期
-                if (Date.now() - data.timestamp > 24 * 60 * 60 * 1000) {
-                    localStorage.removeItem('daofa_progress');
-                    return null;
-                }
-                return data;
-            } catch (e) {
+    function loadProgress(mode) {
+        try {
+            var key = mode === 'wrong' ? 'daofa_progress_wrong' : 'daofa_progress_normal';
+            var raw = localStorage.getItem(key);
+            if (!raw) return null;
+            var data = JSON.parse(raw);
+            if (Date.now() - data.timestamp > 24 * 60 * 60 * 1000) {
+                localStorage.removeItem(key);
                 return null;
             }
+            return data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    // ============================================================
+    // 加载题库
+    // ============================================================
+    function loadQuestions() {
+        var isSprint = urlParams.get('sprint') === 'true';
+        if (isSprint) {
+            loadSprintQuestions();
+            return;
         }
 
-        // ============================================================
-        // 根据当前单元加载对应的 JSON 文件
-        // ============================================================
-        function loadQuestions() {
-            var isSprint = urlParams.get('sprint') === 'true';
-            if (isSprint) {
-                loadSprintQuestions();
-                return;
-            }
+        var fileName = null;
+        if (unitFilter && unitFileMap[unitFilter]) {
+            fileName = unitFileMap[unitFilter];
+        } else if (moduleFilter === '七上' && subjectFilter === '历史') {
+            fileName = 'q_七上_史前时期.json';
+        } else {
+            fileName = unitFilter && unitFileMap[unitFilter] ? unitFileMap[unitFilter] : 'q_七上_史前时期.json';
+        }
 
-            var fileName = null;
-            if (unitFilter && unitFileMap[unitFilter]) {
-                fileName = unitFileMap[unitFilter];
-            } else if (moduleFilter === '七上' && subjectFilter === '历史') {
-                fileName = 'q_七上_史前时期.json';
+        if (!fileName) {
+            questionText.textContent = '❌ 未找到对应的题库文件。';
+            return;
+        }
+
+        currentQuestionsFile = fileName;
+
+        fetch('https://secondary-vocab.github.io/word-game/questions/' + fileName)
+            .then(function(response) {
+                if (!response.ok) throw new Error('文件加载失败，状态码：' + response.status);
+                return response.json();
+            })
+            .then(function(data) {
+                allQuestionsData = data.questions || [];
+                loadNormalQuestions();
+            })
+            .catch(function(error) {
+                console.error('题库加载失败:', error);
+                questionText.textContent = '❌ 题库加载失败，请检查网络或文件是否存在。';
+                questionText.style.color = '#c45a4a';
+            });
+    }
+
+    // ============================================================
+    // 正常模式
+    // ============================================================
+    function loadNormalQuestions() {
+        if (!allQuestionsData || allQuestionsData.length === 0) {
+            questions = [];
+            renderList();
+            return;
+        }
+        questions = allQuestionsData.slice();
+        isWrongMode = false;
+        wrongBtn.textContent = '📒 错题';
+        wrongBtn.classList.remove('active');
+
+        // 恢复正常模式的进度
+        var saved = loadProgress('normal');
+        if (saved && saved.file === currentQuestionsFile) {
+            if (saved.currentIndex >= 0 && saved.currentIndex < questions.length) {
+                currentIndex = saved.currentIndex;
             } else {
-                if (unitFilter && unitFileMap[unitFilter]) {
-                    fileName = unitFileMap[unitFilter];
-                } else {
-                    fileName = 'q_七上_史前时期.json';
-                }
+                currentIndex = 0;
             }
-
-            if (!fileName) {
-                questionText.textContent = '❌ 未找到对应的题库文件。';
-                return;
-            }
-
-            currentQuestionsFile = fileName;
-
-            fetch('https://secondary-vocab.github.io/word-game/questions/' + fileName)
-                .then(function(response) {
-                    if (!response.ok) {
-                        throw new Error('文件加载失败，状态码：' + response.status);
-                    }
-                    return response.json();
-                })
-                .then(function(data) {
-                    allQuestionsData = data.questions || [];
-                    // 加载正常模式（内部会尝试恢复进度）
-                    loadNormalQuestions();
-                })
-                .catch(function(error) {
-                    console.error('题库加载失败:', error);
-                    questionText.textContent = '❌ 题库加载失败，请检查网络或文件是否存在。';
-                    questionText.style.color = '#c45a4a';
-                });
+        } else {
+            currentIndex = 0;
         }
 
-        // ============================================================
-        // 加载正常模式（全部题目）
-        // ============================================================
-        function loadNormalQuestions() {
-            if (!allQuestionsData || allQuestionsData.length === 0) {
-                questions = [];
-                renderList();
-                return;
+        renderList();
+    }
+
+    // ============================================================
+    // 错题模式
+    // ============================================================
+    function loadWrongQuestions() {
+        var wrongList = getWrongQuestions();
+        if (wrongList.length === 0) {
+            alert('🎉 错题本为空！你还没有做错的题目。');
+            return;
+        }
+
+        // 保存当前正常模式的索引，以便返回时恢复
+        returnIndex = currentIndex;
+
+        var matched = [];
+        wrongList.forEach(function(w) {
+            var found = allQuestionsData.find(function(q) { return q.id === w.id; });
+            if (found) matched.push(found);
+        });
+        if (matched.length === 0) {
+            alert('错题数据已失效，请重新刷题。');
+            return;
+        }
+
+        questions = matched;
+        isWrongMode = true;
+        wrongBtn.textContent = '📖 全部';
+        wrongBtn.classList.add('active');
+
+        // 恢复错题模式的进度
+        var saved = loadProgress('wrong');
+        if (saved && saved.file === currentQuestionsFile) {
+            if (saved.currentIndex >= 0 && saved.currentIndex < questions.length) {
+                currentIndex = saved.currentIndex;
+            } else {
+                currentIndex = 0;
             }
-            questions = allQuestionsData.slice(); // 副本
+        } else {
+            currentIndex = 0;
+        }
+
+        renderList();
+    }
+
+    // ============================================================
+    // 渲染列表
+    // ============================================================
+    function renderList() {
+        if (questions.length === 0) {
+            emptyState.style.display = 'flex';
+            totalNum.textContent = '0';
+            if (isWrongMode) {
+                emptyState.querySelector('.icon').textContent = '🎉';
+                emptyState.querySelector('div:first-of-type').textContent = '错题本已清空！';
+                emptyState.querySelector('div:last-of-type').textContent = '继续刷题，错题会自动收录。';
+            } else {
+                emptyState.querySelector('.icon').textContent = '📭';
+                emptyState.querySelector('div:first-of-type').textContent = '当前没有匹配的题目';
+                emptyState.querySelector('div:last-of-type').textContent = '请尝试其他年级或学科';
+            }
+            document.getElementById('questionMeta').textContent = '';
+            document.getElementById('questionText').textContent = '';
+            document.getElementById('optionsContainer').innerHTML = '';
+            document.getElementById('explanationBox').classList.remove('show');
+            document.getElementById('explanationBox').style.display = 'none';
+            document.getElementById('questionImage').innerHTML = '';
+            return;
+        }
+
+        emptyState.style.display = 'none';
+        totalNum.textContent = questions.length;
+        if (currentIndex >= questions.length) {
+            currentIndex = 0;
+        }
+        renderQuestion(currentIndex);
+    }
+
+    // ============================================================
+    // 渲染单题
+    // ============================================================
+    function renderQuestion(index) {
+        if (!questions.length) return;
+        var q = questions[index];
+        currentNum.textContent = index + 1;
+        questionText.textContent = q.question;
+
+        var imageContainer = document.getElementById('questionImage');
+        if (q.image) {
+            imageContainer.innerHTML = '<img src="' + q.image + '" style="max-width:100%; max-height:200px; border-radius:8px; border:1px solid #f0ede8;" alt="题目配图" />';
+            imageContainer.style.display = 'block';
+        } else {
+            imageContainer.innerHTML = '';
+            imageContainer.style.display = 'none';
+        }
+
+        questionMeta.textContent = q.module + ' · ' + q.subject + ' · ' + q.unit;
+
+        var letters = ['A', 'B', 'C', 'D'];
+        var html = '';
+        q.options.forEach(function(opt, i) {
+            html += '<div class="opt" data-index="' + i + '">' + letters[i] + '. ' + opt + '</div>';
+        });
+        optionsContainer.innerHTML = html;
+
+        answered = false;
+        explanationBox.classList.remove('show');
+        explanationBox.style.display = 'none';
+        explanationBox.textContent = '';
+
+        document.querySelectorAll('.opt').forEach(function(el) {
+            el.addEventListener('click', function() {
+                if (answered) return;
+                var selected = parseInt(this.dataset.index);
+                handleAnswer(selected);
+            });
+        });
+
+        prevBtn.disabled = (index === 0);
+        if (index === questions.length - 1) {
+            nextBtn.textContent = '📊 查看报告';
+            nextBtn.className = 'btn-finish';
+        } else {
+            nextBtn.textContent = '下一题 →';
+            nextBtn.className = 'btn-next';
+        }
+
+        saveProgress();
+    }
+
+    // ============================================================
+    // 处理答题
+    // ============================================================
+    function handleAnswer(selected) {
+        if (answered) return;
+        var q = questions[currentIndex];
+        var opts = document.querySelectorAll('.opt');
+        var isCorrect = (selected === q.answer);
+
+        opts.forEach(function(o) { o.classList.add('disabled'); });
+        opts.forEach(function(o, i) {
+            if (i === q.answer) o.classList.add('correct');
+            if (i === selected && !isCorrect) o.classList.add('wrong');
+        });
+
+        if (!isCorrect) {
+            addWrongQuestion(q, selected);
+        } else {
+            removeWrongQuestion(q.id);
+        }
+
+        explanationBox.textContent = (isCorrect ? '✅ 回答正确！' : '❌ 回答错误') + ' 解析：' + q.explanation;
+        explanationBox.style.display = 'block';
+        explanationBox.classList.add('show');
+
+        answered = true;
+        saveProgress();
+    }
+
+    // ============================================================
+    // 导航
+    // ============================================================
+    function goToPrev() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderQuestion(currentIndex);
+        }
+    }
+
+    function goToNext() {
+        // 未答提醒
+        if (!answered) {
+            var opts = document.querySelectorAll('.opt');
+            opts.forEach(function(o) {
+                o.style.transition = 'all 0.1s';
+                o.style.borderColor = '#c45a4a';
+                setTimeout(function() { o.style.borderColor = ''; }, 400);
+            });
+            return;
+        }
+
+        // 如果当前是错题模式且是最后一题 → 显示报告（不弹“恭喜”）
+        if (currentIndex === questions.length - 1) {
+            // 错题模式完成报告
+            if (isWrongMode) {
+                showWrongReport();
+            } else {
+                // 正常模式最后一题
+                alert('🎉 恭喜完成全部 ' + questions.length + ' 题！');
+            }
+            return;
+        }
+
+        // 正常翻页
+        currentIndex++;
+        renderQuestion(currentIndex);
+    }
+
+    // ============================================================
+    // 错题报告（取代之前的“恭喜完成”）
+    // ============================================================
+    function showWrongReport() {
+        var wrongList = getWrongQuestions();
+        // 统计本次错题模式中的表现（基于当前 questions 列表）
+        var total = questions.length;
+        var correctCount = 0;
+        var wrongCount = 0;
+        // 注意：题目可能已从错题本移除，我们通过检查是否还在错题本中判断
+        questions.forEach(function(q) {
+            var stillWrong = wrongList.some(function(w) { return w.id === q.id; });
+            if (stillWrong) {
+                wrongCount++;
+            } else {
+                correctCount++;
+            }
+        });
+
+        var report = '📊 错题完成报告\n';
+        report += '━━━━━━━━━━━━━━\n';
+        report += '本次重刷错题数：' + total + ' 题\n';
+        report += '做对：' + correctCount + ' 题\n';
+        report += '做错：' + wrongCount + ' 题\n';
+        report += '正确率：' + (total > 0 ? Math.round(correctCount / total * 100) : 0) + '%\n';
+        report += '错误率：' + (total > 0 ? Math.round(wrongCount / total * 100) : 0) + '%\n';
+        report += '━━━━━━━━━━━━━━\n';
+        if (wrongCount === 0) {
+            report += '🎉 所有错题已全部消灭！';
+        } else {
+            report += '💪 继续加油，还有 ' + wrongCount + ' 题待攻克！';
+        }
+        alert(report);
+
+        // 切回正常模式（并保持正常模式的进度不变）
+        // 注意：此时切回正常模式，应该恢复到切换前的索引（returnIndex）
+        // 但也要检查 returnIndex 是否有效
+        loadNormalQuestions();
+        // 但 loadNormalQuestions 会从存储恢复进度，可能覆盖 returnIndex，我们需要手动修正
+        // 因为我们在 loadNormalQuestions 里用了 loadProgress('normal')，但此时正常模式的进度可能已被覆盖。
+        // 解决方案：在切回之前，先确保正常模式的进度存储的是 returnIndex
+        // 但更稳妥：直接使用 returnIndex
+        // 我们在 loadNormalQuestions 之后手动设置 currentIndex
+        // 但由于 loadNormalQuestions 会重新渲染，我们在其执行后修正
+        // 这里用一个小技巧：先保存正常模式的进度为 returnIndex
+        var normalData = {
+            module: moduleFilter || '',
+            subject: subjectFilter || '',
+            unit: unitFilter || '',
+            currentIndex: returnIndex,
+            file: currentQuestionsFile || '',
+            timestamp: Date.now()
+        };
+        localStorage.setItem('daofa_progress_normal', JSON.stringify(normalData));
+        // 然后重新加载正常模式
+        loadNormalQuestions();
+        // 但 loadNormalQuestions 会读取存储，此时已经是我们刚写的数据，所以能恢复
+    }
+
+    // ============================================================
+    // 事件绑定
+    // ============================================================
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') goToPrev();
+        if (e.key === 'ArrowRight') goToNext();
+    });
+
+    prevBtn.addEventListener('click', goToPrev);
+    nextBtn.addEventListener('click', goToNext);
+
+    wrongBtn.addEventListener('click', function() {
+        if (isWrongMode) {
+            // 从错题模式切回正常模式，应恢复到切换前的正常进度
+            // 但也要考虑用户在错题模式下可能做了题，正常进度不变
+            // 直接调用 loadNormalQuestions，它会从存储恢复正常进度
+            // 但存储的正常进度可能不是 returnIndex（因为我们在错题模式中没更新正常进度）
+            // 所以我们在切换前，确保正常进度存储为 returnIndex
+            if (returnIndex >= 0) {
+                var normalData = {
+                    module: moduleFilter || '',
+                    subject: subjectFilter || '',
+                    unit: unitFilter || '',
+                    currentIndex: returnIndex,
+                    file: currentQuestionsFile || '',
+                    timestamp: Date.now()
+                };
+                localStorage.setItem('daofa_progress_normal', JSON.stringify(normalData));
+            }
+            loadNormalQuestions();
+        } else {
+            // 切到错题模式
+            loadWrongQuestions();
+        }
+    });
+
+    // ============================================================
+    // 中考冲刺（保留不变）
+    // ============================================================
+    function loadSprintQuestions() {
+        var allFiles = [
+            'q_七上_史前时期.json', 'q_七上_夏商周时期.json', 'q_七上_秦汉时期.json', 'q_七上_三国两晋南北朝时期.json',
+            'q_七下_隋唐时期.json', 'q_七下_辽宋夏金元时期.json', 'q_七下_明清时期.json',
+            'q_八上_中国开始沦为半殖民地半封建社会.json', 'q_八上_早期现代化的初步探索和民族危机加剧.json', 'q_八上_资产阶级民主革命与中华民国的建立.json', 'q_八上_新民主主义革命的开始.json', 'q_八上_从国共合作到农村革命根据地的建立.json', 'q_八上_中华民族的抗日战争.json', 'q_八上_人民解放战争.json',
+            'q_八下_中华人民共和国的成立和社会主义制度的建立.json', 'q_八下_社会主义建设道路的探索.json', 'q_八下_改革开放与中国特色社会主义的开创.json', 'q_八下_中国特色社会主义迈向21世纪.json', 'q_八下_新形势下坚持和发展中国特色社会主义.json', 'q_八下_中国特色社会主义进入新时代.json', 'q_八下_全面建设社会主义现代化国家.json',
+            'q_九上_文明的产生和古代亚非文明.json', 'q_九上_古代欧洲文明.json', 'q_九上_封建时代的欧洲.json', 'q_九上_封建时代的亚洲国家.json', 'q_九上_走向近代.json', 'q_九上_资本主义制度的初步确立.json', 'q_九上_工业革命和国际共产主义运动的兴起.json',
+            'q_九下_殖民地人民的反抗与资本主义制度的扩展.json', 'q_九下_第二次工业革命和近代科学文化.json', 'q_九下_第一次世界大战和战后初期的世界.json', 'q_九下_经济大危机和第二次世界大战.json', 'q_九下_二战后的世界变化.json', 'q_九下_走向和平发展的世界.json'
+        ];
+        var promises = allFiles.map(function(file) {
+            return fetch('questions/' + file).then(function(res) {
+                return res.ok ? res.json() : { questions: [] };
+            }).catch(function() { return { questions: [] }; });
+        });
+        Promise.all(promises).then(function(results) {
+            var allQuestions = [];
+            results.forEach(function(data) {
+                if (data.questions) {
+                    allQuestions = allQuestions.concat(data.questions);
+                }
+            });
+            var historyQuestions = allQuestions.filter(function(q) { return q.subject === '历史'; });
+            var politicsQuestions = allQuestions.filter(function(q) { return q.subject === '道法'; });
+            function shuffle(arr) {
+                var a = arr.slice();
+                for (var i = a.length - 1; i > 0; i--) {
+                    var j = Math.floor(Math.random() * (i + 1));
+                    var t = a[i]; a[i] = a[j]; a[j] = t;
+                }
+                return a;
+            }
+            var selected = shuffle(historyQuestions).slice(0, 14).concat(shuffle(politicsQuestions).slice(0, 14));
+            questions = shuffle(selected);
             isWrongMode = false;
             wrongBtn.textContent = '📒 错题';
             wrongBtn.classList.remove('active');
-
-            // 尝试恢复正常模式的进度
-            var saved = loadProgress();
-            if (saved && saved.mode === 'normal' && saved.file === currentQuestionsFile) {
-                if (saved.currentIndex >= 0 && saved.currentIndex < questions.length) {
-                    currentIndex = saved.currentIndex;
-                } else {
-                    currentIndex = 0;
-                }
-            } else {
-                currentIndex = 0;
-            }
-
-            renderList();
-        }
-
-        // ============================================================
-        // 加载错题模式
-        // ============================================================
-        function loadWrongQuestions() {
-            var wrongList = getWrongQuestions();
-            if (wrongList.length === 0) {
-                alert('🎉 错题本为空！你还没有做错的题目。');
-                return;
-            }
-
-            // 保存当前正常模式的索引，以便返回
-            returnIndex = currentIndex;
-
-            // 从全部题库中匹配错题
-            var matched = [];
-            wrongList.forEach(function(w) {
-                var found = allQuestionsData.find(function(q) { return q.id === w.id; });
-                if (found) matched.push(found);
-            });
-            if (matched.length === 0) {
-                alert('错题数据已失效，请重新刷题。');
-                return;
-            }
-
-            questions = matched;
-            isWrongMode = true;
-            wrongBtn.textContent = '📖 全部';
-            wrongBtn.classList.add('active');
-
-            // 尝试恢复错题模式的进度
-            var saved = loadProgress();
-            if (saved && saved.mode === 'wrong') {
-                // 验证保存的错题ID是否与当前错题列表一致（防止错题本变化导致索引偏移）
-                var savedIds = saved.wrongIds || [];
-                var currentIds = matched.map(q => q.id);
-                var same = savedIds.length === currentIds.length && savedIds.every(id => currentIds.includes(id));
-                if (same && saved.currentIndex >= 0 && saved.currentIndex < questions.length) {
-                    currentIndex = saved.currentIndex;
-                } else {
-                    currentIndex = 0;
-                }
-            } else {
-                currentIndex = 0;
-            }
-
-            renderList();
-        }
-
-        // ============================================================
-        // 渲染列表（显示当前题目或空状态）
-        // ============================================================
-        function renderList() {
-            if (questions.length === 0) {
-                emptyState.style.display = 'flex';
-                totalNum.textContent = '0';
-                if (isWrongMode) {
-                    emptyState.querySelector('.icon').textContent = '🎉';
-                    emptyState.querySelector('div:first-of-type').textContent = '错题本已清空！';
-                    emptyState.querySelector('div:last-of-type').textContent = '继续刷题，错题会自动收录。';
-                } else {
-                    emptyState.querySelector('.icon').textContent = '📭';
-                    emptyState.querySelector('div:first-of-type').textContent = '当前没有匹配的题目';
-                    emptyState.querySelector('div:last-of-type').textContent = '请尝试其他年级或学科';
-                }
-                // 隐藏题目相关元素
-                document.getElementById('questionMeta').textContent = '';
-                document.getElementById('questionText').textContent = '';
-                document.getElementById('optionsContainer').innerHTML = '';
-                document.getElementById('explanationBox').classList.remove('show');
-                document.getElementById('explanationBox').style.display = 'none';
-                document.getElementById('questionImage').innerHTML = '';
-                return;
-            }
-
-            emptyState.style.display = 'none';
+            currentIndex = 0;
             totalNum.textContent = questions.length;
-            if (currentIndex >= questions.length) {
-                currentIndex = 0;
-            }
-            renderQuestion(currentIndex);
-        }
-
-        // ============================================================
-        // 渲染单题
-        // ============================================================
-        function renderQuestion(index) {
-            if (!questions.length) return;
-            var q = questions[index];
-            currentNum.textContent = index + 1;
-            questionText.textContent = q.question;
-
-            // 显示图片
-            var imageContainer = document.getElementById('questionImage');
-            if (q.image) {
-                imageContainer.innerHTML = '<img src="' + q.image + '" style="max-width:100%; max-height:200px; border-radius:8px; border:1px solid #f0ede8;" alt="题目配图" />';
-                imageContainer.style.display = 'block';
-            } else {
-                imageContainer.innerHTML = '';
-                imageContainer.style.display = 'none';
-            }
-
-            questionMeta.textContent = q.module + ' · ' + q.subject + ' · ' + q.unit;
-
-            var letters = ['A', 'B', 'C', 'D'];
-            var html = '';
-            q.options.forEach(function(opt, i) {
-                html += '<div class="opt" data-index="' + i + '">' + letters[i] + '. ' + opt + '</div>';
-            });
-            optionsContainer.innerHTML = html;
-
-            answered = false;
-            explanationBox.classList.remove('show');
-            explanationBox.style.display = 'none';
-            explanationBox.textContent = '';
-
-            // 绑定点击事件
-            document.querySelectorAll('.opt').forEach(function(el) {
-                el.addEventListener('click', function() {
-                    if (answered) return;
-                    var selected = parseInt(this.dataset.index);
-                    handleAnswer(selected);
-                });
-            });
-
-            prevBtn.disabled = (index === 0);
-            if (index === questions.length - 1) {
-                nextBtn.textContent = '📊 查看报告';
-                nextBtn.className = 'btn-finish';
-            } else {
-                nextBtn.textContent = '下一题 →';
-                nextBtn.className = 'btn-next';
-            }
-
-            // 每次渲染后保存进度
-            saveProgress();
-        }
-
-        // ============================================================
-        // 处理答题
-        // ============================================================
-        function handleAnswer(selected) {
-            if (answered) return;
-            var q = questions[currentIndex];
-            var opts = document.querySelectorAll('.opt');
-            var isCorrect = (selected === q.answer);
-
-            opts.forEach(function(o) { o.classList.add('disabled'); });
-            opts.forEach(function(o, i) {
-                if (i === q.answer) o.classList.add('correct');
-                if (i === selected && !isCorrect) o.classList.add('wrong');
-            });
-
-            if (!isCorrect) {
-                addWrongQuestion(q, selected);
-            } else {
-                removeWrongQuestion(q.id);
-            }
-
-            explanationBox.textContent = (isCorrect ? '✅ 回答正确！' : '❌ 回答错误') + ' 解析：' + q.explanation;
-            explanationBox.style.display = 'block';
-            explanationBox.classList.add('show');
-
-            answered = true;
-
-            // 答完题后保存进度（错题本状态变化）
-            saveProgress();
-        }
-
-        // ============================================================
-        // 导航
-        // ============================================================
-        function goToPrev() {
-            if (currentIndex > 0) {
-                currentIndex--;
-                renderQuestion(currentIndex);
-            }
-        }
-
-        function goToNext() {
-            if (!answered) {
-                var opts = document.querySelectorAll('.opt');
-                opts.forEach(function(o) {
-                    o.style.transition = 'all 0.1s';
-                    o.style.borderColor = '#c45a4a';
-                    setTimeout(function() { o.style.borderColor = ''; }, 400);
-                });
-                return;
-            }
-            if (currentIndex < questions.length - 1) {
-                currentIndex++;
-                renderQuestion(currentIndex);
-            } else {
-                alert('🎉 恭喜完成全部 ' + questions.length + ' 题！');
-                // 如果是在错题模式，完成后自动切回正常模式（但保留进度）
-                if (isWrongMode) {
-                    // 切回正常模式，并尝试恢复正常进度
-                    loadNormalQuestions();
-                }
-            }
-        }
-
-        // ============================================================
-        // 事件绑定
-        // ============================================================
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowLeft') goToPrev();
-            if (e.key === 'ArrowRight') goToNext();
+            emptyState.style.display = 'none';
+            renderQuestion(0);
+        }).catch(function(e) {
+            console.error('中考冲刺加载失败:', e);
+            questionText.textContent = '❌ 题库加载失败，请检查网络。';
         });
+    }
 
-        prevBtn.addEventListener('click', goToPrev);
-        nextBtn.addEventListener('click', goToNext);
-
-        wrongBtn.addEventListener('click', function() {
-            if (isWrongMode) {
-                // 切回正常模式
-                loadNormalQuestions();
-            } else {
-                // 切换到错题模式
-                loadWrongQuestions();
-            }
-        });
-
-        // ============================================================
-        // 中考冲刺（保持不变）
-        // ============================================================
-        function loadSprintQuestions() {
-            var allFiles = [
-                'q_七上_史前时期.json', 'q_七上_夏商周时期.json', 'q_七上_秦汉时期.json', 'q_七上_三国两晋南北朝时期.json',
-                'q_七下_隋唐时期.json', 'q_七下_辽宋夏金元时期.json', 'q_七下_明清时期.json',
-                'q_八上_中国开始沦为半殖民地半封建社会.json', 'q_八上_早期现代化的初步探索和民族危机加剧.json', 'q_八上_资产阶级民主革命与中华民国的建立.json', 'q_八上_新民主主义革命的开始.json', 'q_八上_从国共合作到农村革命根据地的建立.json', 'q_八上_中华民族的抗日战争.json', 'q_八上_人民解放战争.json',
-                'q_八下_中华人民共和国的成立和社会主义制度的建立.json', 'q_八下_社会主义建设道路的探索.json', 'q_八下_改革开放与中国特色社会主义的开创.json', 'q_八下_中国特色社会主义迈向21世纪.json', 'q_八下_新形势下坚持和发展中国特色社会主义.json', 'q_八下_中国特色社会主义进入新时代.json', 'q_八下_全面建设社会主义现代化国家.json',
-                'q_九上_文明的产生和古代亚非文明.json', 'q_九上_古代欧洲文明.json', 'q_九上_封建时代的欧洲.json', 'q_九上_封建时代的亚洲国家.json', 'q_九上_走向近代.json', 'q_九上_资本主义制度的初步确立.json', 'q_九上_工业革命和国际共产主义运动的兴起.json',
-                'q_九下_殖民地人民的反抗与资本主义制度的扩展.json', 'q_九下_第二次工业革命和近代科学文化.json', 'q_九下_第一次世界大战和战后初期的世界.json', 'q_九下_经济大危机和第二次世界大战.json', 'q_九下_二战后的世界变化.json', 'q_九下_走向和平发展的世界.json'
-            ];
-            var promises = allFiles.map(function(file) {
-                return fetch('questions/' + file).then(function(res) {
-                    return res.ok ? res.json() : { questions: [] };
-                }).catch(function() { return { questions: [] }; });
-            });
-            Promise.all(promises).then(function(results) {
-                var allQuestions = [];
-                results.forEach(function(data) {
-                    if (data.questions) {
-                        allQuestions = allQuestions.concat(data.questions);
-                    }
-                });
-                var historyQuestions = allQuestions.filter(function(q) { return q.subject === '历史'; });
-                var politicsQuestions = allQuestions.filter(function(q) { return q.subject === '道法'; });
-                function shuffle(arr) {
-                    var a = arr.slice();
-                    for (var i = a.length - 1; i > 0; i--) {
-                        var j = Math.floor(Math.random() * (i + 1));
-                        var t = a[i]; a[i] = a[j]; a[j] = t;
-                    }
-                    return a;
-                }
-                var selected = shuffle(historyQuestions).slice(0, 14).concat(shuffle(politicsQuestions).slice(0, 14));
-                questions = shuffle(selected);
-                // 冲刺模式默认从0开始，不保存进度（可视为一次性刷题）
-                isWrongMode = false;
-                wrongBtn.textContent = '📒 错题';
-                wrongBtn.classList.remove('active');
-                currentIndex = 0;
-                totalNum.textContent = questions.length;
-                emptyState.style.display = 'none';
-                renderQuestion(0);
-            }).catch(function(e) {
-                console.error('中考冲刺加载失败:', e);
-                questionText.textContent = '❌ 题库加载失败，请检查网络。';
-            });
-        }
-
-        // ============================================================
-        // 启动
-        // ============================================================
-        loadQuestions();
-        console.log('✅ 刷题页面已加载（含记忆功能修复）');
-    })();
+    // ============================================================
+    // 启动
+    // ============================================================
+    loadQuestions();
+    console.log('✅ 刷题页面已加载（记忆功能修复 + 错题报告）');
+})();
 </script>
 
 </body>
