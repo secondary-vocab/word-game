@@ -1268,6 +1268,12 @@ function autoCountUnits() {
         // 9. 初始化
         // ============================================================
         renderGrid();
+                autoCountUnits().then(function() {
+            if (typeof currentModule !== 'undefined' && currentModule) {
+                renderUnits();
+                updateProgress();
+            }
+        });
         // 从刷题页返回时自动打开对应的年级页面
 var returnModule = sessionStorage.getItem('returnToModule');
 if (returnModule) {
