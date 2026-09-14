@@ -1161,11 +1161,22 @@ function autoCountUnits() {
             document.getElementById('poliProgress').textContent = poliDone;
         }
 
-        function renderUnits() {
+                function renderUnits() {
             var moduleData = ALL_UNITS[currentModule];
             if (!moduleData) return;
             var units = currentSubject === 'history' ? moduleData.history : moduleData.politics;
             currentUnits = units;
+
+            // 👇 新增：从 localStorage 读取每个单元做过的题ID
+            var doneMap = {};
+            try {
+                doneMap = JSON.parse(localStorage.getItem('daofa_done') || '{}');
+            } catch (e) {
+                doneMap = {};
+            }
+            units.forEach(function(u) {
+                u.done = (doneMap[u.unit] || []).length;
+            });
 
             var container = document.getElementById('unitList2');
             var html = '';
@@ -1226,17 +1237,18 @@ function autoCountUnits() {
         // ============================================================
         // 6. 学习成果
         // ============================================================
-        function renderResults(units) {
+                function renderResults(units) {
             var grid = document.getElementById('resultGrid');
             var html = '';
             units.forEach(function(u) {
-                var errorRate = u.error || 0;
+                // 👇 改成进度百分比：已做 / 总数
+                var percent = u.total > 0 ? Math.round((u.done || 0) / u.total * 100) : 0;
                 var shortName = u.name.replace(/^[一二三四五六七八]+单元[：:]\s*/, '').substring(0, 4);
                 html += `
                         <div class="result-row">
                             <span class="unit-name">${shortName}</span>
-                            <div class="bar-wrap"><div class="bar" style="width:${errorRate}%;"></div></div>
-                            <span class="percent">${errorRate}%</span>
+                            <div class="bar-wrap"><div class="bar" style="width:${percent}%;"></div></div>
+                            <span class="percent">${percent}%</span>
                         </div>
                     `;
             });
