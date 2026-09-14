@@ -884,22 +884,26 @@ function autoCountUnits() {
         // ============================================================
         // 2. 首页数据
         // ============================================================
-        var HISTORY_STATUS = {
-            '七上': { done: 0, total: 30, status: 'pending' },
-            '八上': { done: 10, total: 30, status: 'done' },
-            '九上': { done: 0, total: 30, status: 'pending' },
-            '七下': { done: 0, total: 30, status: 'pending' },
-            '八下': { done: 10, total: 30, status: 'active' },
-            '九下': { done: 0, total: 30, status: 'pending' }
-        };
-        var POLITICS_STATUS = {
-            '七上': { done: 0, total: 30, status: 'pending' },
-            '八上': { done: 5, total: 30, status: 'active' },
-            '九上': { done: 0, total: 30, status: 'pending' },
-            '七下': { done: 0, total: 30, status: 'pending' },
-            '八下': { done: 0, total: 30, status: 'pending' },
-            '九下': { done: 0, total: 30, status: 'pending' }
-        };
+               // ============================================================
+        // 动态计算每个年级的 done / total / status
+        // ============================================================
+        function calcGradeStatus(subjectKey) {
+            var result = {};
+            Object.keys(ALL_UNITS).forEach(function(moduleName) {
+                if (moduleName === '中考冲刺') return;
+                var units = ALL_UNITS[moduleName][subjectKey] || [];
+                var total = 0, done = 0;
+                units.forEach(function(u) {
+                    total += u.total || 0;
+                    done += u.done || 0;
+                });
+                var status = 'pending';
+                if (done > 0 && done < total) status = 'active';
+                else if (done > 0 && done >= total && total > 0) status = 'done';
+                result[moduleName] = { done: done, total: total, status: status };
+            });
+            return result;
+        }
 
         var colorMap = {
             '七上': 'color-blue',
@@ -920,7 +924,7 @@ function autoCountUnits() {
         // ============================================================
         function renderGrid() {
             var container = document.getElementById('gridContainer');
-            var data = HISTORY_STATUS;
+            var data = calcGradeStatus('history');
 
             var totalDone = 0,
                 totalAll = 0;
@@ -1267,8 +1271,9 @@ function autoCountUnits() {
         // ============================================================
         // 9. 初始化
         // ============================================================
-        renderGrid();
-                autoCountUnits().then(function() {
+                renderGrid();
+        autoCountUnits().then(function() {
+            renderGrid();
             if (typeof currentModule !== 'undefined' && currentModule) {
                 renderUnits();
                 updateProgress();
