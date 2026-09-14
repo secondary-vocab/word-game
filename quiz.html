@@ -608,7 +608,7 @@
         // ============================================================
     // 记录做过的题（按单元存ID，不重复）
     // ============================================================
-    function recordDoneQuestion(q) {
+        function recordDoneQuestion(q, isCorrect) {
         try {
             var stats = {};
             var raw = localStorage.getItem('daofa_done');
@@ -618,6 +618,17 @@
             if (stats[unitKey].indexOf(q.id) === -1) {
                 stats[unitKey].push(q.id);
                 localStorage.setItem('daofa_done', JSON.stringify(stats));
+            }
+
+            // 新增：记录做对的题
+            var correctMap = {};
+            try {
+                correctMap = JSON.parse(localStorage.getItem('daofa_correct') || '{}');
+            } catch (e) { correctMap = {}; }
+            if (!correctMap[unitKey]) correctMap[unitKey] = [];
+            if (isCorrect && correctMap[unitKey].indexOf(q.id) === -1) {
+                correctMap[unitKey].push(q.id);
+                localStorage.setItem('daofa_correct', JSON.stringify(correctMap));
             }
         } catch (e) {}
     }
