@@ -650,7 +650,7 @@
         } else {
             removeWrongQuestion(q.id);
         }
-                recordDoneQuestion(q);
+                        recordDoneQuestion(q, isCorrect);
 
         explanationBox.textContent = (isCorrect ? '✅ 回答正确！' : '❌ 回答错误') + ' 解析：' + q.explanation;
         explanationBox.style.display = 'block';
