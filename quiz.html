@@ -605,6 +605,23 @@
     // ============================================================
     // 处理答题
     // ============================================================
+        // ============================================================
+    // 记录做过的题（按单元存ID，不重复）
+    // ============================================================
+    function recordDoneQuestion(q) {
+        try {
+            var stats = {};
+            var raw = localStorage.getItem('daofa_done');
+            if (raw) stats = JSON.parse(raw);
+            var unitKey = q.unit;
+            if (!stats[unitKey]) stats[unitKey] = [];
+            if (stats[unitKey].indexOf(q.id) === -1) {
+                stats[unitKey].push(q.id);
+                localStorage.setItem('daofa_done', JSON.stringify(stats));
+            }
+        } catch (e) {}
+    }
+
     function handleAnswer(selected) {
         if (answered) return;
         var q = questions[currentIndex];
@@ -622,6 +639,7 @@
         } else {
             removeWrongQuestion(q.id);
         }
+                recordDoneQuestion(q);
 
         explanationBox.textContent = (isCorrect ? '✅ 回答正确！' : '❌ 回答错误') + ' 解析：' + q.explanation;
         explanationBox.style.display = 'block';
