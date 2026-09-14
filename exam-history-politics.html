@@ -887,15 +887,23 @@ function autoCountUnits() {
                // ============================================================
         // 动态计算每个年级的 done / total / status
         // ============================================================
-        function calcGradeStatus(subjectKey) {
+                function calcGradeStatus() {
             var result = {};
+            var doneMap = {};
+            try {
+                doneMap = JSON.parse(localStorage.getItem('daofa_done') || '{}');
+            } catch (e) {
+                doneMap = {};
+            }
             Object.keys(ALL_UNITS).forEach(function(moduleName) {
                 if (moduleName === '中考冲刺') return;
-                var units = ALL_UNITS[moduleName][subjectKey] || [];
                 var total = 0, done = 0;
-                units.forEach(function(u) {
-                    total += u.total || 0;
-                    done += u.done || 0;
+                ['history', 'politics'].forEach(function(subj) {
+                    var units = ALL_UNITS[moduleName][subj] || [];
+                    units.forEach(function(u) {
+                        total += u.total || 0;
+                        done += (doneMap[u.unit] || []).length;
+                    });
                 });
                 var status = 'pending';
                 if (done > 0 && done < total) status = 'active';
@@ -903,6 +911,22 @@ function autoCountUnits() {
                 result[moduleName] = { done: done, total: total, status: status };
             });
             return result;
+        }
+
+        function calcCorrectRate() {
+            var doneMap = {};
+            var correctMap = {};
+            try {
+                doneMap = JSON.parse(localStorage.getItem('daofa_done') || '{}');
+                correctMap = JSON.parse(localStorage.getItem('daofa_correct') || '{}');
+            } catch (e) {}
+            var totalDone = 0, totalCorrect = 0;
+            Object.keys(doneMap).forEach(function(unitKey) {
+                totalDone += doneMap[unitKey].length;
+                totalCorrect += (correctMap[unitKey] || []).length;
+            });
+            if (totalDone === 0) return 0;
+            return Math.round(totalCorrect / totalDone * 100);
         }
 
         var colorMap = {
@@ -924,7 +948,7 @@ function autoCountUnits() {
         // ============================================================
         function renderGrid() {
             var container = document.getElementById('gridContainer');
-            var data = calcGradeStatus('history');
+            var data = calcGradeStatus();
 
             var totalDone = 0,
                 totalAll = 0;
@@ -946,7 +970,7 @@ function autoCountUnits() {
                     content = `
                             <div class="label">${label}</div>
                             <div class="big-number">${extra.done}<span class="small"> / ${extra.total} 题</span></div>
-                            <div class="sub-line">正确率 68%</div>
+                            <div class="sub-line">正确率 ${calcCorrectRate()}%</div>
                             <div class="weak-tag">📌 薄弱：<strong>${extra.weak}</strong></div>
                         `;
                 } else if (type === 'large' && name === 'sprint') {
