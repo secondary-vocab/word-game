@@ -670,26 +670,27 @@
         }
     }
 
-    function goToNext() {
-        // 未答提醒
+       function goToNext() {
+        // 未答题 → 视为跳过
         if (!answered) {
-            var opts = document.querySelectorAll('.opt');
-            opts.forEach(function(o) {
-                o.style.transition = 'all 0.1s';
-                o.style.borderColor = '#c45a4a';
-                setTimeout(function() { o.style.borderColor = ''; }, 400);
+            var q = questions[currentIndex];
+            // 进错题本，算做错
+            addWrongQuestion(q, -1);
+            recordDoneQuestion(q, false);
+            answered = true;
+            // 禁用选项，防止再选
+            document.querySelectorAll('.opt').forEach(function(o) {
+                o.classList.add('disabled');
             });
-            return;
+            saveProgress();
         }
 
-        // 如果当前是错题模式且是最后一题 → 显示报告（不弹“恭喜”）
+        // 最后一题 → 弹报告或提示
         if (currentIndex === questions.length - 1) {
-            // 错题模式完成报告
             if (isWrongMode) {
                 showWrongReport();
             } else {
-                // 正常模式最后一题
-                alert('🎉 恭喜完成全部 ' + questions.length + ' 题！');
+                alert('🎉 已完成全部 ' + questions.length + ' 题！');
             }
             return;
         }
