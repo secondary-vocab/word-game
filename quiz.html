@@ -194,21 +194,6 @@
             border-radius: 8px;
             border: 1px solid #f0ede8;
         }
-                .btn-skip {
-            display: block;
-            width: 100%;
-            padding: 10px 0;
-            margin-top: 10px;
-            background: transparent;
-            border: 1px dashed #c49a6c;
-            border-radius: 14px;
-            color: #c49a6c;
-            font-size: 14px;
-            cursor: pointer;
-            transition: opacity 0.15s;
-        }
-        .btn-skip:active { opacity: 0.6; }
-        .btn-skip:disabled { opacity: 0.3; pointer-events: none; }
     </style>
 </head>
 <body>
@@ -223,7 +208,6 @@
         <div class="q" id="questionText">加载题目中...</div>
         <div id="questionImage"></div>
         <div class="options" id="optionsContainer"></div>
-        <button class="btn-skip" id="skipBtn">🚫 不会，跳过本题</button>
         <div class="explanation" id="explanationBox"></div>
         <div class="empty-state" id="emptyState" style="display:none;">
             <div class="icon">📭</div>
@@ -594,7 +578,6 @@
         optionsContainer.innerHTML = html;
 
         answered = false;
-        document.getElementById('skipBtn').disabled = false;
         explanationBox.classList.remove('show');
         explanationBox.style.display = 'none';
         explanationBox.textContent = '';
@@ -674,7 +657,6 @@
         explanationBox.classList.add('show');
 
         answered = true;
-        document.getElementById('skipBtn').disabled = true;
         saveProgress();
     }
 
@@ -786,27 +768,6 @@
 
     prevBtn.addEventListener('click', goToPrev);
     nextBtn.addEventListener('click', goToNext);
-            document.getElementById('skipBtn').addEventListener('click', function() {
-            if (answered) return;
-            var q = questions[currentIndex];
-            addWrongQuestion(q, -1);
-            recordDoneQuestion(q, false);
-            answered = true;
-            document.querySelectorAll('.opt').forEach(function(o) {
-                o.classList.add('disabled');
-            });
-            saveProgress();
-            if (currentIndex < questions.length - 1) {
-                currentIndex++;
-                renderQuestion(currentIndex);
-            } else {
-                if (isWrongMode) {
-                    showWrongReport();
-                } else {
-                    alert('🎉 已完成全部 ' + questions.length + ' 题！');
-                }
-            }
-        });
 
     wrongBtn.addEventListener('click', function() {
         if (isWrongMode) {
