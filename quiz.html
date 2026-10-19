@@ -416,10 +416,10 @@
         var fileName = null;
         if (unitFilter && unitFileMap[unitFilter]) {
             fileName = unitFileMap[unitFilter];
-        } else if (moduleFilter === '七上' && subjectFilter === '历史') {
-            fileName = 'q_七上_史前时期.json';
+        } else if (unitFilter) {
+            fileName = 'error_找不到文件_' + unitFilter + '.json';
         } else {
-            fileName = unitFilter && unitFileMap[unitFilter] ? unitFileMap[unitFilter] : 'q_七上_史前时期.json';
+            fileName = 'q_七上_史前时期.json';
         }
 
         if (!fileName) {
