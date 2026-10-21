@@ -685,15 +685,32 @@
             saveProgress();
         }
 
-               // 最后一题 → 弹报告或提示
+                 // 最后一题 → 弹报告或提示
         if (currentIndex === questions.length - 1) {
             if (isWrongMode) {
                 showWrongReport();
             } else {
-                alert('🎉 已完成全部 ' + questions.length + ' 题！\n\n点击确定后，将从第 1 题重新开始。');
-                currentIndex = 0; // 自动重置回第1题
-                renderQuestion(currentIndex); // 重新渲染第1题
-                saveProgress(); // 更新记忆进度为0
+                // 计算本单元做对的题数（简单统计）
+                var doneMap = JSON.parse(localStorage.getItem('daofa_done') || '{}');
+                var correctMap = JSON.parse(localStorage.getItem('daofa_correct') || '{}');
+                var unitName = questions[0].unit;
+                var doneCount = (doneMap[unitName] || []).length;
+                var correctCount = (correctMap[unitName] || []).length;
+                var rate = doneCount > 0 ? Math.round(correctCount / doneCount * 100) : 0;
+
+                var reportMsg = '🎉 本单元刷题完成！\n\n';
+                reportMsg += '📚 单元：' + unitName + '\n';
+                reportMsg += '📝 已做：' + doneCount + ' 题\n';
+                reportMsg += '✅ 答对：' + correctCount + ' 题\n';
+                reportMsg += '📊 正确率：' + rate + '%\n\n';
+                reportMsg += '点击“确定”将从第 1 题重新开始。';
+
+                var restart = confirm(reportMsg);
+                if (restart) {
+                    currentIndex = 0; // 自动重置回第1题
+                    renderQuestion(currentIndex); // 重新渲染第1题
+                    saveProgress(); // 更新记忆进度为0
+                }
             }
             return;
         }
