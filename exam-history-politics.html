@@ -929,6 +929,72 @@ function autoCountUnits() {
             return Math.round(totalCorrect / totalDone * 100);
         }
 
+
+                function openDiagnosisPage() {
+            document.getElementById('diagnosisPage').classList.add('show');
+            
+            var doneMap = JSON.parse(localStorage.getItem('daofa_done') || '{}');
+            var correctMap = JSON.parse(localStorage.getItem('daofa_correct') || '{}');
+            
+            var totalDone = 0, totalCorrect = 0, totalAll = 0;
+            
+            // 遍历所有单元，收集数据
+            var unitStats = [];
+            Object.keys(ALL_UNITS).forEach(function(moduleName) {
+                if (moduleName === '中考冲刺') return;
+                ['history', 'politics'].forEach(function(subj) {
+                    var units = ALL_UNITS[moduleName][subj] || [];
+                    units.forEach(function(u) {
+                        var done = (doneMap[u.unit] || []).length;
+                        var correct = (correctMap[u.unit] || []).length;
+                        totalDone += done;
+                        totalCorrect += correct;
+                        totalAll += (u.total || 0);
+                        
+                        // 只有做过的题才参与薄弱点计算
+                        if (done > 0) {
+                            var wrong = done - correct;
+                            var rate = Math.round(correct / done * 100);
+                            unitStats.push({
+                                name: u.name,
+                                wrong: wrong,
+                                rate: rate
+                            });
+                        }
+                    });
+                });
+            });
+            
+            // 渲染顶部数据
+            var totalRate = totalDone > 0 ? Math.round(totalCorrect / totalDone * 100) : 0;
+            document.getElementById('diagRate').textContent = totalRate + '%';
+            document.getElementById('diagDone').textContent = totalDone;
+            document.getElementById('diagTotal').textContent = totalAll;
+            
+            // 排序找出薄弱点（错得最多的排前面）
+            unitStats.sort(function(a, b) { return b.wrong - a.wrong; });
+            
+            // 渲染薄弱点列表
+            var listHtml = '';
+            var weakToShow = unitStats.slice(0, 3); // 只显示前 3 个
+            if (weakToShow.length === 0) {
+                listHtml = '<div style="font-size: 13px; color: #8a7a6a; text-align: center; padding: 20px;">还没有做题数据，快去刷题吧！</div>';
+            } else {
+                weakToShow.forEach(function(u) {
+                    listHtml += `
+                        <div style="background: #fff; border: 1px solid #f0ede8; border-radius: 12px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-size: 14px; font-weight: bold; color: #2c241c;">${u.name}</div>
+                                <div style="font-size: 12px; color: #8a7a6a; margin-top: 4px;">错题：${u.wrong} 道 | 正确率：${u.rate}%</div>
+                            </div>
+                            <div style="color: #c45a4a; font-size: 20px;">🚨</div>
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('diagWeakList').innerHTML = listHtml;
+        }
+
         var colorMap = {
             '七上': 'color-blue',
             '七下': 'color-blue',
@@ -1017,7 +1083,7 @@ function autoCountUnits() {
                 el.addEventListener('click', function() {
                     var m = this.dataset.module;
                     if (m === 'diagnosis') {
-                        alert('📊 学情诊断详情即将上线');
+                       openDiagnosisPage();
                         return;
                     }
                     if (m === 'sprint') {
@@ -1327,5 +1393,28 @@ if (returnModule) {
  
         console.log('✅ 道法历史 · 闯关（修正版）已加载');
     </script>
+        <!-- 学情诊断详情页 -->
+        <div class="page-secondary" id="diagnosisPage" style="z-index: 1100;">
+            <div class="page-secondary-inner">
+                <div class="page-secondary-header">
+                    <button class="back" onclick="document.getElementById('diagnosisPage').classList.remove('show')">❮</button>
+                    <span class="placeholder"></span>
+                </div>
+                <div class="plan-title" style="margin-top:10px;">📊 学情诊断报告</div>
+                
+                <!-- 总览卡片 -->
+                <div style="background: #faf8f6; border-radius: 16px; padding: 20px; margin-bottom: 20px; text-align: center; border: 1px solid #f0ede8;">
+                    <div style="font-size: 14px; color: #8a7a6a;">总体正确率</div>
+                    <div style="font-size: 36px; font-weight: bold; color: #b8864a; margin: 10px 0;" id="diagRate">0%</div>
+                    <div style="font-size: 13px; color: #8a7a6a;">已做 <span id="diagDone">0</span> 题 / 共 <span id="diagTotal">0</span> 题</div>
+                </div>
+
+                <!-- 薄弱点推荐 -->
+                <div style="font-size: 15px; font-weight: bold; margin-bottom: 10px; color: #c45a4a;">🚨 最需攻克的板块</div>
+                <div id="diagWeakList" style="display: flex; flex-direction: column; gap: 10px;">
+                    <!-- JS 动态插入 -->
+                </div>
+            </div>
+        </div>
 </body>
 </html>
