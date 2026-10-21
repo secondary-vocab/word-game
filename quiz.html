@@ -77,6 +77,7 @@
             color: #2c241c;
             line-height: 1.7;
             margin-bottom: 20px;
+            white-space: pre-wrap;
         }
         .question-area .options {
             display: flex;
@@ -557,7 +558,7 @@
         if (!questions.length) return;
         var q = questions[index];
         currentNum.textContent = index + 1;
-        questionText.textContent = q.question;
+        questionText.innerHTML = q.question;
 
         var imageContainer = document.getElementById('questionImage');
         if (q.image) {
