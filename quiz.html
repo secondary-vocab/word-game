@@ -408,6 +408,12 @@
     // 加载题库
     // ============================================================
     function loadQuestions() {
+        if (urlParams.get('freetest') === 'true') {
+            alert('🎉 免费诊断题库正在配置中，敬请期待！');
+            window.location.href = 'exam-history-politics.html'; // 退回首页
+            return;
+        }
+      
         var isSprint = urlParams.get('sprint') === 'true';
         if (isSprint) {
             loadSprintQuestions();
