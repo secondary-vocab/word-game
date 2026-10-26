@@ -467,6 +467,57 @@
     // ============================================================
     // 正常模式
     // ============================================================
+        // ============================================================
+    // 清洗已失效的题目记录（题库删题后，localStorage 里的旧ID要清掉）
+    // 只删"当前题库里已经不存在的题目ID"，有效记录一条不动
+    // ============================================================
+    function cleanUnitRecords(unit, currentQuestions) {
+        if (!unit || !currentQuestions || currentQuestions.length === 0) return;
+
+        // 当前题库里所有题目的 ID 集合
+        var validIds = {};
+        currentQuestions.forEach(function(q) {
+            if (q && q.id) validIds[q.id] = true;
+        });
+
+        // 1. 清洗 daofa_done（做过的题）
+        try {
+            var doneMap = JSON.parse(localStorage.getItem('daofa_done') || '{}');
+            var doneList = doneMap[unit] || [];
+            var validDone = doneList.filter(function(id) { return validIds[id]; });
+            if (validDone.length !== doneList.length) {
+                console.log('[clean] daofa_done "' + unit + '" 清理 ' + (doneList.length - validDone.length) + ' 条失效记录');
+                doneMap[unit] = validDone;
+                localStorage.setItem('daofa_done', JSON.stringify(doneMap));
+            }
+        } catch (e) {}
+
+        // 2. 清洗 daofa_correct（做对的题）
+        try {
+            var correctMap = JSON.parse(localStorage.getItem('daofa_correct') || '{}');
+            var correctList = correctMap[unit] || [];
+            var validCorrect = correctList.filter(function(id) { return validIds[id]; });
+            if (validCorrect.length !== correctList.length) {
+                console.log('[clean] daofa_correct "' + unit + '" 清理 ' + (correctList.length - validCorrect.length) + ' 条失效记录');
+                correctMap[unit] = validCorrect;
+                localStorage.setItem('daofa_correct', JSON.stringify(correctMap));
+            }
+        } catch (e) {}
+
+        // 3. 清洗 wrongQuestions（错题本，只清当前单元的，其他单元不动）
+        try {
+            var wrongList = JSON.parse(localStorage.getItem('wrongQuestions') || '[]');
+            var validWrong = wrongList.filter(function(w) {
+                if (w.unit !== unit) return true;   // 不是当前单元，保留
+                return validIds[w.id];               // 是当前单元，只保留还存在的题
+            });
+            if (validWrong.length !== wrongList.length) {
+                console.log('[clean] wrongQuestions "' + unit + '" 清理 ' + (wrongList.length - validWrong.length) + ' 条失效记录');
+                localStorage.setItem('wrongQuestions', JSON.stringify(validWrong));
+            }
+        } catch (e) {}
+    }
+
     function loadNormalQuestions() {
         if (!allQuestionsData || allQuestionsData.length === 0) {
             questions = [];
@@ -474,6 +525,8 @@
             return;
         }
         questions = allQuestionsData.slice();
+        // 👇 新增：清洗当前单元里已失效的题目记录
+        cleanUnitRecords(questions[0] ? questions[0].unit : '', questions);
         isWrongMode = false;
         wrongBtn.textContent = '📒 错题';
         wrongBtn.classList.remove('active');
