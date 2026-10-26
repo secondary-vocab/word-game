@@ -709,7 +709,7 @@
             </div>
             <div class="grid-container" id="gridContainer"></div>
             <button class="btn-primary" id="startBtn">📕 全科总错题本 · 一键重刷</button>
-            <button class="btn-secondary" id="reportBtn">诊断报告（即将上线）</button>
+            <button class="btn-secondary" id="reportBtn">📕 全科总错题本（一键重刷）</button>
         </div>
 
         <!-- ===== 第2页 ===== -->
@@ -1374,8 +1374,8 @@ function autoCountUnits() {
        document.getElementById('startBtn').addEventListener('click', function() {
             window.location.href = 'quiz.html?allwrong=true';
         });
-        document.getElementById('reportBtn').addEventListener('click', function() {
-            alert('📊 诊断报告功能即将上线，敬请期待！');
+      document.getElementById('reportBtn').addEventListener('click', function() {
+           window.location.href = 'quiz.html?allwrong=true';
         });
 
         // ============================================================
