@@ -900,9 +900,12 @@ function autoCountUnits() {
                 var total = 0, done = 0;
                 ['history', 'politics'].forEach(function(subj) {
                     var units = ALL_UNITS[moduleName][subj] || [];
-                    units.forEach(function(u) {
+                        units.forEach(function(u) {
                         total += u.total || 0;
-                        done += (doneMap[u.unit] || []).length;
+                        var unitDone = (doneMap[u.unit] || []).length;
+                        // 👇 新增：防止 done 超过 total（题库删题后旧记录残留）
+                        if (u.total > 0 && unitDone > u.total) unitDone = u.total;
+                        done += unitDone;
                     });
                 });
                 var status = 'pending';
@@ -947,6 +950,9 @@ function autoCountUnits() {
                     units.forEach(function(u) {
                         var done = (doneMap[u.unit] || []).length;
                         var correct = (correctMap[u.unit] || []).length;
+                        // 👇 新增：防止 done 超过 total、correct 超过 done
+                        if (u.total > 0 && done > u.total) done = u.total;
+                        if (done > 0 && correct > done) correct = done;
                         totalDone += done;
                         totalCorrect += correct;
                         totalAll += (u.total || 0);
