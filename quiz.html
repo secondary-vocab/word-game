@@ -427,6 +427,24 @@
             questionText.textContent = '❌ 未找到对应的题库文件。';
             return;
         }
+                // 如果 URL 里带有 allwrong=true，直接加载全科错题本
+        if (urlParams.get('allwrong') === 'true') {
+            currentQuestionsFile = 'allwrong'; // 标记一下
+            var allWrongs = getWrongQuestions();
+            if (allWrongs.length === 0) {
+                alert('🎉 你的总错题本是空的，继续保持！');
+                window.location.href = 'exam-history-politics.html'; // 退回首页
+                return;
+            }
+            questions = allWrongs; // 错题本里存了完整题目，直接用
+            isWrongMode = true; // 标记为错题模式，这样做完会弹报告
+            wrongBtn.textContent = '📖 退出'; // 按钮变成退出
+            currentIndex = 0;
+            totalNum.textContent = questions.length;
+            emptyState.style.display = 'none';
+            renderQuestion(0);
+            return; // 结束，不去 fetch 文件
+        }
 
         currentQuestionsFile = fileName;
 
