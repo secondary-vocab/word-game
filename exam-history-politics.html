@@ -1015,10 +1015,104 @@ function autoCountUnits() {
             'pending': { label: '未开始' }
         };
 
+                // 全科总答对题数（带兜底）
+        function calcTotalCorrect() {
+            var doneMap = {}, correctMap = {};
+            try {
+                doneMap = JSON.parse(localStorage.getItem('daofa_done') || '{}');
+                correctMap = JSON.parse(localStorage.getItem('daofa_correct') || '{}');
+            } catch (e) {}
+            var total = 0;
+            Object.keys(doneMap).forEach(function(unitKey) {
+                var done = doneMap[unitKey].length;
+                var correct = (correctMap[unitKey] || []).length;
+                if (correct > done) correct = done;
+                total += correct;
+            });
+            return total;
+        }
+
+        // 最弱 3 个单元（先筛做题 >= 5，再按错题数降序，同分按正确率升序）
+        function getWeakTop3() {
+            var doneMap = {}, correctMap = {};
+            try {
+                doneMap = JSON.parse(localStorage.getItem('daofa_done') || '{}');
+                correctMap = JSON.parse(localStorage.getItem('daofa_correct') || '{}');
+            } catch (e) {}
+
+            var list = [];
+            Object.keys(ALL_UNITS).forEach(function(moduleName) {
+                if (moduleName === '中考冲刺') return;
+                ['history', 'politics'].forEach(function(subj) {
+                    var units = ALL_UNITS[moduleName][subj] || [];
+                    units.forEach(function(u) {
+                        var done = (doneMap[u.unit] || []).length;
+                        var correct = (correctMap[u.unit] || []).length;
+                        if (u.total > 0 && done > u.total) done = u.total;
+                        if (done > 0 && correct > done) correct = done;
+                        if (done >= 5) {
+                            list.push({
+                                name: u.name.replace(/^第[一二三四五六七八九十]+单元[：:]\s*/, ''),
+                                wrong: done - correct,
+                                rate: Math.round(correct / done * 100)
+                            });
+                        }
+                    });
+                });
+            });
+            list.sort(function(a, b) {
+                if (b.wrong !== a.wrong) return b.wrong - a.wrong;
+                return a.rate - b.rate;
+            });
+            return list.slice(0, 3).map(function(w) {
+                return w.name.length > 10 ? w.name.substring(0, 9) + '…' : w.name;
+            });
+        }
+
+        // ============================================================
+        // 首页卡片渲染
+        // ============================================================
+        function renderCard(type, name, label, extra, rowStart, rowEnd, col) {
+            var cls = 'card-module';
+            if (type === 'large') cls += ' large';
+            else cls += ' small ' + (colorMap[name] || '');
+            var content = '';
+
+            if (type === 'large' && name === 'diagnosis') {
+                var weak3 = getWeakTop3();
+                var weakText = weak3.length ? weak3.join('、') : '暂无数据';
+                content = `
+                        <div class="label">${label}<span style="font-size:11px;color:#b8a48a;font-weight:400;"> 共 ${extra.total} 题</span></div>
+                        <div class="big-number">${extra.correct}<span class="small"> 正确 / ${extra.done} 已做</span></div>
+                        <div class="sub-line">正确率 ${calcCorrectRate()}%</div>
+                        <div class="weak-tag">📌 薄弱：<strong>${weakText}</strong></div>
+                    `;
+            } else if (type === 'large' && name === 'sprint') {
+                content = `
+                        <div class="label">${label}</div>
+                        <div class="big-number">${extra.done}<span class="small"> 套卷</span></div>
+                        <div class="sub-line">共 ${extra.total} 题 · 模拟中考</div>
+                    `;
+            } else {
+                var d = extra;
+                var info = statusMap[d.status] || statusMap['pending'];
+                content = `
+                        <div class="label">${name}</div>
+                        <div class="sub">${d.done > 0 ? d.done + '/' + d.total + ' 题' : info.label}</div>
+                    `;
+            }
+
+            return `
+                    <div class="${cls}" data-module="${name}" style="grid-row: ${rowStart} / ${rowEnd}; grid-column: ${col};">
+                        ${content}
+                    </div>
+                `;
+        }
+
         // ============================================================
         // 3. 首页渲染
         // ============================================================
-        function renderGrid() {
+               function renderGrid() {
             var container = document.getElementById('gridContainer');
             var data = calcGradeStatus();
 
@@ -1028,48 +1122,15 @@ function autoCountUnits() {
                 totalDone += data[key].done || 0;
                 totalAll += data[key].total || 0;
             }
-            var weakModule = '八下 · 法治';
 
             var leftSmall = ['七下', '八下', '九下'];
             var rightSmall = ['七上', '八上', '九上'];
 
-            function renderCard(type, name, label, extra, rowStart, rowEnd, col) {
-                var cls = 'card-module';
-                if (type === 'large') cls += ' large';
-                else cls += ' small ' + (colorMap[name] || '');
-                var content = '';
-                if (type === 'large' && name === 'diagnosis') {
-                    content = `
-                            <div class="label">${label}</div>
-                            <div class="big-number">${extra.done}<span class="small"> / ${extra.total} 题</span></div>
-                            <div class="sub-line">正确率 ${calcCorrectRate()}%</div>
-                            <div class="weak-tag">📌 薄弱：<strong>${extra.weak}</strong></div>
-                        `;
-                } else if (type === 'large' && name === 'sprint') {
-                    content = `
-                            <div class="label">${label}</div>
-                            <div class="big-number">${extra.done}<span class="small"> 题</span></div>
-                            <div class="sub-line">综合复习 · 查漏补缺</div>
-                        `;
-                } else {
-                    var d = extra;
-                    var info = statusMap[d.status] || statusMap['pending'];
-                    content = `
-                            <div class="label">${name}</div>
-                            <div class="sub">${d.done > 0 ? d.done + '/' + d.total + ' 题' : info.label}</div>
-                        `;
-                }
-                return `
-                        <div class="${cls}" data-module="${name}" style="grid-row: ${rowStart} / ${rowEnd}; grid-column: ${col};">
-                            ${content}
-                        </div>
-                    `;
-            }
-
             var html = '';
 
-            html += renderCard('large', 'diagnosis', '📊 学情诊断', { done: totalDone, total: totalAll, weak: weakModule }, 1, 4,
-            1);
+            var totalCorrect = calcTotalCorrect();
+            html += renderCard('large', 'diagnosis', '📊 学情诊断', { done: totalDone, correct: totalCorrect, total: totalAll }, 1, 4, 1);
+
             for (var i = 0; i < leftSmall.length; i++) {
                 var name = leftSmall[i];
                 var d = data[name] || { done: 0, total: 0, status: 'pending' };
@@ -1081,7 +1142,7 @@ function autoCountUnits() {
                 var d2 = data[name2] || { done: 0, total: 0, status: 'pending' };
                 html += renderCard('small', name2, '', d2, 1 + j, 2 + j, 2);
             }
-            html += renderCard('large', 'sprint', '🎯 中考冲刺', { done: totalDone }, 4, 7, 2);
+            html += renderCard('large', 'sprint', '🎯 中考冲刺', { done: 7, total: 196 }, 4, 7, 2);
 
             container.innerHTML = html;
 
@@ -1089,18 +1150,17 @@ function autoCountUnits() {
                 el.addEventListener('click', function() {
                     var m = this.dataset.module;
                     if (m === 'diagnosis') {
-                       openDiagnosisPage();
+                        openDiagnosisPage();
                         return;
                     }
                     if (m === 'sprint') {
-                       window.location.href = 'quiz.html?mode=sprint';
+                        window.location.href = 'quiz.html?mode=sprint';
                         return;
                     }
                     openSecondary(m);
                 });
             });
         }
-
         // ============================================================
         // 4. 所有年级单元数据
         // ============================================================
