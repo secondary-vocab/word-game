@@ -233,7 +233,21 @@
     const subjectFilter = urlParams.get('subject') || null;
     const unitFilter = urlParams.get('unit') || null;
     const sprintFilter = urlParams.get('sprint') === 'true';
+    const modeFilter = urlParams.get('mode') || null;
 
+    // ============================================================
+    // 中考冲刺 7 套卷（都放在 questions/ 根目录）
+    // ============================================================
+    const SPRINT_PAPERS = [
+        { id: 1, unit: '2026年硚口区中考模拟', file: 'q_中考冲刺_2026年硚口区中考模拟.json' },
+        { id: 2, unit: '江岸区2025-2026五调', file: 'q_中考冲刺_江岸区2025-2026五调.json' },
+        { id: 3, unit: '2026年汉阳区中考模拟', file: 'q_中考冲刺_2026年汉阳区中考模拟.json' },
+        { id: 4, unit: '2026东西湖区中考模拟', file: 'q_中考冲刺_2026东西湖区中考模拟.json' },
+        { id: 5, unit: '2026年武昌区中考一模', file: 'q_中考冲刺_2026年武昌区中考一模.json' },
+        { id: 6, unit: '硚口区2025-2026训练卷', file: 'q_中考冲刺_硚口区2025-2026训练卷.json' },
+        { id: 7, unit: '26武汉初中适应考', file: 'q_中考冲刺_26武汉初中适应考.json' }
+    ];
+    const SPRINT_BASE = 'https://secondary-vocab.github.io/word-game/questions/';
     // ============================================================
     // 单元文件名映射
     // ============================================================
@@ -302,6 +316,7 @@
     let currentIndex = 0;
     let answered = false;
     let isWrongMode = false;
+    let isDiagnosisMode = false;
     let returnIndex = 0;           // 记录从正常模式切到错题模式时的正常索引
     let currentQuestionsFile = null;
 
@@ -322,6 +337,14 @@
     // 返回
     // ============================================================
     backBtn.addEventListener('click', function() {
+                if (modeFilter === 'sprint') {
+            if (document.querySelector('.sprint-paper')) {
+                window.location.href = 'exam-history-politics.html';
+            } else {
+                loadSprintSelect();
+            }
+            return;
+        }
         var module = moduleFilter || '七上';
         window.location.href = 'exam-history-politics.html?module=' + encodeURIComponent(module);
     });
@@ -413,13 +436,11 @@
             window.location.href = 'exam-history-politics.html'; // 退回首页
             return;
         }
-      
-        var isSprint = urlParams.get('sprint') === 'true';
-        if (isSprint) {
-            loadSprintQuestions();
-            return;
+        if (modeFilter === 'sprint') {
+        loadSprintSelect();
+        return;
         }
-
+      
         var fileName = null;
         if (unitFilter && unitFileMap[unitFilter]) {
             fileName = unitFileMap[unitFilter];
@@ -763,8 +784,12 @@
             saveProgress();
         }
 
-                 // 最后一题 → 弹报告或提示
+                // 最后一题 → 弹报告或提示
         if (currentIndex === questions.length - 1) {
+            if (modeFilter === 'sprint') {
+                showSprintComplete();
+                return;
+            }
             if (isWrongMode) {
                 showWrongReport();
             } else {
@@ -785,9 +810,9 @@
 
                 var restart = confirm(reportMsg);
                 if (restart) {
-                    currentIndex = 0; // 自动重置回第1题
-                    renderQuestion(currentIndex); // 重新渲染第1题
-                    saveProgress(); // 更新记忆进度为0
+                    currentIndex = 0;
+                    renderQuestion(currentIndex);
+                    saveProgress();
                 }
             }
             return;
@@ -856,7 +881,17 @@
         loadNormalQuestions();
         // 但 loadNormalQuestions 会读取存储，此时已经是我们刚写的数据，所以能恢复
     }
+        // ============================================================
+    // 冲刺：本套完成提示
+    // ============================================================
+    function showSprintComplete() {
+        var unitName = questions[0] ? questions[0].unit : '';
+        var total = questions.length;
+        alert('🎉 「' + unitName + '」完成！\n\n共 ' + total + ' 题。\n\n点击确定返回冲刺选择页。');
+        loadSprintSelect();
+    }
 
+        
     // ============================================================
     // 事件绑定
     // ============================================================
@@ -893,6 +928,73 @@
         }
     });
 
+        // ============================================================
+    // 中考冲刺：套卷选择页
+    // ============================================================
+    function loadSprintSelect() {
+        isWrongMode = false;
+        isDiagnosisMode = false;
+        wrongBtn.style.display = 'none';
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+
+        questionMeta.textContent = '中考冲刺 · 共 7 套模拟卷';
+        questionText.textContent = '请选择一套试卷开始答题';
+        totalNum.textContent = '0';
+        currentNum.textContent = '0';
+        document.getElementById('questionImage').innerHTML = '';
+        explanationBox.classList.remove('show');
+        explanationBox.style.display = 'none';
+        emptyState.style.display = 'none';
+
+        var html = '<div style="display:flex;flex-direction:column;gap:10px;">';
+        SPRINT_PAPERS.forEach(function(p) {
+            html += '<div class="sprint-paper" data-file="' + p.file + '" data-unit="' + p.unit + '" style="padding:16px 18px;border-radius:16px;border:1.5px solid #f0ede8;background:#faf8f6;font-size:16px;color:#2c241c;cursor:pointer;display:flex;justify-content:space-between;align-items:center;">' +
+                '<span>' + p.unit + '</span>' +
+                '<span style="color:#b8a48a;font-size:13px;">28 题 ›</span>' +
+                '</div>';
+        });
+        html += '</div>';
+        optionsContainer.innerHTML = html;
+
+        optionsContainer.querySelectorAll('.sprint-paper').forEach(function(el) {
+            el.addEventListener('click', function() {
+                loadSprintPaper(this.dataset.file, this.dataset.unit);
+            });
+        });
+    }
+
+    // ============================================================
+    // 中考冲刺：读某一套卷
+    // ============================================================
+    function loadSprintPaper(file, unitName) {
+        questionText.textContent = '加载中...';
+        questionText.style.color = '#2c241c';
+        optionsContainer.innerHTML = '';
+        fetch(SPRINT_BASE + encodeURIComponent(file))
+            .then(function(res) {
+                if (!res.ok) throw new Error('加载失败 ' + res.status);
+                return res.json();
+            })
+            .then(function(data) {
+                questions = data.questions || [];
+                if (questions.length === 0) {
+                    questionText.textContent = '❌ 这套卷还没有题目。';
+                    return;
+                }
+                questions.forEach(function(q) { q.unit = unitName; });
+                currentIndex = 0;
+                prevBtn.style.display = '';
+                nextBtn.style.display = '';
+                wrongBtn.style.display = 'none';
+                renderList();
+            })
+            .catch(function(e) {
+                console.error(e);
+                questionText.textContent = '❌ 试卷加载失败，请检查文件是否存在。';
+                questionText.style.color = '#c45a4a';
+            });
+    }
     // ============================================================
     // 中考冲刺（保留不变）
     // ============================================================
