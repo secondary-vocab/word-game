@@ -1085,7 +1085,7 @@ function autoCountUnits() {
                         <div class="label">${label}<span style="font-size:11px;color:#b8a48a;font-weight:400;"> 共 ${extra.total} 题</span></div>
                         <div class="big-number">${extra.correct}<span class="small"> 正确 / ${extra.done} 已做</span></div>
                         <div class="sub-line">正确率 ${calcCorrectRate()}%</div>
-                        <div class="weak-tag">📌 薄弱：<strong>${weakText}</strong></div>
+                        <div class="weak-tag" style="display:block;line-height:1.6;">📌 薄弱：<br><strong>${weak3.length ? weak3.map(function(w){ return '· ' + w; }).join('<br>') : '暂无数据'}</strong></div>
                     `;
             } else if (type === 'large' && name === 'sprint') {
                 content = `
