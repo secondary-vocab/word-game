@@ -317,6 +317,7 @@
     let answered = false;
     let isWrongMode = false;
     let isDiagnosisMode = false;
+    let sprintAnswers = [];   // 本次冲刺作答记录
     let returnIndex = 0;           // 记录从正常模式切到错题模式时的正常索引
     let currentQuestionsFile = null;
 
@@ -337,12 +338,8 @@
     // 返回
     // ============================================================
     backBtn.addEventListener('click', function() {
-                if (modeFilter === 'sprint') {
-            if (document.querySelector('.sprint-paper')) {
-                window.location.href = 'exam-history-politics.html';
-            } else {
-                loadSprintSelect();
-            }
+                        if (modeFilter === 'sprint' || modeFilter === 'sprintwrong') {
+            window.location.href = 'exam-history-politics.html';
             return;
         }
         var module = moduleFilter || '七上';
@@ -359,6 +356,31 @@
         } catch (e) {
             return [];
         }
+    }
+        // ============================================================
+    // 冲刺错题本（独立存储，不和 wrongQuestions 混）
+    // ============================================================
+    function getSprintWrong() {
+        try {
+            return JSON.parse(localStorage.getItem('sprint_wrong') || '{}');
+        } catch (e) { return {}; }
+    }
+    function addSprintWrong(q) {
+        var map = getSprintWrong();
+        var unit = q.unit || '未分类';
+        if (!map[unit]) map[unit] = [];
+        if (map[unit].indexOf(q.id) === -1) {
+            map[unit].push(q.id);
+            localStorage.setItem('sprint_wrong', JSON.stringify(map));
+        }
+    }
+    function removeSprintWrong(id) {
+        var map = getSprintWrong();
+        Object.keys(map).forEach(function(unit) {
+            map[unit] = map[unit].filter(function(x) { return x !== id; });
+            if (map[unit].length === 0) delete map[unit];
+        });
+        localStorage.setItem('sprint_wrong', JSON.stringify(map));
     }
     function saveWrongQuestions(data) {
         localStorage.setItem('wrongQuestions', JSON.stringify(data));
@@ -438,6 +460,10 @@
         }
         if (modeFilter === 'sprint') {
         loadSprintSelect();
+        return;
+        }
+        if (modeFilter === 'sprintwrong') {
+        loadSprintWrong();
         return;
         }
       
@@ -744,12 +770,21 @@
             if (i === selected && !isCorrect) o.classList.add('wrong');
         });
 
-        if (!isCorrect) {
+                if (modeFilter === 'sprint') {
+            sprintAnswers[currentIndex] = isCorrect;
+            if (!isCorrect) {
+                addSprintWrong(q);
+            } else {
+                removeSprintWrong(q.id);
+            }
+        } else if (!isCorrect) {
             addWrongQuestion(q, selected);
         } else {
             removeWrongQuestion(q.id);
         }
-                        recordDoneQuestion(q, isCorrect);
+        if (modeFilter !== 'sprint') {
+            recordDoneQuestion(q, isCorrect);
+        }
 
         explanationBox.textContent = (isCorrect ? '✅ 回答正确！' : '❌ 回答错误') + ' 解析：' + q.explanation;
         explanationBox.style.display = 'block';
@@ -884,10 +919,25 @@
         // ============================================================
     // 冲刺：本套完成提示
     // ============================================================
-    function showSprintComplete() {
+       function showSprintComplete() {
         var unitName = questions[0] ? questions[0].unit : '';
         var total = questions.length;
-        alert('🎉 「' + unitName + '」完成！\n\n共 ' + total + ' 题。\n\n点击确定返回冲刺选择页。');
+        var answered = 0, correct = 0;
+        sprintAnswers.forEach(function(v) {
+            if (v === true) { answered++; correct++; }
+            else if (v === false) { answered++; }
+        });
+        var wrong = answered - correct;
+        var rate = answered > 0 ? Math.round(correct / answered * 100) : 0;
+
+        var msg = '📊 「' + unitName + '」完成！\n\n';
+        msg += '共 ' + total + ' 题\n';
+        msg += '已答 ' + answered + ' 题\n';
+        msg += '答对 ' + correct + ' 题\n';
+        msg += '答错 ' + wrong + ' 题\n';
+        msg += '正确率 ' + rate + '%\n\n';
+        msg += '点击确定返回冲刺选择页。';
+        alert(msg);
         loadSprintSelect();
     }
 
@@ -982,6 +1032,7 @@
                     questionText.textContent = '❌ 这套卷还没有题目。';
                     return;
                 }
+                sprintAnswers = [];
                 questions.forEach(function(q) { q.unit = unitName; });
                 currentIndex = 0;
                 prevBtn.style.display = '';
@@ -994,6 +1045,70 @@
                 questionText.textContent = '❌ 试卷加载失败，请检查文件是否存在。';
                 questionText.style.color = '#c45a4a';
             });
+    }
+        // ============================================================
+    // 冲刺错题本：读取所有冲刺错题
+    // ============================================================
+    function loadSprintWrong() {
+        isWrongMode = false;
+        isDiagnosisMode = false;
+        wrongBtn.style.display = 'none';
+        prevBtn.style.display = '';
+        nextBtn.style.display = '';
+
+        var map = getSprintWrong();
+        var ids = [];
+        Object.keys(map).forEach(function(unit) {
+            map[unit].forEach(function(id) { ids.push({ unit: unit, id: id }); });
+        });
+
+        if (ids.length === 0) {
+            questionMeta.textContent = '冲刺错题本';
+            questionText.textContent = '🎉 冲刺错题本为空';
+            optionsContainer.innerHTML = '';
+            totalNum.textContent = '0';
+            currentNum.textContent = '0';
+            return;
+        }
+
+        // 按套卷分组，逐个拉 JSON 匹配题目
+        var units = {};
+        ids.forEach(function(item) {
+            if (!units[item.unit]) units[item.unit] = [];
+            units[item.unit].push(item.id);
+        });
+
+        var unitNames = Object.keys(units);
+        var papers = SPRINT_PAPERS.filter(function(p) { return unitNames.indexOf(p.unit) !== -1; });
+        var promises = papers.map(function(p) {
+            return fetch(SPRINT_BASE + encodeURIComponent(p.file))
+                .then(function(res) { return res.ok ? res.json() : { questions: [] }; })
+                .catch(function() { return { questions: [] }; });
+        });
+
+        Promise.all(promises).then(function(results) {
+            var matched = [];
+            results.forEach(function(data, idx) {
+                var p = papers[idx];
+                var unitIds = units[p.unit] || [];
+                (data.questions || []).forEach(function(q) {
+                    if (unitIds.indexOf(q.id) !== -1) {
+                        q.unit = p.unit;
+                        matched.push(q);
+                    }
+                });
+            });
+            questions = matched;
+            currentIndex = 0;
+            if (questions.length === 0) {
+                questionMeta.textContent = '冲刺错题本';
+                questionText.textContent = '🎉 冲刺错题本为空';
+                totalNum.textContent = '0';
+                currentNum.textContent = '0';
+                return;
+            }
+            renderList();
+        });
     }
     // ============================================================
     // 中考冲刺（保留不变）
