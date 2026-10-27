@@ -262,6 +262,7 @@
             padding-top: 14px;
             background: #f0ecf5;
             border-color: #e8e0d8;
+            position: relative;
         }
         .card-module.large .label {
             font-size: 15px;
@@ -1091,12 +1092,13 @@ function autoCountUnits() {
                         <div class="weak-tag" style="display:block;line-height:1.6;">📌 薄弱：<br><strong>${weak3.length ? weak3.map(function(w){ return '· ' + w; }).join('<br>') : '暂无数据'}</strong></div>
                     `;
             } else if (type === 'large' && name === 'sprint') {
-                content = `
-                        <div class="label">${label}</div>
-                        <div class="big-number">${extra.done}<span class="small"> 套卷</span></div>
-                        <div class="sub-line">共 ${extra.total} 题 · 模拟中考</div>
-                    `;
-            } else {
+               content = `
+            <div class="label">${label}</div>
+            <div class="big-number">${extra.done}<span class="small"> 套卷</span></div>
+            <div class="sub-line">共 ${extra.total} 题 · 模拟中考</div>
+            <div class="sprint-wrong-entry" style="position:absolute;right:12px;bottom:10px;font-size:12px;color:#c45a4a;cursor:pointer;">📕 冲刺错题本</div>
+        `;
+           } else {
                 var d = extra;
                 var info = statusMap[d.status] || statusMap['pending'];
                 content = `
@@ -1150,6 +1152,13 @@ function autoCountUnits() {
             container.innerHTML = html;
 
             container.querySelectorAll('.card-module').forEach(function(el) {
+                    var wrongEntry = el.querySelector('.sprint-wrong-entry');
+           if (wrongEntry) {
+            wrongEntry.addEventListener('click', function(e) {
+            e.stopPropagation();
+            window.location.href = 'quiz.html?mode=sprintwrong';
+           });
+           }
                 el.addEventListener('click', function() {
                     var m = this.dataset.module;
                     if (m === 'diagnosis') {
