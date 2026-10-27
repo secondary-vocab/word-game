@@ -933,71 +933,74 @@ function autoCountUnits() {
         }
 
 
-                function openDiagnosisPage() {
+                   function openDiagnosisPage() {
             document.getElementById('diagnosisPage').classList.add('show');
-            
-            var doneMap = JSON.parse(localStorage.getItem('daofa_done') || '{}');
-            var correctMap = JSON.parse(localStorage.getItem('daofa_correct') || '{}');
-            
+
+            var doneMap = {}, correctMap = {};
+            try {
+                doneMap = JSON.parse(localStorage.getItem('daofa_done') || '{}');
+                correctMap = JSON.parse(localStorage.getItem('daofa_correct') || '{}');
+            } catch (e) {}
+
             var totalDone = 0, totalCorrect = 0, totalAll = 0;
-            
-            // 遍历所有单元，收集数据
-            var unitStats = [];
-            Object.keys(ALL_UNITS).forEach(function(moduleName) {
-                if (moduleName === '中考冲刺') return;
+
+            var modules = ['七上', '七下', '八上', '八下', '九上', '九下'];
+            var boardStats = [];
+
+            modules.forEach(function(moduleName) {
                 ['history', 'politics'].forEach(function(subj) {
-                    var units = ALL_UNITS[moduleName][subj] || [];
+                    var units = (ALL_UNITS[moduleName] && ALL_UNITS[moduleName][subj]) || [];
+                    var mDone = 0, mCorrect = 0, mTotal = 0;
+
                     units.forEach(function(u) {
                         var done = (doneMap[u.unit] || []).length;
                         var correct = (correctMap[u.unit] || []).length;
-                        // 👇 新增：防止 done 超过 total、correct 超过 done
                         if (u.total > 0 && done > u.total) done = u.total;
                         if (done > 0 && correct > done) correct = done;
-                        totalDone += done;
-                        totalCorrect += correct;
-                        totalAll += (u.total || 0);
-                        
-                        // 只有做过的题才参与薄弱点计算
-                        if (done > 0) {
-                            var wrong = done - correct;
-                            var rate = Math.round(correct / done * 100);
-                            unitStats.push({
-                                name: u.name,
-                                wrong: wrong,
-                                rate: rate
-                            });
-                        }
+                        mDone += done;
+                        mCorrect += correct;
+                        mTotal += (u.total || 0);
+                    });
+
+                    totalDone += mDone;
+                    totalCorrect += mCorrect;
+                    totalAll += mTotal;
+
+                    boardStats.push({
+                        label: moduleName + ' · ' + (subj === 'history' ? '历史' : '道法'),
+                        done: mDone,
+                        correct: mCorrect,
+                        total: mTotal,
+                        wrong: mDone - mCorrect,
+                        rate: mDone > 0 ? Math.round(mCorrect / mDone * 100) : 0
                     });
                 });
             });
-            
-            // 渲染顶部数据
+
             var totalRate = totalDone > 0 ? Math.round(totalCorrect / totalDone * 100) : 0;
             document.getElementById('diagRate').textContent = totalRate + '%';
             document.getElementById('diagDone').textContent = totalDone;
             document.getElementById('diagTotal').textContent = totalAll;
-            
-            // 排序找出薄弱点（错得最多的排前面）
-            unitStats.sort(function(a, b) { return b.wrong - a.wrong; });
-            
-            // 渲染薄弱点列表
+
             var listHtml = '';
-            var weakToShow = unitStats.slice(0, 3); // 只显示前 3 个
-            if (weakToShow.length === 0) {
-                listHtml = '<div style="font-size: 13px; color: #8a7a6a; text-align: center; padding: 20px;">还没有做题数据，快去刷题吧！</div>';
-            } else {
-                weakToShow.forEach(function(u) {
-                    listHtml += `
-                        <div style="background: #fff; border: 1px solid #f0ede8; border-radius: 12px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <div style="font-size: 14px; font-weight: bold; color: #2c241c;">${u.name}</div>
-                                <div style="font-size: 12px; color: #8a7a6a; margin-top: 4px;">错题：${u.wrong} 道 | 正确率：${u.rate}%</div>
-                            </div>
-                            <div style="color: #c45a4a; font-size: 20px;">🚨</div>
-                        </div>
-                    `;
-                });
-            }
+            boardStats.forEach(function(b) {
+                if (b.done > 0) {
+                    listHtml += '<div style="background:#fff;border:1px solid #f0ede8;border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">' +
+                        '<div>' +
+                        '<div style="font-size:14px;font-weight:bold;color:#2c241c;">' + b.label + '</div>' +
+                        '<div style="font-size:12px;color:#8a7a6a;margin-top:4px;">错题 ' + b.wrong + ' 道 · 正确率 ' + b.rate + '%</div>' +
+                        '</div>' +
+                        '<div style="color:#c45a4a;font-size:20px;">🚨</div>' +
+                        '</div>';
+                } else {
+                    listHtml += '<div style="background:#fff;border:1px solid #f0ede8;border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">' +
+                        '<div>' +
+                        '<div style="font-size:14px;font-weight:bold;color:#2c241c;">' + b.label + '</div>' +
+                        '<div style="font-size:12px;color:#b8a48a;margin-top:4px;">未开始</div>' +
+                        '</div>' +
+                        '</div>';
+                }
+            });
             document.getElementById('diagWeakList').innerHTML = listHtml;
         }
 
