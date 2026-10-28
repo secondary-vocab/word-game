@@ -467,8 +467,7 @@
         loadSprintWrong();
         return;
         }
-        if (modeFilter === 'diagnosis') {
-        alert('🚧 拦截到了诊断模式，准备读取题库！');   
+        if (modeFilter === 'diagnosis') {   
         loadDiagnosis();
         return;
         }
@@ -818,10 +817,6 @@
        function goToNext() {
         // 未答题 → 视为跳过
         if (!answered) {
-            var q = questions[currentIndex];
-            // 进错题本，算做错
-            addWrongQuestion(q, -1);
-            recordDoneQuestion(q, false);
             answered = true;
             // 禁用选项，防止再选
             document.querySelectorAll('.opt').forEach(function(o) {
@@ -1106,7 +1101,6 @@
     // 开始诊断：读诊断题库（免费测试，不写正式统计）
     // ============================================================
     function loadDiagnosis() {
-        alert('✅ 成功进入诊断模式！');
         isWrongMode = false;
         isDiagnosisMode = true;
         diagnosisAnswers = [];
