@@ -776,19 +776,25 @@
             if (i === selected && !isCorrect) o.classList.add('wrong');
         });
 
-                if (modeFilter === 'sprint') {
+                       if (modeFilter === 'sprint') {
             sprintAnswers[currentIndex] = isCorrect;
             if (!isCorrect) {
                 addSprintWrong(q);
             } else {
                 removeSprintWrong(q.id);
             }
-        } else if (!isCorrect) {
+        } else if (modeFilter === 'diagnosis') {   // 👈 加上这 6 行
+            diagnosisAnswers[currentIndex] = {
+                id: q.id, module: q.module, subject: q.subject, unit: q.unit,
+                correct: isCorrect
+            };
+        } else if (!isCorrect) {                   // 👈 原来的 else if
             addWrongQuestion(q, selected);
         } else {
             removeWrongQuestion(q.id);
         }
-        if (modeFilter !== 'sprint') {
+        
+        if (modeFilter !== 'sprint' && modeFilter !== 'diagnosis') {  // 👈 这里也要加上不等于 diagnosis
             recordDoneQuestion(q, isCorrect);
         }
 
@@ -799,7 +805,6 @@
         answered = true;
         saveProgress();
     }
-
     // ============================================================
     // 导航
     // ============================================================
