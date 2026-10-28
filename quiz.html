@@ -950,6 +950,47 @@
         alert(msg);
         loadSprintSelect();
     }
+        // ============================================================
+    // 诊断报告：按板块（unit）聚合正确率，弹窗展示
+    // ============================================================
+    function showDiagnosisReport() {
+        var unitMap = {};
+        diagnosisAnswers.forEach(function(a) {
+            if (!a) return;
+            var key = a.module + ' · ' + a.subject + ' · ' + a.unit;
+            if (!unitMap[key]) unitMap[key] = { total: 0, correct: 0 };
+            unitMap[key].total++;
+            if (a.correct) unitMap[key].correct++;
+        });
+
+        var total = 0, correct = 0;
+        Object.keys(unitMap).forEach(function(k) {
+            total += unitMap[k].total;
+            correct += unitMap[k].correct;
+        });
+        var totalRate = total > 0 ? Math.round(correct / total * 100) : 0;
+
+        var rows = Object.keys(unitMap).map(function(k) {
+            var d = unitMap[k];
+            return {
+                key: k,
+                total: d.total,
+                correct: d.correct,
+                rate: d.total > 0 ? Math.round(d.correct / d.total * 100) : 0
+            };
+        }).sort(function(a, b) { return a.rate - b.rate; });
+
+        var msg = '📊 诊断完成！\n\n';
+        msg += '共 ' + total + ' 题，答对 ' + correct + ' 题\n';
+        msg += '总体正确率 ' + totalRate + '%\n\n';
+        msg += '—— 各板块正确率（低→高）——\n';
+        rows.forEach(function(r) {
+            msg += r.key + '：' + r.rate + '%（' + r.correct + '/' + r.total + '）\n';
+        });
+        msg += '\n点击确定返回首页。';
+        alert(msg);
+        window.location.href = 'exam-history-politics.html';
+    }
 
         
     // ============================================================
