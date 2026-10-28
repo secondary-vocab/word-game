@@ -317,7 +317,8 @@
     let answered = false;
     let isWrongMode = false;
     let isDiagnosisMode = false;
-    let sprintAnswers = [];   // 本次冲刺作答记录
+    let sprintAnswers = []; // 本次冲刺作答记录
+    let diagnosisAnswers = [];   // 本次诊断作答记录
     let returnIndex = 0;           // 记录从正常模式切到错题模式时的正常索引
     let currentQuestionsFile = null;
 
@@ -464,6 +465,10 @@
         }
         if (modeFilter === 'sprintwrong') {
         loadSprintWrong();
+        return;
+        }
+        if (modeFilter === 'diagnosis') {
+        loadDiagnosis();
         return;
         }
       
@@ -1047,6 +1052,38 @@
             });
     }
         // ============================================================
+    // 开始诊断：读诊断题库（免费测试，不写正式统计）
+    // ============================================================
+    function loadDiagnosis() {
+        isWrongMode = false;
+        isDiagnosisMode = true;
+        diagnosisAnswers = [];
+        wrongBtn.style.display = 'none';
+        prevBtn.style.display = '';
+        nextBtn.style.display = '';
+
+        fetch(SPRINT_BASE + encodeURIComponent('q_开始诊断.json'))
+            .then(function(res) {
+                if (!res.ok) throw new Error('加载失败 ' + res.status);
+                return res.json();
+            })
+            .then(function(data) {
+                questions = data.questions || [];
+                if (questions.length === 0) {
+                    questionMeta.textContent = '开始诊断';
+                    questionText.textContent = '❌ 诊断题库还没有题目。';
+                    return;
+                }
+                currentIndex = 0;
+                renderList();
+            })
+            .catch(function(e) {
+                console.error(e);
+                questionText.textContent = '❌ 诊断题库加载失败，请检查文件是否存在。';
+                questionText.style.color = '#c45a4a';
+            });
+    }    
+    // ============================================================
     // 冲刺错题本：读取所有冲刺错题
     // ============================================================
     function loadSprintWrong() {
