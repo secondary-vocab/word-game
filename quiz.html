@@ -468,6 +468,7 @@
         return;
         }
         if (modeFilter === 'diagnosis') {
+        alert('🚧 拦截到了诊断模式，准备读取题库！');    
         loadDiagnosis();
         return;
         }
@@ -1055,6 +1056,7 @@
     // 开始诊断：读诊断题库（免费测试，不写正式统计）
     // ============================================================
     function loadDiagnosis() {
+        alert('✅ 成功进入诊断模式！');
         isWrongMode = false;
         isDiagnosisMode = true;
         diagnosisAnswers = [];
