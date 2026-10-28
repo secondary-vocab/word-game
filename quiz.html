@@ -831,6 +831,10 @@
                 showSprintComplete();
                 return;
             }
+             if (modeFilter === 'diagnosis') {
+                showDiagnosisReport();
+                return;
+            }
             if (isWrongMode) {
                 showWrongReport();
             } else {
