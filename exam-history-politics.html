@@ -1444,10 +1444,7 @@ function autoCountUnits() {
         // 8. 首页底部按钮
         // ============================================================
         document.getElementById('startBtn').addEventListener('click', function() {
-            // 开始诊断：跳转到免费测试（如果你还没传 q_免费诊断.json，先暂时用 alert 占位）
-            alert('免费诊断功能即将上线，题库正在配置中！');
-            // 等你建好 q_免费诊断.json 之后，把上面这行 alert 删掉，换成下面这行：
-            // window.location.href = 'quiz.html?freetest=true';
+            window.location.href = 'quiz.html?mode=diagnosis';
         });
         
         document.getElementById('reportBtn').addEventListener('click', function() {
